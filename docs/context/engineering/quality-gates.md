@@ -13,6 +13,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety
 .\scripts\quality-gate.ps1 -Scope ScriptsReadmeScopeSafety
 .\scripts\quality-gate.ps1 -Scope GovernanceHistoryScopeSafety
+.\scripts\quality-gate.ps1 -Scope TestDataStructuredSyntaxSafety
 .\scripts\quality-gate.ps1 -Scope ActiveRunSafety
 .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
@@ -83,6 +84,8 @@ The `ActiveSafetyScopeInventorySafety` scope statically checks `quality-gate.ps1
 The `ScriptsReadmeScopeSafety` scope statically checks `scripts/README.md` against all `quality-gate.ps1 -Scope` values so the local script command inventory cannot silently omit supported gate scopes.
 
 The `GovernanceHistoryScopeSafety` scope statically checks all `quality-gate.ps1` `*Safety` scopes against verification memory and session log history so new safety gates cannot lose evidence or audit trail entries.
+
+The `TestDataStructuredSyntaxSafety` scope statically checks that JSON fixtures under `testdata/` parse successfully and that the production resource budget YAML keeps its required top-level shape.
 
 The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
 

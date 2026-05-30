@@ -43,6 +43,8 @@ The `ScriptsReadmeScopeSafety` quality gate fails if any `quality-gate.ps1 -Scop
 
 The `GovernanceHistoryScopeSafety` quality gate fails if any `*Safety` scope from `quality-gate.ps1` is missing from verification-memory or session-log history.
 
+The `TestDataStructuredSyntaxSafety` quality gate fails if JSON fixtures under `testdata/` stop parsing or if the production resource budget YAML loses its required top-level shape.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
