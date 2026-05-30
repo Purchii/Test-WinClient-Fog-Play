@@ -71,7 +71,7 @@ Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread after ha
 Current branch:
 
 ```text
-codex/webview-bundle-local-reference-safety-gate
+main
 ```
 
 Current result:
