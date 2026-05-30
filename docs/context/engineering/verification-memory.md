@@ -246,6 +246,39 @@ Safety notes:
 - No updater or rollback process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Post-M6 testability gaps registry
+
+Branch: `codex/testability-gaps-registry`
+Status: passed
+Production impact: dry-run/local registry validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\TestabilityGaps\TestabilityGaps.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestabilityGaps`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- TestabilityGaps unit tests passed.
+- TestabilityGaps quality gate passed.
+- Full quality gate passed, including TestabilityGaps.
+- `git diff --check` passed with line-ending warnings only.
+- Unsafe fixture reports fail findings for non-dry-run policy, production execution, runtime data reads, credentials, invalid id/area/status, production-safe marking, credential/user-data requirements, invalid evidence, missing stop triggers and missing next safe step.
+
+Not run:
+- Client launch because this registry is local/dry-run only.
+- WebView debug/CDP because it is forbidden.
+- Authentication or credentials because they are forbidden.
+- Game sessions because they are forbidden.
+- User AppData/log/cookie/DB/dump reads because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - M6 Future non-prod foundation
 
 Branch: `codex/m6-nonprod-foundation`

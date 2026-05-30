@@ -1,0 +1,22 @@
+{
+  "dryRunOnly": false,
+  "productionExecutionDisabled": false,
+  "runtimeDataReadsDisabled": false,
+  "credentialsDisabled": false,
+  "gaps": [
+    {
+      "id": "gap-one",
+      "area": "production-login",
+      "status": "ready",
+      "productionSafeNow": true,
+      "requiresRuntime": true,
+      "requiresCredentials": true,
+      "requiresUserData": true,
+      "requiredEvidence": [
+        "real-user-password"
+      ],
+      "stopTriggers": [],
+      "nextSafeStep": ""
+    }
+  ]
+}

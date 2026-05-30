@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 update manifest gate hardening implemented, verified and merged to `main`.
+Status: Post-M6 testability gaps registry in progress.
 
 Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 release/update manifest hardening complete.
+Current milestone: Post-M6 testability gaps hardening.
 
 Planning boundary:
 
@@ -12,19 +12,20 @@ Planning boundary:
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 update manifest hardening is complete.
+Current work = local testability gap registry and dry-run validation only.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-main
+codex/testability-gaps-registry
 ```
 
 Current result:
 
 ```text
-Local update manifest gate validates fixture policy shape without downloads, updater execution, rollback or credentials. Merged to origin/main at 7c14bf6.
+Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 ```
 
 Forbidden without a new approved plan:

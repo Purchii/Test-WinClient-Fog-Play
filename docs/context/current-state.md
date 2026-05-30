@@ -51,4 +51,5 @@ Current artifact status:
 - Backend smoke scaffold exists as local/dry-run only.
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
+- Testability gaps registry exists as local/dry-run validation only.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

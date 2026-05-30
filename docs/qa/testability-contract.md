@@ -14,3 +14,5 @@ Potential safe testability hooks:
 ```
 
 Debug/CDP ports must never be enabled for normal production users by default.
+
+Runtime and environment gaps are tracked in `docs/qa/testability-gaps.md` and `testdata/testability-gaps.example.json`.

@@ -147,6 +147,27 @@ Closeout:
 
 - `codex/update-manifest-gate` was fast-forward merged to `main`.
 - `origin/main` was updated to `7c14bf6`.
+
+## 2026-05-30 - Post-M6 testability gaps registry
+
+Mode: `BOUNDED_AUTONOMOUS` local/offline hardening after user granted autonomous continuation and push to `main`.
+
+Branch: `codex/testability-gaps-registry`
+
+Scope:
+
+- Implement local testability gap registry validation.
+- Keep the runner dry-run only.
+- Require evidence, stop triggers and safe next steps for runtime blockers.
+
+Safety:
+
+- No production actions.
+- No credentials used.
+- No user runtime data read.
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or game sessions.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold

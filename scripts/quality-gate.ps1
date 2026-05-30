@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -571,6 +571,71 @@ function Invoke-NonProdFoundationGate {
     Write-Host 'NonProdFoundation gate passed.'
 }
 
+function Invoke-TestabilityGapsGate {
+    $required = @(
+        'docs/qa/testability-gaps.md',
+        'src/TestFramework/TestabilityGaps/TestabilityGaps.psm1',
+        'src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1',
+        'scripts/run-testability-gaps.ps1',
+        'testdata/testability-gaps.example.json',
+        'testdata/testability-gaps-unsafe.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1')
+
+    $testabilityGaps = Join-Path $repoRoot 'scripts/run-testability-gaps.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $testabilityGaps `
+            -PolicyPath (Join-Path $repoRoot 'testdata/testability-gaps.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'Testability gaps runner must reject calls without -DryRun.'
+    }
+
+    $result = Invoke-JsonGate {
+        & $testabilityGaps `
+            -PolicyPath (Join-Path $repoRoot 'testdata/testability-gaps.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'Testability gaps fixture should pass.'
+    }
+    if ($result.productionActionAttempted -ne $false -or $result.credentialsUsed -ne $false -or $result.runtimeUserDataRead -ne $false) {
+        throw 'Testability gaps dry-run must report no production action, credential use or runtime user data read.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $testabilityGaps `
+            -PolicyPath (Join-Path $repoRoot 'testdata/testability-gaps-unsafe.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'production-execution-not-disabled'
+    Assert-FindingId -Result $negative -Id 'runtime-data-read-not-disabled'
+    Assert-FindingId -Result $negative -Id 'credentials-not-disabled'
+    Assert-FindingId -Result $negative -Id 'invalid-gap-id'
+    Assert-FindingId -Result $negative -Id 'invalid-area'
+    Assert-FindingId -Result $negative -Id 'invalid-status'
+    Assert-FindingId -Result $negative -Id 'gap-marked-production-safe'
+    Assert-FindingId -Result $negative -Id 'gap-requires-credentials'
+    Assert-FindingId -Result $negative -Id 'gap-requires-user-data'
+    Assert-FindingId -Result $negative -Id 'invalid-required-evidence'
+    Assert-FindingId -Result $negative -Id 'missing-stop-trigger'
+    Assert-FindingId -Result $negative -Id 'missing-next-safe-step'
+
+    Write-Host 'TestabilityGaps gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -609,4 +674,8 @@ if ($Scope -in @('GameSessionCanary', 'Full')) {
 
 if ($Scope -in @('NonProdFoundation', 'Full')) {
     Invoke-NonProdFoundationGate
+}
+
+if ($Scope -in @('TestabilityGaps', 'Full')) {
+    Invoke-TestabilityGapsGate
 }

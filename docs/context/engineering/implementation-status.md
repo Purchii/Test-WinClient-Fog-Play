@@ -119,6 +119,27 @@ Implemented checks:
 - signature-required enforcement;
 - rollback and post-install command rejection.
 
+Post-M6 testability gaps registry:
+
+- `src/TestFramework/TestabilityGaps/TestabilityGaps.psm1`
+- `src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1`
+- `scripts/run-testability-gaps.ps1`
+- `testdata/testability-gaps.example.json`
+- `testdata/testability-gaps-unsafe.example.json`
+- `docs/qa/testability-gaps.md`
+
+Implemented checks:
+
+- dry-run-only policy;
+- production execution, runtime data reads and credentials disabled;
+- stable `GAP-###` ids;
+- approved areas and statuses;
+- open runtime gaps are not marked production-safe;
+- gaps do not require credentials or user runtime data;
+- approved closure evidence is required;
+- stop-and-ask triggers are required;
+- safe next steps are required.
+
 ## M2 - App launch + WebView smoke
 
 Status: static/dry-run scaffold implemented and merged to `main`; no real client launch.
