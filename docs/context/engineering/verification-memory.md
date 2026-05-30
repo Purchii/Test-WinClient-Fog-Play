@@ -24,6 +24,34 @@ Safety notes:
 - No unsafe test enabled.
 ```
 
+## 2026-05-30 - QA strategy safety gate
+
+Branch: `codex/qa-strategy-safety-gate`
+Status: passed
+Production impact: none; static local QA strategy documentation validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaStrategySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- QaStrategySafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including QaStrategySafety.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates QA strategy documentation only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Codex template safety gate
 
 Branch: `codex/codex-template-safety-gate`

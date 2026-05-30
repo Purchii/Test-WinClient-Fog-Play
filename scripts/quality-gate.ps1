@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexTemplateSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through CodexTemplateSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QaStrategySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through QaStrategySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -604,6 +604,69 @@ function Invoke-CodexTemplateSafetyGate {
     }
 
     Write-Host 'CodexTemplateSafety gate passed.'
+}
+
+function Invoke-QaStrategySafetyGate {
+    $strategyPath = Join-Path $repoRoot 'docs/qa/test-strategy.md'
+    $contractPath = Join-Path $repoRoot 'docs/qa/testability-contract.md'
+    $flakinessPath = Join-Path $repoRoot 'docs/qa/flakiness-policy.md'
+    Assert-PathExists 'docs/qa/test-strategy.md'
+    Assert-PathExists 'docs/qa/testability-contract.md'
+    Assert-PathExists 'docs/qa/flakiness-policy.md'
+
+    $strategy = Get-Content -LiteralPath $strategyPath -Raw
+    $contract = Get-Content -LiteralPath $contractPath -Raw
+    $flakiness = Get-Content -LiteralPath $flakinessPath -Raw
+
+    foreach ($requiredPhrase in @(
+            'ProdSafety framework',
+            'Git/handoff/verification governance',
+            'Release artifact gates',
+            'Privacy/logging gates',
+            'App launch and WebView smoke',
+            'WebView/native bridge contract and fake native host',
+            'Safe backend read-only smoke',
+            'Minimal game-session canary as PROD_CONDITIONAL',
+            'Future non-prod fake/replay/network/hardware regression',
+            'Testability gap registry for runtime blockers and required evidence',
+            'Do not start with broad E2E'
+        )) {
+        if ($strategy -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "test-strategy.md must preserve strategy phrase: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            '--test-mode',
+            '--test-config=<path>',
+            '--log-dir=<path>',
+            '--crash-dump-dir=<path>',
+            '--clean-user-data',
+            '--disable-auto-update',
+            '--enable-diagnostics',
+            '--webview-debug-port=<localhost-port>',
+            'Debug/CDP ports must never be enabled for normal production users by default',
+            'Runtime and environment gaps are tracked in `docs/qa/testability-gaps.md` and `testdata/testability-gaps.example.json`'
+        )) {
+        if ($contract -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "testability-contract.md must preserve contract phrase: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Blind retry is not a fix',
+            'Retry must have a strict limit and a reason',
+            'Retry must not create extra production sessions outside budget',
+            'Prefer observable waits over arbitrary sleep',
+            'Flaky tests must be stabilized or quarantined with reason',
+            'Quarantine must have a follow-up task'
+        )) {
+        if ($flakiness -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "flakiness-policy.md must preserve flakiness phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'QaStrategySafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2686,6 +2749,10 @@ if ($Scope -in @('TaskRequestSafety', 'Full')) {
 
 if ($Scope -in @('CodexTemplateSafety', 'Full')) {
     Invoke-CodexTemplateSafetyGate
+}
+
+if ($Scope -in @('QaStrategySafety', 'Full')) {
+    Invoke-QaStrategySafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

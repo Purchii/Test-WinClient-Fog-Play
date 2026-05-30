@@ -12,6 +12,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope CodexPolicySafety
 .\scripts\quality-gate.ps1 -Scope TaskRequestSafety
 .\scripts\quality-gate.ps1 -Scope CodexTemplateSafety
+.\scripts\quality-gate.ps1 -Scope QaStrategySafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -61,6 +62,8 @@ The `CodexPolicySafety` scope statically checks Codex and executor policy docs s
 The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
 
 The `CodexTemplateSafety` scope statically checks Codex review/task/communication/agent-role docs so Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules remain explicit.
+
+The `QaStrategySafety` scope statically checks QA strategy, testability contract and flakiness policy docs so layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking and retry/session-budget rules remain explicit.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 

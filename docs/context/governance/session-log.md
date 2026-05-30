@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - QA strategy safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/qa-strategy-safety-gate`
+
+Scope:
+
+- Add local `QaStrategySafety` quality gate.
+- Validate QA strategy keeps layered order and no-broad-E2E guidance.
+- Validate testability and flakiness policies keep WebView debug, gap tracking, retry and production-session budget rules.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Codex template safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
