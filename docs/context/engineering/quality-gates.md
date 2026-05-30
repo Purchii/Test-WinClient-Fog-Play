@@ -7,6 +7,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety
 .\scripts\quality-gate.ps1 -Scope RootPromptSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety
+.\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety
 .\scripts\quality-gate.ps1 -Scope ActiveRunSafety
 .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
@@ -65,6 +66,8 @@ The `RepositoryRootInventorySafety` scope statically checks repository-root file
 The `RootPromptSafety` scope statically checks top-level Codex prompt/TZ documents so source-of-truth wording, autonomy-mode boundaries, production-impact stop rules and game-session/credential guard prerequisites cannot be removed silently.
 
 The `ProdSafetyFrameworkSafety` scope statically checks the ProdSafety README, module exports and regression assertion text so the core classification, kill switch, synthetic user, resource budget and cleanup guard contract cannot be weakened silently.
+
+The `ScriptEncodingSafety` scope statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 
 The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
 

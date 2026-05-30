@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -310,6 +310,28 @@ function Invoke-ProdSafetyFrameworkSafetyGate {
     Write-Host 'ProdSafetyFrameworkSafety gate passed.'
 }
 
+function Invoke-ScriptEncodingSafetyGate {
+    $scriptFiles = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'scripts') -Filter '*.ps1' -File | Sort-Object Name)
+    if ($scriptFiles.Count -eq 0) {
+        throw 'No PowerShell scripts found under scripts/.'
+    }
+
+    foreach ($scriptFile in $scriptFiles) {
+        $relativePath = "scripts/$($scriptFile.Name)"
+        $bytes = [System.IO.File]::ReadAllBytes($scriptFile.FullName)
+        if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) {
+            throw "$relativePath must not use a UTF-8 BOM."
+        }
+        for ($index = 0; $index -lt $bytes.Length; $index++) {
+            if ($bytes[$index] -gt 0x7F) {
+                throw "$relativePath must stay ASCII-only for Windows PowerShell parser safety. Non-ASCII byte at offset $index."
+            }
+        }
+    }
+
+    Write-Host 'ScriptEncodingSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -352,7 +374,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -363,8 +385,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ProdSafetyFrameworkSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ProdSafetyFrameworkSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ScriptEncodingSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through ScriptEncodingSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3458,6 +3480,10 @@ if ($Scope -in @('RootPromptSafety', 'Full')) {
 
 if ($Scope -in @('ProdSafetyFrameworkSafety', 'Full')) {
     Invoke-ProdSafetyFrameworkSafetyGate
+}
+
+if ($Scope -in @('ScriptEncodingSafety', 'Full')) {
+    Invoke-ScriptEncodingSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {

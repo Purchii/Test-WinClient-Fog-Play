@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ProdSafetyFrameworkSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ScriptEncodingSafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 ScriptEncodingSafety static gate is complete.
 Post-M6 ProdSafetyFrameworkSafety static gate is complete.
 Post-M6 RootPromptSafety static gate is complete.
 Post-M6 RepositoryRootInventorySafety static gate is complete.
@@ -67,6 +68,8 @@ Current result:
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 
 RepositoryRootInventorySafety adds `Full` coverage for the repository-root file and directory inventory.
+
+ScriptEncodingSafety adds `Full` coverage for `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 
 ProdSafetyFrameworkSafety adds `Full` coverage for the ProdSafety README, module exports and regression assertion text around classification, kill switch, synthetic user, resource budget and cleanup guard contracts.
 
@@ -172,6 +175,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;

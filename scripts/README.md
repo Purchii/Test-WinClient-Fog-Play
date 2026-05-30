@@ -31,6 +31,8 @@ The `RootPromptSafety` quality gate fails if top-level Codex prompt/TZ documents
 
 The `ProdSafetyFrameworkSafety` quality gate fails if the ProdSafety README, module exports or regression assertion text lose the core classification, kill switch, synthetic user, resource budget or cleanup guard contract.
 
+The `ScriptEncodingSafety` quality gate fails if any `scripts/*.ps1` file gains a UTF-8 BOM or non-ASCII bytes that can make Windows PowerShell parsing brittle.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
