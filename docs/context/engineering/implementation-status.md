@@ -362,6 +362,34 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - TestDataSafety static gate
+
+Status: local quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/qa/artifacts-policy.md`
+
+Implemented checks:
+
+- new `TestDataSafety` quality gate scope;
+- text fixtures under `testdata/` are scanned up to a bounded size;
+- secret-like assignments, bearer tokens, absolute user paths, runtime user-data paths and non-placeholder URLs are rejected outside explicit unsafe/negative fixture allowlists;
+- `TestDataSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - RunnerSafety static gate
 
 Status: local quality gate hardening implemented and verified locally.

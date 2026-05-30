@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 RunnerSafety static gate implemented and verified locally.
+Status: Post-M6 TestDataSafety static gate implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 RunnerSafety static gate complete.
+Current milestone: Post-M6 TestDataSafety static gate complete.
 
 Planning boundary:
 
@@ -18,6 +18,7 @@ Post-M6 M1 dry-run fail-closed hardening is complete.
 Post-M6 runner/validator guard hardening is complete.
 Post-M6 dangerous flag negative coverage is complete.
 Post-M6 RunnerSafety static gate is complete.
+Post-M6 TestDataSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -41,6 +42,8 @@ Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and 
 Dangerous flag negative coverage adds `Full` assertions for UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps allow-flags.
 
 RunnerSafety static gate adds `Full` coverage for runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
+
+TestDataSafety static gate adds `Full` coverage for risky test fixture content outside explicit unsafe/negative allowlists.
 ```
 
 Forbidden without a new approved plan:

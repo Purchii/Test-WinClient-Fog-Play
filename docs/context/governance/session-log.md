@@ -86,6 +86,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 TestDataSafety static gate
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/testdata-safety-gate`
+
+Scope:
+
+- Add `TestDataSafety` quality gate scope.
+- Statically check `testdata/` text fixtures for risky content outside explicit unsafe/negative allowlists.
+- Include `TestDataSafety` in `Full`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 RunnerSafety static gate
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.

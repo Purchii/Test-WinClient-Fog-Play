@@ -27,6 +27,7 @@ Post-M6: M1 dry-run fail-closed hardening - implemented and verified locally.
 Post-M6: Runner/validator guard hardening - implemented and verified locally.
 Post-M6: Dangerous flag negative coverage - implemented and verified locally.
 Post-M6: RunnerSafety static gate - implemented and verified locally.
+Post-M6: TestDataSafety static gate - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -48,6 +49,7 @@ Repository bootstrap state:
 - Post-M6 runner/validator guard hardening was completed on `codex/app-bridge-runner-guard`.
 - Post-M6 dangerous flag negative coverage was completed on `codex/danger-flag-negative-coverage`.
 - Post-M6 RunnerSafety static gate was completed on `codex/runner-safety-static-gate`.
+- Post-M6 TestDataSafety static gate was completed on `codex/testdata-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
@@ -67,4 +69,5 @@ Current artifact status:
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags.
 - UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.
 - RunnerSafety statically checks runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
+- TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

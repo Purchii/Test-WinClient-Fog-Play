@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -162,6 +162,95 @@ function Invoke-RunnerSafetyGate {
     }
 
     Write-Host 'RunnerSafety gate passed.'
+}
+
+function Test-PathMatchesAnyPattern {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $Value,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $Patterns
+    )
+
+    foreach ($pattern in $Patterns) {
+        if ($Value -match $pattern) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+function Invoke-TestDataSafetyGate {
+    $testDataRoot = Join-Path $repoRoot 'testdata'
+    Assert-PathExists 'testdata'
+
+    $textExtensions = @(
+        '.json',
+        '.yaml',
+        '.yml',
+        '.txt',
+        '.log',
+        '.js',
+        '.map',
+        '.html',
+        '.css'
+    )
+    $allowedUnsafeFixturePathPatterns = @(
+        '(?i)(^|/)backend-smoke-unsafe\.example\.json$',
+        '(?i)(^|/)webview-bridge-contract-unsafe\.example\.json$',
+        '(?i)(^|/)update-manifest-unsafe\.example\.json$',
+        '(?i)(^|/)testability-gaps-unsafe\.example\.json$',
+        '(?i)(^|/)app-webview-smoke-unsafe-policy\.example\.json$',
+        '(?i)(^|/)game-session-canary-unsafe\.example\.json$',
+        '(?i)(^|/)nonprod-foundation-unsafe\.example\.json$',
+        '(?i)(^|/)privacy-negative-fixture/',
+        '(?i)(^|/)privacy-large-fixture/',
+        '(?i)(^|/)release-fixture/bin/installer_info\.txt$',
+        '(?i)(^|/)privacy-patterns[^/]*\.example\.json$'
+    )
+    $riskyPatterns = @(
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\[^''"`\s]+' },
+        @{ Id = 'runtime-user-data-path'; Pattern = '(?i)(AppData|Cookies|Local Storage|IndexedDB|\.db|\\logs\\|/logs/)' },
+        @{ Id = 'bearer-token'; Pattern = '(?i)Authorization\s*:\s*Bearer\s+[A-Za-z0-9._~+\/=-]+' },
+        @{ Id = 'password-assignment'; Pattern = '(?i)(password|passwd)\s*[:=]\s*[''"]?[^''"`\s,}]{8,}' },
+        @{ Id = 'token-assignment'; Pattern = '(?i)(^|[^A-Za-z0-9_-])(access[_-]?token|refresh[_-]?token|token)\s*[:=]\s*[''"]?[^''"`\s,}]{12,}' }
+    )
+
+    $files = Get-ChildItem -LiteralPath $testDataRoot -Recurse -File
+    foreach ($file in $files) {
+        if ($textExtensions -notcontains $file.Extension.ToLowerInvariant()) {
+            continue
+        }
+        if ($file.Length -gt 1048576) {
+            throw "TestDataSafety refuses to scan oversized text fixture: $($file.FullName)"
+        }
+
+        $relative = $file.FullName.Substring($repoRoot.Length + 1) -replace '\\', '/'
+        $testDataRelative = $relative.Substring('testdata/'.Length)
+        $text = Get-Content -LiteralPath $file.FullName -Raw
+        if ($null -eq $text) {
+            continue
+        }
+
+        $allowedUnsafeFixture = Test-PathMatchesAnyPattern -Value $testDataRelative -Patterns $allowedUnsafeFixturePathPatterns
+        foreach ($riskyPattern in $riskyPatterns) {
+            if ($text -match $riskyPattern.Pattern -and -not $allowedUnsafeFixture) {
+                throw "$relative contains risky fixture content outside the unsafe/negative allowlist: $($riskyPattern.Id)"
+            }
+        }
+
+        $urlMatches = [regex]::Matches($text, 'https?://[^\s''"`<>)]+')
+        foreach ($match in $urlMatches) {
+            $url = $match.Value.TrimEnd('.', ',', ';')
+            if ($url -notmatch '^https?://[^/]*example\.invalid(/|$)' -and -not $allowedUnsafeFixture) {
+                throw "$relative contains non-placeholder URL outside the unsafe/negative allowlist: $url"
+            }
+        }
+    }
+
+    Write-Host 'TestDataSafety gate passed.'
 }
 
 function Invoke-ProdSafetyGate {
@@ -933,6 +1022,10 @@ if ($Scope -in @('Context', 'Full')) {
 
 if ($Scope -in @('RunnerSafety', 'Full')) {
     Invoke-RunnerSafetyGate
+}
+
+if ($Scope -in @('TestDataSafety', 'Full')) {
+    Invoke-TestDataSafetyGate
 }
 
 if ($Scope -in @('ProdSafety', 'Full')) {
