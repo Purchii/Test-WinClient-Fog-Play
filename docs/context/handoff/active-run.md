@@ -30,6 +30,7 @@ Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
 Post-M6 ContractFixtureSafety static gate is complete.
+Post-M6 StaticSurfaceSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -71,6 +72,8 @@ QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy invento
 ArtifactPolicySafety adds `Full` coverage for release/privacy policy fixture drift around required files, forbidden extensions, finding ids, privacy patterns and scan limits.
 
 ContractFixtureSafety adds `Full` coverage for backend, update manifest and WebView bridge fixture drift around dry-run flags, read-only/local-only constraints, package integrity metadata and bridge safety vocabulary.
+
+StaticSurfaceSafety adds `Full` coverage for App/WebView smoke and non-prod foundation fixture drift around static layout, WebView bundle inventory and schema-only non-runtime placeholders.
 ```
 
 Forbidden without a new approved plan:

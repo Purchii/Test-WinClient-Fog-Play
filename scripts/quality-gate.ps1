@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -545,6 +545,88 @@ function Invoke-ContractFixtureSafetyGate {
     }
 
     Write-Host 'ContractFixtureSafety gate passed.'
+}
+
+function Invoke-StaticSurfaceSafetyGate {
+    $appPolicyPath = Join-Path $repoRoot 'testdata/app-webview-smoke.example.json'
+    $nonProdPath = Join-Path $repoRoot 'testdata/nonprod-foundation.example.json'
+    Assert-PathExists 'testdata/app-webview-smoke.example.json'
+    Assert-PathExists 'testdata/nonprod-foundation.example.json'
+    Assert-PathExists 'docs/qa/app-webview-smoke.md'
+    Assert-PathExists 'docs/qa/nonprod-foundation.md'
+
+    $appPolicy = Get-Content -LiteralPath $appPolicyPath -Raw | ConvertFrom-Json
+    $nonProd = Get-Content -LiteralPath $nonProdPath -Raw | ConvertFrom-Json
+
+    if ($appPolicy.dryRunOnly -ne $true) {
+        throw 'app-webview-smoke.example.json must stay dry-run only.'
+    }
+    if (@($appPolicy.launchArguments).Count -ne 0) {
+        throw 'app-webview-smoke.example.json must not define launch arguments.'
+    }
+    if (@($appPolicy.runtimePaths).Count -ne 0) {
+        throw 'app-webview-smoke.example.json must not define runtime paths.'
+    }
+    foreach ($requiredFile in @('bin/rds-client.exe', 'bin/libcef.dll', 'bin/chrome_100_percent.pak', 'bin/resources.pak')) {
+        if (@($appPolicy.requiredFiles) -notcontains $requiredFile) {
+            throw "app-webview-smoke.example.json must require static artifact file: $requiredFile"
+        }
+    }
+    $expectedBundles = @('settings', 'stream-settings', 'error-connect', 'update')
+    $bundleNames = @($appPolicy.webViewBundles | ForEach-Object { [string]$_.name })
+    foreach ($bundleName in $expectedBundles) {
+        if ($bundleNames -notcontains $bundleName) {
+            throw "app-webview-smoke.example.json must include WebView bundle: $bundleName"
+        }
+    }
+    foreach ($bundle in @($appPolicy.webViewBundles)) {
+        if ([string]$bundle.path -notmatch '^bin/resources/[a-z0-9-]+$') {
+            throw "WebView bundle '$($bundle.name)' must use a local bin/resources path."
+        }
+        foreach ($file in @('index.html', 'asset-manifest.json')) {
+            if (@($bundle.requiredFiles) -notcontains $file) {
+                throw "WebView bundle '$($bundle.name)' must require file: $file"
+            }
+        }
+        foreach ($key in @('main.css', 'main.js', 'index.html')) {
+            if (@($bundle.requiredManifestKeys) -notcontains $key) {
+                throw "WebView bundle '$($bundle.name)' must require manifest key: $key"
+            }
+        }
+    }
+
+    foreach ($flag in @('dryRunOnly', 'executionDisabled', 'clientLaunchDisabled', 'webViewDebugDisabled', 'networkCallsDisabled', 'authDisabled', 'runtimeDataReadsDisabled', 'ciCdDisabled')) {
+        $property = $nonProd.PSObject.Properties[$flag]
+        if ($null -eq $property -or $property.Value -ne $true) {
+            throw "nonprod-foundation.example.json must keep $flag=true."
+        }
+    }
+    if (@($nonProd.runtimePaths).Count -ne 0 -or @($nonProd.productionEndpoints).Count -ne 0) {
+        throw 'nonprod-foundation.example.json must not define runtime paths or production endpoints.'
+    }
+    $expectedTypes = @('fake-backend', 'fake-signaling', 'replay-server', 'network-shaper', 'hardware-matrix', 'update-rollback-lab')
+    $componentTypes = @($nonProd.components | ForEach-Object { [string]$_.type })
+    foreach ($type in $expectedTypes) {
+        if ($componentTypes -notcontains $type) {
+            throw "nonprod-foundation.example.json must include component type: $type"
+        }
+    }
+    foreach ($component in @($nonProd.components)) {
+        if ([string]$component.name -notmatch '^[a-z0-9]+[a-z0-9-]*$') {
+            throw "Non-prod component name must be stable lowercase id: $($component.name)"
+        }
+        if ($component.classification -ne 'NON_PROD_ONLY' -or $component.schemaOnly -ne $true -or $component.executionEnabled -ne $false -or $component.usesProduction -ne $false -or $component.requiresCredentials -ne $false -or $component.mutatesState -ne $false -or $component.startsGameSession -ne $false) {
+            throw "Non-prod component '$($component.name)' must stay schema-only, NON_PROD_ONLY and non-runtime."
+        }
+        if (@($component.forbiddenReferences).Count -ne 0) {
+            throw "Non-prod component '$($component.name)' must not define forbiddenReferences."
+        }
+        if ($null -eq $component.contractSchema -or $component.contractSchema.type -ne 'object' -or @($component.contractSchema.required).Count -eq 0) {
+            throw "Non-prod component '$($component.name)' must define an object contractSchema with required fields."
+        }
+    }
+
+    Write-Host 'StaticSurfaceSafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -2158,6 +2240,10 @@ if ($Scope -in @('ArtifactPolicySafety', 'Full')) {
 
 if ($Scope -in @('ContractFixtureSafety', 'Full')) {
     Invoke-ContractFixtureSafetyGate
+}
+
+if ($Scope -in @('StaticSurfaceSafety', 'Full')) {
+    Invoke-StaticSurfaceSafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {

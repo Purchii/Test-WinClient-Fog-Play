@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Static surface safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/static-surface-safety-gate`
+
+Scope:
+
+- Add local `StaticSurfaceSafety` quality gate.
+- Validate App/WebView smoke and non-prod foundation fixtures for static local-only dry-run drift.
+- Keep checks static without client launch, WebView runtime/debug or non-prod system execution.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Contract fixture safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

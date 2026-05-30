@@ -205,6 +205,37 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Static surface safety gate
+
+Branch: `codex/static-surface-safety-gate`
+Status: passed
+Production impact: none; static local App/WebView and non-prod fixture validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- StaticSurfaceSafety gate passed.
+- Context quality gate passed.
+- ActiveRunSafety gate passed.
+- Full quality gate passed, including StaticSurfaceSafety, ContractFixtureSafety, AppSmoke and NonProdFoundation.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch, WebView runtime/debug, fake/replay runtime, network shaping or hardware probing because this gate validates local fixtures only.
+- Auth, backend calls or game sessions because they remain forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Contract fixture safety gate
 
 Branch: `codex/contract-fixture-safety-gate`

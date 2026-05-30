@@ -902,3 +902,35 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Static surface safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `StaticSurfaceSafety` quality gate scope;
+- App/WebView smoke fixture must stay dry-run-only without launch arguments or runtime paths;
+- App/WebView static artifact requirements must keep the client, CEF and resource files;
+- WebView bundle inventory must keep expected local bundle paths, entrypoint files and manifest keys;
+- non-prod foundation fixture must keep all no-runtime safety flags enabled;
+- non-prod foundation components must remain schema-only, `NON_PROD_ONLY`, non-executable and non-production placeholders with local object schemas;
+- `StaticSurfaceSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

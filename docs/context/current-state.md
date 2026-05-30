@@ -40,6 +40,7 @@ Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
 Post-M6: ArtifactPolicySafety static gate - implemented and verified locally.
 Post-M6: ContractFixtureSafety static gate - implemented and verified locally.
+Post-M6: StaticSurfaceSafety static gate - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -74,6 +75,7 @@ Repository bootstrap state:
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
 - Post-M6 ArtifactPolicySafety static gate was completed on `codex/artifact-policy-safety-gate`.
 - Post-M6 ContractFixtureSafety static gate was completed on `codex/contract-fixture-safety-gate`.
+- Post-M6 StaticSurfaceSafety static gate was completed on `codex/static-surface-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
@@ -103,4 +105,5 @@ Current artifact status:
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
 - ContractFixtureSafety statically checks backend, update manifest and WebView bridge fixtures for dry-run, local-only and safety-vocabulary drift.
+- StaticSurfaceSafety statically checks App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory and schema-only non-runtime drift.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

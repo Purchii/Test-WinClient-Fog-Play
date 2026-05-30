@@ -35,6 +35,8 @@ The `ArtifactPolicySafety` quality gate fails if release/privacy policy fixtures
 
 The `ContractFixtureSafety` quality gate fails if backend, update manifest or WebView bridge fixtures lose dry-run flags, read-only/local-only constraints, package integrity metadata or bridge safety vocabulary.
 
+The `StaticSurfaceSafety` quality gate fails if App/WebView smoke or non-prod foundation fixtures lose static layout requirements, WebView bundle inventory, dry-run flags or schema-only non-runtime constraints.
+
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
