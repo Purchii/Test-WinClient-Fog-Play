@@ -105,7 +105,7 @@ Safety notes:
 ## 2026-05-30 - M1.1 Quality hardening after multi-agent audit
 
 Branch: `codex/release-privacy-gates`
-Status: in progress; local verification passed before final review
+Status: passed
 Production impact: offline artifact scan only
 
 Commands:
@@ -141,7 +141,7 @@ Safety notes:
 ## 2026-05-30 - M2 App/WebView smoke scaffold
 
 Branch: `codex/app-webview-smoke`
-Status: in progress; local AppSmoke verification passed
+Status: passed
 Production impact: dry-run/static artifact scan only
 
 Commands:
