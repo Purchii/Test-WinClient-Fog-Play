@@ -396,6 +396,37 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - ProdSafety framework safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ProdSafetyFrameworkSafety` quality gate scope;
+- ProdSafety README must preserve dry-run/no-client/no-auth/no-session/no-mutation safety wording;
+- ProdSafety README must preserve classification, explicit conditional flag, synthetic user, resource budget, cleanup and kill-switch requirements;
+- ProdSafety module must keep the expected guard functions and exported contract;
+- ProdSafety regression tests must keep assertions for unclassified, forbidden, non-prod-only, conditional and kill-switch behavior;
+- `ProdSafetyFrameworkSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Script inventory guard
 
 Status: local documentation/quality gate hardening implemented and verified locally.

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -231,6 +231,85 @@ function Invoke-RootPromptSafetyGate {
     Write-Host 'RootPromptSafety gate passed.'
 }
 
+function Invoke-ProdSafetyFrameworkSafetyGate {
+    $readmePath = Join-Path $repoRoot 'src/TestFramework/ProdSafety/README.md'
+    $modulePath = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+    $testsPath = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.Tests.ps1'
+    Assert-PathExists 'src/TestFramework/ProdSafety/README.md'
+    Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+    Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.Tests.ps1'
+
+    $readme = Get-Content -LiteralPath $readmePath -Raw
+    foreach ($requiredPhrase in @(
+            'local, production-safe guard foundation',
+            'intentionally dry-run capable',
+            'does not launch the Windows client',
+            'authenticate',
+            'start game sessions',
+            'mutate production state',
+            'Every test must declare exactly one classification',
+            'no classification = no prod run',
+            'PROD_FORBIDDEN',
+            'NON_PROD_ONLY',
+            'explicit flag, synthetic user, resource budget and cleanup verification',
+            'PROD_AUTOMATION_ENABLED',
+            'QA_PROD_CANARY_ENABLED',
+            '-Scope ProdSafety'
+        )) {
+        if ($readme -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "ProdSafety README must preserve safety phrase: $requiredPhrase"
+        }
+    }
+
+    $module = Get-Content -LiteralPath $modulePath -Raw
+    foreach ($requiredPhrase in @(
+            'function Get-ProdSafetyClassificationValues',
+            'function New-TestMetadata',
+            'function Read-TestMetadataFile',
+            'function Test-KillSwitch',
+            'function Test-SyntheticUserGuard',
+            'function Test-ResourceBudget',
+            'function Test-CleanupVerifier',
+            'function Invoke-ProdGuard',
+            'PROD_AUTOMATION_ENABLED must be enabled for non-dry-run production automation.',
+            'QA_PROD_CANARY_ENABLED must be enabled for non-dry-run PROD_CONDITIONAL automation.',
+            'is unclassified and cannot run on production.',
+            'is PROD_FORBIDDEN and cannot run on production.',
+            'is NON_PROD_ONLY and cannot run on production.',
+            'requires an allowlisted synthetic user.',
+            'requires a resource budget.',
+            'requires cleanup verification.'
+        )) {
+        if ($module -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "ProdSafety module must preserve guard phrase: $requiredPhrase"
+        }
+    }
+
+    $exports = [regex]::Matches($module, '(?m)^\s*(Get-ProdSafetyClassificationValues|New-TestMetadata|Read-TestMetadataFile|Read-SyntheticUsersConfig|Read-ProdResourceBudget|Test-KillSwitch|Test-SyntheticUserGuard|Test-ResourceBudget|Test-CleanupVerifier|Invoke-ProdGuard),?\s*`?') |
+        ForEach-Object { $_.Groups[1].Value } |
+        Sort-Object -Unique
+    foreach ($exportName in @('Get-ProdSafetyClassificationValues', 'New-TestMetadata', 'Read-TestMetadataFile', 'Read-SyntheticUsersConfig', 'Read-ProdResourceBudget', 'Test-KillSwitch', 'Test-SyntheticUserGuard', 'Test-ResourceBudget', 'Test-CleanupVerifier', 'Invoke-ProdGuard')) {
+        if ($exports -notcontains $exportName) {
+            throw "ProdSafety module must export guard function: $exportName"
+        }
+    }
+
+    $tests = Get-Content -LiteralPath $testsPath -Raw
+    foreach ($requiredPhrase in @(
+            'Unclassified tests must be rejected on production.',
+            'PROD_FORBIDDEN tests must be rejected on production.',
+            'NON_PROD_ONLY tests must be rejected on production.',
+            'PROD_CONDITIONAL dry-run should pass only with explicit flag, budget, synthetic user and cleanup verification.',
+            'Non-dry-run production automation must require PROD_AUTOMATION_ENABLED.'
+        )) {
+        if ($tests -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "ProdSafety tests must preserve regression assertion: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'ProdSafetyFrameworkSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -273,7 +352,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -284,8 +363,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through RootPromptSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through RootPromptSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ProdSafetyFrameworkSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through ProdSafetyFrameworkSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3375,6 +3454,10 @@ if ($Scope -in @('RepositoryRootInventorySafety', 'Full')) {
 
 if ($Scope -in @('RootPromptSafety', 'Full')) {
     Invoke-RootPromptSafetyGate
+}
+
+if ($Scope -in @('ProdSafetyFrameworkSafety', 'Full')) {
+    Invoke-ProdSafetyFrameworkSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {

@@ -29,6 +29,8 @@ The `RepositoryRootInventorySafety` quality gate fails if the repository-root fi
 
 The `RootPromptSafety` quality gate fails if top-level Codex prompt/TZ documents lose source-of-truth wording, autonomy-mode boundaries, production-impact stop rules or game-session/credential guard prerequisites.
 
+The `ProdSafetyFrameworkSafety` quality gate fails if the ProdSafety README, module exports or regression assertion text lose the core classification, kill switch, synthetic user, resource budget or cleanup guard contract.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.

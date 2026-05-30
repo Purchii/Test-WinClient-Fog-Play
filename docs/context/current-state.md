@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: ProdSafetyFrameworkSafety static gate - implemented and verified locally.
 Post-M6: RootPromptSafety static gate - implemented and verified locally.
 Post-M6: RepositoryRootInventorySafety static gate - implemented and verified locally.
 Post-M6: Script inventory guard - implemented and verified locally.
@@ -77,6 +78,7 @@ Repository bootstrap state:
 - M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
+- Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
 - Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
 - Post-M6 script inventory guard hardening was completed on `codex/scripts-inventory-guard`.
@@ -130,6 +132,7 @@ Current artifact status:
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.
+- ProdSafetyFrameworkSafety statically checks the ProdSafety README, module exports and regression assertion text around classification, kill switch, synthetic user, resource budget and cleanup guard contracts.
 - RepositoryRootInventorySafety statically checks the repository-root file and directory inventory.
 - RootPromptSafety statically checks top-level Codex prompt/TZ safety wording around repository source-of-truth, autonomy boundaries, production-impact stops and game-session/credential prerequisites.
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
