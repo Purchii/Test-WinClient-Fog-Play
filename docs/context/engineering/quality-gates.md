@@ -10,6 +10,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ChecklistSafety
 .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety
 .\scripts\quality-gate.ps1 -Scope CodexPolicySafety
+.\scripts\quality-gate.ps1 -Scope TaskRequestSafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -55,6 +56,8 @@ The `ChecklistSafety` scope statically checks `docs/context/handoff/executor-che
 The `DecisionsLogSafety` scope statically checks `docs/context/governance/decisions-log.md` so accepted decisions around production safety, autonomy, thread isolation, push/merge authority and process errors remain explicit.
 
 The `CodexPolicySafety` scope statically checks Codex and executor policy docs so autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries remain explicit.
+
+The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 

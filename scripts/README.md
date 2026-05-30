@@ -37,6 +37,8 @@ The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted s
 
 The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, production-impact, credential, CI/CD, main-merge or game-session boundaries.
 
+The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, production classification, verification or stop-condition requirements.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.

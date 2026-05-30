@@ -905,6 +905,37 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Task request safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/task-request-log.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `TaskRequestSafety` quality gate scope;
+- task request template must preserve bounded goal, context, objective, scope, allowed path, forbidden action, production classification, acceptance criteria, verification and stop-condition fields;
+- task request log must not keep the stale no-task marker;
+- task request log must point to authoritative session, verification and active-run histories;
+- `TaskRequestSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Full scope dispatch guard
 
 Status: local static quality gate hardening implemented and verified locally.

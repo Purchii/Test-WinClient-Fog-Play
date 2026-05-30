@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexPolicySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through CodexPolicySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TaskRequestSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through TaskRequestSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -476,6 +476,52 @@ function Invoke-CodexPolicySafetyGate {
     }
 
     Write-Host 'CodexPolicySafety gate passed.'
+}
+
+function Invoke-TaskRequestSafetyGate {
+    $templatePath = Join-Path $repoRoot 'docs/context/handoff/task-request-template.md'
+    $logPath = Join-Path $repoRoot 'docs/context/handoff/task-request-log.md'
+    Assert-PathExists 'docs/context/handoff/task-request-template.md'
+    Assert-PathExists 'docs/context/handoff/task-request-log.md'
+
+    $template = Get-Content -LiteralPath $templatePath -Raw
+    $log = Get-Content -LiteralPath $logPath -Raw
+
+    foreach ($requiredPhrase in @(
+            '/goal [bounded goal]',
+            'Context:',
+            'Objective:',
+            'Scope:',
+            'Allowed paths:',
+            'Forbidden:',
+            'Production classification:',
+            'PROD_SAFE / PROD_CONDITIONAL / PROD_FORBIDDEN / NON_PROD_ONLY',
+            'Acceptance criteria:',
+            'Verification:',
+            'Stop when:'
+        )) {
+        if ($template -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "task-request-template.md must preserve template phrase: $requiredPhrase"
+        }
+    }
+
+    if ($log -match 'No Codex task has been executed yet') {
+        throw 'task-request-log.md must not contain stale no-task marker.'
+    }
+    foreach ($requiredPhrase in @(
+            'Task request log',
+            'Authoritative task execution history lives in',
+            'session-log.md',
+            'verification-memory.md',
+            'active-run.md',
+            'New task requests must preserve context, objective, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.'
+        )) {
+        if ($log -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "task-request-log.md must preserve log phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'TaskRequestSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2550,6 +2596,10 @@ if ($Scope -in @('DecisionsLogSafety', 'Full')) {
 
 if ($Scope -in @('CodexPolicySafety', 'Full')) {
     Invoke-CodexPolicySafetyGate
+}
+
+if ($Scope -in @('TaskRequestSafety', 'Full')) {
+    Invoke-TaskRequestSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {
