@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -67,6 +67,85 @@ function Invoke-ContextGate {
     Assert-ScriptsReadmeInventory
 
     Write-Host 'Context gate passed.'
+}
+
+function Invoke-RunnerSafetyGate {
+    $scriptRoot = Join-Path $repoRoot 'scripts'
+    $runnerScripts = Get-ChildItem -LiteralPath $scriptRoot -Filter 'run-*.ps1' -File | Sort-Object Name
+    if ($runnerScripts.Count -eq 0) {
+        throw 'No runner scripts were found under scripts/run-*.ps1.'
+    }
+
+    $allowedNonBlockingAllowSwitches = @(
+        'AllowProdConditional'
+    )
+    $forbiddenRuntimeTokens = @(
+        'Start-Process',
+        'Invoke-WebRequest',
+        'Invoke-RestMethod',
+        'System.Net.Http.HttpClient',
+        'WebClient',
+        'curl.exe',
+        'iwr ',
+        'irm '
+    )
+    $forbiddenRuntimePatterns = @(
+        '(?i)C:\\Users\\[^''"`\s]+\\AppData',
+        '(?i)\\AppData\\',
+        '(?i)\\Cookies\\',
+        '(?i)\\Local Storage\\',
+        '(?i)\\IndexedDB\\'
+    )
+
+    foreach ($runner in $runnerScripts) {
+        $relative = "scripts/$($runner.Name)"
+        $text = Get-Content -LiteralPath $runner.FullName -Raw
+
+        if ($text -notmatch '\[switch\]\s*\$DryRun') {
+            throw "$relative must expose a -DryRun switch."
+        }
+        if ($text -notmatch 'if\s*\(\s*-not\s+\$DryRun\s*\)') {
+            throw "$relative must fail closed when -DryRun is missing."
+        }
+
+        $allowSwitchMatches = [regex]::Matches($text, '\[switch\]\s*\$(Allow[A-Za-z0-9]+)')
+        foreach ($match in $allowSwitchMatches) {
+            $switchName = $match.Groups[1].Value
+            if ($allowedNonBlockingAllowSwitches -contains $switchName) {
+                continue
+            }
+
+            $guardPattern = 'if\s*\(\s*\$' + [regex]::Escape($switchName) + '\s*\)'
+            if ($text -notmatch $guardPattern) {
+                throw "$relative exposes -$switchName but does not explicitly reject it."
+            }
+        }
+
+        foreach ($token in $forbiddenRuntimeTokens) {
+            if ($text -match [regex]::Escape($token)) {
+                throw "$relative contains forbidden runtime/network primitive: $token"
+            }
+        }
+
+        foreach ($pattern in $forbiddenRuntimePatterns) {
+            if ($text -match $pattern) {
+                throw "$relative contains forbidden runtime user-data path pattern: $pattern"
+            }
+        }
+    }
+
+    $frameworkFiles = Get-ChildItem -LiteralPath (Join-Path $repoRoot 'src/TestFramework') -Recurse -Include '*.psm1', '*.ps1' -File
+    foreach ($file in $frameworkFiles) {
+        $relative = $file.FullName.Substring($repoRoot.Length + 1) -replace '\\', '/'
+        $text = Get-Content -LiteralPath $file.FullName -Raw
+        foreach ($token in $forbiddenRuntimeTokens) {
+            if ($text -match [regex]::Escape($token)) {
+                throw "$relative contains forbidden runtime/network primitive: $token"
+            }
+        }
+    }
+
+    Write-Host 'RunnerSafety gate passed.'
 }
 
 function Invoke-ProdSafetyGate {
@@ -834,6 +913,10 @@ function Invoke-TestabilityGapsGate {
 
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
+}
+
+if ($Scope -in @('RunnerSafety', 'Full')) {
+    Invoke-RunnerSafetyGate
 }
 
 if ($Scope -in @('ProdSafety', 'Full')) {

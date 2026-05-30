@@ -4,6 +4,7 @@ Preferred script:
 
 ```powershell
 .\scripts\quality-gate.ps1 -Scope Context
+.\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafety
 .\scripts\quality-gate.ps1 -Scope Release
 .\scripts\quality-gate.ps1 -Scope UpdateManifest
@@ -20,3 +21,5 @@ Preferred script:
 Initial scopes may be skeleton/dry-run, but the names and expected behavior should be stable.
 
 The `Context` scope also verifies that every `scripts/*.ps1` runner is listed in `scripts/README.md`, so newly added runners cannot silently drift out of the documented local-safe command inventory.
+
+The `RunnerSafety` scope statically checks `scripts/run-*.ps1` and `src/TestFramework` for production-safety drift: every runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.

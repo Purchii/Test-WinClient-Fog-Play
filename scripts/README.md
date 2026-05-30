@@ -22,3 +22,5 @@ These runners are guard/dry-run first. They must not launch the Windows client, 
 Use `powershell -NoProfile -ExecutionPolicy Bypass -File ...` on machines where local script execution is restricted by PowerShell policy.
 
 The `Context` quality gate fails if this inventory stops listing any `scripts/*.ps1` runner.
+
+The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
