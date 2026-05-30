@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Production metadata fixture safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/prod-metadata-safety-gate`
+
+Scope:
+
+- Add a local `ProdMetadataSafety` quality gate.
+- Validate that `testdata/prod-safety-tests.example.json` keeps runner suites aligned with production classifications.
+- Keep prod canary metadata explicit about synthetic alias, target region/game, session start, mutation and cleanup verification.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Allowed games fixture safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

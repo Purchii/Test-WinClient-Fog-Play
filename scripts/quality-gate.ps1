@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -633,6 +633,168 @@ function Invoke-ResourceBudgetSafetyGate {
     }
 
     Write-Host 'ResourceBudgetSafety gate passed.'
+}
+
+function Invoke-ProdMetadataSafetyGate {
+    $policyPath = Join-Path $repoRoot 'docs/qa/prod-testing-policy.md'
+    $metadataPath = Join-Path $repoRoot 'testdata/prod-safety-tests.example.json'
+    $prodSafetyModule = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+    Assert-PathExists 'docs/qa/prod-testing-policy.md'
+    Assert-PathExists 'testdata/prod-safety-tests.example.json'
+    Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+
+    $policy = Get-Content -LiteralPath $policyPath -Raw
+    foreach ($requiredPolicyPhrase in @('Every test must be classified', 'No classification = no prod run', 'No resource budget = no prod game session test')) {
+        if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
+            throw "Production testing policy must document: $requiredPolicyPhrase"
+        }
+    }
+
+    $text = Get-Content -LiteralPath $metadataPath -Raw
+    $data = $text | ConvertFrom-Json
+    if ($null -eq $data.tests) {
+        throw "Prod metadata fixture must contain a top-level 'tests' array."
+    }
+
+    $forbiddenPropertyPattern = '(?i)(password|passwd|secret|token|cookie|credential|auth|authorization|url|endpoint)'
+    $forbiddenValuePatterns = @(
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\[^''"`\s]+' },
+        @{ Id = 'runtime-user-data-path'; Pattern = '(?i)(AppData|Cookies|Local Storage|IndexedDB|\.db|\\logs\\|/logs/)' },
+        @{ Id = 'url'; Pattern = 'https?://[^\s''"`<>)]+' },
+        @{ Id = 'bearer-token'; Pattern = '(?i)Bearer\s+[A-Za-z0-9._~+\/=-]+' }
+    )
+    foreach ($record in (Get-JsonPropertyRecords -Value $data -Path '$')) {
+        if ($record.Name -match $forbiddenPropertyPattern) {
+            throw "Prod metadata fixture contains forbidden property '$($record.Name)' at $($record.Path)."
+        }
+        if ($record.Value -is [string]) {
+            foreach ($pattern in $forbiddenValuePatterns) {
+                if ($record.Value -match $pattern.Pattern) {
+                    throw "Prod metadata fixture contains forbidden value pattern '$($pattern.Id)' at $($record.Path)."
+                }
+            }
+        }
+    }
+
+    Import-Module $prodSafetyModule -Force
+    $allowedClassifications = @(Get-ProdSafetyClassificationValues)
+    $allowedProperties = @(
+        'name',
+        'classification',
+        'suites',
+        'requiresSyntheticUserAlias',
+        'targetRegion',
+        'targetGame',
+        'startsGameSession',
+        'mutatesState',
+        'requiresCleanupVerification'
+    )
+    $allowedSuites = @('prod-safe-smoke', 'prod-canary')
+    $tests = @($data.tests)
+    if ($tests.Count -eq 0) {
+        throw 'Prod metadata fixture must contain at least one test.'
+    }
+
+    $names = @{}
+    foreach ($test in $tests) {
+        foreach ($property in $test.PSObject.Properties) {
+            if ($allowedProperties -notcontains $property.Name) {
+                throw "Prod metadata test '$($test.name)' contains unsupported property '$($property.Name)'."
+            }
+        }
+
+        $name = [string]$test.name
+        if ($name -notmatch '^[a-z0-9]+[a-z0-9-]*$') {
+            throw "Prod metadata test name must be a stable lowercase id: $name"
+        }
+        if ($names.ContainsKey($name)) {
+            throw "Prod metadata test name is duplicated: $name"
+        }
+        $names[$name] = $true
+
+        $classification = [string]$test.classification
+        if ($allowedClassifications -notcontains $classification) {
+            throw "Prod metadata test '$name' has unsupported classification '$classification'."
+        }
+
+        $suiteProperty = $test.PSObject.Properties['suites']
+        $testSuites = @()
+        if ($null -ne $suiteProperty) {
+            $testSuites = @($suiteProperty.Value)
+        }
+
+        foreach ($suite in $testSuites) {
+            if ($allowedSuites -notcontains [string]$suite) {
+                throw "Prod metadata test '$name' has unsupported suite '$suite'."
+            }
+        }
+
+        $startsGameSession = $false
+        $mutatesState = $false
+        $requiresCleanupVerification = $false
+        $alias = ''
+        $targetRegion = ''
+        $targetGame = ''
+        if ($null -ne $test.PSObject.Properties['startsGameSession']) {
+            $startsGameSession = $test.startsGameSession -eq $true
+        }
+        if ($null -ne $test.PSObject.Properties['mutatesState']) {
+            $mutatesState = $test.mutatesState -eq $true
+        }
+        if ($null -ne $test.PSObject.Properties['requiresCleanupVerification']) {
+            $requiresCleanupVerification = $test.requiresCleanupVerification -eq $true
+        }
+        if ($null -ne $test.PSObject.Properties['requiresSyntheticUserAlias']) {
+            $alias = [string]$test.requiresSyntheticUserAlias
+        }
+        if ($null -ne $test.PSObject.Properties['targetRegion']) {
+            $targetRegion = [string]$test.targetRegion
+        }
+        if ($null -ne $test.PSObject.Properties['targetGame']) {
+            $targetGame = [string]$test.targetGame
+        }
+
+        if ($classification -eq 'PROD_SAFE') {
+            if ($startsGameSession -or $mutatesState -or $requiresCleanupVerification) {
+                throw "PROD_SAFE metadata test '$name' must remain read-only and cleanup-free."
+            }
+            if (-not [string]::IsNullOrWhiteSpace($alias) -and $alias -notmatch '^qa-smoke-\d{3}$') {
+                throw "PROD_SAFE metadata test '$name' must use a qa-smoke alias when an alias is required."
+            }
+        }
+
+        if ($testSuites -contains 'prod-safe-smoke' -and $classification -ne 'PROD_SAFE') {
+            throw "prod-safe-smoke suite test '$name' must be PROD_SAFE."
+        }
+
+        if ($testSuites -contains 'prod-canary') {
+            if ($classification -ne 'PROD_CONDITIONAL') {
+                throw "prod-canary suite test '$name' must be PROD_CONDITIONAL."
+            }
+            if ($alias -notmatch '^qa-canary-[a-z0-9-]+-\d{3}$') {
+                throw "prod-canary suite test '$name' must require a qa-canary synthetic alias."
+            }
+            if ([string]::IsNullOrWhiteSpace($targetRegion) -or [string]::IsNullOrWhiteSpace($targetGame)) {
+                throw "prod-canary suite test '$name' must declare targetRegion and targetGame."
+            }
+            if (-not ($startsGameSession -and $mutatesState -and $requiresCleanupVerification)) {
+                throw "prod-canary suite test '$name' must declare session start, state mutation and cleanup verification."
+            }
+        }
+
+        if ($classification -in @('PROD_FORBIDDEN', 'NON_PROD_ONLY') -and $testSuites.Count -gt 0) {
+            throw "$classification metadata test '$name' must not be assigned to production runner suites."
+        }
+    }
+
+    if (@($tests | Where-Object { $suiteProperty = $_.PSObject.Properties['suites']; $null -ne $suiteProperty -and @($suiteProperty.Value) -contains 'prod-safe-smoke' }).Count -eq 0) {
+        throw 'Prod metadata fixture must contain at least one prod-safe-smoke test.'
+    }
+    if (@($tests | Where-Object { $suiteProperty = $_.PSObject.Properties['suites']; $null -ne $suiteProperty -and @($suiteProperty.Value) -contains 'prod-canary' }).Count -ne 1) {
+        throw 'Prod metadata fixture must contain exactly one prod-canary test.'
+    }
+
+    Write-Host 'ProdMetadataSafety gate passed.'
 }
 
 function Invoke-ProdMatrixSafetyGate {
@@ -1547,6 +1709,10 @@ if ($Scope -in @('AllowedGamesSafety', 'Full')) {
 
 if ($Scope -in @('ResourceBudgetSafety', 'Full')) {
     Invoke-ResourceBudgetSafetyGate
+}
+
+if ($Scope -in @('ProdMetadataSafety', 'Full')) {
+    Invoke-ProdMetadataSafetyGate
 }
 
 if ($Scope -in @('ProdMatrixSafety', 'Full')) {

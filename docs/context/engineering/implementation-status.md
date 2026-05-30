@@ -688,3 +688,35 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Production metadata fixture safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/prod-testing-policy.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ProdMetadataSafety` quality gate scope;
+- `testdata/prod-safety-tests.example.json` must contain a top-level `tests` metadata array;
+- metadata entries must avoid credential-like properties, URLs and user runtime paths;
+- metadata names, classifications, suites and optional fields are constrained to the local contract;
+- `prod-safe-smoke` entries must remain `PROD_SAFE` and read-only;
+- `prod-canary` must remain exactly one `PROD_CONDITIONAL` entry with canary alias, target region, target game, session start, state mutation and cleanup verification metadata;
+- `PROD_FORBIDDEN` and `NON_PROD_ONLY` placeholders must not be assigned to production runner suites;
+- `ProdMetadataSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

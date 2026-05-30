@@ -33,6 +33,8 @@ The `AllowedGamesSafety` quality gate fails if the allowed-games fixture stops b
 
 The `ResourceBudgetSafety` quality gate fails if the production resource budget stops being single-session, short-duration, cleanup-gated, explicitly conditional, or tied to production canary game aliases.
 
+The `ProdMetadataSafety` quality gate fails if production test metadata suites drift away from their required classifications, aliases, targets or session/cleanup flags.
+
 The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.

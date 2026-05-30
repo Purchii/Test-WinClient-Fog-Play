@@ -9,6 +9,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety
 .\scripts\quality-gate.ps1 -Scope AllowedGamesSafety
 .\scripts\quality-gate.ps1 -Scope ResourceBudgetSafety
+.\scripts\quality-gate.ps1 -Scope ProdMetadataSafety
 .\scripts\quality-gate.ps1 -Scope ProdMatrixSafety
 .\scripts\quality-gate.ps1 -Scope BacklogSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafety
@@ -39,6 +40,8 @@ The `SyntheticUsersSafety` scope statically checks `testdata/synthetic-users.exa
 The `AllowedGamesSafety` scope statically checks `testdata/allowed-games.example.json` and the game-session canary policy so production canary games remain alias-only QA entries with bounded `allowedFor` purposes.
 
 The `ResourceBudgetSafety` scope statically checks `testdata/prod-resource-budget.example.yaml`, `testdata/allowed-games.example.json` and the resource budget policy so production canary budgets stay single-session, short-duration, cleanup-gated and tied to allowlisted QA game aliases.
+
+The `ProdMetadataSafety` scope statically checks `testdata/prod-safety-tests.example.json` and the production testing policy so runner suites keep the expected classifications, aliases, target metadata and session/cleanup flags.
 
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
