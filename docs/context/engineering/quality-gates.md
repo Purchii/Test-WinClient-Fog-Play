@@ -9,6 +9,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety
 .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety
 .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety
+.\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety
 .\scripts\quality-gate.ps1 -Scope ActiveRunSafety
 .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
@@ -71,6 +72,8 @@ The `ProdSafetyFrameworkSafety` scope statically checks the ProdSafety README, m
 The `ScriptEncodingSafety` scope statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 
 The `BinaryFixturePlaceholderSafety` scope statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
+
+The `QaDocsCommandSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 
 The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
 

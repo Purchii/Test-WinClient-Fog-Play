@@ -35,6 +35,8 @@ The `ScriptEncodingSafety` quality gate fails if any `scripts/*.ps1` file gains 
 
 The `BinaryFixturePlaceholderSafety` quality gate fails if binary-like files under `testdata/` stop being tiny placeholders, gain a real PE header, or introduce dump/database/debug extensions outside the approved fixture inventory.
 
+The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.

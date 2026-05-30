@@ -92,6 +92,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - QA docs command safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/qa-docs-command-safety-gate`
+
+Scope:
+
+- Add a local `QaDocsCommandSafety` quality gate.
+- Validate command-looking `run-*.ps1` examples in active QA docs keep `-DryRun`.
+- Reject forbidden runtime allow flags in active QA doc command examples.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M0 ProdSafety foundation
 
 Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user continuation accepted the M0 plan.
