@@ -23,7 +23,7 @@ Future execution milestones require their own NON_AUTONOMOUS planning step in a 
 Current branch:
 
 ```text
-codex/danger-flag-negative-coverage
+main
 ```
 
 Current result:
@@ -35,7 +35,7 @@ Script inventory guard hardening updates `scripts/README.md` and makes the `Cont
 
 M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
 
-Latest pushed main commit: `5748f66`.
+Latest pushed main commit: `f5b7e51`.
 
 Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`.
 
