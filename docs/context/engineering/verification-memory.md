@@ -24,6 +24,34 @@ Safety notes:
 - No unsafe test enabled.
 ```
 
+## 2026-05-30 - Session log safety gate
+
+Branch: `codex/session-log-safety-gate`
+Status: passed
+Production impact: none; static local session-log validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- SessionLogSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including SessionLogSafety.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates governance history only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Active run latest gate sync
 
 Branch: `codex/active-run-latest-gate-sync`

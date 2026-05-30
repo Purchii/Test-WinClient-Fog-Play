@@ -35,6 +35,7 @@ Post-M6: SyntheticUsersSafety static gate - implemented and verified locally.
 Post-M6: ResourceBudgetSafety static gate - implemented and verified locally.
 Post-M6: AllowedGamesSafety static gate - implemented and verified locally.
 Post-M6: ProdMetadataSafety static gate - implemented and verified locally.
+Post-M6: SessionLogSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
@@ -70,6 +71,7 @@ Repository bootstrap state:
 - Post-M6 ResourceBudgetSafety static gate was completed on `codex/resource-budget-safety-gate`.
 - Post-M6 AllowedGamesSafety static gate was completed on `codex/allowed-games-safety-gate`.
 - Post-M6 ProdMetadataSafety static gate was completed on `codex/prod-metadata-safety-gate`.
+- Post-M6 SessionLogSafety static gate was completed on `codex/session-log-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
@@ -99,6 +101,7 @@ Current artifact status:
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers and stale literal latest-commit markers.
 - ActiveRunSafety also checks that active-run's current milestone marker and last-verification notes stay synced with current static gate coverage.
+- SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.

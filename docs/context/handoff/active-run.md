@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through StaticSurfaceSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
 
 Planning boundary:
 
@@ -26,6 +26,7 @@ Post-M6 SyntheticUsersSafety static gate is complete.
 Post-M6 ResourceBudgetSafety static gate is complete.
 Post-M6 AllowedGamesSafety static gate is complete.
 Post-M6 ProdMetadataSafety static gate is complete.
+Post-M6 SessionLogSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -64,6 +65,8 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
 SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, resource budgets and production test metadata.
+
+SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present.
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
@@ -111,4 +114,5 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `git diff --check`.

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through StaticSurfaceSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through StaticSurfaceSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through SessionLogSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through SessionLogSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -176,6 +176,49 @@ function Invoke-ActiveRunSafetyGate {
     }
 
     Write-Host 'ActiveRunSafety gate passed.'
+}
+
+function Invoke-SessionLogSafetyGate {
+    $sessionLogPath = Join-Path $repoRoot 'docs/context/governance/session-log.md'
+    Assert-PathExists 'docs/context/governance/session-log.md'
+
+    $sessionLog = Get-Content -LiteralPath $sessionLogPath -Raw
+    $entryMatches = @([regex]::Matches($sessionLog, '(?ms)^## \d{4}-\d{2}-\d{2} - .+?(?=^## \d{4}-\d{2}-\d{2} - |\z)'))
+    if ($entryMatches.Count -eq 0) {
+        throw 'session-log.md must contain dated session entries.'
+    }
+
+    $branchEntries = @($entryMatches | Where-Object {
+            $_.Value -match 'Branch:\s+`codex/' -and
+            $_.Value -match 'after user allowed autonomous work and pushes to main'
+        })
+    if ($branchEntries.Count -eq 0) {
+        throw 'session-log.md must contain guarded codex branch entries.'
+    }
+
+    foreach ($entry in $branchEntries) {
+        $entryText = $entry.Value
+        $title = ([regex]::Match($entryText, '^## .+', 'Multiline')).Value
+        foreach ($requiredHeading in @('Mode:', 'Branch:', 'Scope:', 'Safety:')) {
+            if ($entryText -notmatch [regex]::Escape($requiredHeading)) {
+                throw "session-log.md entry '$title' must include $requiredHeading"
+            }
+        }
+        foreach ($requiredPhrase in @(
+                'No installed client launch',
+                'No WebView debug/CDP',
+                'No authentication',
+                'No production backend',
+                'No game session',
+                'No user AppData'
+            )) {
+            if ($entryText -notmatch [regex]::Escape($requiredPhrase)) {
+                throw "session-log.md entry '$title' must preserve safety phrase: $requiredPhrase"
+            }
+        }
+    }
+
+    Write-Host 'SessionLogSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2230,6 +2273,10 @@ if ($Scope -in @('Context', 'Full')) {
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {
     Invoke-ActiveRunSafetyGate
+}
+
+if ($Scope -in @('SessionLogSafety', 'Full')) {
+    Invoke-SessionLogSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

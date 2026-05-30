@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Session log safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/session-log-safety-gate`
+
+Scope:
+
+- Add local `SessionLogSafety` quality gate.
+- Validate guarded session-log branch entries for mode, branch, scope and safety sections.
+- Preserve core no-runtime/no-production safety phrases in session history.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Active run latest gate sync
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
