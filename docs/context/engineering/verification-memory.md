@@ -58,3 +58,46 @@ Safety notes:
 - No production game session started.
 - No unsafe test enabled.
 - No push or merge to `main` performed.
+
+## 2026-05-30 - M1 Release artifact and privacy gates
+
+Branch: `codex/release-privacy-gates`
+Status: passed for implementation; installed artifact has reported release/privacy findings
+Production impact: offline artifact scan only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Release`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-release-gate.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-privacy-gate.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun`
+- `git diff --check`
+- `git status --short --branch`
+
+Results:
+- Context gate passed.
+- ProdSafety regression gate passed.
+- Release fixture gate passed by detecting expected findings.
+- Privacy fixture gate passed by detecting expected findings.
+- Installed artifact release dry-run scanned 193 files and reported fail findings:
+  - `bin/rds-client.exe` signature status `NotSigned`;
+  - `Uninstall.exe` signature status `NotSigned`;
+  - 8 `.map` sourcemap files;
+  - source map references in bundled CSS/JS;
+  - local user path in `bin/installer_info.txt`.
+- Installed artifact privacy dry-run scanned 30 text-like files and reported local user path in `bin/installer_info.txt`.
+- Findings are sanitized; matched secret values are not printed.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch because M1 is offline artifact scanning only.
+- Auth/login/game-session checks because they are out of M1 scope.
+- CI because CI/CD enablement is out of M1 scope.
+
+Safety notes:
+- No real credentials used.
+- No production game session started.
+- No client process launched.
+- No real logs, crash dumps, installers or release binaries copied into repo.
+- No commit or push performed during M1 without explicit approval.

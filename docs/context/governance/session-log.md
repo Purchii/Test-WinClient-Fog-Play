@@ -20,3 +20,25 @@ Production safety:
 - No production state mutation performed.
 - No CI/CD automation enabled.
 - No push or merge performed.
+
+## 2026-05-30 - M1 Release artifact and privacy gates
+
+Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user accepted the M1 plan.
+
+Summary:
+
+- Started from `main` after M0 was merged.
+- Created `codex/release-privacy-gates`.
+- Inspected installed artifact at `C:\Program Files\MTC Fog Play` without launching the client.
+- Confirmed CEF-based artifact layout and key binaries.
+- Implemented offline release gate and privacy gate scripts.
+- Added sanitized fixture checks and config examples.
+
+Production safety:
+
+- No client launch.
+- No credentials used.
+- No production backend interaction.
+- No game session started.
+- No real logs, crash dumps, installers or release binaries copied into repo.
+- No commit or push performed during M1 implementation unless separately approved.

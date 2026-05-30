@@ -89,6 +89,48 @@ function Invoke-StubGate {
     Write-Host "$Name gate is documented but not implemented in M0."
 }
 
+function Invoke-ReleaseGate {
+    $required = @(
+        'docs/qa/release-gates.md',
+        'testdata/release-gate-policy.example.json',
+        'testdata/release-fixture',
+        'scripts/run-release-gate.ps1'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'scripts/run-release-gate.ps1') `
+        -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+        -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') `
+        -DryRun `
+        -ExpectFindings
+
+    Write-Host 'Release gate passed.'
+}
+
+function Invoke-PrivacyGate {
+    $required = @(
+        'docs/qa/privacy-and-logging-checks.md',
+        'testdata/privacy-patterns.example.json',
+        'testdata/release-fixture',
+        'scripts/run-privacy-gate.ps1'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'scripts/run-privacy-gate.ps1') `
+        -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+        -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+        -DryRun `
+        -ExpectFindings
+
+    Write-Host 'Privacy gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -98,9 +140,9 @@ if ($Scope -in @('ProdSafety', 'Full')) {
 }
 
 if ($Scope -in @('Release', 'Full')) {
-    Invoke-StubGate -Name 'Release'
+    Invoke-ReleaseGate
 }
 
 if ($Scope -in @('Privacy', 'Full')) {
-    Invoke-StubGate -Name 'Privacy'
+    Invoke-PrivacyGate
 }

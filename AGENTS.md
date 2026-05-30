@@ -44,6 +44,7 @@ Cloud gaming session tests must:
 - Do not work directly on `main` for backlog tasks.
 - Every bounded goal must use a dedicated task branch.
 - Start from clean, up-to-date `main`.
+- Work with remote Git by default when it does not reduce quality or safety: pull/rebase from remote before starting, push verified task branches after orchestrator approval or accepted project policy.
 - Keep changes scoped to the active task.
 - Do not mix unrelated documentation, framework and scenario changes unless the goal explicitly allows it.
 - Push task branches only after verification.
@@ -149,6 +150,8 @@ Full policy: `docs/codex/milestone-planning-policy.md`.
 
 ## Multi-agent commit rules
 
+- Work in multi-agent mode by default for all non-trivial milestones.
+- Even when one Codex instance performs the work, it must explicitly preserve role separation: Planner, Builder, Prod Safety, QA Reviewer and Orchestrator.
 - Planner does not change code.
 - Builder may change files inside scope but does not commit/push.
 - Prod Safety Agent reviews any production-impacting behavior.

@@ -6,6 +6,10 @@
 - Do not work directly on `main` for backlog tasks.
 - Every bounded goal uses a dedicated task branch.
 - Branch must be atomic but useful: one rollback-sized backlog slice.
+- Work with remote Git by default when it does not reduce quality or safety.
+- Fetch/pull before starting a task branch.
+- Push verified task branches when allowed by explicit user instruction or accepted project policy.
+- Do not let remote workflow replace local verification.
 - Do not mix unrelated changes.
 - Do not force-push to main.
 - Do not merge to main without explicit user approval.
@@ -42,4 +46,5 @@ Then update:
 - Builder does not commit/push.
 - QA Reviewer does not commit/push.
 - Orchestrator commits after verification.
+- Orchestrator pushes verified task branches to remote when allowed.
 - Merge to main requires explicit user approval.

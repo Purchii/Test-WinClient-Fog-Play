@@ -1,0 +1,55 @@
+{
+  "patterns": [
+    {
+      "id": "access-token",
+      "pattern": "(?i)access[_-]?token\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]+",
+      "severity": "fail"
+    },
+    {
+      "id": "refresh-token",
+      "pattern": "(?i)refresh[_-]?token\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]+",
+      "severity": "fail"
+    },
+    {
+      "id": "password",
+      "pattern": "(?i)(password|passwd)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}",
+      "severity": "fail"
+    },
+    {
+      "id": "api-key",
+      "pattern": "(?i)api[_-]?key\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]+",
+      "severity": "fail"
+    },
+    {
+      "id": "private-key",
+      "pattern": "-----BEGIN [A-Z ]*PRIVATE KEY-----",
+      "severity": "fail"
+    },
+    {
+      "id": "local-user-path",
+      "pattern": "C:\\\\Users\\\\[^\\\\\\s]+",
+      "severity": "fail"
+    },
+    {
+      "id": "turn-credential",
+      "pattern": "(?i)(turn|ice|stun).{0,80}(credential|password|username)",
+      "severity": "warn"
+    }
+  ],
+  "textFileExtensions": [
+    ".txt",
+    ".log",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".ini",
+    ".cfg",
+    ".conf",
+    ".xml",
+    ".js",
+    ".css",
+    ".html",
+    ".map"
+  ],
+  "maxTextFileBytes": 5242880
+}

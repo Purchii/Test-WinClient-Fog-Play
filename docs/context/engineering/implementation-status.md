@@ -40,3 +40,41 @@ Verification status:
 - Prod canary dry-run rejects missing explicit flag.
 - Prod canary dry-run passes only with explicit flag, budget and cleanup verification.
 - `git diff --check` passed.
+
+## M1 - Release artifact + privacy/logging gates
+
+Status: implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/run-release-gate.ps1`
+- `scripts/run-privacy-gate.ps1`
+- `scripts/quality-gate.ps1` Release/Privacy scopes
+- `testdata/release-gate-policy.example.json`
+- `testdata/privacy-patterns.example.json`
+- `testdata/release-fixture/**`
+- `docs/qa/release-gates.md`
+- `docs/qa/privacy-and-logging-checks.md`
+
+Current artifact source:
+
+- installed signed client directory: `C:\Program Files\MTC Fog Play`
+
+Not implemented in M1:
+
+- client launch;
+- WebView smoke;
+- authentication;
+- game-session tests;
+- CI/CD automation;
+- policy exceptions for current artifact findings.
+
+Verification status:
+
+- `Context` quality gate passed.
+- `ProdSafety` regression gate passed.
+- `Release` quality gate passed against fixture by detecting expected findings.
+- `Privacy` quality gate passed against fixture by detecting expected findings.
+- Release dry-run against installed artifact completed and reported fail findings.
+- Privacy dry-run against installed artifact completed and reported fail findings.
+- `git diff --check` passed.

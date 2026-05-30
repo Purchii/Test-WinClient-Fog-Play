@@ -13,3 +13,42 @@ Release gate should check:
 - update manifest integrity.
 
 Release gates are valuable because they can run offline without production backend impact.
+
+## M1 implementation
+
+`scripts/run-release-gate.ps1` scans an installed artifact directory without launching the client.
+
+Default artifact path:
+
+```text
+C:\Program Files\MTC Fog Play
+```
+
+Default policy:
+
+```text
+testdata/release-gate-policy.example.json
+```
+
+Implemented checks:
+
+- required files exist;
+- Authenticode status for configured executables;
+- version metadata for configured executables;
+- forbidden `.pdb` and `.map` files;
+- local developer paths such as `C:\Users\...`;
+- source map references;
+- unsafe debug flags in text-like files.
+
+Findings are sanitized: the script reports pattern ids, file paths and messages, not matched secret values.
+
+Known findings from the installed artifact observed on 2026-05-30:
+
+- `bin/rds-client.exe` reported `NotSigned`;
+- `Uninstall.exe` reported `NotSigned`;
+- `bin/rds-updater.exe` signature reported `Valid`;
+- 8 sourcemap files were present under `bin/resources/**`;
+- source map references were present in bundled CSS/JS;
+- `bin/installer_info.txt` contained a local user path.
+
+These findings are reported by the gate in dry-run mode. Whether any item is acceptable for release requires explicit owner/product approval before changing policy severity.

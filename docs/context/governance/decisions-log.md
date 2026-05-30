@@ -44,3 +44,11 @@ Status: accepted.
 Decision: because the GitHub repository and local project root were empty, the starter governance package was imported as the initial local `main` baseline before creating `codex/prod-safety-foundation`.
 
 Safety note: no push or merge to remote `main` has been performed during M0 implementation.
+
+## D-008: Multi-agent and remote Git by default
+
+Status: accepted.
+
+Decision: Codex work uses multi-agent mode by default for non-trivial milestones. If multiple real agents are unavailable, one Codex instance must preserve explicit role separation across Planner, Builder, Prod Safety, QA Reviewer and Orchestrator.
+
+Decision: Codex should work with remote Git directly when that does not reduce quality or safety. Verified task branches may be pushed after approval or accepted project policy. Merge to `main` still requires explicit user approval.
