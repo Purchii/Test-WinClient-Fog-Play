@@ -58,6 +58,8 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - verification commands are specified or can be safely discovered;
 - a dedicated task branch is used;
 - a separate Codex thread is used for the current independent task or milestone;
+- extended autonomous time, push permission or merge permission does not permit batching multiple independent tasks in one thread;
+- each newly selected follow-up gate, hardening item, feature slice or backlog item starts a new independent task unless it only repairs the current task's failing verification;
 - `create_thread` was used or attempted first for the new independent task;
 - unusable, invisible or unmanageable thread attempts are recorded inactive/orphan and retried once with normal `create_thread`;
 - a Codex worktree is used after the second normal `create_thread` failure or when the task flows from prior work and needs isolated branch/workspace state;
@@ -104,6 +106,8 @@ For MTC Fog Play QA Automation, use this default:
 
 ```text
 New independent task or milestone: separate Codex thread.
+Autonomous time extension: extends time only; it does not expand the current thread to multiple independent tasks.
+Follow-up gate/backlog item: new independent task, new Codex thread.
 Thread creation priority: use create_thread first.
 Thread creation retry: mark unusable attempts inactive/orphan, retry normal create_thread once, then use worktree fallback.
 Follow-on task isolation: use Codex worktree when needed.
@@ -165,6 +169,8 @@ Every goal prompt should include:
 ```md
 Thread:
 - New independent task/milestone uses a separate Codex thread.
+- Extended autonomous time or push/merge permission does not waive thread-per-task.
+- Next follow-up gate/backlog item starts in a new Codex thread unless it repairs current-task verification.
 - Previous task thread remains unarchived but inactive after handoff.
 
 Execution mode:

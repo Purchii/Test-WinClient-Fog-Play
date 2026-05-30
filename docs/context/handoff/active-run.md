@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through TestDataStructuredSyntaxSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through QualityGateStructureSafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 QualityGateStructureSafety static gate is complete.
 Post-M6 TestDataStructuredSyntaxSafety static gate is complete.
 Post-M6 GovernanceHistoryScopeSafety static gate is complete.
 Post-M6 ScriptsReadmeScopeSafety static gate is complete.
@@ -60,6 +61,8 @@ Post-M6 StaticSurfaceSafety static gate is complete.
 Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
+Autonomous time extension, push permission or merge permission does not waive thread-per-task.
+Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 ```
 
 Current branch:
@@ -74,6 +77,10 @@ Current result:
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 
 TestDataStructuredSyntaxSafety adds `Full` coverage for JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
+
+QualityGateStructureSafety adds `Full` coverage for `quality-gate.ps1` structural wiring: every `ValidateSet` scope except `Full` must have exactly one matching `Invoke-<Scope>Gate` function and exactly one `Full` dispatch block.
+
+Thread lifecycle reinforcement makes the separate-thread rule explicit for autonomous time extensions and follow-up gate selection.
 
 GovernanceHistoryScopeSafety adds `Full` coverage for `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.
 
@@ -193,6 +200,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GovernanceHistoryScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptsReadmeScopeSafety`;

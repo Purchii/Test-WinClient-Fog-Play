@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: TestDataStructuredSyntaxSafety static gate - implemented and verified locally.
 Post-M6: GovernanceHistoryScopeSafety static gate - implemented and verified locally.
 Post-M6: ScriptsReadmeScopeSafety static gate - implemented and verified locally.
@@ -85,6 +86,7 @@ Repository bootstrap state:
 - M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
+- Post-M6 QualityGateStructureSafety static gate was completed on `codex/quality-gate-structure-safety-gate`.
 - Post-M6 TestDataStructuredSyntaxSafety static gate was completed on `codex/testdata-structured-syntax-safety-gate`.
 - Post-M6 GovernanceHistoryScopeSafety static gate was completed on `codex/governance-history-scope-safety-gate`.
 - Post-M6 ScriptsReadmeScopeSafety static gate was completed on `codex/scripts-readme-scope-safety-gate`.
@@ -133,6 +135,8 @@ Repository bootstrap state:
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
+- Extended autonomous time, push permission and merge permission do not waive thread-per-task.
+- Each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task unless it only repairs verification for the current task.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
 
@@ -146,6 +150,7 @@ Current artifact status:
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.
+- QualityGateStructureSafety statically checks `quality-gate.ps1` structural wiring so each supported scope except `Full` has one matching function and one `Full` dispatch.
 - TestDataStructuredSyntaxSafety statically checks JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
 - GovernanceHistoryScopeSafety statically checks `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.
 - ScriptsReadmeScopeSafety statically checks `scripts/README.md` so the local script command inventory mentions every supported `quality-gate.ps1 -Scope`.

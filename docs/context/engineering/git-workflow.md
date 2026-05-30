@@ -6,6 +6,8 @@
 - Do not work directly on `main` for backlog tasks.
 - Every bounded goal uses a dedicated task branch.
 - Every new independent autonomous task or milestone uses a separate Codex thread.
+- Extended autonomous time, push permission or merge permission does not waive thread-per-task.
+- A newly selected follow-up gate, hardening item, feature slice or backlog item is a new independent task unless it only repairs current-task verification.
 - Use `create_thread` first for new independent tasks.
 - If normal thread creation is unusable, mark it inactive/orphan, retry `create_thread` once, then use Codex worktree fallback after the second failure.
 - Use Codex worktrees earlier when follow-on tasks need isolated branch/workspace state.

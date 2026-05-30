@@ -304,6 +304,62 @@ Safety notes:
 - No production game session started.
 - No unsafe test enabled.
 
+## 2026-05-30 - Quality gate structure safety gate
+
+Branch: `codex/quality-gate-structure-safety-gate`
+Status: passed
+Production impact: none; static local quality-gate script structure validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- QualityGateStructureSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including QualityGateStructureSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates local quality-gate script structure only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
+## 2026-05-30 - Thread lifecycle reinforcement
+
+Branch: `codex/quality-gate-structure-safety-gate`
+Status: passed
+Production impact: none; documentation and static policy validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- HandoffProtocolSafety gate passed with explicit autonomous-extension/thread-scope wording.
+- CodexPolicySafety gate passed with explicit follow-up-task/thread wording.
+- DecisionsLogSafety gate passed with explicit execution-authority/thread-scope wording.
+- Full quality gate passed with the reinforced thread lifecycle policy.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this correction validates local governance documentation only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Fixture inventory safety gate
 
 Branch: `codex/fixture-inventory-safety-gate`

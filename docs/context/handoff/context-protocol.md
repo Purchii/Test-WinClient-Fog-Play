@@ -28,6 +28,9 @@ Use `git log --oneline --decorate -1` as the authoritative latest commit source.
 Thread lifecycle:
 
 - A new independent task or milestone in autonomous work requires a separate Codex thread.
+- Long-running autonomous permission extends time, not task/thread scope.
+- Push or merge permission does not waive the separate-thread requirement.
+- Choosing the next autonomous follow-up gate, hardening item or backlog item starts a new independent task unless the work is only fixing verification for the current task.
 - `create_thread` is the priority mechanism for starting a new independent task.
 - If `create_thread` creates an unusable, invisible or unmanageable thread, record that attempt as inactive/orphan and retry `create_thread` once.
 - After the second normal `create_thread` failure, create the task thread with a Codex worktree.

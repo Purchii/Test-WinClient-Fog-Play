@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -570,6 +570,39 @@ function Invoke-TestDataStructuredSyntaxSafetyGate {
     Write-Host 'TestDataStructuredSyntaxSafety gate passed.'
 }
 
+function Invoke-QualityGateStructureSafetyGate {
+    $scriptPath = Join-Path $repoRoot 'scripts/quality-gate.ps1'
+    Assert-PathExists 'scripts/quality-gate.ps1'
+
+    $script = Get-Content -LiteralPath $scriptPath -Raw
+    $validateSetMatch = [regex]::Match($script, "\[ValidateSet\((?<values>[^\)]*)\)\]")
+    if (-not $validateSetMatch.Success) {
+        throw 'quality-gate.ps1 does not declare a ValidateSet for -Scope.'
+    }
+
+    $scopes = [regex]::Matches($validateSetMatch.Groups['values'].Value, "'([^']+)'") |
+        ForEach-Object { $_.Groups[1].Value }
+    if (@($scopes | Where-Object { $_ -eq 'Full' }).Count -ne 1) {
+        throw "quality-gate.ps1 ValidateSet must include 'Full' exactly once."
+    }
+
+    foreach ($scopeName in @($scopes | Where-Object { $_ -ne 'Full' })) {
+        $functionPattern = "(?m)^function\s+Invoke-$([regex]::Escape($scopeName))Gate\s*\{"
+        $functionMatches = @([regex]::Matches($script, $functionPattern))
+        if ($functionMatches.Count -ne 1) {
+            throw "quality-gate.ps1 must define exactly one Invoke-$($scopeName)Gate function."
+        }
+
+        $dispatchPattern = "if\s*\(\s*\`$Scope\s+-in\s+@\('$([regex]::Escape($scopeName))',\s*'Full'\)\s*\)\s*\{\s*Invoke-$([regex]::Escape($scopeName))Gate\s*\}"
+        $dispatchMatches = @([regex]::Matches($script, $dispatchPattern, [System.Text.RegularExpressions.RegexOptions]::Singleline))
+        if ($dispatchMatches.Count -ne 1) {
+            throw "quality-gate.ps1 must dispatch scope '$scopeName' to Invoke-$($scopeName)Gate exactly once in Full."
+        }
+    }
+
+    Write-Host 'QualityGateStructureSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -612,7 +645,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -623,8 +656,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TestDataStructuredSyntaxSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through TestDataStructuredSyntaxSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QualityGateStructureSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through QualityGateStructureSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -851,6 +884,8 @@ function Invoke-DecisionsLogSafetyGate {
             'user approval to "push" the current task branch includes permission to create the required local commit',
             'does not include permission to merge to `main`',
             'every new independent task or milestone in autonomous work uses a separate Codex thread',
+            'extended autonomous time, permission to push, or permission to merge changes execution authority only',
+            'each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task',
             '`create_thread` is the priority mechanism',
             'retries `create_thread` once',
             'PROCESS_ERROR_THREAD_REUSE'
@@ -918,6 +953,8 @@ function Invoke-CodexPolicySafetyGate {
             'autonomy is never implicit',
             'If the mode is not declared, use **non-autonomous / supervised mode**',
             'After the user accepts the current milestone plan, Codex may work in `BOUNDED_AUTONOMOUS` mode only inside that accepted scope',
+            'extended autonomous time, push permission or merge permission does not permit batching multiple independent tasks in one thread',
+            'each newly selected follow-up gate, hardening item, feature slice or backlog item starts a new independent task',
             'production-impacting tasks',
             'any change that can start a cloud-gaming session',
             'CI/CD changes that can run tests automatically',
@@ -946,6 +983,8 @@ function Invoke-CodexPolicySafetyGate {
     foreach ($requiredPhrase in @(
             'Confirm this is the correct Codex thread',
             'For a new independent task or milestone, use `create_thread` first',
+            'Treat a newly selected follow-up gate, hardening item, feature slice or backlog item as a new independent task',
+            'Treat extended autonomous time, push permission and merge permission as execution permissions only',
             'Wait for approval if in NON_AUTONOMOUS discovery mode',
             'Confirm production classification',
             'Implement only allowed scope',
@@ -961,6 +1000,8 @@ function Invoke-CodexPolicySafetyGate {
             'Every run must declare autonomy mode: NON_AUTONOMOUS or BOUNDED_AUTONOMOUS',
             'Default to NON_AUTONOMOUS until the user accepts the plan',
             'Every new independent task or milestone in autonomous work must use a separate Codex thread',
+            'User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread',
+            'Each newly chosen follow-up hardening gate, milestone, feature slice, or backlog item is a new independent task',
             'Do not expand scope without user approval',
             'Do not work directly on main',
             'Do not merge to main without explicit user approval',
@@ -1267,6 +1308,9 @@ function Invoke-HandoffProtocolSafetyGate {
             'Use `git log --oneline --decorate -1` as the authoritative latest commit source',
             'Do not record a literal latest pushed commit in `active-run.md`',
             'A new independent task or milestone in autonomous work requires a separate Codex thread',
+            'Long-running autonomous permission extends time, not task/thread scope',
+            'Push or merge permission does not waive the separate-thread requirement',
+            'Choosing the next autonomous follow-up gate, hardening item or backlog item starts a new independent task',
             '`create_thread` is the priority mechanism for starting a new independent task',
             'record that attempt as inactive/orphan and retry `create_thread` once',
             'After the second normal `create_thread` failure, create the task thread with a Codex worktree',
@@ -1285,6 +1329,8 @@ function Invoke-HandoffProtocolSafetyGate {
             'Do not work directly on `main` for backlog tasks',
             'Every bounded goal uses a dedicated task branch',
             'Every new independent autonomous task or milestone uses a separate Codex thread',
+            'Extended autonomous time, push permission or merge permission does not waive thread-per-task',
+            'A newly selected follow-up gate, hardening item, feature slice or backlog item is a new independent task',
             'Use `create_thread` first for new independent tasks',
             'retry `create_thread` once',
             'Codex worktree fallback after the second failure',
@@ -3746,6 +3792,10 @@ if ($Scope -in @('GovernanceHistoryScopeSafety', 'Full')) {
 
 if ($Scope -in @('TestDataStructuredSyntaxSafety', 'Full')) {
     Invoke-TestDataStructuredSyntaxSafetyGate
+}
+
+if ($Scope -in @('QualityGateStructureSafety', 'Full')) {
+    Invoke-QualityGateStructureSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {

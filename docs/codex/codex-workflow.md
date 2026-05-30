@@ -2,22 +2,24 @@
 
 1. Confirm this is the correct Codex thread for the current independent task.
 2. For a new independent task or milestone, use `create_thread` first.
-3. If the new thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
-4. Use a Codex worktree after the second normal `create_thread` failure, or earlier when the follow-on task benefits from isolated branch/workspace state.
-5. Hand off before implementation if this is the previous task thread.
-6. Leave the previous task thread unarchived, but inactive after handoff.
-7. Read source-of-truth docs.
-8. Declare autonomy mode.
-9. Check git status.
-10. Create/propose task branch.
-11. Produce repo map and plan.
-12. Wait for approval if in NON_AUTONOMOUS discovery mode.
-13. Confirm production classification.
-14. Implement only allowed scope.
-15. Run verification.
-16. Update verification-memory/session-log/active-run.
-17. Final report including autonomy mode and stop-and-ask triggers.
-18. Do not merge main without explicit approval.
+3. Treat a newly selected follow-up gate, hardening item, feature slice or backlog item as a new independent task unless it only repairs verification for the current task.
+4. Treat extended autonomous time, push permission and merge permission as execution permissions only; they do not waive thread-per-task.
+5. If the new thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
+6. Use a Codex worktree after the second normal `create_thread` failure, or earlier when the follow-on task benefits from isolated branch/workspace state.
+7. Hand off before implementation if this is the previous task thread.
+8. Leave the previous task thread unarchived, but inactive after handoff.
+9. Read source-of-truth docs.
+10. Declare autonomy mode.
+11. Check git status.
+12. Create/propose task branch.
+13. Produce repo map and plan.
+14. Wait for approval if in NON_AUTONOMOUS discovery mode.
+15. Confirm production classification.
+16. Implement only allowed scope.
+17. Run verification.
+18. Update verification-memory/session-log/active-run.
+19. Final report including autonomy mode and stop-and-ask triggers.
+20. Do not merge main without explicit approval.
 
 If implementation for a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE`, update context docs, and stop task implementation until a correct task thread exists.
 
@@ -31,15 +33,17 @@ All user-facing reports must be in Russian by default. Use `docs/codex/communica
 For each new milestone:
 
 1. Start a separate Codex thread with `create_thread`.
-2. If the thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
-3. Use a Codex worktree after the second normal `create_thread` failure, or when the milestone follows from prior work and needs isolated branch/workspace state.
-4. Keep the previous milestone thread unarchived but inactive.
-5. Start in `NON_AUTONOMOUS` mode.
-6. Re-read source-of-truth docs and current diff.
-7. Produce high-level roadmap for the whole project.
-8. Produce detailed technical plan only for the current milestone.
-9. Wait for user approval.
-10. After approval, continue in `BOUNDED_AUTONOMOUS` mode inside the accepted scope.
-11. Update `active-run.md`, `session-log.md`, `verification-memory.md`, and `implementation-status.md`.
+2. Start a separate Codex thread for each newly selected follow-up gate, hardening item, feature slice or backlog item.
+3. Do not treat extended autonomous time as approval to run multiple independent milestones in the same thread.
+4. If the thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
+5. Use a Codex worktree after the second normal `create_thread` failure, or when the milestone follows from prior work and needs isolated branch/workspace state.
+6. Keep the previous milestone thread unarchived but inactive.
+7. Start in `NON_AUTONOMOUS` mode.
+8. Re-read source-of-truth docs and current diff.
+9. Produce high-level roadmap for the whole project.
+10. Produce detailed technical plan only for the current milestone.
+11. Wait for user approval.
+12. After approval, continue in `BOUNDED_AUTONOMOUS` mode inside the accepted scope.
+13. Update `active-run.md`, `session-log.md`, `verification-memory.md`, and `implementation-status.md`.
 
 Do not execute detailed future-milestone work without a separate planning step.

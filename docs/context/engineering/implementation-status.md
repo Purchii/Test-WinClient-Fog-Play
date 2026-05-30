@@ -185,6 +185,8 @@ Implemented outputs:
 - Retry behavior documented: unusable, invisible or unmanageable thread attempts are marked inactive/orphan, normal `create_thread` is retried once, then worktree fallback is used after a second normal failure.
 - Previous task thread lifecycle clarified: unarchived but inactive after handoff.
 - `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
+- Extended autonomous time, push permission and merge permission now explicitly do not waive thread-per-task.
+- Follow-up gates, hardening items, feature slices, backlog items and milestones are explicitly new independent tasks unless they only repair current-task verification.
 
 Current process error:
 
@@ -622,6 +624,35 @@ Implemented checks:
 - `testdata/prod-resource-budget.example.yaml` must keep the top-level `prodResourceBudget` mapping;
 - production resource budget YAML must keep the required budget keys;
 - `TestDataStructuredSyntaxSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Quality gate structure safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `QualityGateStructureSafety` quality gate scope;
+- every `quality-gate.ps1 -Scope` value except `Full` must have exactly one matching `Invoke-<Scope>Gate` function;
+- every `quality-gate.ps1 -Scope` value except `Full` must have exactly one matching `Full` dispatch block;
+- `QualityGateStructureSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
 

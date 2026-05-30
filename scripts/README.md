@@ -45,6 +45,8 @@ The `GovernanceHistoryScopeSafety` quality gate fails if any `*Safety` scope fro
 
 The `TestDataStructuredSyntaxSafety` quality gate fails if JSON fixtures under `testdata/` stop parsing or if the production resource budget YAML loses its required top-level shape.
 
+The `QualityGateStructureSafety` quality gate fails if any `quality-gate.ps1 -Scope` value except `Full` is missing its matching `Invoke-<Scope>Gate` function or exact `Full` dispatch block.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.

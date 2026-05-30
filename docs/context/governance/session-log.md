@@ -207,6 +207,52 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Quality gate structure safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/quality-gate-structure-safety-gate`
+
+Scope:
+
+- Add a local `QualityGateStructureSafety` quality gate.
+- Validate every `quality-gate.ps1 -Scope` value except `Full` has exactly one matching gate function.
+- Validate every `quality-gate.ps1 -Scope` value except `Full` has exactly one matching `Full` dispatch block.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
+## 2026-05-30 - Thread lifecycle reinforcement
+
+Mode: `BOUNDED_AUTONOMOUS` narrow governance correction after user pointed out thread-per-task drift.
+
+Branch: `codex/quality-gate-structure-safety-gate`
+
+Scope:
+
+- Make thread-per-task stricter in executor, context, autonomy, workflow, Git and decision docs.
+- Clarify that autonomous time extensions, push permission and merge permission do not combine independent tasks into one thread.
+- Clarify that each follow-up gate, hardening item, feature slice, backlog item or milestone starts a new independent task unless it only repairs current-task verification.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M0 ProdSafety foundation
 
 Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user continuation accepted the M0 plan.
