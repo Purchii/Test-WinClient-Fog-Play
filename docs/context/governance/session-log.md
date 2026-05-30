@@ -499,6 +499,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Current state safety sync
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/current-state-safety-sync`
+
+Scope:
+
+- Update `docs/context/current-state.md` with current static safety gates.
+- Extend `ActiveRunSafety` to validate `current-state.md` visibility alongside active handoff.
+- Keep validation static and documentation-only.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Production metadata fixture safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

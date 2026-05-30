@@ -100,13 +100,16 @@ function Invoke-ContextGate {
 
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
+    $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
     $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
     $executorPolicyPath = Join-Path $repoRoot 'docs/context/handoff/executor-policy.md'
     Assert-PathExists 'docs/context/handoff/active-run.md'
+    Assert-PathExists 'docs/context/current-state.md'
     Assert-PathExists 'docs/context/handoff/context-protocol.md'
     Assert-PathExists 'docs/context/handoff/executor-policy.md'
 
     $activeRun = Get-Content -LiteralPath $activeRunPath -Raw
+    $currentState = Get-Content -LiteralPath $currentStatePath -Raw
     $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
     $executorPolicy = Get-Content -LiteralPath $executorPolicyPath -Raw
 
@@ -141,6 +144,12 @@ function Invoke-ActiveRunSafetyGate {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
+        if ($currentState -notmatch [regex]::Escape($scopeName)) {
+            throw "current-state.md must mention current static safety gate: $scopeName"
+        }
+    }
+    if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
+        throw 'current-state.md must mention ActiveRunSafety.'
     }
 
     if ($contextProtocol -notmatch 'git log --oneline --decorate -1') {

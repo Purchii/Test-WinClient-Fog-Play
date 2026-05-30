@@ -31,6 +31,11 @@ Post-M6: TestDataSafety static gate - implemented and verified locally.
 Post-M6: Quality gate scope inventory guard - implemented and verified locally.
 Post-M6: ProdMatrixSafety static gate - implemented and verified locally.
 Post-M6: BacklogSafety static gate - implemented and verified locally.
+Post-M6: SyntheticUsersSafety static gate - implemented and verified locally.
+Post-M6: ResourceBudgetSafety static gate - implemented and verified locally.
+Post-M6: AllowedGamesSafety static gate - implemented and verified locally.
+Post-M6: ProdMetadataSafety static gate - implemented and verified locally.
+Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -56,6 +61,11 @@ Repository bootstrap state:
 - Post-M6 quality gate scope inventory guard was completed on `codex/quality-gate-scope-inventory`.
 - Post-M6 ProdMatrixSafety static gate was completed on `codex/prod-matrix-safety-gate`.
 - Post-M6 BacklogSafety static gate was completed on `codex/backlog-safety-gate`.
+- Post-M6 SyntheticUsersSafety static gate was completed on `codex/synthetic-users-safety-gate`.
+- Post-M6 ResourceBudgetSafety static gate was completed on `codex/resource-budget-safety-gate`.
+- Post-M6 AllowedGamesSafety static gate was completed on `codex/allowed-games-safety-gate`.
+- Post-M6 ProdMetadataSafety static gate was completed on `codex/prod-metadata-safety-gate`.
+- Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
@@ -77,6 +87,8 @@ Current artifact status:
 - RunnerSafety statically checks runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
 - TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
+- ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers and stale literal latest-commit markers.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
+- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

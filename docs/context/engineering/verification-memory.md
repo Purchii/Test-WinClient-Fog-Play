@@ -234,6 +234,35 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Current state safety sync
+
+Branch: `codex/current-state-safety-sync`
+Status: passed
+Production impact: none; static local handoff/current-state validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ActiveRunSafety gate passed with `current-state.md` included in scope.
+- Context quality gate passed.
+- Full quality gate passed, including ActiveRunSafety, ProdMetadataSafety, ProdSafety, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Runtime execution because this is static documentation validation only.
+- Client launch, auth, backend calls or game sessions because they remain forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Production metadata fixture safety gate
 
 Branch: `codex/prod-metadata-safety-gate`

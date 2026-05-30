@@ -730,12 +730,14 @@ Implemented outputs:
 - `scripts/quality-gate.ps1`
 - `scripts/README.md`
 - `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
 - `docs/context/engineering/quality-gates.md`
 
 Implemented checks:
 
 - new `ActiveRunSafety` quality gate scope;
 - `active-run.md` must keep the forbidden-action boundary and stop-and-ask triggers explicit;
+- `current-state.md` must mention current static safety gates;
 - active handoff must mention current static safety gates for synthetic users, allowed games, resource budgets and production metadata;
 - active handoff must not record stale literal latest-pushed commit markers;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
