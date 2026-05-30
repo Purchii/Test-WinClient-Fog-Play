@@ -43,6 +43,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope TestDataInventorySafety
+.\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety
 .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety
 .\scripts\quality-gate.ps1 -Scope AllowedGamesSafety
 .\scripts\quality-gate.ps1 -Scope ResourceBudgetSafety
@@ -147,6 +148,8 @@ The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramewor
 The `TestDataSafety` scope statically checks `testdata/` text fixtures so risky content such as credentials, bearer tokens, user runtime paths and non-placeholder URLs only appears in explicit unsafe/negative fixture allowlists.
 
 The `TestDataInventorySafety` scope statically checks `testdata/` file inventory so fixture files cannot be added, removed or renamed silently.
+
+The `UnsafeFixtureCoverageSafety` scope statically checks that every `testdata/*unsafe*.example.json` fixture is covered by a negative TestFramework or `quality-gate.ps1` assertion block with the fixture path and expected `Assert-FindingId` finding ids.
 
 The `SyntheticUsersSafety` scope statically checks `testdata/synthetic-users.example.json` and the synthetic users policy so allowlisted users remain alias-only, contain no credential-like fields or values, and reserve game-session permission for bounded canary aliases.
 

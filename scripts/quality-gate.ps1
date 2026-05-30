@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -680,7 +680,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -691,8 +691,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through WebViewBundleLocalReferenceSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through WebViewBundleLocalReferenceSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through UnsafeFixtureCoverageSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through UnsafeFixtureCoverageSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -2491,6 +2491,106 @@ function Invoke-TestDataInventorySafetyGate {
     Write-Host 'TestDataInventorySafety gate passed.'
 }
 
+function Invoke-UnsafeFixtureCoverageSafetyGate {
+    $testDataRoot = Join-Path $repoRoot 'testdata'
+    Assert-PathExists 'testdata'
+
+    $expectedCoverage = @(
+        @{
+            Fixture = 'app-webview-smoke-unsafe-policy.example.json'
+            CoverageFiles = @('src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'unsafe-launch-argument', 'unsafe-runtime-path')
+        },
+        @{
+            Fixture = 'backend-smoke-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'network-not-disabled', 'unsafe-header', 'unsafe-runtime-path', 'state-mutating-endpoint')
+        },
+        @{
+            Fixture = 'game-session-canary-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'cleanup-not-required', 'duration-exceeds-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals')
+        },
+        @{
+            Fixture = 'nonprod-foundation-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'network-not-disabled', 'client-launch-not-disabled', 'webview-debug-not-disabled', 'auth-not-disabled', 'runtime-data-read-not-disabled', 'cicd-not-disabled', 'unsafe-runtime-path', 'production-endpoint-defined', 'non-nonprod-classification', 'component-not-schema-only', 'component-execution-enabled', 'component-uses-production', 'component-requires-credentials', 'component-mutates-state', 'component-starts-game-session', 'missing-contract-schema', 'unsafe-component-reference')
+        },
+        @{
+            Fixture = 'testability-gaps-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'production-execution-not-disabled', 'runtime-data-read-not-disabled', 'credentials-not-disabled', 'invalid-gap-id', 'invalid-area', 'invalid-status', 'gap-marked-production-safe', 'gap-requires-credentials', 'gap-requires-user-data', 'invalid-required-evidence', 'missing-stop-trigger', 'missing-next-safe-step')
+        },
+        @{
+            Fixture = 'update-manifest-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/UpdateManifest/UpdateManifest.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'network-not-disabled', 'execution-not-disabled', 'rollback-not-disabled', 'credentials-not-disabled', 'unsafe-endpoint', 'command-defined', 'invalid-version', 'unsafe-artifact-path', 'invalid-sha256', 'invalid-size', 'signature-not-required', 'rollback-allowed', 'post-install-command-defined')
+        },
+        @{
+            Fixture = 'webview-bridge-contract-unsafe.example.json'
+            CoverageFiles = @('src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1', 'scripts/quality-gate.ps1')
+            FindingIds = @('policy-not-dry-run-only', 'unsafe-diagnostic', 'unsafe-runtime-path')
+        }
+    )
+
+    $actualFixtures = @(Get-ChildItem -LiteralPath $testDataRoot -Filter '*unsafe*.example.json' -File | ForEach-Object { $_.Name } | Sort-Object)
+    $expectedFixtures = @($expectedCoverage | ForEach-Object { $_.Fixture } | Sort-Object)
+
+    foreach ($fixture in $expectedFixtures) {
+        if ($actualFixtures -notcontains $fixture) {
+            throw "UnsafeFixtureCoverageSafety expected unsafe fixture is missing from testdata: $fixture"
+        }
+    }
+    foreach ($fixture in $actualFixtures) {
+        if ($expectedFixtures -notcontains $fixture) {
+            throw "UnsafeFixtureCoverageSafety found unsafe fixture without static negative coverage contract: $fixture"
+        }
+    }
+
+    foreach ($coverage in $expectedCoverage) {
+        $fixturePath = "testdata/$($coverage.Fixture)"
+        $pathCovered = $false
+        $assertionCoverage = @{}
+        foreach ($findingId in $coverage.FindingIds) {
+            $assertionCoverage[$findingId] = $false
+        }
+
+        foreach ($coverageFile in $coverage.CoverageFiles) {
+            Assert-PathExists $coverageFile
+            $fullCoveragePath = Join-Path $repoRoot $coverageFile
+            $content = Get-Content -LiteralPath $fullCoveragePath -Raw
+            $normalizedContent = $content -replace '\\', '/'
+            $fixtureIndex = $normalizedContent.IndexOf($fixturePath, [System.StringComparison]::OrdinalIgnoreCase)
+            if ($fixtureIndex -lt 0) {
+                continue
+            }
+
+            $pathCovered = $true
+            $scanLength = [Math]::Min(8000, $normalizedContent.Length - $fixtureIndex)
+            $fixtureScope = $normalizedContent.Substring($fixtureIndex, $scanLength)
+
+            foreach ($findingId in $coverage.FindingIds) {
+                $assertPattern = "Assert-FindingId\s+-Result\s+\S+\s+-Id\s+'$([regex]::Escape($findingId))'"
+                if ($fixtureScope -match $assertPattern) {
+                    $assertionCoverage[$findingId] = $true
+                }
+            }
+        }
+
+        if (-not $pathCovered) {
+            throw "UnsafeFixtureCoverageSafety requires fixture path mention in coverage files: $fixturePath"
+        }
+
+        foreach ($findingId in $coverage.FindingIds) {
+            if (-not $assertionCoverage[$findingId]) {
+                throw "UnsafeFixtureCoverageSafety requires finding-id assertion for ${fixturePath}: $findingId"
+            }
+        }
+    }
+
+    Write-Host 'UnsafeFixtureCoverageSafety gate passed.'
+}
+
 function Get-JsonPropertyRecords {
     param(
         [AllowNull()]
@@ -4054,6 +4154,10 @@ if ($Scope -in @('TestDataSafety', 'Full')) {
 
 if ($Scope -in @('TestDataInventorySafety', 'Full')) {
     Invoke-TestDataInventorySafetyGate
+}
+
+if ($Scope -in @('UnsafeFixtureCoverageSafety', 'Full')) {
+    Invoke-UnsafeFixtureCoverageSafetyGate
 }
 
 if ($Scope -in @('SyntheticUsersSafety', 'Full')) {

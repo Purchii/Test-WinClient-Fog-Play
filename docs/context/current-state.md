@@ -73,6 +73,7 @@ Post-M6: StaticSurfaceSafety static gate - implemented and verified locally.
 Post-M6: WebViewBundleLocalReferenceSafety static gate - implemented and verified locally.
 Post-M6: FixtureInventorySafety static gate - implemented and verified locally.
 Post-M6: ScriptsInventorySafety static gate - implemented and verified locally.
+Post-M6: UnsafeFixtureCoverageSafety static gate - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -140,6 +141,7 @@ Repository bootstrap state:
 - Post-M6 WebViewBundleLocalReferenceSafety static gate was completed on `codex/webview-bundle-local-reference-safety-gate`.
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
+- Post-M6 UnsafeFixtureCoverageSafety static gate was completed on `codex/unsafe-fixture-coverage-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread after handoff from source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1`. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`, is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -205,4 +207,5 @@ Current artifact status:
 - WebViewBundleLocalReferenceSafety statically checks fixture WebView bundle entrypoints and manifests for remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths.
 - FixtureInventorySafety statically checks release, privacy and App/WebView smoke fixture directory trees for required positive, negative and clean local fixture files.
 - ScriptsInventorySafety statically checks the `scripts/` runner/support file inventory.
+- UnsafeFixtureCoverageSafety statically checks `testdata/*unsafe*.example.json` fixtures so every unsafe fixture keeps a negative coverage block with the fixture path and expected `Assert-FindingId` finding-id assertions.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

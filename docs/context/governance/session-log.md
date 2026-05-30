@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Unsafe fixture coverage safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.
+
+Branch: `codex/unsafe-fixture-coverage-safety-gate`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This task used the delegated new task thread and a dedicated task branch.
+
+Scope:
+
+- Add local `UnsafeFixtureCoverageSafety` quality gate.
+- Statically require every `testdata/*unsafe*.example.json` fixture to have a negative coverage contract.
+- Require fixture path coverage and expected `Assert-FindingId` finding-id assertions in the corresponding TestFramework test or `quality-gate.ps1` scope.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - WebView bundle local reference safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.

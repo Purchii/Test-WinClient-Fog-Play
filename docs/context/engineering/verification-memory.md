@@ -1,5 +1,35 @@
 # Verification memory
 
+## 2026-05-31 - Unsafe fixture coverage safety gate
+
+Branch: `codex/unsafe-fixture-coverage-safety-gate`
+Status: passed
+Production impact: none; local static unsafe fixture coverage validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- UnsafeFixtureCoverageSafety gate passed.
+- PowerShellStructuredSyntaxSafety gate passed after fixing a local parser-safe string interpolation issue.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including UnsafeFixtureCoverageSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates local fixture/test/script text only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - WebView bundle local reference safety gate
 
 Branch: `codex/webview-bundle-local-reference-safety-gate`
