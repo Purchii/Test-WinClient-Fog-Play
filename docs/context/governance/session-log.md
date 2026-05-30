@@ -86,3 +86,20 @@ Production safety:
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
 - No CI/CD automation enabled.
+
+## 2026-05-30 - Thread lifecycle governance correction
+
+Mode: `BOUNDED_AUTONOMOUS` governance correction requested by the user; implementation remains limited to documentation.
+
+Process error:
+
+- `PROCESS_ERROR_THREAD_REUSE`: M3 work began to continue in the previous long-running thread context instead of a separate task thread.
+- Corrective action: document the thread-per-task rule, leave previous task threads unarchived but inactive after handoff, and stop M3 implementation in this thread until a dedicated M3 thread is created.
+
+Production safety:
+
+- No client launch.
+- No credentials used.
+- No production backend interaction.
+- No game session started.
+- No user AppData logs, cookies or DB files read.

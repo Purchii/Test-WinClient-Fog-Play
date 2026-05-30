@@ -16,7 +16,9 @@ Current milestone state:
 ```text
 M0: ProdSafety + Git/Handoff/Verification governance foundation - implemented and merged to main.
 M1: Release artifact + privacy/logging gates - implemented, hardened and merged to main.
-M2: App launch + WebView smoke - static/dry-run scaffold in progress on codex/app-webview-smoke.
+M2: App launch + WebView smoke - static/dry-run scaffold implemented and merged to main.
+Thread lifecycle governance correction: in progress on codex/thread-lifecycle-governance.
+M3: WebView/native bridge contract + fake host - accepted plan, implementation must move to a separate M3 task thread.
 ```
 
 Do not start real game-session automation before the guard layer is hardened and a separate NON_AUTONOMOUS game-session canary plan is approved.
@@ -28,12 +30,13 @@ Repository bootstrap state:
 - Starter governance docs were imported as the initial `main` baseline.
 - M0 implementation was completed on `codex/prod-safety-foundation` and merged to `main`.
 - M1 implementation was completed on `codex/release-privacy-gates` and merged to `main`.
-- M2 implementation is on `codex/app-webview-smoke`.
+- M2 implementation was completed on `codex/app-webview-smoke` and merged to `main`.
+- New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
 
 Current artifact status:
 
 - Release/privacy gate implementation exists.
-- App/WebView smoke scaffold exists as static/dry-run only on the M2 branch.
+- App/WebView smoke scaffold exists as static/dry-run only.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

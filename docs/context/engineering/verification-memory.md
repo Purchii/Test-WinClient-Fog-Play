@@ -174,3 +174,30 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
+
+## 2026-05-30 - Thread lifecycle governance correction
+
+Branch: `codex/thread-lifecycle-governance`
+Status: passed
+Production impact: none; documentation-only correction
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `git diff --check`
+- `git status --short --branch`
+
+Results:
+- Context gate passed.
+- `git diff --check` passed with line-ending warnings only.
+- Working branch contains documentation-only governance changes.
+
+Process note:
+- `PROCESS_ERROR_THREAD_REUSE` recorded because M3 work began to continue in the previous long-running thread context.
+- M3 implementation must resume in a separate M3 task thread.
+
+Safety notes:
+- No real credentials used.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies or DB files read.
+- No WebView debug port enabled.

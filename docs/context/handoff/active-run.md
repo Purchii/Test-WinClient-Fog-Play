@@ -1,45 +1,43 @@
 # Active run
 
-Status: M2 App/WebView smoke scaffold in progress.
+Status: thread lifecycle governance correction in progress.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for the accepted safe M2 direction, limited to static/dry-run artifact checks.
+Execution mode: `BOUNDED_AUTONOMOUS` for the user-requested documentation correction only.
 
-Current milestone: `M2`.
+Current milestone: governance correction before M3 implementation.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = App launch + WebView/CEF smoke scaffold, static/dry-run only.
-Future milestones = high-level until their own NON_AUTONOMOUS planning step.
+Current work = document thread-per-task lifecycle and record the current thread reuse process error.
+Future milestones = high-level until their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/app-webview-smoke
+codex/thread-lifecycle-governance
 ```
 
 Current goal:
 
 ```text
-Add a dry-run App/WebView smoke gate that validates installed artifact layout and safety policy without launching the client.
+Document that every new independent autonomous task or milestone requires a separate Codex thread, and record the current M3 continuation attempt as `PROCESS_ERROR_THREAD_REUSE`.
 ```
 
-Allowed in M2:
+Allowed now:
 
-- `src/TestFramework/WindowsSmoke/**`;
-- `scripts/run-app-webview-smoke.ps1`;
-- `scripts/quality-gate.ps1`;
-- `testdata/app-webview-smoke*.json`;
-- `testdata/app-webview-smoke-fixture/**`;
-- `docs/qa/app-webview-smoke.md`;
-- M2 status updates in `docs/context/**`;
-- `scripts/README.md`;
-- `docs/context/engineering/quality-gates.md`.
+- `AGENTS.md`;
+- `docs/context/handoff/**`;
+- `docs/context/governance/**`;
+- `docs/codex/codex-workflow.md`.
 
-Forbidden in M2:
+Forbidden now:
 
+- M3 implementation;
+- WebView bridge contract implementation;
+- fake-host implementation;
 - client launch;
 - WebView debug/CDP port;
 - authentication;
@@ -54,6 +52,7 @@ Forbidden in M2:
 
 Stop-and-ask triggers:
 
+- any request to implement M3 in this thread before handoff to a dedicated M3 thread;
 - any need to start `rds-client.exe`;
 - any need for credentials or synthetic login;
 - any need for WebView debug port;
@@ -63,8 +62,6 @@ Stop-and-ask triggers:
 
 Verification plan:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AppSmoke`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-smoke.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun -ReportOnly`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `git diff --check`;
 - `git status --short --branch`.

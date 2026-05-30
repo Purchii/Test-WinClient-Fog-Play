@@ -104,7 +104,7 @@ Known deferred gap:
 
 ## M2 - App launch + WebView smoke
 
-Status: static/dry-run scaffold implemented on `codex/app-webview-smoke`; no real client launch.
+Status: static/dry-run scaffold implemented and merged to `main`; no real client launch.
 
 Implemented outputs:
 
@@ -134,3 +134,23 @@ Not implemented in M2:
 - WebView debug/CDP connection;
 - authentication;
 - game-session tests.
+
+## Governance - Thread lifecycle
+
+Status: correction in progress on `codex/thread-lifecycle-governance`.
+
+Implemented outputs:
+
+- Thread-per-task rule added to source-of-truth docs.
+- Previous task thread lifecycle clarified: unarchived but inactive after handoff.
+- `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
+
+Current process error:
+
+- M3 implementation started to continue in the previous long-running thread context.
+- M3 implementation must stop in this thread and resume in a dedicated M3 task thread.
+
+Not implemented:
+
+- M3 WebView bridge contract changes.
+- M3 fake native host changes.

@@ -60,3 +60,11 @@ Status: accepted.
 Decision: commit and push are separate actions. Codex may commit or push a task branch only after explicit user approval or after the current accepted milestone policy clearly allows that action. Builder and QA Reviewer never commit or push; Orchestrator may do so only after verification.
 
 Decision: user approval to "push" the current task branch includes permission to create the required local commit for that push, but does not include permission to merge to `main`.
+
+## D-010: Thread per autonomous task
+
+Status: accepted.
+
+Decision: every new independent task or milestone in autonomous work uses a separate Codex thread. The previous task thread remains unarchived, but becomes inactive after handoff.
+
+Decision: continuing implementation for a new independent task in the previous task thread is a process error named `PROCESS_ERROR_THREAD_REUSE`. Codex must record the error in context docs and stop implementation until the task is handed off to a correct thread.

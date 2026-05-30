@@ -57,6 +57,8 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - forbidden actions are specified;
 - verification commands are specified or can be safely discovered;
 - a dedicated task branch is used;
+- a separate Codex thread is used for the current independent task or milestone;
+- the previous task thread is left unarchived but inactive after handoff;
 - the task is not changing production behavior directly;
 - no real credentials, tokens, or personal data are needed;
 - no production game session is started;
@@ -83,6 +85,7 @@ Codex must not:
 
 - merge to `main`;
 - force-push;
+- continue implementation for a new independent task in the previous task thread;
 - start production game sessions;
 - run `PROD_CONDITIONAL` tests without explicit flag and user approval;
 - bypass or weaken ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier;
@@ -97,11 +100,14 @@ Codex must not:
 For MTC Fog Play QA Automation, use this default:
 
 ```text
+New independent task or milestone: separate Codex thread.
 Initial discovery and plan: NON_AUTONOMOUS.
 After user accepts the plan: BOUNDED_AUTONOMOUS only for the approved milestone.
 Production-impacting actions: NON_AUTONOMOUS.
 Merge to main: NON_AUTONOMOUS and requires explicit user approval.
 ```
+
+The previous thread remains unarchived as historical context, but becomes inactive after handoff. If a new independent task continues in the previous thread, record `PROCESS_ERROR_THREAD_REUSE` and stop implementation until the task is moved to a correct thread.
 
 For the first milestone, the recommended mode is:
 
@@ -151,6 +157,10 @@ See also: `docs/codex/milestone-planning-policy.md`.
 Every goal prompt should include:
 
 ```md
+Thread:
+- New independent task/milestone uses a separate Codex thread.
+- Previous task thread remains unarchived but inactive after handoff.
+
 Execution mode:
 - Discovery and plan: NON_AUTONOMOUS.
 - Implementation after accepted plan: BOUNDED_AUTONOMOUS within the approved scope.
@@ -172,6 +182,8 @@ Stop-and-ask triggers: [specific triggers]
 The final report must state:
 
 - which autonomy mode was used;
+- whether the correct task thread was used;
+- whether any `PROCESS_ERROR_THREAD_REUSE` occurred;
 - whether the scope stayed inside the accepted boundary;
 - whether any stop-and-ask trigger occurred;
 - whether any production-impacting command was avoided;

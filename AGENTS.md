@@ -55,6 +55,9 @@ Cloud gaming session tests must:
 
 - Old chat context is advisory only.
 - Repository docs and code are the source of truth.
+- Every new independent task or milestone in autonomous work must start in a separate Codex thread.
+- The previous task thread must remain unarchived, but becomes inactive after handoff.
+- Continuing implementation for a new independent task in the previous task thread is a process error. Record it in `active-run.md` and `session-log.md`, then stop implementation and hand off to a new thread.
 - For every new independent task, re-read:
   1. `AGENTS.md`
   2. `docs/context/handoff/active-run.md`

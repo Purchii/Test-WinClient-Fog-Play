@@ -5,6 +5,9 @@
 - `main` is protected trunk.
 - Do not work directly on `main` for backlog tasks.
 - Every bounded goal uses a dedicated task branch.
+- Every new independent autonomous task or milestone uses a separate Codex thread.
+- The previous task thread remains unarchived but inactive after handoff.
+- If a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE` before doing more implementation.
 - Branch must be atomic but useful: one rollback-sized backlog slice.
 - Work with remote Git by default when it does not reduce quality or safety.
 - Fetch/pull before starting a task branch.

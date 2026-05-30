@@ -3,6 +3,10 @@
 Before implementation:
 
 - [ ] `git status --short` checked.
+- [ ] Correct task thread confirmed.
+- [ ] New independent task/milestone has its own Codex thread.
+- [ ] Previous task thread is left unarchived but inactive.
+- [ ] No `PROCESS_ERROR_THREAD_REUSE` remains unresolved.
 - [ ] Not working directly on main, unless explicitly allowed.
 - [ ] Task branch created/proposed.
 - [ ] AGENTS.md read.
