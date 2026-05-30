@@ -39,6 +39,8 @@ The `BinaryFixturePlaceholderSafety` quality gate fails if binary-like files und
 
 The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags.
 
+The `QaDocsPowerShellInvocationSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs do not use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` as the documented local PowerShell invocation shape.
+
 The `ActiveSafetyScopeInventorySafety` quality gate fails if any `*Safety` scope from `quality-gate.ps1` is missing from active handoff/current-state visibility.
 
 The `ScriptsReadmeScopeSafety` quality gate fails if any `quality-gate.ps1 -Scope` value is missing from this script command inventory.

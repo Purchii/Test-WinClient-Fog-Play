@@ -37,7 +37,7 @@ Safety defaults:
 Runner:
 
 ```text
-scripts/run-backend-smoke.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-backend-smoke.ps1 -DryRun
 ```
 
 Known limitation:

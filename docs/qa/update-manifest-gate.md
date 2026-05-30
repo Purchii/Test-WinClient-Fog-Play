@@ -32,7 +32,7 @@ Safety defaults:
 Runner:
 
 ```text
-scripts/run-update-manifest-gate.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-update-manifest-gate.ps1 -DryRun
 ```
 
 Known limitation:

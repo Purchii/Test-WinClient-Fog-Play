@@ -38,6 +38,6 @@ Verification:
 
 ```powershell
 .\src\TestFramework\NonProdFoundation\NonProdFoundation.Tests.ps1
-.\scripts\run-nonprod-foundation.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-nonprod-foundation.ps1 -DryRun
 .\scripts\quality-gate.ps1 -Scope NonProdFoundation
 ```

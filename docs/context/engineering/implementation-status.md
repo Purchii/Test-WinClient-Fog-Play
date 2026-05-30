@@ -549,6 +549,41 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - QA docs PowerShell invocation safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/backend-smoke.md`
+- `docs/qa/game-session-canary.md`
+- `docs/qa/nonprod-foundation.md`
+- `docs/qa/testability-gaps.md`
+- `docs/qa/update-manifest-gate.md`
+- `docs/qa/webview-bridge-contract.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `QaDocsPowerShellInvocationSafety` quality gate scope;
+- command-looking `run-*.ps1` examples in active `docs/qa/*.md` files must use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...`;
+- active QA docs keep the existing `-DryRun` contract from `QaDocsCommandSafety` while documenting the safer PowerShell invocation shape;
+- `QaDocsPowerShellInvocationSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Active safety scope inventory gate
 
 Status: local static quality gate implemented and verified locally.

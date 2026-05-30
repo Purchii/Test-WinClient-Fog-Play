@@ -25,7 +25,7 @@ Implemented checks:
 Runner:
 
 ```text
-scripts/run-testability-gaps.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-testability-gaps.ps1 -DryRun
 ```
 
 Known limitation:

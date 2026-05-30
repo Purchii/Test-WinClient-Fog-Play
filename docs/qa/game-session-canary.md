@@ -42,7 +42,7 @@ Safety defaults:
 Runner:
 
 ```text
-scripts/run-game-session-canary.ps1 -DryRun -AllowProdConditional -CleanupVerified
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-game-session-canary.ps1 -DryRun -AllowProdConditional -CleanupVerified
 ```
 
 Known limitation:

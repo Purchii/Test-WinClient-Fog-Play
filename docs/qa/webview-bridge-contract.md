@@ -38,7 +38,7 @@ Safety defaults:
 Runner:
 
 ```text
-scripts/run-webview-bridge-contract.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-webview-bridge-contract.ps1 -DryRun
 ```
 
 Post-M6 guard hardening added `BridgeContract` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.

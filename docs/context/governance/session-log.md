@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - QA docs PowerShell invocation safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.
+
+Branch: `codex/qa-docs-powershell-invocation-safety-gate`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This task used the delegated new task thread and a dedicated task branch.
+
+Scope:
+
+- Add local `QaDocsPowerShellInvocationSafety` quality gate.
+- Statically require command-looking active QA doc `run-*.ps1` examples to use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...`.
+- Update active QA docs to use the safe local PowerShell invocation shape while preserving `-DryRun`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Unsafe fixture coverage safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.
