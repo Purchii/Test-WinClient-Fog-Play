@@ -1,0 +1,30 @@
+{
+  "dryRunOnly": false,
+  "executionDisabled": false,
+  "clientLaunchDisabled": false,
+  "networkDisabled": false,
+  "authDisabled": false,
+  "runtimePaths": [
+    "C:\\Users\\someone\\AppData\\Local\\MTC Fog Play\\logs\\app.log"
+  ],
+  "tests": [
+    {
+      "name": "unsafe-game-session-canary",
+      "classification": "PROD_SAFE",
+      "suites": [
+        "prod-canary"
+      ],
+      "requiresSyntheticUserAlias": "qa-canary-stream-001",
+      "targetRegion": "eu-west",
+      "targetGame": "real-production-game",
+      "startsGameSession": true,
+      "mutatesState": true,
+      "requiresCleanupVerification": false,
+      "maxSessionDurationSeconds": 600,
+      "maxRetries": 2,
+      "expectedReadinessSignals": [
+        "stream-ready"
+      ]
+    }
+  ]
+}

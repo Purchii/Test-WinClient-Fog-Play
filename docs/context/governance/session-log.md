@@ -62,6 +62,28 @@ Production safety:
 - No production backend interaction.
 - No game session started.
 - No user AppData logs, cookies or DB files read.
+
+## 2026-05-30 - M5 Minimal game-session canary readiness gate
+
+Mode: `NON_AUTONOMOUS` discovery/status sync, then `BOUNDED_AUTONOMOUS` after user accepted continuing in this dedicated M5 thread.
+
+Branch: `codex/m5-game-session-canary`
+
+Scope:
+
+- Implement local game-session canary readiness validation.
+- Keep the runner dry-run only.
+- Validate canary metadata, resource budget, synthetic user, allowlisted game and cleanup/readiness requirements.
+- Do not execute a real game session.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold

@@ -19,10 +19,11 @@ M1: Release artifact + privacy/logging gates - implemented, hardened and merged 
 M2: App launch + WebView smoke - static/dry-run scaffold implemented and merged to main.
 Thread lifecycle governance correction: implemented and merged to main.
 M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemented and merged to main.
-M4: Safe backend smoke - local/dry-run scaffold in progress on codex/m4-backend-smoke.
+M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
+M5: Minimal game-session canary readiness gate - dry-run plan validator in progress on codex/m5-game-session-canary.
 ```
 
-Do not start real game-session automation before the guard layer is hardened and a separate NON_AUTONOMOUS game-session canary plan is approved.
+Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
 
 Repository bootstrap state:
 
@@ -33,6 +34,7 @@ Repository bootstrap state:
 - M1 implementation was completed on `codex/release-privacy-gates` and merged to `main`.
 - M2 implementation was completed on `codex/app-webview-smoke` and merged to `main`.
 - M3 implementation was completed on `codex/m3-webview-bridge-contract` and merged to `main`.
+- M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
@@ -42,4 +44,6 @@ Current artifact status:
 - Release/privacy gate implementation exists.
 - App/WebView smoke scaffold exists as static/dry-run only.
 - WebView/native bridge contract scaffold exists as local/dry-run only.
+- Backend smoke scaffold exists as local/dry-run only.
+- Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

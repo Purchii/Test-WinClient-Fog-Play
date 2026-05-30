@@ -1,58 +1,55 @@
 # Active run
 
-Status: M4 safe backend smoke implementation in progress.
+Status: M5 minimal game-session canary readiness gate in progress.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for accepted M4 local backend smoke dry-run scope.
+Execution mode: `BOUNDED_AUTONOMOUS` for accepted M5 dry-run readiness validator scope.
 
-Current milestone: M4 Safe backend smoke.
+Current milestone: M5 Minimal game-session canary readiness gate.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = implement local backend endpoint contract checks and fake response dry-run scaffold.
+Current work = implement local game-session canary readiness plan validation only.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/m4-backend-smoke
+codex/m5-game-session-canary
 ```
 
 Current goal:
 
 ```text
-Implement M4 local backend smoke checks without real backend network calls, auth, credentials or state mutation.
+Implement a local dry-run validator for future game-session canary readiness without launching the client, authenticating, calling production backend or starting a game session.
 ```
 
 Thread creation status:
 
 ```text
-Incomplete M3 thread attempt: 019e7902-70cb-7f31-8487-907e53f1fc45, inactive/orphan because AppServerManager was unavailable and the thread could not receive messages or title updates.
-Successful M3 thread retry: 019e7907-e739-7213-a690-125ea2fbafeb.
-Worktree fallback is reserved for a second normal create_thread failure or a task that needs isolated branch/workspace state immediately.
+M5 is running in a dedicated new task thread after the prior create_thread worktree retry issue.
+Previous M4 thread is handoff/planning history only and must not continue M5 implementation.
 ```
 
 Allowed now:
 
-- `docs/qa/backend-smoke.md`;
-- `src/TestFramework/BackendSmoke/**`;
-- `scripts/run-backend-smoke.ps1`;
+- `docs/qa/game-session-canary.md`;
+- `src/TestFramework/GameSessionCanary/**`;
+- `scripts/run-game-session-canary.ps1`;
 - `scripts/quality-gate.ps1`;
-- `testdata/backend-smoke*.json`;
-- M4 context/handoff/verification docs.
+- `testdata/game-session-canary*.json`;
+- M5 context/handoff/verification docs.
 
 Forbidden now:
 
-- client launch;
+- installed client launch;
 - WebView debug/CDP port;
 - authentication;
-- game session;
-- production backend interaction;
-- real backend network calls;
+- real game session execution;
+- production backend or streaming network interaction;
 - credentials, secrets, bearer tokens, cookies or session headers;
-- state-mutating backend methods;
 - reading user AppData, cookies, local DB, logs or crash dumps;
 - update/rollback flows;
 - CI/CD enablement;
@@ -65,16 +62,18 @@ Stop-and-ask triggers:
 - any need to start `rds-client.exe`;
 - any need for credentials or synthetic login;
 - any need for WebView debug port;
-- any need for real backend URL or network calls;
+- any need for real backend URL, streaming URL or network calls;
 - any need for auth headers, cookies, tokens or secrets;
-- any need for state-mutating backend requests;
 - any need to read user runtime files;
+- any need to execute or stop a real game session;
 - any production-impacting action;
-- scope expansion beyond local M4 backend smoke dry-run.
+- scope expansion beyond local M5 dry-run readiness validation.
 
 Verification plan:
 
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\GameSessionCanary\GameSessionCanary.Tests.ps1`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BackendSmoke`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`;
 - `git status --short --branch`.

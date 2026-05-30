@@ -156,7 +156,7 @@ Current process error:
 
 ## M3 - WebView/native bridge contract + fake native host
 
-Status: in progress on `codex/m3-webview-bridge-contract`.
+Status: local/dry-run scaffold implemented and merged to `main`.
 
 Implemented outputs:
 
@@ -190,7 +190,7 @@ Not implemented:
 
 ## M4 - Safe backend smoke
 
-Status: in progress on `codex/m4-backend-smoke`.
+Status: local/dry-run scaffold implemented and merged to `main`.
 
 Implemented outputs:
 
@@ -222,3 +222,39 @@ Not implemented:
 - catalog freshness checks against production;
 - state-mutating backend tests;
 - game-session tests.
+
+## M5 - Minimal game-session canary readiness gate
+
+Status: in progress on `codex/m5-game-session-canary`.
+
+Implemented outputs:
+
+- `src/TestFramework/GameSessionCanary/GameSessionCanary.psm1`
+- `src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1`
+- `scripts/run-game-session-canary.ps1`
+- `testdata/game-session-canary.example.json`
+- `testdata/game-session-canary-unsafe.example.json`
+- `docs/qa/game-session-canary.md`
+
+Implemented checks:
+
+- dry-run-only policy;
+- real execution, client launch, network and auth disablement;
+- runtime user path rejection;
+- exactly one `PROD_CONDITIONAL` canary test;
+- allowlisted synthetic user via ProdGuard;
+- allowlisted region and game via resource budget and allowed-games config;
+- max session duration within budget;
+- cleanup verification requirement;
+- retry rejection;
+- readiness signal requirements for `stream-ready` and `first-frame`.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- runtime stream readiness or first-frame detection;
+- reading user AppData, logs, cookies, DBs or dumps.

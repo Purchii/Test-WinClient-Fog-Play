@@ -8,6 +8,9 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope Release
 .\scripts\quality-gate.ps1 -Scope Privacy
 .\scripts\quality-gate.ps1 -Scope AppSmoke
+.\scripts\quality-gate.ps1 -Scope BridgeContract
+.\scripts\quality-gate.ps1 -Scope BackendSmoke
+.\scripts\quality-gate.ps1 -Scope GameSessionCanary
 .\scripts\quality-gate.ps1 -Scope Full
 ```
 

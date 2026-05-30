@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -363,6 +363,77 @@ function Invoke-BackendSmokeGate {
     Write-Host 'BackendSmoke gate passed.'
 }
 
+function Invoke-GameSessionCanaryGate {
+    $required = @(
+        'docs/qa/game-session-canary.md',
+        'src/TestFramework/GameSessionCanary/GameSessionCanary.psm1',
+        'src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1',
+        'scripts/run-game-session-canary.ps1',
+        'testdata/game-session-canary.example.json',
+        'testdata/game-session-canary-unsafe.example.json',
+        'testdata/allowed-games.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1')
+
+    $gameSessionCanary = Join-Path $repoRoot 'scripts/run-game-session-canary.ps1'
+    $missingFlagRejected = $false
+    try {
+        & $gameSessionCanary `
+            -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `
+            -DryRun `
+            -CleanupVerified | Out-Null
+    }
+    catch {
+        $missingFlagRejected = $true
+    }
+    if (-not $missingFlagRejected) {
+        throw 'Game-session canary runner must reject PROD_CONDITIONAL runs without -AllowProdConditional.'
+    }
+
+    $result = Invoke-JsonGate {
+        & $gameSessionCanary `
+            -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `
+            -DryRun `
+            -AllowProdConditional `
+            -CleanupVerified
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'Game-session canary readiness fixture should pass.'
+    }
+    if ($result.processStarted -ne $false -or $result.networkCallAttempted -ne $false -or $result.authAttempted -ne $false -or $result.gameSessionStarted -ne $false -or $result.cleanupAttempted -ne $false -or $result.readRuntimeUserData -ne $false) {
+        throw 'Game-session canary dry-run must report no process/network/auth/game/cleanup/runtime-data activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $gameSessionCanary `
+            -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json') `
+            -DryRun `
+            -AllowProdConditional `
+            -CleanupVerified `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'execution-not-disabled'
+    Assert-FindingId -Result $negative -Id 'client-launch-not-disabled'
+    Assert-FindingId -Result $negative -Id 'network-not-disabled'
+    Assert-FindingId -Result $negative -Id 'auth-not-disabled'
+    Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+    Assert-FindingId -Result $negative -Id 'non-prod-conditional-canary'
+    Assert-FindingId -Result $negative -Id 'cleanup-not-required'
+    Assert-FindingId -Result $negative -Id 'duration-exceeds-budget'
+    Assert-FindingId -Result $negative -Id 'game-not-allowlisted'
+    Assert-FindingId -Result $negative -Id 'uncontrolled-retries'
+    Assert-FindingId -Result $negative -Id 'missing-readiness-signals'
+
+    Write-Host 'GameSessionCanary gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -389,4 +460,8 @@ if ($Scope -in @('BridgeContract', 'Full')) {
 
 if ($Scope -in @('BackendSmoke', 'Full')) {
     Invoke-BackendSmokeGate
+}
+
+if ($Scope -in @('GameSessionCanary', 'Full')) {
+    Invoke-GameSessionCanaryGate
 }

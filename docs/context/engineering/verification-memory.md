@@ -175,6 +175,43 @@ Safety notes:
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - M5 Minimal game-session canary readiness gate
+
+Branch: `codex/m5-game-session-canary`
+Status: passed
+Production impact: dry-run/local readiness validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\GameSessionCanary\GameSessionCanary.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- GameSessionCanary unit tests passed.
+- GameSessionCanary quality gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ProdSafety, Release, Privacy, AppSmoke, BridgeContract, BackendSmoke and GameSessionCanary.
+- GameSessionCanary quality gate verifies `PROD_CONDITIONAL` rejection without explicit `-AllowProdConditional`.
+- Unsafe M5 fixture reports fail findings for non-dry-run policy, real execution/client/network/auth enablement, runtime user path, wrong classification, missing cleanup, oversized duration, non-allowlisted game, retries and missing first-frame readiness signal.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Installed client launch because M5 is a dry-run readiness validator only.
+- WebView debug/CDP because it is forbidden in M5.
+- Authentication or real synthetic login because credentials/auth are forbidden in M5.
+- Production backend or streaming network calls because M5 is local/offline only.
+- Real game-session start/stop and cleanup because M5 does not execute sessions.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - M4 Safe backend smoke
 
 Branch: `codex/m4-backend-smoke`
