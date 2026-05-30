@@ -205,6 +205,36 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Allowed games fixture safety gate
+
+Branch: `codex/allowed-games-safety-gate`
+Status: passed
+Production impact: none; static local fixture/policy validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AllowedGamesSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- AllowedGamesSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including AllowedGamesSafety, ResourceBudgetSafety, ProdSafety, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Real backend/network checks because this is static fixture validation only.
+- Game-session start/stop because M5 remains dry-run/readiness only.
+- Authentication or real synthetic login because credentials/auth are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Resource budget fixture safety gate
 
 Branch: `codex/resource-budget-safety-gate`

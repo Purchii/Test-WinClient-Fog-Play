@@ -29,6 +29,8 @@ The `TestDataSafety` quality gate fails if risky fixture content is added outsid
 
 The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, or grants game-session permission outside bounded canary aliases.
 
+The `AllowedGamesSafety` quality gate fails if the allowed-games fixture stops being alias-only, gains real game metadata, or allows purposes outside the production canary plan.
+
 The `ResourceBudgetSafety` quality gate fails if the production resource budget stops being single-session, short-duration, cleanup-gated, explicitly conditional, or tied to production canary game aliases.
 
 The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.

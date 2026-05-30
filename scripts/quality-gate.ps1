@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'ResourceBudgetSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -436,6 +436,92 @@ function Invoke-SyntheticUsersSafetyGate {
     }
 
     Write-Host 'SyntheticUsersSafety gate passed.'
+}
+
+function Invoke-AllowedGamesSafetyGate {
+    $allowedGamesPath = Join-Path $repoRoot 'testdata/allowed-games.example.json'
+    $canaryPolicyPath = Join-Path $repoRoot 'docs/qa/game-session-canary.md'
+    Assert-PathExists 'testdata/allowed-games.example.json'
+    Assert-PathExists 'docs/qa/game-session-canary.md'
+
+    $policy = Get-Content -LiteralPath $canaryPolicyPath -Raw
+    foreach ($requiredPolicyPhrase in @('target game is allowlisted', 'allowed-games.example.json')) {
+        if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
+            throw "Game-session canary policy must document allowed-games usage: $requiredPolicyPhrase"
+        }
+    }
+
+    $text = Get-Content -LiteralPath $allowedGamesPath -Raw
+    $data = $text | ConvertFrom-Json
+    if ($null -eq $data.allowedGames) {
+        throw "Allowed games fixture must contain a top-level 'allowedGames' array."
+    }
+
+    $forbiddenPropertyPattern = '(?i)(password|passwd|secret|token|cookie|credential|auth|authorization|url|endpoint|title|name)'
+    $forbiddenValuePatterns = @(
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\[^''"`\s]+' },
+        @{ Id = 'runtime-user-data-path'; Pattern = '(?i)(AppData|Cookies|Local Storage|IndexedDB|\.db|\\logs\\|/logs/)' },
+        @{ Id = 'url'; Pattern = 'https?://[^\s''"`<>)]+' },
+        @{ Id = 'bearer-token'; Pattern = '(?i)Bearer\s+[A-Za-z0-9._~+\/=-]+' }
+    )
+    foreach ($record in (Get-JsonPropertyRecords -Value $data -Path '$')) {
+        if ($record.Name -match $forbiddenPropertyPattern) {
+            throw "Allowed games fixture contains forbidden property '$($record.Name)' at $($record.Path)."
+        }
+        if ($record.Value -is [string]) {
+            foreach ($pattern in $forbiddenValuePatterns) {
+                if ($record.Value -match $pattern.Pattern) {
+                    throw "Allowed games fixture contains forbidden value pattern '$($pattern.Id)' at $($record.Path)."
+                }
+            }
+        }
+    }
+
+    $allowedGameProperties = @('alias', 'environment', 'allowedFor')
+    $allowedEnvironments = @('local', 'staging', 'production')
+    $allowedPurposes = @('prod_conditional_stream_canary')
+    $aliases = @{}
+    $games = @($data.allowedGames)
+    if ($games.Count -eq 0) {
+        throw 'Allowed games fixture must contain at least one game alias.'
+    }
+
+    foreach ($game in $games) {
+        foreach ($property in $game.PSObject.Properties) {
+            if ($allowedGameProperties -notcontains $property.Name) {
+                throw "Allowed game '$($game.alias)' contains unsupported property '$($property.Name)'."
+            }
+        }
+
+        $alias = [string]$game.alias
+        if ($alias -notmatch '^qa-[a-z0-9-]+-\d+$') {
+            throw "Allowed game alias must be a non-production qa-* alias with a numeric suffix: $alias"
+        }
+        if ($aliases.ContainsKey($alias)) {
+            throw "Allowed game alias is duplicated: $alias"
+        }
+        $aliases[$alias] = $true
+
+        $environment = [string]$game.environment
+        if ($allowedEnvironments -notcontains $environment) {
+            throw "Allowed game '$alias' has unsupported environment '$environment'."
+        }
+        if ($environment -eq 'production' -and $alias -notmatch '^qa-') {
+            throw "Production allowed game must be a QA alias: $alias"
+        }
+
+        $allowedFor = @($game.allowedFor)
+        if ($allowedFor.Count -eq 0) {
+            throw "Allowed game '$alias' must declare allowedFor."
+        }
+        foreach ($purpose in $allowedFor) {
+            if ($allowedPurposes -notcontains [string]$purpose) {
+                throw "Allowed game '$alias' has unsupported allowedFor purpose '$purpose'."
+            }
+        }
+    }
+
+    Write-Host 'AllowedGamesSafety gate passed.'
 }
 
 function Invoke-ResourceBudgetSafetyGate {
@@ -1453,6 +1539,10 @@ if ($Scope -in @('TestDataSafety', 'Full')) {
 
 if ($Scope -in @('SyntheticUsersSafety', 'Full')) {
     Invoke-SyntheticUsersSafetyGate
+}
+
+if ($Scope -in @('AllowedGamesSafety', 'Full')) {
+    Invoke-AllowedGamesSafetyGate
 }
 
 if ($Scope -in @('ResourceBudgetSafety', 'Full')) {

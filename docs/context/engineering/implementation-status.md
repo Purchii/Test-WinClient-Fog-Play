@@ -657,3 +657,34 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Allowed games fixture safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/game-session-canary.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `AllowedGamesSafety` quality gate scope;
+- `testdata/allowed-games.example.json` must contain a top-level `allowedGames` allowlist;
+- allowed game entries must stay alias-only and avoid real titles, endpoints, credentials or runtime user paths;
+- game aliases must use the non-production `qa-*` format with numeric suffixes;
+- environments and `allowedFor` purposes must remain within the documented safe set;
+- duplicate game aliases are rejected;
+- `AllowedGamesSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

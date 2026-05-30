@@ -27,6 +27,8 @@ Implemented checks:
 - policy does not request user runtime paths, logs, cookies, DBs or dumps;
 - policy test metadata passes ProdGuard only with explicit `-AllowProdConditional` and `-CleanupVerified`.
 
+The allowed-games fixture is intentionally alias-only. It must not contain real game titles, production endpoints, credentials or user runtime paths.
+
 Safety defaults:
 
 - no installed client process is launched;
