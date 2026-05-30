@@ -457,6 +457,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Synthetic users fixture safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/synthetic-users-safety-gate`
+
+Scope:
+
+- Add a local `SyntheticUsersSafety` quality gate.
+- Validate that `testdata/synthetic-users.example.json` remains alias-only and contains no credential-like fields or values.
+- Keep game-session permission limited to bounded canary aliases.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 Production safety:
 
 - No client launch.

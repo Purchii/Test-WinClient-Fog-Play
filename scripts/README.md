@@ -27,6 +27,8 @@ The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, s
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
 
+The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, or grants game-session permission outside bounded canary aliases.
+
 The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.

@@ -175,6 +175,36 @@ Safety notes:
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Synthetic users fixture safety gate
+
+Branch: `codex/synthetic-users-safety-gate`
+Status: passed
+Production impact: none; static local fixture/policy validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- SyntheticUsersSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including RunnerSafety, TestDataSafety, SyntheticUsersSafety, ProdSafety, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Authentication or real synthetic login because credentials/auth are forbidden.
+- Real backend/network checks because this is static fixture validation only.
+- Game-session start/stop because M5 remains dry-run/readiness only.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Post-M6 script inventory guard
 
 Branch: `codex/scripts-inventory-guard`

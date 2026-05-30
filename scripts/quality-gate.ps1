@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -280,6 +280,162 @@ function Invoke-TestDataSafetyGate {
     }
 
     Write-Host 'TestDataSafety gate passed.'
+}
+
+function Get-JsonPropertyRecords {
+    param(
+        [AllowNull()]
+        [object] $Value,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Path
+    )
+
+    $records = @()
+    if ($null -eq $Value) {
+        return $records
+    }
+
+    if ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string] -and $Value -isnot [pscustomobject]) {
+        $index = 0
+        foreach ($item in $Value) {
+            $records += @(Get-JsonPropertyRecords -Value $item -Path "$Path[$index]")
+            $index += 1
+        }
+        return $records
+    }
+
+    if ($Value -is [pscustomobject]) {
+        foreach ($property in $Value.PSObject.Properties) {
+            $propertyPath = "$Path.$($property.Name)"
+            $records += [pscustomobject]@{
+                Name = $property.Name
+                Path = $propertyPath
+                Value = $property.Value
+            }
+            $records += @(Get-JsonPropertyRecords -Value $property.Value -Path $propertyPath)
+        }
+    }
+
+    return $records
+}
+
+function Invoke-SyntheticUsersSafetyGate {
+    $policyPath = Join-Path $repoRoot 'docs/qa/synthetic-users-policy.md'
+    $fixturePath = Join-Path $repoRoot 'testdata/synthetic-users.example.json'
+    Assert-PathExists 'docs/qa/synthetic-users-policy.md'
+    Assert-PathExists 'testdata/synthetic-users.example.json'
+
+    $policy = Get-Content -LiteralPath $policyPath -Raw
+    foreach ($requiredPolicyPhrase in @('allowlisted synthetic accounts', 'hardcoded credentials', 'tokens/passwords')) {
+        if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
+            throw "Synthetic users policy must document: $requiredPolicyPhrase"
+        }
+    }
+
+    $text = Get-Content -LiteralPath $fixturePath -Raw
+    $data = $text | ConvertFrom-Json
+    if ($null -eq $data.syntheticUsers) {
+        throw "Synthetic users fixture must contain a top-level 'syntheticUsers' array."
+    }
+
+    $forbiddenPropertyPattern = '(?i)(password|passwd|secret|token|cookie|credential|auth|authorization|email|phone|username|login)'
+    $forbiddenValuePatterns = @(
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\[^''"`\s]+' },
+        @{ Id = 'runtime-user-data-path'; Pattern = '(?i)(AppData|Cookies|Local Storage|IndexedDB|\.db|\\logs\\|/logs/)' },
+        @{ Id = 'url'; Pattern = 'https?://[^\s''"`<>)]+' },
+        @{ Id = 'email'; Pattern = '(?i)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}' },
+        @{ Id = 'bearer-token'; Pattern = '(?i)Bearer\s+[A-Za-z0-9._~+\/=-]+' }
+    )
+    $allowedUserProperties = @(
+        'alias',
+        'purpose',
+        'allowedEnvironments',
+        'canStartGameSession',
+        'maxSessionDurationSeconds'
+    )
+    $allowedEnvironments = @('local', 'staging', 'production')
+    $allowedPurposes = @(
+        'prod_safe_login_logout',
+        'prod_conditional_stream_canary'
+    )
+
+    foreach ($record in (Get-JsonPropertyRecords -Value $data -Path '$')) {
+        if ($record.Name -match $forbiddenPropertyPattern) {
+            throw "Synthetic users fixture contains forbidden property '$($record.Name)' at $($record.Path)."
+        }
+        if ($record.Value -is [string]) {
+            foreach ($pattern in $forbiddenValuePatterns) {
+                if ($record.Value -match $pattern.Pattern) {
+                    throw "Synthetic users fixture contains forbidden value pattern '$($pattern.Id)' at $($record.Path)."
+                }
+            }
+        }
+    }
+
+    $users = @($data.syntheticUsers)
+    if ($users.Count -eq 0) {
+        throw 'Synthetic users fixture must contain at least one allowlisted user alias.'
+    }
+
+    $aliases = @{}
+    foreach ($user in $users) {
+        foreach ($property in $user.PSObject.Properties) {
+            if ($allowedUserProperties -notcontains $property.Name) {
+                throw "Synthetic user '$($user.alias)' contains unsupported property '$($property.Name)'."
+            }
+        }
+
+        $alias = [string]$user.alias
+        if ($alias -notmatch '^qa-[a-z0-9-]+-\d{3}$') {
+            throw "Synthetic user alias must be a non-secret qa-* alias with a numeric suffix: $alias"
+        }
+        if ($aliases.ContainsKey($alias)) {
+            throw "Synthetic user alias is duplicated: $alias"
+        }
+        $aliases[$alias] = $true
+
+        $purpose = [string]$user.purpose
+        if ($allowedPurposes -notcontains $purpose) {
+            throw "Synthetic user '$alias' has unsupported purpose '$purpose'."
+        }
+
+        $envs = @($user.allowedEnvironments)
+        if ($envs.Count -eq 0) {
+            throw "Synthetic user '$alias' must declare allowedEnvironments."
+        }
+        foreach ($env in $envs) {
+            if ($allowedEnvironments -notcontains [string]$env) {
+                throw "Synthetic user '$alias' has unsupported environment '$env'."
+            }
+        }
+        if (-not ($envs -contains 'production')) {
+            throw "Synthetic user '$alias' must explicitly declare production if it is in the production allowlist fixture."
+        }
+
+        if ($user.canStartGameSession -isnot [bool]) {
+            throw "Synthetic user '$alias' must explicitly set canStartGameSession as a boolean."
+        }
+
+        if ($user.canStartGameSession -eq $true) {
+            if ($alias -notmatch '^qa-canary-') {
+                throw "Only qa-canary-* aliases may set canStartGameSession=true: $alias"
+            }
+            if ($purpose -ne 'prod_conditional_stream_canary') {
+                throw "Synthetic user '$alias' can start game sessions only for prod_conditional_stream_canary."
+            }
+
+            $maxSessionDurationSeconds = [int]$user.maxSessionDurationSeconds
+            if ($maxSessionDurationSeconds -lt 1 -or $maxSessionDurationSeconds -gt 120) {
+                throw "Synthetic user '$alias' game-session duration must be between 1 and 120 seconds."
+            }
+        }
+        elseif ($purpose -eq 'prod_safe_login_logout' -and $user.canStartGameSession -ne $false) {
+            throw "Synthetic user '$alias' for prod_safe_login_logout must not be able to start game sessions."
+        }
+    }
+
+    Write-Host 'SyntheticUsersSafety gate passed.'
 }
 
 function Invoke-ProdMatrixSafetyGate {
@@ -1182,6 +1338,10 @@ if ($Scope -in @('RunnerSafety', 'Full')) {
 
 if ($Scope -in @('TestDataSafety', 'Full')) {
     Invoke-TestDataSafetyGate
+}
+
+if ($Scope -in @('SyntheticUsersSafety', 'Full')) {
+    Invoke-SyntheticUsersSafetyGate
 }
 
 if ($Scope -in @('ProdMatrixSafety', 'Full')) {

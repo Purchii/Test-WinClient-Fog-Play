@@ -594,3 +594,34 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Synthetic users fixture safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/synthetic-users-policy.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `SyntheticUsersSafety` quality gate scope;
+- `testdata/synthetic-users.example.json` must contain a top-level `syntheticUsers` allowlist;
+- synthetic users must stay alias-only and avoid credential-like properties or values;
+- aliases must use the non-secret `qa-*` format with numeric suffixes;
+- allowed environments and purposes must stay within the documented safe set;
+- game-session permission is limited to `qa-canary-*` aliases with `prod_conditional_stream_canary` purpose and a maximum duration of 120 seconds;
+- `SyntheticUsersSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
