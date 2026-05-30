@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ScriptsInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through RepositoryRootInventorySafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 RepositoryRootInventorySafety static gate is complete.
 Post-M6 update manifest hardening is complete.
 Post-M6 testability gaps registry is complete.
 Post-M6 script inventory guard hardening is complete.
@@ -62,6 +63,8 @@ Current result:
 
 ```text
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
+
+RepositoryRootInventorySafety adds `Full` coverage for the repository-root file and directory inventory.
 
 Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
 
@@ -163,6 +166,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptsInventorySafety`;

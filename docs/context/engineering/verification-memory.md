@@ -24,6 +24,34 @@ Safety notes:
 - No unsafe test enabled.
 ```
 
+## 2026-05-30 - Repository root inventory safety gate
+
+Branch: `codex/repository-root-inventory-safety-gate`
+Status: passed
+Production impact: none; static local repository-root inventory validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- RepositoryRootInventorySafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including RepositoryRootInventorySafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates repository-root inventory only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Fixture inventory safety gate
 
 Branch: `codex/fixture-inventory-safety-gate`

@@ -86,6 +86,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 RepositoryRootInventorySafety static gate
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/repository-root-inventory-safety-gate`
+
+Scope:
+
+- Add `RepositoryRootInventorySafety` quality gate scope.
+- Statically check repository-root prompt, policy and workspace directory inventory.
+- Include `RepositoryRootInventorySafety` in `Full`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 FixtureInventorySafety static gate
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.

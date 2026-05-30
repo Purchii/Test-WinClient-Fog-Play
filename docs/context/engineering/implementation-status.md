@@ -337,6 +337,35 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Repository root inventory safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `RepositoryRootInventorySafety` quality gate scope;
+- repository root must keep the expected prompt, policy and workspace directory inventory;
+- adding, removing or renaming top-level files/directories now requires updating the gate inventory;
+- `RepositoryRootInventorySafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Script inventory guard
 
 Status: local documentation/quality gate hardening implemented and verified locally.

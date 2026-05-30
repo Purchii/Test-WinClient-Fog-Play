@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -108,6 +108,40 @@ function Invoke-ContextGate {
     Write-Host 'Context gate passed.'
 }
 
+function Invoke-RepositoryRootInventorySafetyGate {
+    $expectedRootItems = @(
+        'AGENTS.md',
+        'CODEX_AUTONOMY_MODES_INTEGRATION.md',
+        'CODEX_FINAL_TZ_WINCLIENT_QA_AUTOMATION.md',
+        'CODEX_FIRST_GOAL_PROMPT.md',
+        'CODEX_NEW_THREAD_BOUNDED_AUTONOMOUS_PROMPT.md',
+        'CODEX_START_INSTRUCTION.md',
+        'README_CODEX_START.md',
+        'docs',
+        'scripts',
+        'src',
+        'testdata'
+    )
+    $ignoredRootItems = @(
+        '.git'
+    )
+    $actualRootItems = @(Get-ChildItem -LiteralPath $repoRoot -Force | Where-Object {
+            $ignoredRootItems -notcontains $_.Name
+        } | ForEach-Object { $_.Name } | Sort-Object)
+    foreach ($item in $expectedRootItems) {
+        if ($actualRootItems -notcontains $item) {
+            throw "Repository root is missing required item: $item"
+        }
+    }
+    foreach ($item in $actualRootItems) {
+        if ($expectedRootItems -notcontains $item) {
+            throw "Repository root contains undocumented item: $item"
+        }
+    }
+
+    Write-Host 'RepositoryRootInventorySafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -150,7 +184,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +195,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ScriptsInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ScriptsInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through RepositoryRootInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through RepositoryRootInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3244,6 +3278,10 @@ function Invoke-TestabilityGapsGate {
 
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
+}
+
+if ($Scope -in @('RepositoryRootInventorySafety', 'Full')) {
+    Invoke-RepositoryRootInventorySafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {
