@@ -205,6 +205,33 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Full scope dispatch guard
+
+Branch: `codex/full-scope-dispatch-guard`
+Status: passed
+Production impact: none; static local quality-gate inventory validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- Context quality gate passed with Full dispatch inventory validation.
+- Full quality gate passed.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Runtime execution because this is static quality-gate inventory validation only.
+- Client launch, auth, backend calls or game sessions because they remain forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Active run safety gate
 
 Branch: `codex/active-run-safety-gate`

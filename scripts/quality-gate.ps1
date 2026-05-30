@@ -64,6 +64,16 @@ function Assert-QualityGateDocsInventory {
             throw "docs/context/engineering/quality-gates.md does not list quality gate scope: $scopeName"
         }
     }
+
+    $dispatchLines = @($script -split "`r?`n" | Where-Object { $_ -match 'if\s*\(\s*\$Scope\s+-in\s+@\(' })
+    foreach ($scopeName in @($scopes | Where-Object { $_ -ne 'Full' })) {
+        $dispatchLine = @($dispatchLines | Where-Object {
+                $_ -match "'$([regex]::Escape($scopeName))'" -and $_ -match "'Full'"
+            })
+        if ($dispatchLine.Count -ne 1) {
+            throw "quality-gate.ps1 must include scope '$scopeName' exactly once in a Full dispatch block."
+        }
+    }
 }
 
 function Invoke-ContextGate {

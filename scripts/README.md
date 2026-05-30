@@ -23,6 +23,8 @@ Use `powershell -NoProfile -ExecutionPolicy Bypass -File ...` on machines where 
 
 The `Context` quality gate fails if this inventory stops listing any `scripts/*.ps1` runner.
 
+The `Context` quality gate also fails if any `quality-gate.ps1 -Scope` value is documented but not wired into the `Full` dispatch.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.

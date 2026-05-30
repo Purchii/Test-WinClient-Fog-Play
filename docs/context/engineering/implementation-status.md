@@ -753,3 +753,28 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Full scope dispatch guard
+
+Status: local static quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- `Context` now verifies that every `quality-gate.ps1 -Scope` value except `Full` is wired into exactly one `Full` dispatch block;
+- new quality gate scopes cannot be documented but accidentally omitted from complete local verification.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

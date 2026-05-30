@@ -478,6 +478,26 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Full scope dispatch guard
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/full-scope-dispatch-guard`
+
+Scope:
+
+- Extend `Context` quality gate to verify every scope except `Full` is included in a `Full` dispatch block.
+- Document the guard in quality-gate and script inventories.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Active run safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
