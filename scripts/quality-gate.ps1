@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through HandoffProtocolSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through FrameworkInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through FrameworkInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -741,6 +741,66 @@ function Invoke-HandoffProtocolSafetyGate {
     }
 
     Write-Host 'HandoffProtocolSafety gate passed.'
+}
+
+function Invoke-FrameworkInventorySafetyGate {
+    $frameworkRoot = Join-Path $repoRoot 'src/TestFramework'
+    Assert-PathExists 'src/TestFramework'
+
+    $expectedModules = @(
+        'BackendSmoke',
+        'GameSessionCanary',
+        'NonProdFoundation',
+        'ProdSafety',
+        'TestabilityGaps',
+        'UpdateManifest',
+        'WebViewBridge',
+        'WindowsSmoke'
+    )
+
+    $actualModules = @(Get-ChildItem -LiteralPath $frameworkRoot -Directory | ForEach-Object { $_.Name } | Sort-Object)
+    foreach ($moduleName in $expectedModules) {
+        if ($actualModules -notcontains $moduleName) {
+            throw "src/TestFramework must contain module directory: $moduleName"
+        }
+        Assert-PathExists "src/TestFramework/$moduleName/$moduleName.psm1"
+        Assert-PathExists "src/TestFramework/$moduleName/$moduleName.Tests.ps1"
+    }
+    foreach ($moduleName in $actualModules) {
+        if ($expectedModules -notcontains $moduleName) {
+            throw "src/TestFramework contains undocumented module directory: $moduleName"
+        }
+    }
+
+    $moduleContracts = @(
+        @{ Module = 'BackendSmoke'; Runner = 'run-backend-smoke.ps1'; Doc = 'backend-smoke.md'; Fixtures = @('backend-smoke.example.json', 'backend-smoke-unsafe.example.json') },
+        @{ Module = 'GameSessionCanary'; Runner = 'run-game-session-canary.ps1'; Doc = 'game-session-canary.md'; Fixtures = @('game-session-canary.example.json', 'game-session-canary-unsafe.example.json') },
+        @{ Module = 'NonProdFoundation'; Runner = 'run-nonprod-foundation.ps1'; Doc = 'nonprod-foundation.md'; Fixtures = @('nonprod-foundation.example.json', 'nonprod-foundation-unsafe.example.json') },
+        @{ Module = 'TestabilityGaps'; Runner = 'run-testability-gaps.ps1'; Doc = 'testability-gaps.md'; Fixtures = @('testability-gaps.example.json', 'testability-gaps-unsafe.example.json') },
+        @{ Module = 'UpdateManifest'; Runner = 'run-update-manifest-gate.ps1'; Doc = 'update-manifest-gate.md'; Fixtures = @('update-manifest.example.json', 'update-manifest-unsafe.example.json') },
+        @{ Module = 'WebViewBridge'; Runner = 'run-webview-bridge-contract.ps1'; Doc = 'webview-bridge-contract.md'; Fixtures = @('webview-bridge-contract.example.json', 'webview-bridge-contract-unsafe.example.json') },
+        @{ Module = 'WindowsSmoke'; Runner = 'run-app-webview-smoke.ps1'; Doc = 'app-webview-smoke.md'; Fixtures = @('app-webview-smoke.example.json', 'app-webview-smoke-unsafe-policy.example.json') }
+    )
+
+    foreach ($contract in $moduleContracts) {
+        Assert-PathExists "scripts/$($contract.Runner)"
+        Assert-PathExists "docs/qa/$($contract.Doc)"
+        foreach ($fixture in $contract.Fixtures) {
+            Assert-PathExists "testdata/$fixture"
+        }
+    }
+
+    foreach ($runner in @('run-prod-safe-smoke.ps1', 'run-prod-canary.ps1')) {
+        Assert-PathExists "scripts/$runner"
+    }
+    foreach ($doc in @('prod-testing-policy.md', 'release-gates.md', 'privacy-and-logging-checks.md')) {
+        Assert-PathExists "docs/qa/$doc"
+    }
+    foreach ($fixture in @('prod-safety-tests.example.json', 'release-gate-policy.example.json', 'privacy-patterns.example.json')) {
+        Assert-PathExists "testdata/$fixture"
+    }
+
+    Write-Host 'FrameworkInventorySafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2831,6 +2891,10 @@ if ($Scope -in @('QaStrategySafety', 'Full')) {
 
 if ($Scope -in @('HandoffProtocolSafety', 'Full')) {
     Invoke-HandoffProtocolSafetyGate
+}
+
+if ($Scope -in @('FrameworkInventorySafety', 'Full')) {
+    Invoke-FrameworkInventorySafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

@@ -14,6 +14,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope CodexTemplateSafety
 .\scripts\quality-gate.ps1 -Scope QaStrategySafety
 .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety
+.\scripts\quality-gate.ps1 -Scope FrameworkInventorySafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -67,6 +68,8 @@ The `CodexTemplateSafety` scope statically checks Codex review/task/communicatio
 The `QaStrategySafety` scope statically checks QA strategy, testability contract and flakiness policy docs so layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking and retry/session-budget rules remain explicit.
 
 The `HandoffProtocolSafety` scope statically checks context protocol and Git workflow docs so source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules remain explicit.
+
+The `FrameworkInventorySafety` scope statically checks `src/TestFramework`, runners, QA docs and fixture paths so implemented modules keep matching tests, local runners, documentation and example/unsafe fixtures.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 

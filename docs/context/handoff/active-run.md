@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through FrameworkInventorySafety.
 
 Planning boundary:
 
@@ -35,6 +35,7 @@ Post-M6 TaskRequestSafety static gate is complete.
 Post-M6 CodexTemplateSafety static gate is complete.
 Post-M6 QaStrategySafety static gate is complete.
 Post-M6 HandoffProtocolSafety static gate is complete.
+Post-M6 FrameworkInventorySafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -92,6 +93,8 @@ QaStrategySafety adds `Full` coverage for QA strategy/testability/flakiness drif
 
 HandoffProtocolSafety adds `Full` coverage for context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
 
+FrameworkInventorySafety adds `Full` coverage for TestFramework module inventory, matching tests, local runners, QA docs and example/unsafe fixtures.
+
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
 QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory and core safety phrases.
@@ -147,4 +150,5 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexTemplateSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaStrategySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FrameworkInventorySafety`;
 - `git diff --check`.

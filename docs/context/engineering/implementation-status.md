@@ -1027,6 +1027,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Framework inventory safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `FrameworkInventorySafety` quality gate scope;
+- every expected `src/TestFramework` module must keep a matching `.psm1` and `.Tests.ps1`;
+- implemented framework modules must keep corresponding local runner scripts, QA docs and example/unsafe fixtures;
+- production safety/release/privacy support paths must keep their runner, QA doc and fixture anchors;
+- `FrameworkInventorySafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Full scope dispatch guard
 
 Status: local static quality gate hardening implemented and verified locally.

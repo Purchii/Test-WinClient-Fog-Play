@@ -45,6 +45,8 @@ The `QaStrategySafety` quality gate fails if QA strategy, testability contract o
 
 The `HandoffProtocolSafety` quality gate fails if context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification or main-merge approval rules.
 
+The `FrameworkInventorySafety` quality gate fails if implemented TestFramework modules lose matching tests, local runners, QA docs or example/unsafe fixtures.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.
