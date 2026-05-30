@@ -214,7 +214,7 @@ Commands:
 
 Results:
 - RunnerSafety gate passed.
-- Static checks verify runner `-DryRun` exposure, missing `-DryRun` rejection, dangerous `Allow*` guard coverage and absence of forbidden runtime/network primitives.
+- Static checks verify runner `-DryRun` exposure, missing `-DryRun` rejection, dangerous `Allow*` guard coverage and absence of forbidden runtime/network primitives across `scripts/*.ps1` and TestFramework files.
 
 Not run:
 - Installed client launch because this hardening is static quality gate only.

@@ -22,4 +22,4 @@ Initial scopes may be skeleton/dry-run, but the names and expected behavior shou
 
 The `Context` scope also verifies that every `scripts/*.ps1` runner is listed in `scripts/README.md`, so newly added runners cannot silently drift out of the documented local-safe command inventory.
 
-The `RunnerSafety` scope statically checks `scripts/run-*.ps1` and `src/TestFramework` for production-safety drift: every runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.
+The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.

@@ -79,15 +79,18 @@ function Invoke-RunnerSafetyGate {
     $allowedNonBlockingAllowSwitches = @(
         'AllowProdConditional'
     )
-    $forbiddenRuntimeTokens = @(
+    $forbiddenRuntimeCommands = @(
         'Start-Process',
         'Invoke-WebRequest',
         'Invoke-RestMethod',
-        'System.Net.Http.HttpClient',
-        'WebClient',
         'curl.exe',
-        'iwr ',
-        'irm '
+        'iwr',
+        'irm'
+    )
+    $forbiddenRuntimeTypePatterns = @(
+        'System\.Net\.Http\.HttpClient',
+        'Net\.WebClient',
+        'System\.Net\.WebRequest'
     )
     $forbiddenRuntimePatterns = @(
         '(?i)C:\\Users\\[^''"`\s]+\\AppData',
@@ -121,12 +124,6 @@ function Invoke-RunnerSafetyGate {
             }
         }
 
-        foreach ($token in $forbiddenRuntimeTokens) {
-            if ($text -match [regex]::Escape($token)) {
-                throw "$relative contains forbidden runtime/network primitive: $token"
-            }
-        }
-
         foreach ($pattern in $forbiddenRuntimePatterns) {
             if ($text -match $pattern) {
                 throw "$relative contains forbidden runtime user-data path pattern: $pattern"
@@ -134,13 +131,32 @@ function Invoke-RunnerSafetyGate {
         }
     }
 
-    $frameworkFiles = Get-ChildItem -LiteralPath (Join-Path $repoRoot 'src/TestFramework') -Recurse -Include '*.psm1', '*.ps1' -File
-    foreach ($file in $frameworkFiles) {
+    $staticSafetyFiles = @(
+        Get-ChildItem -LiteralPath (Join-Path $repoRoot 'scripts') -Filter '*.ps1' -File
+        Get-ChildItem -LiteralPath (Join-Path $repoRoot 'src/TestFramework') -Recurse -File |
+            Where-Object { $_.Extension -in @('.ps1', '.psm1') }
+    )
+    foreach ($file in $staticSafetyFiles) {
         $relative = $file.FullName.Substring($repoRoot.Length + 1) -replace '\\', '/'
         $text = Get-Content -LiteralPath $file.FullName -Raw
-        foreach ($token in $forbiddenRuntimeTokens) {
-            if ($text -match [regex]::Escape($token)) {
-                throw "$relative contains forbidden runtime/network primitive: $token"
+        $tokens = $null
+        $parseErrors = $null
+        $ast = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
+        if (@($parseErrors).Count -gt 0) {
+            throw "$relative could not be parsed for runner safety checks."
+        }
+
+        $commands = $ast.FindAll({ param($node) $node -is [System.Management.Automation.Language.CommandAst] }, $true)
+        foreach ($command in $commands) {
+            $commandName = $command.GetCommandName()
+            if ($null -ne $commandName -and $forbiddenRuntimeCommands -contains $commandName) {
+                throw "$relative contains forbidden runtime/network command: $commandName"
+            }
+        }
+
+        foreach ($pattern in $forbiddenRuntimeTypePatterns) {
+            if ($text -match $pattern) {
+                throw "$relative contains forbidden runtime/network type pattern: $pattern"
             }
         }
     }
