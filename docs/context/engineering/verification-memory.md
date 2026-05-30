@@ -213,6 +213,41 @@ Safety notes:
 - No user AppData logs, cookies, DB or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - M6 Future non-prod foundation
+
+Branch: `codex/m6-nonprod-foundation`
+Status: passed
+Production impact: dry-run/local schema validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\NonProdFoundation\NonProdFoundation.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- NonProdFoundation unit tests passed.
+- NonProdFoundation quality gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ProdSafety, Release, Privacy, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary and NonProdFoundation.
+- `git diff --check` passed with line-ending warnings only.
+- Unsafe fixture reports fail findings for non-dry-run policy, execution/client/debug/network/auth/runtime-data/CI enablement, runtime paths, production endpoints, non-`NON_PROD_ONLY` classification, execution-enabled components, production use, credential requirement, state mutation, game-session start, missing contract schema and unsafe references.
+
+Not run:
+- Fake/replay server runtime because M6 is local schema validation only.
+- Network shaping because M6 forbids runtime execution.
+- Hardware probing because M6 is local schema validation only.
+- Client launch, auth and game sessions because they are forbidden in M6.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - M4 Safe backend smoke
 
 Branch: `codex/m4-backend-smoke`

@@ -259,3 +259,42 @@ Not implemented:
 - real game-session start/stop;
 - runtime stream readiness or first-frame detection;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## M6 - Future non-prod/fake/replay/network/hardware foundation
+
+Status: in progress on `codex/m6-nonprod-foundation`.
+
+Implemented outputs:
+
+- `src/TestFramework/NonProdFoundation/NonProdFoundation.psm1`
+- `src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1`
+- `scripts/run-nonprod-foundation.ps1`
+- `testdata/nonprod-foundation.example.json`
+- `testdata/nonprod-foundation-unsafe.example.json`
+- `docs/qa/nonprod-foundation.md`
+
+Implemented checks:
+
+- dry-run-only policy;
+- direct validator and runner require the dry-run flag;
+- execution, client launch, WebView debug/CDP, network calls, auth, runtime data reads and CI/CD enablement are disabled;
+- runtime user paths and production endpoints are rejected;
+- future components must be `NON_PROD_ONLY`;
+- future components must be schema/config placeholders only;
+- fake/replay/network/hardware/update-rollback lab execution is disabled;
+- production use, credentials, state mutation and game-session start are rejected;
+- local contract schemas are required.
+
+Not implemented:
+
+- fake backend/signaling runtime;
+- replay server runtime;
+- network shaping;
+- hardware or decoder probing;
+- update rollback execution;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

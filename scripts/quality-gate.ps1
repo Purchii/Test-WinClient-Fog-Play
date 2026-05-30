@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -434,6 +434,77 @@ function Invoke-GameSessionCanaryGate {
     Write-Host 'GameSessionCanary gate passed.'
 }
 
+function Invoke-NonProdFoundationGate {
+    $required = @(
+        'docs/qa/nonprod-foundation.md',
+        'src/TestFramework/NonProdFoundation/NonProdFoundation.psm1',
+        'src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1',
+        'scripts/run-nonprod-foundation.ps1',
+        'testdata/nonprod-foundation.example.json',
+        'testdata/nonprod-foundation-unsafe.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1')
+
+    $nonProdFoundation = Join-Path $repoRoot 'scripts/run-nonprod-foundation.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $nonProdFoundation `
+            -PlanPath (Join-Path $repoRoot 'testdata/nonprod-foundation.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'Non-prod foundation runner must reject calls without -DryRun.'
+    }
+
+    $result = Invoke-JsonGate {
+        & $nonProdFoundation `
+            -PlanPath (Join-Path $repoRoot 'testdata/nonprod-foundation.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'Non-prod foundation fixture should pass.'
+    }
+    if ($result.processStarted -ne $false -or $result.debugPortUsed -ne $false -or $result.networkCallAttempted -ne $false -or $result.authAttempted -ne $false -or $result.gameSessionStarted -ne $false -or $result.readRuntimeUserData -ne $false -or $result.ciCdEnabled -ne $false -or $result.dependencyChanged -ne $false) {
+        throw 'Non-prod foundation dry-run must report no process/debug/network/auth/game/runtime-data/CI/dependency activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $nonProdFoundation `
+            -PlanPath (Join-Path $repoRoot 'testdata/nonprod-foundation-unsafe.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'execution-not-disabled'
+    Assert-FindingId -Result $negative -Id 'network-not-disabled'
+    Assert-FindingId -Result $negative -Id 'client-launch-not-disabled'
+    Assert-FindingId -Result $negative -Id 'webview-debug-not-disabled'
+    Assert-FindingId -Result $negative -Id 'auth-not-disabled'
+    Assert-FindingId -Result $negative -Id 'runtime-data-read-not-disabled'
+    Assert-FindingId -Result $negative -Id 'cicd-not-disabled'
+    Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+    Assert-FindingId -Result $negative -Id 'production-endpoint-defined'
+    Assert-FindingId -Result $negative -Id 'non-nonprod-classification'
+    Assert-FindingId -Result $negative -Id 'component-not-schema-only'
+    Assert-FindingId -Result $negative -Id 'component-execution-enabled'
+    Assert-FindingId -Result $negative -Id 'component-uses-production'
+    Assert-FindingId -Result $negative -Id 'component-requires-credentials'
+    Assert-FindingId -Result $negative -Id 'component-mutates-state'
+    Assert-FindingId -Result $negative -Id 'component-starts-game-session'
+    Assert-FindingId -Result $negative -Id 'missing-contract-schema'
+    Assert-FindingId -Result $negative -Id 'unsafe-component-reference'
+
+    Write-Host 'NonProdFoundation gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -464,4 +535,8 @@ if ($Scope -in @('BackendSmoke', 'Full')) {
 
 if ($Scope -in @('GameSessionCanary', 'Full')) {
     Invoke-GameSessionCanaryGate
+}
+
+if ($Scope -in @('NonProdFoundation', 'Full')) {
+    Invoke-NonProdFoundationGate
 }

@@ -21,6 +21,7 @@ Thread lifecycle governance correction: implemented and merged to main.
 M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemented and merged to main.
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
+M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator in progress on codex/m6-nonprod-foundation.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -47,4 +48,5 @@ Current artifact status:
 - WebView/native bridge contract scaffold exists as local/dry-run only.
 - Backend smoke scaffold exists as local/dry-run only.
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
+- Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

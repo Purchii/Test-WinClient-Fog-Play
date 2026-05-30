@@ -1,0 +1,43 @@
+{
+  "dryRunOnly": false,
+  "executionDisabled": false,
+  "clientLaunchDisabled": false,
+  "webViewDebugDisabled": false,
+  "networkCallsDisabled": false,
+  "authDisabled": false,
+  "runtimeDataReadsDisabled": false,
+  "ciCdDisabled": false,
+  "runtimePaths": [
+    "C:\\Users\\qa\\AppData\\Local\\MTC Fog Play\\logs\\client.log"
+  ],
+  "productionEndpoints": [
+    "https://prod.example.invalid/api"
+  ],
+  "tests": [
+    {
+      "name": "unsafe-nonprod-foundation",
+      "classification": "NON_PROD_ONLY",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "components": [
+    {
+      "name": "unsafe-fake-backend",
+      "type": "fake-backend",
+      "classification": "PROD_SAFE",
+      "schemaOnly": false,
+      "executionEnabled": true,
+      "usesProduction": true,
+      "requiresCredentials": true,
+      "mutatesState": true,
+      "startsGameSession": true,
+      "forbiddenReferences": [
+        "Authorization: Bearer test-token",
+        "C:\\Users\\qa\\AppData\\Local\\MTC Fog Play\\Cookies"
+      ],
+      "contractSchema": null
+    }
+  ]
+}

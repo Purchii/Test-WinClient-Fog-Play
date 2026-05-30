@@ -1,0 +1,200 @@
+{
+  "dryRunOnly": true,
+  "executionDisabled": true,
+  "clientLaunchDisabled": true,
+  "webViewDebugDisabled": true,
+  "networkCallsDisabled": true,
+  "authDisabled": true,
+  "runtimeDataReadsDisabled": true,
+  "ciCdDisabled": true,
+  "runtimePaths": [],
+  "productionEndpoints": [],
+  "tests": [
+    {
+      "name": "nonprod-fake-backend-contract-foundation",
+      "classification": "NON_PROD_ONLY",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "nonprod-replay-network-hardware-contract-foundation",
+      "classification": "NON_PROD_ONLY",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "components": [
+    {
+      "name": "fake-backend-contract",
+      "type": "fake-backend",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "route",
+          "method",
+          "mockResponse"
+        ],
+        "properties": {
+          "route": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "mockResponse": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "name": "fake-signaling-contract",
+      "type": "fake-signaling",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "messageType",
+          "payloadSchema"
+        ],
+        "properties": {
+          "messageType": {
+            "type": "string"
+          },
+          "payloadSchema": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "name": "signaling-replay-contract",
+      "type": "replay-server",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "fixtureId",
+          "events"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    {
+      "name": "network-profile-contract",
+      "type": "network-shaper",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "latencyMs",
+          "packetLossPercent"
+        ],
+        "properties": {
+          "latencyMs": {
+            "type": "integer"
+          },
+          "packetLossPercent": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    {
+      "name": "hardware-decoder-matrix-contract",
+      "type": "hardware-matrix",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "gpuVendor",
+          "codec",
+          "decoderMode"
+        ],
+        "properties": {
+          "gpuVendor": {
+            "type": "string"
+          },
+          "codec": {
+            "type": "string"
+          },
+          "decoderMode": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "update-rollback-lab-contract",
+      "type": "update-rollback-lab",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "packageFixture",
+          "rollbackExpected"
+        ],
+        "properties": {
+          "packageFixture": {
+            "type": "string"
+          },
+          "rollbackExpected": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  ]
+}

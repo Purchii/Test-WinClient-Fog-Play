@@ -90,6 +90,30 @@ Closeout:
 - User explicitly allowed push to the primary branch.
 - `codex/m5-game-session-canary` was fast-forward merged to `main`.
 - `origin/main` was updated to `33a5611`.
+
+## 2026-05-30 - M6 Future non-prod foundation
+
+Mode: `NON_AUTONOMOUS` discovery/status sync in a dedicated M6 thread, then `BOUNDED_AUTONOMOUS` local-only implementation after user granted autonomous continuation and push to `main`.
+
+Branch: `codex/m6-nonprod-foundation`
+
+Scope:
+
+- Implement local schema/config validation for future fake, replay, network and hardware foundation.
+- Keep all checks dry-run only.
+- Keep future components `NON_PROD_ONLY`.
+- Do not execute fake/replay/network/hardware systems.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No network shaping.
+- No hardware probing.
+- No user AppData, logs, cookies, DB or dumps read.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold

@@ -11,6 +11,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope BridgeContract
 .\scripts\quality-gate.ps1 -Scope BackendSmoke
 .\scripts\quality-gate.ps1 -Scope GameSessionCanary
+.\scripts\quality-gate.ps1 -Scope NonProdFoundation
 .\scripts\quality-gate.ps1 -Scope Full
 ```
 
