@@ -997,6 +997,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Handoff protocol safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `HandoffProtocolSafety` quality gate scope;
+- context protocol must preserve source-of-truth read order, docs/code authority and `git log` latest-commit guidance;
+- context protocol must preserve thread isolation, `create_thread` retry, worktree fallback, inactive previous-thread and `PROCESS_ERROR_THREAD_REUSE` rules;
+- Git workflow must preserve protected main, branch-per-task, local verification, no-force-push and explicit main-merge approval rules;
+- `HandoffProtocolSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Full scope dispatch guard
 
 Status: local static quality gate hardening implemented and verified locally.

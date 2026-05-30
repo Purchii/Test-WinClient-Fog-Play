@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Handoff protocol safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/handoff-protocol-safety-gate`
+
+Scope:
+
+- Add local `HandoffProtocolSafety` quality gate.
+- Validate context protocol keeps source-of-truth ordering, latest-commit and thread lifecycle rules.
+- Validate Git workflow keeps branch, local verification, protected main and explicit merge approval rules.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - QA strategy safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

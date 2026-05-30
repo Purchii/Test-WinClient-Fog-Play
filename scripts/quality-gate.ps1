@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QaStrategySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through QaStrategySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through HandoffProtocolSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -667,6 +667,80 @@ function Invoke-QaStrategySafetyGate {
     }
 
     Write-Host 'QaStrategySafety gate passed.'
+}
+
+function Invoke-HandoffProtocolSafetyGate {
+    $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
+    $gitWorkflowPath = Join-Path $repoRoot 'docs/context/engineering/git-workflow.md'
+    Assert-PathExists 'docs/context/handoff/context-protocol.md'
+    Assert-PathExists 'docs/context/engineering/git-workflow.md'
+
+    $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
+    $gitWorkflow = Get-Content -LiteralPath $gitWorkflowPath -Raw
+
+    foreach ($requiredSource in @(
+            'AGENTS.md',
+            'docs/context/handoff/active-run.md',
+            'docs/context/current-state.md',
+            'docs/context/handoff/context-protocol.md',
+            'docs/context/handoff/executor-policy.md',
+            'docs/context/handoff/executor-checklist.md',
+            'docs/context/engineering/git-workflow.md',
+            'docs/context/engineering/implementation-status.md',
+            'docs/context/engineering/verification-memory.md',
+            'docs/context/governance/decisions-log.md',
+            'docs/context/governance/session-log.md',
+            'docs/codex/autonomy-modes.md',
+            'docs/qa/prod-testing-policy.md',
+            'docs/qa/prod-safe-test-matrix.md'
+        )) {
+        if ($contextProtocol -notmatch [regex]::Escape($requiredSource)) {
+            throw "context-protocol.md must keep source-of-truth entry: $requiredSource"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Old chat context is advisory only',
+            'Repository docs and code are source of truth',
+            'Use `git log --oneline --decorate -1` as the authoritative latest commit source',
+            'Do not record a literal latest pushed commit in `active-run.md`',
+            'A new independent task or milestone in autonomous work requires a separate Codex thread',
+            '`create_thread` is the priority mechanism for starting a new independent task',
+            'record that attempt as inactive/orphan and retry `create_thread` once',
+            'After the second normal `create_thread` failure, create the task thread with a Codex worktree',
+            'The previous task thread is not archived automatically',
+            'PROCESS_ERROR_THREAD_REUSE',
+            'If execution mode is not declared, use `NON_AUTONOMOUS`',
+            'If the current milestone plan is not recorded or not accepted, Codex must stop and ask before changing files'
+        )) {
+        if ($contextProtocol -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "context-protocol.md must preserve protocol phrase: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            '`main` is protected trunk',
+            'Do not work directly on `main` for backlog tasks',
+            'Every bounded goal uses a dedicated task branch',
+            'Every new independent autonomous task or milestone uses a separate Codex thread',
+            'Use `create_thread` first for new independent tasks',
+            'retry `create_thread` once',
+            'Codex worktree fallback after the second failure',
+            'PROCESS_ERROR_THREAD_REUSE',
+            'Fetch/pull before starting a task branch',
+            'Do not let remote workflow replace local verification',
+            'Do not mix unrelated changes',
+            'Do not force-push to main',
+            'Do not merge to main without explicit user approval',
+            'Merge to main always requires NON_AUTONOMOUS explicit user approval',
+            'Orchestrator commits after verification only when explicit user approval or an accepted project policy allows it'
+        )) {
+        if ($gitWorkflow -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "git-workflow.md must preserve workflow phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'HandoffProtocolSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2753,6 +2827,10 @@ if ($Scope -in @('CodexTemplateSafety', 'Full')) {
 
 if ($Scope -in @('QaStrategySafety', 'Full')) {
     Invoke-QaStrategySafetyGate
+}
+
+if ($Scope -in @('HandoffProtocolSafety', 'Full')) {
+    Invoke-HandoffProtocolSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {
