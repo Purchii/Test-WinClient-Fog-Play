@@ -205,6 +205,37 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Contract fixture safety gate
+
+Branch: `codex/contract-fixture-safety-gate`
+Status: passed
+Production impact: none; static local backend/update/bridge fixture validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ContractFixtureSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ContractFixtureSafety gate passed.
+- Context quality gate passed.
+- ActiveRunSafety gate passed.
+- Full quality gate passed, including ContractFixtureSafety, ArtifactPolicySafety, QaDocsSafety, IncidentStopSafety, ActiveRunSafety, BackendSmoke, UpdateManifest and BridgeContract.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Backend network calls, updater execution or WebView runtime checks because this gate validates local fixtures only.
+- Client launch, auth or game sessions because they remain forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Artifact policy safety gate
 
 Branch: `codex/artifact-policy-safety-gate`

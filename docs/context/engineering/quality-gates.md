@@ -8,6 +8,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
+.\scripts\quality-gate.ps1 -Scope ContractFixtureSafety
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety
@@ -44,6 +45,8 @@ The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.m
 The `QaDocsSafety` scope statically checks the `docs/qa/*.md` policy inventory and core safety phrases so QA policy docs cannot be added, removed or weakened silently.
 
 The `ArtifactPolicySafety` scope statically checks release and privacy policy fixtures so required files, forbidden extensions, sanitized finding ids, privacy patterns and bounded scan limits cannot drift silently.
+
+The `ContractFixtureSafety` scope statically checks backend, update manifest and WebView bridge fixtures so dry-run flags, local paths, read-only endpoint contracts, package integrity metadata and bridge safety vocabulary cannot drift silently.
 
 The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.
 

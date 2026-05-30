@@ -33,6 +33,8 @@ The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inve
 
 The `ArtifactPolicySafety` quality gate fails if release/privacy policy fixtures lose required files, forbidden extensions, finding ids, privacy patterns or bounded scan limits.
 
+The `ContractFixtureSafety` quality gate fails if backend, update manifest or WebView bridge fixtures lose dry-run flags, read-only/local-only constraints, package integrity metadata or bridge safety vocabulary.
+
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.

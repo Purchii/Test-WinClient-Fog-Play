@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -437,6 +437,114 @@ function Invoke-ArtifactPolicySafetyGate {
     }
 
     Write-Host 'ArtifactPolicySafety gate passed.'
+}
+
+function Invoke-ContractFixtureSafetyGate {
+    $backendPath = Join-Path $repoRoot 'testdata/backend-smoke.example.json'
+    $updatePath = Join-Path $repoRoot 'testdata/update-manifest.example.json'
+    $bridgePath = Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json'
+    Assert-PathExists 'testdata/backend-smoke.example.json'
+    Assert-PathExists 'testdata/update-manifest.example.json'
+    Assert-PathExists 'testdata/webview-bridge-contract.example.json'
+    Assert-PathExists 'docs/qa/backend-smoke.md'
+    Assert-PathExists 'docs/qa/update-manifest-gate.md'
+    Assert-PathExists 'docs/qa/webview-bridge-contract.md'
+
+    $backend = Get-Content -LiteralPath $backendPath -Raw | ConvertFrom-Json
+    $update = Get-Content -LiteralPath $updatePath -Raw | ConvertFrom-Json
+    $bridge = Get-Content -LiteralPath $bridgePath -Raw | ConvertFrom-Json
+
+    if ($backend.dryRunOnly -ne $true -or $backend.networkDisabled -ne $true) {
+        throw 'backend-smoke.example.json must stay dry-run only with network disabled.'
+    }
+    if (@($backend.headers).Count -ne 0) {
+        throw 'backend-smoke.example.json must not define headers.'
+    }
+    if (@($backend.runtimePaths).Count -ne 0) {
+        throw 'backend-smoke.example.json must not define runtime paths.'
+    }
+    foreach ($endpoint in @($backend.endpoints)) {
+        if ($endpoint.method -ne 'GET') {
+            throw "Backend endpoint '$($endpoint.name)' must stay GET-only."
+        }
+        if ($endpoint.classification -ne 'PROD_SAFE' -or $endpoint.requiresAuth -ne $false -or $endpoint.mutatesState -ne $false) {
+            throw "Backend endpoint '$($endpoint.name)' must stay PROD_SAFE, auth-free and read-only."
+        }
+        if ([string]$endpoint.path -match '(?i)(userId|session|token|secret|password|auth|cookie)') {
+            throw "Backend endpoint '$($endpoint.name)' path contains forbidden production/user-data terms."
+        }
+        if ($null -eq $endpoint.responseSchema -or $null -eq $endpoint.mockResponse) {
+            throw "Backend endpoint '$($endpoint.name)' must define responseSchema and mockResponse."
+        }
+    }
+
+    if ($update.dryRunOnly -ne $true -or $update.networkDisabled -ne $true -or $update.executionDisabled -ne $true -or $update.rollbackDisabled -ne $true -or $update.credentialsDisabled -ne $true) {
+        throw 'update-manifest.example.json must keep dry-run/network/execution/rollback/credential safety flags enabled.'
+    }
+    if (@($update.endpoints).Count -ne 0 -or @($update.commands).Count -ne 0) {
+        throw 'update-manifest.example.json must not define endpoints or commands.'
+    }
+    foreach ($package in @($update.packages)) {
+        if ([string]$package.id -notmatch '^rds-[a-z0-9-]+$') {
+            throw "Update package id must stay stable and local: $($package.id)"
+        }
+        if ([string]$package.version -notmatch '^\d+\.\d+\.\d+([-+][A-Za-z0-9.-]+)?$') {
+            throw "Update package '$($package.id)' must use an explicit semantic-like version."
+        }
+        if ([string]$package.artifactPath -match '^(?i:https?://|[A-Za-z]:\\|\\\\)') {
+            throw "Update package '$($package.id)' artifactPath must stay local relative."
+        }
+        if ([string]$package.sha256 -notmatch '^[a-f0-9]{64}$') {
+            throw "Update package '$($package.id)' must define a 64-character SHA-256 hex digest."
+        }
+        if ([int64]$package.sizeBytes -lt 1) {
+            throw "Update package '$($package.id)' must define positive sizeBytes."
+        }
+        if ($package.signatureRequired -ne $true -or $package.rollbackAllowed -ne $false -or -not [string]::IsNullOrWhiteSpace([string]$package.postInstallCommand)) {
+            throw "Update package '$($package.id)' must require signature, disallow rollback and omit post-install commands."
+        }
+    }
+
+    if ($bridge.dryRunOnly -ne $true -or @($bridge.diagnostics).Count -ne 0 -or @($bridge.runtimePaths).Count -ne 0) {
+        throw 'webview-bridge-contract.example.json must stay dry-run only without diagnostics or runtime paths.'
+    }
+    foreach ($test in @($bridge.tests)) {
+        if ($test.classification -ne 'PROD_SAFE' -or $test.startsGameSession -ne $false -or $test.mutatesState -ne $false -or $test.requiresCleanupVerification -ne $false) {
+            throw "Bridge test '$($test.name)' must stay PROD_SAFE and non-runtime."
+        }
+    }
+    $knownTargets = @()
+    foreach ($command in @($bridge.commands)) {
+        if ($command.direction -ne 'web -> native') {
+            throw "Bridge command '$($command.name)' must keep direction 'web -> native'."
+        }
+        if ($command.productionSafety -notmatch 'PROD_SAFE local contract only' -or $command.loggingPolicy -notmatch 'no secrets') {
+            throw "Bridge command '$($command.name)' must document local PROD_SAFE safety and sanitized logging."
+        }
+        if (@($command.payloadSchema.required) -notcontains 'requestId') {
+            throw "Bridge command '$($command.name)' must require requestId."
+        }
+        $knownTargets += [string]$command.name
+    }
+    foreach ($event in @($bridge.events)) {
+        if ($event.direction -ne 'native -> web') {
+            throw "Bridge event '$($event.name)' must keep direction 'native -> web'."
+        }
+        if ($event.productionSafety -notmatch 'PROD_SAFE local contract only' -or $event.loggingPolicy -notmatch 'no secrets') {
+            throw "Bridge event '$($event.name)' must document local PROD_SAFE safety and sanitized logging."
+        }
+        if (@($event.payloadSchema.required) -notcontains 'requestId') {
+            throw "Bridge event '$($event.name)' must require requestId."
+        }
+        $knownTargets += [string]$event.name
+    }
+    foreach ($case in @($bridge.fakeNativeHostCases)) {
+        if ($knownTargets -notcontains [string]$case.target) {
+            throw "Bridge fake native host case '$($case.name)' targets unknown command/event '$($case.target)'."
+        }
+    }
+
+    Write-Host 'ContractFixtureSafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -2046,6 +2154,10 @@ if ($Scope -in @('QaDocsSafety', 'Full')) {
 
 if ($Scope -in @('ArtifactPolicySafety', 'Full')) {
     Invoke-ArtifactPolicySafetyGate
+}
+
+if ($Scope -in @('ContractFixtureSafety', 'Full')) {
+    Invoke-ContractFixtureSafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {

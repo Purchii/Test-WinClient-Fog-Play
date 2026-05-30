@@ -870,3 +870,35 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Contract fixture safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ContractFixtureSafety` quality gate scope;
+- backend smoke fixture must stay dry-run, network-disabled, header-free and runtime-path-free;
+- backend endpoints must stay `GET`, `PROD_SAFE`, auth-free, read-only and backed by response schemas plus mock responses;
+- update manifest fixture must keep network/execution/rollback/credential safety flags enabled and use local relative package metadata with SHA-256, size, signature and rollback constraints;
+- WebView bridge fixture must stay dry-run without diagnostics/runtime paths and keep commands/events scoped to sanitized local `PROD_SAFE` bridge contracts;
+- fake native host cases must target known bridge commands or events;
+- `ContractFixtureSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
