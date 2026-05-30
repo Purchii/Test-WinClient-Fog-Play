@@ -162,6 +162,28 @@ function Assert-FindingId {
     }
 }
 
+function Assert-CommandRejected {
+    param(
+        [Parameter(Mandatory = $true)]
+        [scriptblock] $Command,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Message
+    )
+
+    $rejected = $false
+    try {
+        & $Command | Out-Null
+    }
+    catch {
+        $rejected = $true
+    }
+
+    if (-not $rejected) {
+        throw $Message
+    }
+}
+
 function Invoke-ReleaseGate {
     $required = @(
         'docs/qa/release-gates.md',
@@ -243,16 +265,21 @@ function Invoke-UpdateManifestGate {
     & (Join-Path $repoRoot 'src/TestFramework/UpdateManifest/UpdateManifest.Tests.ps1')
 
     $updateManifest = Join-Path $repoRoot 'scripts/run-update-manifest-gate.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Update manifest runner must reject calls without -DryRun.' -Command {
         & $updateManifest `
             -PolicyPath (Join-Path $repoRoot 'testdata/update-manifest.example.json') | Out-Null
     }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'Update manifest runner must reject calls without -DryRun.'
+
+    foreach ($flag in @('AllowNetwork', 'AllowExecution', 'AllowRollback', 'AllowCredentials')) {
+        Assert-CommandRejected -Message "Update manifest runner must reject -$flag." -Command {
+            $params = @{
+                PolicyPath = (Join-Path $repoRoot 'testdata/update-manifest.example.json')
+                DryRun = $true
+            }
+            $params[$flag] = $true
+            & $updateManifest `
+                @params | Out-Null
+        }
     }
 
     $result = Invoke-JsonGate {
@@ -599,18 +626,25 @@ function Invoke-GameSessionCanaryGate {
     & (Join-Path $repoRoot 'src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1')
 
     $gameSessionCanary = Join-Path $repoRoot 'scripts/run-game-session-canary.ps1'
-    $missingFlagRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Game-session canary runner must reject PROD_CONDITIONAL runs without -AllowProdConditional.' -Command {
         & $gameSessionCanary `
             -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `
             -DryRun `
             -CleanupVerified | Out-Null
     }
-    catch {
-        $missingFlagRejected = $true
-    }
-    if (-not $missingFlagRejected) {
-        throw 'Game-session canary runner must reject PROD_CONDITIONAL runs without -AllowProdConditional.'
+
+    foreach ($flag in @('AllowClientLaunch', 'AllowNetwork', 'AllowAuth')) {
+        Assert-CommandRejected -Message "Game-session canary runner must reject -$flag." -Command {
+            $params = @{
+                PlanPath = (Join-Path $repoRoot 'testdata/game-session-canary.example.json')
+                DryRun = $true
+                AllowProdConditional = $true
+                CleanupVerified = $true
+            }
+            $params[$flag] = $true
+            & $gameSessionCanary `
+                @params | Out-Null
+        }
     }
 
     $result = Invoke-JsonGate {
@@ -669,16 +703,21 @@ function Invoke-NonProdFoundationGate {
     & (Join-Path $repoRoot 'src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1')
 
     $nonProdFoundation = Join-Path $repoRoot 'scripts/run-nonprod-foundation.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Non-prod foundation runner must reject calls without -DryRun.' -Command {
         & $nonProdFoundation `
             -PlanPath (Join-Path $repoRoot 'testdata/nonprod-foundation.example.json') | Out-Null
     }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'Non-prod foundation runner must reject calls without -DryRun.'
+
+    foreach ($flag in @('AllowExecution', 'AllowNetwork', 'AllowAuth')) {
+        Assert-CommandRejected -Message "Non-prod foundation runner must reject -$flag." -Command {
+            $params = @{
+                PlanPath = (Join-Path $repoRoot 'testdata/nonprod-foundation.example.json')
+                DryRun = $true
+            }
+            $params[$flag] = $true
+            & $nonProdFoundation `
+                @params | Out-Null
+        }
     }
 
     $result = Invoke-JsonGate {
@@ -740,16 +779,21 @@ function Invoke-TestabilityGapsGate {
     & (Join-Path $repoRoot 'src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1')
 
     $testabilityGaps = Join-Path $repoRoot 'scripts/run-testability-gaps.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Testability gaps runner must reject calls without -DryRun.' -Command {
         & $testabilityGaps `
             -PolicyPath (Join-Path $repoRoot 'testdata/testability-gaps.example.json') | Out-Null
     }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'Testability gaps runner must reject calls without -DryRun.'
+
+    foreach ($flag in @('AllowProductionAction', 'AllowCredentials', 'AllowRuntimeUserData')) {
+        Assert-CommandRejected -Message "Testability gaps runner must reject -$flag." -Command {
+            $params = @{
+                PolicyPath = (Join-Path $repoRoot 'testdata/testability-gaps.example.json')
+                DryRun = $true
+            }
+            $params[$flag] = $true
+            & $testabilityGaps `
+                @params | Out-Null
+        }
     }
 
     $result = Invoke-JsonGate {

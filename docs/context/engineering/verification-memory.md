@@ -203,6 +203,40 @@ Safety notes:
 - No user AppData logs, cookies, DBs or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Post-M6 dangerous flag negative coverage
+
+Branch: `codex/danger-flag-negative-coverage`
+Status: passed
+Production impact: none; local quality gate hardening only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UpdateManifest`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestabilityGaps`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- UpdateManifest gate passed and now asserts dangerous update/network/execution/rollback/credential flags are rejected.
+- GameSessionCanary gate passed and now asserts client launch, network and auth flags are rejected.
+- NonProdFoundation gate passed and now asserts execution, network and auth flags are rejected.
+- TestabilityGaps gate passed and now asserts production action, credential and runtime data flags are rejected.
+- Full quality gate passed.
+
+Not run:
+- Installed client launch because this hardening is quality gate only.
+- WebView debug/CDP because it is forbidden.
+- Auth/login/game-session checks because they are forbidden.
+- Production backend or streaming network calls because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DBs or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - Post-M6 runner/validator guard hardening
 
 Branch: `codex/app-bridge-runner-guard`
