@@ -213,6 +213,39 @@ Safety notes:
 - No user AppData logs, cookies, DB or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Post-M6 update manifest gate hardening
+
+Branch: `codex/update-manifest-gate`
+Status: passed
+Production impact: dry-run/local fixture validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\UpdateManifest\UpdateManifest.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UpdateManifest`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- UpdateManifest unit tests passed.
+- UpdateManifest quality gate passed.
+- Full quality gate passed, including UpdateManifest.
+- `git diff --check` passed with line-ending warnings only.
+- Unsafe fixture reports fail findings for non-dry-run policy, network/execution/rollback/credential enablement, endpoint, command, invalid version, unsafe path, invalid SHA-256, invalid size, missing signature requirement, rollback and post-install command.
+
+Not run:
+- Manifest or package downloads because the gate is offline/dry-run only.
+- Updater, installer or rollback execution because it is forbidden.
+- Installed client launch because it is out of scope.
+- Production backend calls because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No updater or rollback process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - M6 Future non-prod foundation
 
 Branch: `codex/m6-nonprod-foundation`

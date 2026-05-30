@@ -1,29 +1,30 @@
 # Active run
 
-Status: M6 future non-prod/fake/replay/network/hardware foundation implemented, verified and merged to `main`.
+Status: Post-M6 update manifest gate hardening in progress.
 
 Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: M6 closeout complete.
+Current milestone: Post-M6 release/update manifest hardening.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Current work = local fixture-based update manifest integrity validation only.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-main
+codex/update-manifest-gate
 ```
 
 Current result:
 
 ```text
-M6 local dry-run validator for future NON_PROD_ONLY fake, replay, network and hardware foundation components is merged to origin/main. Implementation commit: f1abc6a. Closeout commit: c8488be. Latest post-M6 context sync: cf0e64c.
+Local update manifest gate validates fixture policy shape without downloads, updater execution, rollback or credentials.
 ```
 
 Forbidden without a new approved plan:
@@ -59,4 +60,5 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UpdateManifest`;
 - `git diff --check`.

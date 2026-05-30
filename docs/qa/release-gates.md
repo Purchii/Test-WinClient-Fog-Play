@@ -53,9 +53,12 @@ M1.1 hardening added:
 - unreadable text-like artifact fail findings;
 - `quality-gate.ps1` assertions for concrete expected finding ids.
 
-Not implemented yet:
+Update manifest hardening added:
 
-- update manifest integrity validation. This remains a documented gap until updater/package metadata format is available.
+- local fixture-based update manifest integrity validation;
+- SHA-256, size, signature-required and rollback-disabled checks;
+- URL, command and credential rejection;
+- dry-run-only runner in `scripts/run-update-manifest-gate.ps1`.
 
 Known findings from the installed artifact observed on 2026-05-30:
 

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -168,6 +168,72 @@ function Invoke-ReleaseGate {
     }
 
     Write-Host 'Release gate passed.'
+}
+
+function Invoke-UpdateManifestGate {
+    $required = @(
+        'docs/qa/update-manifest-gate.md',
+        'src/TestFramework/UpdateManifest/UpdateManifest.psm1',
+        'src/TestFramework/UpdateManifest/UpdateManifest.Tests.ps1',
+        'scripts/run-update-manifest-gate.ps1',
+        'testdata/update-manifest.example.json',
+        'testdata/update-manifest-unsafe.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/UpdateManifest/UpdateManifest.Tests.ps1')
+
+    $updateManifest = Join-Path $repoRoot 'scripts/run-update-manifest-gate.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $updateManifest `
+            -PolicyPath (Join-Path $repoRoot 'testdata/update-manifest.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'Update manifest runner must reject calls without -DryRun.'
+    }
+
+    $result = Invoke-JsonGate {
+        & $updateManifest `
+            -PolicyPath (Join-Path $repoRoot 'testdata/update-manifest.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'Update manifest fixture should pass.'
+    }
+    if ($result.networkCallAttempted -ne $false -or $result.updaterStarted -ne $false -or $result.rollbackAttempted -ne $false -or $result.credentialsUsed -ne $false) {
+        throw 'Update manifest dry-run must report no network/updater/rollback/credential activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $updateManifest `
+            -PolicyPath (Join-Path $repoRoot 'testdata/update-manifest-unsafe.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'network-not-disabled'
+    Assert-FindingId -Result $negative -Id 'execution-not-disabled'
+    Assert-FindingId -Result $negative -Id 'rollback-not-disabled'
+    Assert-FindingId -Result $negative -Id 'credentials-not-disabled'
+    Assert-FindingId -Result $negative -Id 'unsafe-endpoint'
+    Assert-FindingId -Result $negative -Id 'command-defined'
+    Assert-FindingId -Result $negative -Id 'invalid-version'
+    Assert-FindingId -Result $negative -Id 'unsafe-artifact-path'
+    Assert-FindingId -Result $negative -Id 'invalid-sha256'
+    Assert-FindingId -Result $negative -Id 'invalid-size'
+    Assert-FindingId -Result $negative -Id 'signature-not-required'
+    Assert-FindingId -Result $negative -Id 'rollback-allowed'
+    Assert-FindingId -Result $negative -Id 'post-install-command-defined'
+
+    Write-Host 'UpdateManifest gate passed.'
 }
 
 function Invoke-PrivacyGate {
@@ -515,6 +581,10 @@ if ($Scope -in @('ProdSafety', 'Full')) {
 
 if ($Scope -in @('Release', 'Full')) {
     Invoke-ReleaseGate
+}
+
+if ($Scope -in @('UpdateManifest', 'Full')) {
+    Invoke-UpdateManifestGate
 }
 
 if ($Scope -in @('Privacy', 'Full')) {

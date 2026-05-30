@@ -1,0 +1,31 @@
+{
+  "dryRunOnly": true,
+  "networkDisabled": true,
+  "executionDisabled": true,
+  "rollbackDisabled": true,
+  "credentialsDisabled": true,
+  "endpoints": [],
+  "commands": [],
+  "packages": [
+    {
+      "id": "rds-client",
+      "version": "1.2.3",
+      "artifactPath": "packages/rds-client-1.2.3.zip",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sizeBytes": 12345678,
+      "signatureRequired": true,
+      "rollbackAllowed": false,
+      "postInstallCommand": ""
+    },
+    {
+      "id": "rds-updater",
+      "version": "1.2.3",
+      "artifactPath": "packages/rds-updater-1.2.3.zip",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sizeBytes": 2345678,
+      "signatureRequired": true,
+      "rollbackAllowed": false,
+      "postInstallCommand": ""
+    }
+  ]
+}

@@ -121,6 +121,27 @@ Closeout:
 - `codex/m6-nonprod-foundation` was fast-forward merged to `main`.
 - M6 implementation fast-forward commit was `f1abc6a`.
 - M6 closeout docs were pushed to `origin/main` at `c8488be`.
+
+## 2026-05-30 - Post-M6 update manifest gate hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/offline hardening after user granted autonomous continuation and push to `main`.
+
+Branch: `codex/update-manifest-gate`
+
+Scope:
+
+- Implement local fixture-based update manifest integrity validation.
+- Keep the runner dry-run only.
+- Reject real endpoints, executable commands, rollback, credentials and unsafe artifact paths.
+
+Safety:
+
+- No downloads.
+- No updater or installer execution.
+- No rollback execution.
+- No credentials used.
+- No installed client launch.
+- No production backend interaction.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold

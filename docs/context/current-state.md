@@ -45,6 +45,7 @@ Repository bootstrap state:
 Current artifact status:
 
 - Release/privacy gate implementation exists.
+- Update manifest integrity gate exists as local fixture-based dry-run validation only.
 - App/WebView smoke scaffold exists as static/dry-run only.
 - WebView/native bridge contract scaffold exists as local/dry-run only.
 - Backend smoke scaffold exists as local/dry-run only.

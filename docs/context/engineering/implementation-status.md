@@ -98,9 +98,26 @@ M1.1 hardening:
 - Large or unreadable text-like artifacts produce fail findings instead of silent pass.
 - Crashpad executable signing is covered by the default release policy.
 
-Known deferred gap:
+Post-M6 update manifest hardening:
 
-- Update manifest integrity validation is documented but not implemented until updater/package metadata format is available.
+- `src/TestFramework/UpdateManifest/UpdateManifest.psm1`
+- `src/TestFramework/UpdateManifest/UpdateManifest.Tests.ps1`
+- `scripts/run-update-manifest-gate.ps1`
+- `testdata/update-manifest.example.json`
+- `testdata/update-manifest-unsafe.example.json`
+- `docs/qa/update-manifest-gate.md`
+
+Implemented checks:
+
+- dry-run-only policy;
+- network, updater execution, rollback and credentials disabled;
+- endpoint and executable command rejection;
+- stable package ids and semantic-like versions;
+- local relative artifact paths only;
+- SHA-256 digest shape;
+- positive package size;
+- signature-required enforcement;
+- rollback and post-install command rejection.
 
 ## M2 - App launch + WebView smoke
 
