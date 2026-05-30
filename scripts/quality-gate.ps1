@@ -161,6 +161,12 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through StaticSurfaceSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through StaticSurfaceSafety.'
+    }
+    if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
+        throw 'active-run.md Last verification must include ActiveRunSafety.'
+    }
 
     if ($contextProtocol -notmatch 'git log --oneline --decorate -1') {
         throw 'context-protocol.md must identify git log as the authoritative latest commit source.'

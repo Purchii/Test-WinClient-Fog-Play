@@ -98,6 +98,7 @@ Current artifact status:
 - TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers and stale literal latest-commit markers.
+- ActiveRunSafety also checks that active-run's current milestone marker and last-verification notes stay synced with current static gate coverage.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.

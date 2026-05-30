@@ -739,6 +739,8 @@ Implemented checks:
 - `active-run.md` must keep the forbidden-action boundary and stop-and-ask triggers explicit;
 - `current-state.md` must mention current static safety gates;
 - active handoff must mention current static safety gates for synthetic users, allowed games, resource budgets and production metadata;
+- active handoff must keep the current milestone marker synced with the latest static safety gate;
+- active handoff last-verification notes must include `ActiveRunSafety`;
 - active handoff must not record stale literal latest-pushed commit markers;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
 - executor policy must preserve the explicit main-merge approval rule;

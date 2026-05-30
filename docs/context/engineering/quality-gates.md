@@ -39,7 +39,7 @@ The `Context` scope also verifies that every `quality-gate.ps1 -Scope` value is 
 
 The `Context` scope also verifies that every documented scope except `Full` is included exactly once in a `Full` dispatch block, so new gates cannot silently stay out of the complete local verification command.
 
-The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, and current static safety gates remain visible in handoff context.
+The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 
