@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -96,6 +96,61 @@ function Invoke-ContextGate {
     Assert-QualityGateDocsInventory
 
     Write-Host 'Context gate passed.'
+}
+
+function Invoke-ActiveRunSafetyGate {
+    $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
+    $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
+    $executorPolicyPath = Join-Path $repoRoot 'docs/context/handoff/executor-policy.md'
+    Assert-PathExists 'docs/context/handoff/active-run.md'
+    Assert-PathExists 'docs/context/handoff/context-protocol.md'
+    Assert-PathExists 'docs/context/handoff/executor-policy.md'
+
+    $activeRun = Get-Content -LiteralPath $activeRunPath -Raw
+    $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
+    $executorPolicy = Get-Content -LiteralPath $executorPolicyPath -Raw
+
+    foreach ($requiredPhrase in @(
+            'Forbidden without a new approved plan',
+            'Stop-and-ask triggers',
+            'installed client launch',
+            'WebView debug/CDP',
+            'authentication',
+            'real game session',
+            'production backend or streaming network interaction',
+            'fake/replay server runtime execution',
+            'network shaping',
+            'hardware inspection',
+            'credentials, secrets',
+            'reading user AppData',
+            'CI/CD enablement',
+            'dependency upgrades',
+            'weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier',
+            'scope expansion beyond local dry-run/schema validation'
+        )) {
+        if ($activeRun -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "active-run.md must document safety boundary phrase: $requiredPhrase"
+        }
+    }
+
+    if ($activeRun -match '(?i)latest pushed main commit|merged to origin/main at\s+[0-9a-f]{7,40}') {
+        throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
+    }
+
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety')) {
+        if ($activeRun -notmatch [regex]::Escape($scopeName)) {
+            throw "active-run.md must mention current static safety gate: $scopeName"
+        }
+    }
+
+    if ($contextProtocol -notmatch 'git log --oneline --decorate -1') {
+        throw 'context-protocol.md must identify git log as the authoritative latest commit source.'
+    }
+    if ($executorPolicy -notmatch 'Do not merge to main without explicit user approval') {
+        throw 'executor-policy.md must preserve the explicit main-merge approval rule.'
+    }
+
+    Write-Host 'ActiveRunSafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -1689,6 +1744,10 @@ function Invoke-TestabilityGapsGate {
 
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
+}
+
+if ($Scope -in @('ActiveRunSafety', 'Full')) {
+    Invoke-ActiveRunSafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {

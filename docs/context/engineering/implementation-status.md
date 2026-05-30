@@ -720,3 +720,34 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Active run safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ActiveRunSafety` quality gate scope;
+- `active-run.md` must keep the forbidden-action boundary and stop-and-ask triggers explicit;
+- active handoff must mention current static safety gates for synthetic users, allowed games, resource budgets and production metadata;
+- active handoff must not record stale literal latest-pushed commit markers;
+- context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
+- executor policy must preserve the explicit main-merge approval rule;
+- `ActiveRunSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

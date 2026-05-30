@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 BacklogSafety static gate implemented and verified locally.
+Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 BacklogSafety static gate complete.
+Current milestone: Post-M6 local/static safety gate hardening complete through ProdMetadataSafety.
 
 Planning boundary:
 
@@ -22,6 +22,10 @@ Post-M6 TestDataSafety static gate is complete.
 Post-M6 quality gate scope inventory guard is complete.
 Post-M6 ProdMatrixSafety static gate is complete.
 Post-M6 BacklogSafety static gate is complete.
+Post-M6 SyntheticUsersSafety static gate is complete.
+Post-M6 ResourceBudgetSafety static gate is complete.
+Post-M6 AllowedGamesSafety static gate is complete.
+Post-M6 ProdMetadataSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -34,7 +38,7 @@ main
 Current result:
 
 ```text
-Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads. Merged to origin/main at 915a4cd.
+Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 
 Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
 
@@ -53,6 +57,8 @@ Quality gate scope inventory guard makes `Context` fail if a `quality-gate.ps1 -
 ProdMatrixSafety static gate adds `Full` coverage for production-safe test matrix classification drift.
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
+
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, resource budgets and production test metadata.
 ```
 
 Forbidden without a new approved plan:
@@ -88,5 +94,5 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UpdateManifest`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdMetadataSafety`;
 - `git diff --check`.

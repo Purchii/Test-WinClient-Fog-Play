@@ -4,6 +4,7 @@ Preferred script:
 
 ```powershell
 .\scripts\quality-gate.ps1 -Scope Context
+.\scripts\quality-gate.ps1 -Scope ActiveRunSafety
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety
@@ -30,6 +31,8 @@ Initial scopes may be skeleton/dry-run, but the names and expected behavior shou
 The `Context` scope also verifies that every `scripts/*.ps1` runner is listed in `scripts/README.md`, so newly added runners cannot silently drift out of the documented local-safe command inventory.
 
 The `Context` scope also verifies that every `quality-gate.ps1 -Scope` value is listed in this document, so new gate scopes cannot silently drift out of the documented command inventory.
+
+The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, and current static safety gates remain visible in handoff context.
 
 The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.
 
