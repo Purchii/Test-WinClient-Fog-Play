@@ -584,6 +584,35 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Quality gates docs scope safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `QualityGatesDocsScopeSafety` quality gate scope;
+- the preferred command block in `docs/context/engineering/quality-gates.md` must list every `quality-gate.ps1` `ValidateSet` scope exactly once;
+- duplicate scopes, unknown scopes and malformed preferred command lines fail closed;
+- `QualityGatesDocsScopeSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Active safety scope inventory gate
 
 Status: local static quality gate implemented and verified locally.

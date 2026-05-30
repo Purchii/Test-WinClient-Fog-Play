@@ -41,6 +41,8 @@ The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` exam
 
 The `QaDocsPowerShellInvocationSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs do not use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` as the documented local PowerShell invocation shape.
 
+The `QualityGatesDocsScopeSafety` quality gate fails if the preferred `docs/context/engineering/quality-gates.md` command block drifts away from the exact `quality-gate.ps1 -Scope` inventory, gains duplicate scopes or lists unknown scopes.
+
 The `ActiveSafetyScopeInventorySafety` quality gate fails if any `*Safety` scope from `quality-gate.ps1` is missing from active handoff/current-state visibility.
 
 The `ScriptsReadmeScopeSafety` quality gate fails if any `quality-gate.ps1 -Scope` value is missing from this script command inventory.

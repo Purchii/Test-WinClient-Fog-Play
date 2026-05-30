@@ -29,6 +29,7 @@ Post-M6: ScriptsReadmeScopeSafety static gate - implemented and verified locally
 Post-M6: ActiveSafetyScopeInventorySafety static gate - implemented and verified locally.
 Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
 Post-M6: QaDocsPowerShellInvocationSafety static gate - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety static gate - implemented and verified locally.
 Post-M6: BinaryFixturePlaceholderSafety static gate - implemented and verified locally.
 Post-M6: ScriptEncodingSafety static gate - implemented and verified locally.
 Post-M6: PowerShellStructuredSyntaxSafety static gate - implemented and verified locally.
@@ -98,6 +99,7 @@ Repository bootstrap state:
 - Post-M6 ActiveSafetyScopeInventorySafety static gate was completed on `codex/active-safety-scope-inventory-gate`.
 - Post-M6 QaDocsCommandSafety static gate was completed on `codex/qa-docs-command-safety-gate`.
 - Post-M6 QaDocsPowerShellInvocationSafety static gate was completed on `codex/qa-docs-powershell-invocation-safety-gate`.
+- Post-M6 QualityGatesDocsScopeSafety static gate was completed on `codex/quality-gates-docs-scope-safety-2`.
 - Post-M6 BinaryFixturePlaceholderSafety static gate was completed on `codex/binary-fixture-placeholder-safety-gate`.
 - Post-M6 ScriptEncodingSafety static gate was completed on `codex/script-encoding-safety-gate`.
 - Post-M6 PowerShellStructuredSyntaxSafety static gate was completed on `codex/powershell-structured-syntax-safety-gate`.
@@ -168,6 +170,7 @@ Current artifact status:
 - ActiveSafetyScopeInventorySafety statically checks `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
 - QaDocsCommandSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 - QaDocsPowerShellInvocationSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
+- QualityGatesDocsScopeSafety statically checks the preferred `docs/context/engineering/quality-gates.md` command block so supported `quality-gate.ps1 -Scope` commands stay exact, unique and known.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.

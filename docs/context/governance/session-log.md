@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Quality gates docs scope safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after replacement task threads failed to leave a durable diff and coordination fallback completed the local-only task.
+
+Branch: `codex/quality-gates-docs-scope-safety-2`
+
+Thread lifecycle:
+
+- Previous task thread `019e7ad0-6bc0-7ec2-912a-ba4ba185a13b` is inactive/history-only and was not continued after shared-worktree racing.
+- Replacement task thread `019e7ad4-9d14-78f3-9893-16f9921ae2d5` is inactive/history-only after it did not progress beyond discovery.
+- Worktree replacement returned only `pendingWorktreeId` and did not appear in the thread list.
+- Coordination fallback used a dedicated branch for this local/static task.
+
+Scope:
+
+- Add local `QualityGatesDocsScopeSafety` quality gate.
+- Statically require the preferred `docs/context/engineering/quality-gates.md` command block to match `quality-gate.ps1` `ValidateSet` scopes exactly once.
+- Reject duplicate, unknown or malformed preferred quality-gate command entries.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QA docs PowerShell invocation safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.
