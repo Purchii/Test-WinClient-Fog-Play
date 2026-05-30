@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through VerificationMemorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through VerificationMemorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ChecklistSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through ChecklistSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -252,6 +252,66 @@ function Invoke-VerificationMemorySafetyGate {
     }
 
     Write-Host 'VerificationMemorySafety gate passed.'
+}
+
+function Invoke-ChecklistSafetyGate {
+    $executorChecklistPath = Join-Path $repoRoot 'docs/context/handoff/executor-checklist.md'
+    $contextChecklistPath = Join-Path $repoRoot 'docs/context/governance/context-integrity-checklist.md'
+    Assert-PathExists 'docs/context/handoff/executor-checklist.md'
+    Assert-PathExists 'docs/context/governance/context-integrity-checklist.md'
+
+    $executorChecklist = Get-Content -LiteralPath $executorChecklistPath -Raw
+    $contextChecklist = Get-Content -LiteralPath $contextChecklistPath -Raw
+
+    foreach ($requiredSection in @('Before implementation:', 'Before final report:')) {
+        if ($executorChecklist -notmatch [regex]::Escape($requiredSection)) {
+            throw "executor-checklist.md must include section: $requiredSection"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'git status --short',
+            'Correct task thread confirmed',
+            'New independent task/milestone has its own Codex thread',
+            '`create_thread` used or attempted first',
+            'No `PROCESS_ERROR_THREAD_REUSE` remains unresolved',
+            'Not working directly on main, unless explicitly allowed',
+            'AGENTS.md read',
+            'Autonomy boundary and stop-and-ask triggers understood',
+            'Production impact classified',
+            'Verification commands identified',
+            'verification-memory.md updated',
+            'session-log.md updated',
+            'active-run.md updated',
+            'No secrets committed',
+            'No stop-and-ask trigger bypassed',
+            'No unapproved production-impacting tests added'
+        )) {
+        if ($executorChecklist -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "executor-checklist.md must preserve checklist phrase: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            '`active-run.md` matches latest focus/status',
+            'Current work is in the correct task thread',
+            'Any new independent task/milestone has a separate Codex thread',
+            '`create_thread` was used or attempted first',
+            'PROCESS_ERROR_THREAD_REUSE',
+            '`current-state.md` reflects current state',
+            '`value-effort-backlog.md` points to next bounded work',
+            '`decisions-log.md` records durable decisions',
+            '`session-log.md` records meaningful work',
+            '`verification-memory.md` records commands/results',
+            '`implementation-status.md` matches code/docs',
+            'No important decision lives only in chat'
+        )) {
+        if ($contextChecklist -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "context-integrity-checklist.md must preserve checklist phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'ChecklistSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2314,6 +2374,10 @@ if ($Scope -in @('SessionLogSafety', 'Full')) {
 
 if ($Scope -in @('VerificationMemorySafety', 'Full')) {
     Invoke-VerificationMemorySafetyGate
+}
+
+if ($Scope -in @('ChecklistSafety', 'Full')) {
+    Invoke-ChecklistSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

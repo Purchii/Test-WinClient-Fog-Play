@@ -31,6 +31,8 @@ The `SessionLogSafety` quality gate fails if guarded session-log branch entries 
 
 The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers or lose status, production impact, command or result evidence.
 
+The `ChecklistSafety` quality gate fails if executor or context integrity checklists lose required thread isolation, verification, stop-trigger, secrets or production-impact checklist items.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.

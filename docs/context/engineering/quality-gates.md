@@ -7,6 +7,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ActiveRunSafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
 .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety
+.\scripts\quality-gate.ps1 -Scope ChecklistSafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -46,6 +47,8 @@ The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.m
 The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases.
 
 The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers or lose status, production-impact, command and result evidence.
+
+The `ChecklistSafety` scope statically checks `docs/context/handoff/executor-checklist.md` and `docs/context/governance/context-integrity-checklist.md` so thread isolation, verification records, stop triggers, secrets and production-impact checklist items remain explicit.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 
