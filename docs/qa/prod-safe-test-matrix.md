@@ -16,3 +16,5 @@
 | Load/stress | PROD_FORBIDDEN | NON_PROD_ONLY |
 | Network chaos | PROD_FORBIDDEN on production | NON_PROD_ONLY |
 | Destructive cleanup | PROD_FORBIDDEN | NON_PROD_ONLY |
+
+`ProdMatrixSafety` validates this table as a production-safety contract.

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdMatrixSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -280,6 +280,72 @@ function Invoke-TestDataSafetyGate {
     }
 
     Write-Host 'TestDataSafety gate passed.'
+}
+
+function Invoke-ProdMatrixSafetyGate {
+    $matrixPath = Join-Path $repoRoot 'docs/qa/prod-safe-test-matrix.md'
+    Assert-PathExists 'docs/qa/prod-safe-test-matrix.md'
+
+    $allowedClassifications = @(
+        'PROD_SAFE',
+        'PROD_CONDITIONAL',
+        'PROD_FORBIDDEN',
+        'PROD_FORBIDDEN on production'
+    )
+    $scenarioRows = @()
+    $lines = Get-Content -LiteralPath $matrixPath
+    foreach ($line in $lines) {
+        $trimmed = $line.Trim()
+        if (-not $trimmed.StartsWith('|')) {
+            continue
+        }
+        if ($trimmed -match '^\|\s*-+') {
+            continue
+        }
+
+        $columns = @($trimmed.Trim('|').Split('|') | ForEach-Object { $_.Trim() })
+        if ($columns.Count -lt 3 -or $columns[0] -eq 'Scenario') {
+            continue
+        }
+
+        $scenarioRows += [pscustomobject]@{
+            Scenario = $columns[0]
+            Classification = $columns[1]
+            Notes = $columns[2]
+        }
+    }
+
+    if ($scenarioRows.Count -eq 0) {
+        throw 'Prod-safe test matrix must contain at least one scenario row.'
+    }
+
+    foreach ($row in $scenarioRows) {
+        if ($allowedClassifications -notcontains $row.Classification) {
+            throw "Prod-safe matrix scenario '$($row.Scenario)' has unsupported classification '$($row.Classification)'."
+        }
+
+        $scenarioText = "$($row.Scenario) $($row.Notes)"
+        if ($scenarioText -match '(?i)game session|session canary|reconnect|stream') {
+            if ($row.Classification -eq 'PROD_SAFE') {
+                throw "Prod-safe matrix scenario '$($row.Scenario)' must not be PROD_SAFE because it can involve sessions/streams."
+            }
+        }
+
+        if ($scenarioText -match '(?i)rollback|load|stress|chaos|destructive|network') {
+            if ($row.Classification -notmatch '^PROD_FORBIDDEN') {
+                throw "Prod-safe matrix scenario '$($row.Scenario)' must be PROD_FORBIDDEN on production."
+            }
+            if ($row.Notes -notmatch 'NON_PROD_ONLY') {
+                throw "Prod-safe matrix scenario '$($row.Scenario)' must document NON_PROD_ONLY handling."
+            }
+        }
+
+        if ($row.Classification -eq 'PROD_CONDITIONAL' -and $row.Notes -notmatch '(?i)requires|allowlisted|budget|cleanup|synthetic') {
+            throw "Prod-safe matrix scenario '$($row.Scenario)' must document conditional guard requirements."
+        }
+    }
+
+    Write-Host 'ProdMatrixSafety gate passed.'
 }
 
 function Invoke-ProdSafetyGate {
@@ -1055,6 +1121,10 @@ if ($Scope -in @('RunnerSafety', 'Full')) {
 
 if ($Scope -in @('TestDataSafety', 'Full')) {
     Invoke-TestDataSafetyGate
+}
+
+if ($Scope -in @('ProdMatrixSafety', 'Full')) {
+    Invoke-ProdMatrixSafetyGate
 }
 
 if ($Scope -in @('ProdSafety', 'Full')) {

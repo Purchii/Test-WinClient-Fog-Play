@@ -362,6 +362,35 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - ProdMatrixSafety static gate
+
+Status: local quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/qa/prod-safe-test-matrix.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ProdMatrixSafety` quality gate scope;
+- production-safe test matrix rows must use supported classifications;
+- session/stream scenarios must not be marked `PROD_SAFE`;
+- rollback, load/stress, network chaos and destructive scenarios must stay `PROD_FORBIDDEN` on production and document `NON_PROD_ONLY`;
+- conditional scenarios must document guard requirements;
+- `ProdMatrixSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Quality gate scope inventory guard
 
 Status: local context quality gate hardening implemented and verified locally.

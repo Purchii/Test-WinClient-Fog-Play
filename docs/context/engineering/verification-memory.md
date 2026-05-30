@@ -203,6 +203,33 @@ Safety notes:
 - No user AppData logs, cookies, DBs or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Post-M6 ProdMatrixSafety static gate
+
+Branch: `codex/prod-matrix-safety-gate`
+Status: passed
+Production impact: none; local static quality gate only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdMatrixSafety`
+
+Results:
+- ProdMatrixSafety gate passed.
+- Static checks verify production-safe test matrix classifications and guard notes.
+
+Not run:
+- Installed client launch because this hardening is static quality gate only.
+- WebView debug/CDP because it is forbidden.
+- Auth/login/game-session checks because they are forbidden.
+- Production backend or streaming network calls because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DBs or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - Post-M6 quality gate scope inventory guard
 
 Branch: `codex/quality-gate-scope-inventory`

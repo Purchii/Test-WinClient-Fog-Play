@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 quality gate scope inventory guard implemented and verified locally.
+Status: Post-M6 ProdMatrixSafety static gate implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 quality gate scope inventory guard complete.
+Current milestone: Post-M6 ProdMatrixSafety static gate complete.
 
 Planning boundary:
 
@@ -20,6 +20,7 @@ Post-M6 dangerous flag negative coverage is complete.
 Post-M6 RunnerSafety static gate is complete.
 Post-M6 TestDataSafety static gate is complete.
 Post-M6 quality gate scope inventory guard is complete.
+Post-M6 ProdMatrixSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -47,6 +48,8 @@ RunnerSafety static gate adds `Full` coverage for runner dry-run requirements, d
 TestDataSafety static gate adds `Full` coverage for risky test fixture content outside explicit unsafe/negative allowlists.
 
 Quality gate scope inventory guard makes `Context` fail if a `quality-gate.ps1 -Scope` value is not documented in `docs/context/engineering/quality-gates.md`.
+
+ProdMatrixSafety static gate adds `Full` coverage for production-safe test matrix classification drift.
 ```
 
 Forbidden without a new approved plan:

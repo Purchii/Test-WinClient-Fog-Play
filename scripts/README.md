@@ -26,3 +26,5 @@ The `Context` quality gate fails if this inventory stops listing any `scripts/*.
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
+
+The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.

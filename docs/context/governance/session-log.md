@@ -86,6 +86,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 ProdMatrixSafety static gate
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/prod-matrix-safety-gate`
+
+Scope:
+
+- Add `ProdMatrixSafety` quality gate scope.
+- Statically check `docs/qa/prod-safe-test-matrix.md` classifications and guard notes.
+- Include `ProdMatrixSafety` in `Full`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 quality gate scope inventory guard
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
