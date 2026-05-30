@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGateStructureSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through PowerShellStructuredSyntaxSafety.
 
 Planning boundary:
 
@@ -19,6 +19,7 @@ Post-M6 ActiveSafetyScopeInventorySafety static gate is complete.
 Post-M6 QaDocsCommandSafety static gate is complete.
 Post-M6 BinaryFixturePlaceholderSafety static gate is complete.
 Post-M6 ScriptEncodingSafety static gate is complete.
+Post-M6 PowerShellStructuredSyntaxSafety static gate is complete.
 Post-M6 ProdSafetyFrameworkSafety static gate is complete.
 Post-M6 RootPromptSafety static gate is complete.
 Post-M6 RepositoryRootInventorySafety static gate is complete.
@@ -63,6 +64,7 @@ Post-M6 ScriptsInventorySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
+Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread for PowerShellStructuredSyntaxSafety. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
 ```
 
 Current branch:
@@ -95,6 +97,8 @@ RepositoryRootInventorySafety adds `Full` coverage for the repository-root file 
 BinaryFixturePlaceholderSafety adds `Full` coverage for binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 
 ScriptEncodingSafety adds `Full` coverage for `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
+
+PowerShellStructuredSyntaxSafety adds `Full` coverage for local PowerShell parser syntax checks across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.
 
 ProdSafetyFrameworkSafety adds `Full` coverage for the ProdSafety README, module exports and regression assertion text around classification, kill switch, synthetic user, resource budget and cleanup guard contracts.
 
@@ -208,6 +212,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;

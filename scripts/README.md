@@ -33,6 +33,8 @@ The `ProdSafetyFrameworkSafety` quality gate fails if the ProdSafety README, mod
 
 The `ScriptEncodingSafety` quality gate fails if any `scripts/*.ps1` file gains a UTF-8 BOM or non-ASCII bytes that can make Windows PowerShell parsing brittle.
 
+The `PowerShellStructuredSyntaxSafety` quality gate fails if any local PowerShell file in `scripts/*.ps1`, `src/TestFramework/**/*.ps1` or `src/TestFramework/**/*.psm1` has parser syntax errors under `[System.Management.Automation.Language.Parser]::ParseFile(...)`.
+
 The `BinaryFixturePlaceholderSafety` quality gate fails if binary-like files under `testdata/` stop being tiny placeholders, gain a real PE header, or introduce dump/database/debug extensions outside the approved fixture inventory.
 
 The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags.

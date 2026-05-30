@@ -8,6 +8,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope RootPromptSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety
 .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety
+.\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety
 .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety
 .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety
@@ -75,6 +76,8 @@ The `RootPromptSafety` scope statically checks top-level Codex prompt/TZ documen
 The `ProdSafetyFrameworkSafety` scope statically checks the ProdSafety README, module exports and regression assertion text so the core classification, kill switch, synthetic user, resource budget and cleanup guard contract cannot be weakened silently.
 
 The `ScriptEncodingSafety` scope statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
+
+The `PowerShellStructuredSyntaxSafety` scope statically checks PowerShell syntax for `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` using `[System.Management.Automation.Language.Parser]::ParseFile(...)` without importing modules or executing scripts.
 
 The `BinaryFixturePlaceholderSafety` scope statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 

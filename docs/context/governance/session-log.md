@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-30 - PowerShell structured syntax safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work, fast-forward merge and pushes to main.
+
+Branch: `codex/powershell-structured-syntax-safety-gate`
+
+Thread lifecycle:
+
+- Active task thread: `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
+
+Scope:
+
+- Add a local `PowerShellStructuredSyntaxSafety` quality gate.
+- Parse `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` with `[System.Management.Automation.Language.Parser]::ParseFile(...)`.
+- Keep validation parse-only: no module import, no script execution and no runtime system interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Root prompt safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

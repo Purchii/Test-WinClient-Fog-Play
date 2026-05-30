@@ -30,6 +30,7 @@ Post-M6: ActiveSafetyScopeInventorySafety static gate - implemented and verified
 Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
 Post-M6: BinaryFixturePlaceholderSafety static gate - implemented and verified locally.
 Post-M6: ScriptEncodingSafety static gate - implemented and verified locally.
+Post-M6: PowerShellStructuredSyntaxSafety static gate - implemented and verified locally.
 Post-M6: ProdSafetyFrameworkSafety static gate - implemented and verified locally.
 Post-M6: RootPromptSafety static gate - implemented and verified locally.
 Post-M6: RepositoryRootInventorySafety static gate - implemented and verified locally.
@@ -94,6 +95,7 @@ Repository bootstrap state:
 - Post-M6 QaDocsCommandSafety static gate was completed on `codex/qa-docs-command-safety-gate`.
 - Post-M6 BinaryFixturePlaceholderSafety static gate was completed on `codex/binary-fixture-placeholder-safety-gate`.
 - Post-M6 ScriptEncodingSafety static gate was completed on `codex/script-encoding-safety-gate`.
+- Post-M6 PowerShellStructuredSyntaxSafety static gate was completed on `codex/powershell-structured-syntax-safety-gate`.
 - Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
 - Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
@@ -135,6 +137,7 @@ Repository bootstrap state:
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
+- Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread for PowerShellStructuredSyntaxSafety. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
 - Each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task unless it only repairs verification for the current task.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
@@ -158,6 +161,7 @@ Current artifact status:
 - QaDocsCommandSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
+- PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.
 - ProdSafetyFrameworkSafety statically checks the ProdSafety README, module exports and regression assertion text around classification, kill switch, synthetic user, resource budget and cleanup guard contracts.
 - RepositoryRootInventorySafety statically checks the repository-root file and directory inventory.
 - RootPromptSafety statically checks top-level Codex prompt/TZ safety wording around repository source-of-truth, autonomy boundaries, production-impact stops and game-session/credential prerequisites.
