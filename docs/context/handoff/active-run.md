@@ -1,30 +1,30 @@
 # Active run
 
-Status: Post-M6 update manifest gate hardening in progress.
+Status: Post-M6 update manifest gate hardening implemented, verified and merged to `main`.
 
 Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 release/update manifest hardening.
+Current milestone: Post-M6 release/update manifest hardening complete.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
-Current work = local fixture-based update manifest integrity validation only.
+Post-M6 update manifest hardening is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/update-manifest-gate
+main
 ```
 
 Current result:
 
 ```text
-Local update manifest gate validates fixture policy shape without downloads, updater execution, rollback or credentials.
+Local update manifest gate validates fixture policy shape without downloads, updater execution, rollback or credentials. Merged to origin/main at 7c14bf6.
 ```
 
 Forbidden without a new approved plan:
