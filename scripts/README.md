@@ -69,6 +69,8 @@ The `StaticSurfaceSafety` quality gate fails if App/WebView smoke or non-prod fo
 
 The `FixtureInventorySafety` quality gate fails if release, privacy or App/WebView smoke fixture directory trees lose required positive, negative or clean local fixture files.
 
+The `ScriptsInventorySafety` quality gate fails if the `scripts/` runner/support file inventory changes without updating the gate.
+
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.

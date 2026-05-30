@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through TestFrameworkInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ScriptsInventorySafety.
 
 Planning boundary:
 
@@ -48,6 +48,7 @@ Post-M6 ArtifactPolicySafety static gate is complete.
 Post-M6 ContractFixtureSafety static gate is complete.
 Post-M6 StaticSurfaceSafety static gate is complete.
 Post-M6 FixtureInventorySafety static gate is complete.
+Post-M6 ScriptsInventorySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -125,6 +126,8 @@ ContractFixtureSafety adds `Full` coverage for backend, update manifest and WebV
 StaticSurfaceSafety adds `Full` coverage for App/WebView smoke and non-prod foundation fixture drift around static layout, WebView bundle inventory and schema-only non-runtime placeholders.
 
 FixtureInventorySafety adds `Full` coverage for release, privacy and App/WebView smoke fixture directory drift around required positive, negative and clean local fixture files.
+
+ScriptsInventorySafety adds `Full` coverage for the `scripts/` runner/support file inventory.
 ```
 
 Forbidden without a new approved plan:
@@ -162,6 +165,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptsInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety`;

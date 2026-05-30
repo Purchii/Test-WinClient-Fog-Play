@@ -26,6 +26,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ContractFixtureSafety
 .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety
 .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety
+.\scripts\quality-gate.ps1 -Scope ScriptsInventorySafety
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope TestDataInventorySafety
@@ -99,6 +100,8 @@ The `ContractFixtureSafety` scope statically checks backend, update manifest and
 The `StaticSurfaceSafety` scope statically checks App/WebView smoke and non-prod foundation fixtures so static artifact layout, WebView bundle inventory and future non-prod component placeholders remain local, dry-run and non-runtime.
 
 The `FixtureInventorySafety` scope statically checks local fixture directory trees so release, privacy and App/WebView smoke fixtures keep their required positive, negative and clean file layouts.
+
+The `ScriptsInventorySafety` scope statically checks `scripts/` file inventory so local runners and support docs cannot be added, removed or renamed silently.
 
 The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.
 
