@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 script inventory guard hardening implemented and verified locally.
+Status: Post-M6 M1 dry-run fail-closed hardening implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 script inventory guard hardening complete.
+Current milestone: Post-M6 M1 dry-run fail-closed hardening complete.
 
 Planning boundary:
 
@@ -14,13 +14,14 @@ Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 update manifest hardening is complete.
 Post-M6 testability gaps registry is complete.
 Post-M6 script inventory guard hardening is complete.
+Post-M6 M1 dry-run fail-closed hardening is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-main
+codex/m1-dryrun-fail-closed
 ```
 
 Current result:
@@ -29,6 +30,8 @@ Current result:
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads. Merged to origin/main at 915a4cd.
 
 Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
+
+M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
 ```
 
 Forbidden without a new approved plan:

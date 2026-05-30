@@ -42,7 +42,7 @@ Implemented checks:
 
 Findings are sanitized: the script reports pattern ids, file paths and messages, not matched secret values.
 
-Default behavior is fail-closed: fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
+Default behavior is fail-closed: the runner requires `-DryRun`, and fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
 
 M1.1 hardening added:
 
@@ -59,6 +59,11 @@ Update manifest hardening added:
 - SHA-256, size, signature-required and rollback-disabled checks;
 - URL, command and credential rejection;
 - dry-run-only runner in `scripts/run-update-manifest-gate.ps1`.
+
+Post-M6 dry-run hardening added:
+
+- `scripts/run-release-gate.ps1` now rejects calls without `-DryRun` before reading the artifact root;
+- `quality-gate.ps1 -Scope Release` asserts that missing `-DryRun` is rejected.
 
 Known findings from the installed artifact observed on 2026-05-30:
 

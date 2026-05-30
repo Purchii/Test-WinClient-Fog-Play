@@ -86,6 +86,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 M1 dry-run fail-closed hardening
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/m1-dryrun-fail-closed`
+
+Scope:
+
+- Make release and privacy runners reject calls without `-DryRun`.
+- Add quality gate assertions for missing `-DryRun` rejection.
+- Keep all verification on local fixtures only.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M5 Minimal game-session canary readiness gate
 
 Mode: `NON_AUTONOMOUS` discovery/status sync, then `BOUNDED_AUTONOMOUS` after user accepted continuing in this dedicated M5 thread.

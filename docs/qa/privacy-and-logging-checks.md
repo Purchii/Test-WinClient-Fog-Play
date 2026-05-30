@@ -41,7 +41,7 @@ Implemented checks:
 
 Findings are sanitized: the script reports pattern id, severity, relative path and line number only.
 
-Default behavior is fail-closed: fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
+Default behavior is fail-closed: the runner requires `-DryRun`, and fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
 
 M1.1 hardening added:
 
@@ -50,6 +50,11 @@ M1.1 hardening added:
 - large text-like artifact fail findings instead of silent pass;
 - unreadable text-like artifact fail findings;
 - `quality-gate.ps1` assertions for concrete expected finding ids.
+
+Post-M6 dry-run hardening added:
+
+- `scripts/run-privacy-gate.ps1` now rejects calls without `-DryRun` before reading the artifact root;
+- `quality-gate.ps1 -Scope Privacy` asserts that missing `-DryRun` is rejected.
 
 Known finding from the installed artifact observed on 2026-05-30:
 

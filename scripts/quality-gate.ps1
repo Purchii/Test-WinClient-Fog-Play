@@ -154,6 +154,19 @@ function Invoke-ReleaseGate {
     }
 
     $releaseGate = Join-Path $repoRoot 'scripts/run-release-gate.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $releaseGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'Release gate runner must reject calls without -DryRun.'
+    }
+
     $negative = Invoke-JsonGate {
         & $releaseGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
@@ -273,6 +286,19 @@ function Invoke-PrivacyGate {
     }
 
     $privacyGate = Join-Path $repoRoot 'scripts/run-privacy-gate.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'Privacy gate runner must reject calls without -DryRun.'
+    }
+
     $installedLike = Invoke-JsonGate {
         & $privacyGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `

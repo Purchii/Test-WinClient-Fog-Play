@@ -361,3 +361,31 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - M1 dry-run fail-closed hardening
+
+Status: local runner/quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/run-release-gate.ps1`
+- `scripts/run-privacy-gate.ps1`
+- `scripts/quality-gate.ps1`
+- `docs/qa/release-gates.md`
+- `docs/qa/privacy-and-logging-checks.md`
+
+Implemented checks:
+
+- release runner rejects calls without `-DryRun` before reading artifact roots;
+- privacy runner rejects calls without `-DryRun` before reading artifact roots;
+- `Release` quality gate asserts missing `-DryRun` rejection;
+- `Privacy` quality gate asserts missing `-DryRun` rejection.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

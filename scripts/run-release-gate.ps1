@@ -20,6 +20,10 @@ if ([string]::IsNullOrWhiteSpace($PolicyPath)) {
     $PolicyPath = Join-Path $repoRoot 'testdata/release-gate-policy.example.json'
 }
 
+if (-not $DryRun) {
+    throw 'Release gate runner is dry-run only. Pass -DryRun to perform local artifact validation.'
+}
+
 function ConvertTo-NormalizedRelativePath {
     param([Parameter(Mandatory = $true)][string] $Path)
     return ($Path -replace '/', [IO.Path]::DirectorySeparatorChar)

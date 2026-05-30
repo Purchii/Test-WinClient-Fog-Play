@@ -20,6 +20,10 @@ if ([string]::IsNullOrWhiteSpace($PatternsPath)) {
     $PatternsPath = Join-Path $repoRoot 'testdata/privacy-patterns.example.json'
 }
 
+if (-not $DryRun) {
+    throw 'Privacy gate runner is dry-run only. Pass -DryRun to perform local artifact validation.'
+}
+
 function Add-Finding {
     param(
         [Parameter(Mandatory = $true)][string] $Id,
