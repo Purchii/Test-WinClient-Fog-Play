@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QaDocsCommandSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveSafetyScopeInventorySafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 ActiveSafetyScopeInventorySafety static gate is complete.
 Post-M6 QaDocsCommandSafety static gate is complete.
 Post-M6 BinaryFixturePlaceholderSafety static gate is complete.
 Post-M6 ScriptEncodingSafety static gate is complete.
@@ -68,6 +69,8 @@ Current result:
 
 ```text
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
+
+ActiveSafetyScopeInventorySafety adds `Full` coverage for `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
 
 QaDocsCommandSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 
@@ -181,6 +184,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;

@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: ActiveSafetyScopeInventorySafety static gate - implemented and verified locally.
 Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
 Post-M6: BinaryFixturePlaceholderSafety static gate - implemented and verified locally.
 Post-M6: ScriptEncodingSafety static gate - implemented and verified locally.
@@ -81,6 +82,7 @@ Repository bootstrap state:
 - M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
+- Post-M6 ActiveSafetyScopeInventorySafety static gate was completed on `codex/active-safety-scope-inventory-gate`.
 - Post-M6 QaDocsCommandSafety static gate was completed on `codex/qa-docs-command-safety-gate`.
 - Post-M6 BinaryFixturePlaceholderSafety static gate was completed on `codex/binary-fixture-placeholder-safety-gate`.
 - Post-M6 ScriptEncodingSafety static gate was completed on `codex/script-encoding-safety-gate`.
@@ -138,6 +140,7 @@ Current artifact status:
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.
+- ActiveSafetyScopeInventorySafety statically checks `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
 - QaDocsCommandSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.

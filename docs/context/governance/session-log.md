@@ -115,6 +115,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Active safety scope inventory gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/active-safety-scope-inventory-gate`
+
+Scope:
+
+- Add a local `ActiveSafetyScopeInventorySafety` quality gate.
+- Dynamically validate that all `*Safety` scopes from `quality-gate.ps1` are visible in active handoff and current-state docs.
+- Validate that the active milestone marker ends in a known `*Safety` scope.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M0 ProdSafety foundation
 
 Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user continuation accepted the M0 plan.
