@@ -18,3 +18,5 @@ Preferred script:
 ```
 
 Initial scopes may be skeleton/dry-run, but the names and expected behavior should be stable.
+
+The `Context` scope also verifies that every `scripts/*.ps1` runner is listed in `scripts/README.md`, so newly added runners cannot silently drift out of the documented local-safe command inventory.

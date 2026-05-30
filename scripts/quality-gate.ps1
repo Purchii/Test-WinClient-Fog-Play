@@ -20,6 +20,24 @@ function Assert-PathExists {
     }
 }
 
+function Assert-ScriptsReadmeInventory {
+    $readmePath = Join-Path $repoRoot 'scripts/README.md'
+    if (-not (Test-Path -LiteralPath $readmePath -PathType Leaf)) {
+        throw 'Required path is missing: scripts/README.md'
+    }
+
+    $readme = Get-Content -LiteralPath $readmePath -Raw
+    $scriptNames = Get-ChildItem -LiteralPath (Join-Path $repoRoot 'scripts') -Filter '*.ps1' -File |
+        Sort-Object Name |
+        ForEach-Object { $_.Name }
+
+    foreach ($scriptName in $scriptNames) {
+        if ($readme -notmatch [regex]::Escape($scriptName)) {
+            throw "scripts/README.md does not list runner: $scriptName"
+        }
+    }
+}
+
 function Invoke-ContextGate {
     $required = @(
         'AGENTS.md',
@@ -45,6 +63,8 @@ function Invoke-ContextGate {
     foreach ($item in $required) {
         Assert-PathExists $item
     }
+
+    Assert-ScriptsReadmeInventory
 
     Write-Host 'Context gate passed.'
 }

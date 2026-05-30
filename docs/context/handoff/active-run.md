@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 testability gaps registry implemented, verified and merged to `main`.
+Status: Post-M6 script inventory guard hardening implemented and verified locally.
 
-Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
+Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 testability gaps hardening complete.
+Current milestone: Post-M6 script inventory guard hardening complete.
 
 Planning boundary:
 
@@ -13,6 +13,7 @@ Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 update manifest hardening is complete.
 Post-M6 testability gaps registry is complete.
+Post-M6 script inventory guard hardening is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -25,7 +26,9 @@ main
 Current result:
 
 ```text
-Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads. Merged to origin/main at aa34621.
+Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads. Merged to origin/main at 915a4cd.
+
+Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
 ```
 
 Forbidden without a new approved plan:

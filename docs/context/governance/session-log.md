@@ -63,6 +63,29 @@ Production safety:
 - No game session started.
 - No user AppData logs, cookies or DB files read.
 
+## 2026-05-30 - Post-M6 script inventory guard
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/scripts-inventory-guard`
+
+Scope:
+
+- Update `scripts/README.md` to list the full implemented local runner inventory.
+- Add a `Context` quality gate check that fails if a `scripts/*.ps1` runner is undocumented.
+- Keep the change documentation/static-gate only.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M5 Minimal game-session canary readiness gate
 
 Mode: `NON_AUTONOMOUS` discovery/status sync, then `BOUNDED_AUTONOMOUS` after user accepted continuing in this dedicated M5 thread.

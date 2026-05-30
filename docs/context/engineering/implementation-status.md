@@ -336,3 +336,28 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Script inventory guard
+
+Status: local documentation/quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/README.md`
+- `scripts/quality-gate.ps1`
+
+Implemented checks:
+
+- `scripts/README.md` lists every `scripts/*.ps1` runner;
+- `Context` quality gate fails closed if a runner is added without being documented;
+- script inventory safety text covers client launch, WebView debug/CDP, auth, game sessions, production backend/streaming, production mutation, user runtime data, CI/CD and dependency changes.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
