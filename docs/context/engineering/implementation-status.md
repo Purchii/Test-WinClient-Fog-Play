@@ -262,7 +262,7 @@ Not implemented:
 
 ## M6 - Future non-prod/fake/replay/network/hardware foundation
 
-Status: in progress on `codex/m6-nonprod-foundation`.
+Status: local/dry-run schema validator implemented and merged to `main`.
 
 Implemented outputs:
 

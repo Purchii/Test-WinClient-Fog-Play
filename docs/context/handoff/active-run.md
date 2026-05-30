@@ -1,41 +1,32 @@
 # Active run
 
-Status: M6 future non-prod/fake/replay/network/hardware foundation in progress.
+Status: M6 future non-prod/fake/replay/network/hardware foundation implemented, verified and merged to `main`.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for accepted M6 local-only dry-run foundation scope.
+Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: M6 Future non-prod foundation.
+Current milestone: M6 closeout complete.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = implement local schema/config dry-run validators only.
-Future execution of fake/replay/network/hardware labs is out of scope until a separate plan.
+Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/m6-nonprod-foundation
+main
 ```
 
-Current goal:
+Current result:
 
 ```text
-Implement a local dry-run validator for future NON_PROD_ONLY fake, replay, network and hardware foundation components without runtime execution, production interaction, client launch, auth or user runtime data reads.
+M6 local dry-run validator for future NON_PROD_ONLY fake, replay, network and hardware foundation components is merged to origin/main at f1abc6a.
 ```
 
-Allowed now:
-
-- `docs/qa/nonprod-foundation.md`;
-- `src/TestFramework/NonProdFoundation/**`;
-- `scripts/run-nonprod-foundation.ps1`;
-- `scripts/quality-gate.ps1`;
-- `testdata/nonprod-foundation*.json`;
-- M6 context/handoff/verification docs.
-
-Forbidden now:
+Forbidden without a new approved plan:
 
 - installed client launch;
 - WebView debug/CDP port;
@@ -65,11 +56,7 @@ Stop-and-ask triggers:
 - any production-impacting action;
 - scope expansion beyond local dry-run/schema validation.
 
-Verification plan:
+Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\NonProdFoundation\NonProdFoundation.Tests.ps1`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
-- `git diff --check`;
-- `git status --short --branch`.
+- `git diff --check`.

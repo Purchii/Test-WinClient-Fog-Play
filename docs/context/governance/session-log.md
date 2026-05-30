@@ -114,6 +114,11 @@ Safety:
 - No network shaping.
 - No hardware probing.
 - No user AppData, logs, cookies, DB or dumps read.
+
+Closeout:
+
+- `codex/m6-nonprod-foundation` was fast-forward merged to `main`.
+- `origin/main` was updated to `f1abc6a`.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold

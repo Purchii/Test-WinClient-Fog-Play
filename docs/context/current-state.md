@@ -21,7 +21,7 @@ Thread lifecycle governance correction: implemented and merged to main.
 M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemented and merged to main.
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
-M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator in progress on codex/m6-nonprod-foundation.
+M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -37,6 +37,7 @@ Repository bootstrap state:
 - M3 implementation was completed on `codex/m3-webview-bridge-contract` and merged to `main`.
 - M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
+- M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
