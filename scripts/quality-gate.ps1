@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexGoalTemplateSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through CodexGoalTemplateSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexDocsInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through CodexDocsInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -635,6 +635,38 @@ function Invoke-CodexGoalTemplateSafetyGate {
     }
 
     Write-Host 'CodexGoalTemplateSafety gate passed.'
+}
+
+function Invoke-CodexDocsInventorySafetyGate {
+    $codexDocsRoot = Join-Path $repoRoot 'docs/codex'
+    Assert-PathExists 'docs/codex'
+
+    $expectedDocs = @(
+        'agent-roles.md',
+        'autonomy-modes.md',
+        'codex-workflow.md',
+        'communication-policy.md',
+        'git-handoff-rules.md',
+        'goal-mode-rules.md',
+        'goal-template.md',
+        'milestone-planning-policy.md',
+        'prod-safe-codex-rules.md',
+        'review-template.md',
+        'task-template.md'
+    )
+    $actualDocs = @(Get-ChildItem -LiteralPath $codexDocsRoot -File -Filter '*.md' | ForEach-Object { $_.Name } | Sort-Object)
+    foreach ($doc in $expectedDocs) {
+        if ($actualDocs -notcontains $doc) {
+            throw "docs/codex is missing required policy/template doc: $doc"
+        }
+    }
+    foreach ($doc in $actualDocs) {
+        if ($expectedDocs -notcontains $doc) {
+            throw "docs/codex contains undocumented policy/template doc: $doc"
+        }
+    }
+
+    Write-Host 'CodexDocsInventorySafety gate passed.'
 }
 
 function Invoke-QaStrategySafetyGate {
@@ -3056,6 +3088,10 @@ if ($Scope -in @('CodexTemplateSafety', 'Full')) {
 
 if ($Scope -in @('CodexGoalTemplateSafety', 'Full')) {
     Invoke-CodexGoalTemplateSafetyGate
+}
+
+if ($Scope -in @('CodexDocsInventorySafety', 'Full')) {
+    Invoke-CodexDocsInventorySafetyGate
 }
 
 if ($Scope -in @('QaStrategySafety', 'Full')) {

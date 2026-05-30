@@ -43,6 +43,8 @@ The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/
 
 The `CodexGoalTemplateSafety` quality gate fails if the Codex goal template loses execution mode, scope, forbidden action, acceptance criteria, verification or stop-condition requirements.
 
+The `CodexDocsInventorySafety` quality gate fails if the `docs/codex/*.md` policy/template inventory changes without updating the gate.
+
 The `QaStrategySafety` quality gate fails if QA strategy, testability contract or flakiness policy docs lose layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking or retry/session-budget rules.
 
 The `HandoffProtocolSafety` quality gate fails if context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification or main-merge approval rules.

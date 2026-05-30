@@ -43,6 +43,7 @@ Post-M6: CodexPolicySafety static gate - implemented and verified locally.
 Post-M6: TaskRequestSafety static gate - implemented and verified locally.
 Post-M6: CodexTemplateSafety static gate - implemented and verified locally.
 Post-M6: CodexGoalTemplateSafety static gate - implemented and verified locally.
+Post-M6: CodexDocsInventorySafety static gate - implemented and verified locally.
 Post-M6: QaStrategySafety static gate - implemented and verified locally.
 Post-M6: HandoffProtocolSafety static gate - implemented and verified locally.
 Post-M6: IncomingReferenceSafety static gate - implemented and verified locally.
@@ -91,6 +92,7 @@ Repository bootstrap state:
 - Post-M6 TaskRequestSafety static gate was completed on `codex/task-request-safety-gate`.
 - Post-M6 CodexTemplateSafety static gate was completed on `codex/codex-template-safety-gate`.
 - Post-M6 CodexGoalTemplateSafety static gate was completed on `codex/goal-template-safety-gate`.
+- Post-M6 CodexDocsInventorySafety static gate was completed on `codex/codex-docs-inventory-safety-gate`.
 - Post-M6 QaStrategySafety static gate was completed on `codex/qa-strategy-safety-gate`.
 - Post-M6 HandoffProtocolSafety static gate was completed on `codex/handoff-protocol-safety-gate`.
 - Post-M6 IncomingReferenceSafety static gate was completed on `codex/incoming-reference-safety-gate`.
@@ -133,6 +135,7 @@ Current artifact status:
 - TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, production classification, verification and stop conditions.
 - CodexTemplateSafety statically checks Codex review/task/communication/agent-role docs for reporting, role separation, verification, production classification, stop-trigger, secret and no-main-merge requirements.
 - CodexGoalTemplateSafety statically checks the Codex goal template for execution mode, scope, forbidden actions, acceptance criteria, verification and stop conditions.
+- CodexDocsInventorySafety statically checks the `docs/codex/*.md` policy/template inventory.
 - QaStrategySafety statically checks QA strategy, testability contract and flakiness policy docs for layered order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 - HandoffProtocolSafety statically checks context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
 - IncomingReferenceSafety statically checks incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
