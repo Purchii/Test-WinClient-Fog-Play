@@ -138,6 +138,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Scripts README scope safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/scripts-readme-scope-safety-gate`
+
+Scope:
+
+- Add a local `ScriptsReadmeScopeSafety` quality gate.
+- Dynamically validate that every `quality-gate.ps1 -Scope` value is mentioned in `scripts/README.md`.
+- Document runtime scaffold scopes in the script command inventory without enabling runtime behavior.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M0 ProdSafety foundation
 
 Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user continuation accepted the M0 plan.

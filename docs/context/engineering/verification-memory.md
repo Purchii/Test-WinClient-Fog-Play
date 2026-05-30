@@ -220,6 +220,34 @@ Safety notes:
 - No production game session started.
 - No unsafe test enabled.
 
+## 2026-05-30 - Scripts README scope safety gate
+
+Branch: `codex/scripts-readme-scope-safety-gate`
+Status: passed
+Production impact: none; static local script documentation inventory validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptsReadmeScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ScriptsReadmeScopeSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ScriptsReadmeScopeSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates local script documentation only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Fixture inventory safety gate
 
 Branch: `codex/fixture-inventory-safety-gate`

@@ -39,6 +39,8 @@ The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` exam
 
 The `ActiveSafetyScopeInventorySafety` quality gate fails if any `*Safety` scope from `quality-gate.ps1` is missing from active handoff/current-state visibility.
 
+The `ScriptsReadmeScopeSafety` quality gate fails if any `quality-gate.ps1 -Scope` value is missing from this script command inventory.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
@@ -102,3 +104,17 @@ The `ProdMetadataSafety` quality gate fails if production test metadata suites d
 The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.
+
+The `AppSmoke` quality gate validates the local App/WebView smoke scaffold and dangerous flag rejection without launching the installed client.
+
+The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch.
+
+The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction.
+
+The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session.
+
+The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems.
+
+The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials.
+
+The `TestabilityGaps` quality gate validates the local testability gap registry without closing gaps through runtime actions.
