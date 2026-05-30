@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Resource budget fixture safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/resource-budget-safety-gate`
+
+Scope:
+
+- Add a local `ResourceBudgetSafety` quality gate.
+- Validate that `testdata/prod-resource-budget.example.yaml` remains bounded to one short canary session.
+- Cross-check budget game aliases against the production canary allowed-games fixture.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 Production safety:
 
 - No client launch.

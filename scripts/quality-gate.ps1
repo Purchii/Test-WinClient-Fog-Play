@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'ResourceBudgetSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -436,6 +436,117 @@ function Invoke-SyntheticUsersSafetyGate {
     }
 
     Write-Host 'SyntheticUsersSafety gate passed.'
+}
+
+function Invoke-ResourceBudgetSafetyGate {
+    $policyPath = Join-Path $repoRoot 'docs/qa/resource-budget-policy.md'
+    $budgetPath = Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml'
+    $allowedGamesPath = Join-Path $repoRoot 'testdata/allowed-games.example.json'
+    $prodSafetyModule = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+    Assert-PathExists 'docs/qa/resource-budget-policy.md'
+    Assert-PathExists 'testdata/prod-resource-budget.example.yaml'
+    Assert-PathExists 'testdata/allowed-games.example.json'
+    Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
+
+    $policy = Get-Content -LiteralPath $policyPath -Raw
+    foreach ($requiredPolicyPhrase in @('Any production test that starts a game session must have a resource budget', 'No uncontrolled retries')) {
+        if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
+            throw "Resource budget policy must document: $requiredPolicyPhrase"
+        }
+    }
+
+    $budgetText = Get-Content -LiteralPath $budgetPath -Raw
+    foreach ($pattern in @(
+        '(?i)C:\\Users\\[^''"`\s]+',
+        '(?i)(AppData|Cookies|Local Storage|IndexedDB|\.db|\\logs\\|/logs/)',
+        'https?://[^\s''"`<>)]',
+        '(?i)(password|passwd|secret|token|cookie|credential|auth|authorization)\s*:'
+    )) {
+        if ($budgetText -match $pattern) {
+            throw "Resource budget fixture contains forbidden value pattern: $pattern"
+        }
+    }
+
+    if ($budgetText -notmatch '(?m)^prodResourceBudget:\s*$') {
+        throw "Resource budget fixture must contain a top-level 'prodResourceBudget' mapping."
+    }
+
+    $allowedBudgetKeys = @(
+        'maxSessionsPerRun',
+        'maxParallelSessions',
+        'maxSessionDurationSeconds',
+        'maxRunsPerHour',
+        'allowedRegions',
+        'allowedGames',
+        'requireCleanupVerification',
+        'requireExplicitConditionalFlag'
+    )
+    $budgetKeyMatches = [regex]::Matches($budgetText, '(?m)^\s{2}([A-Za-z0-9_]+):')
+    $budgetKeys = @($budgetKeyMatches | ForEach-Object { $_.Groups[1].Value })
+    foreach ($expectedKey in $allowedBudgetKeys) {
+        if ($budgetKeys -notcontains $expectedKey) {
+            throw "Resource budget fixture is missing key: $expectedKey"
+        }
+    }
+    foreach ($key in $budgetKeys) {
+        if ($allowedBudgetKeys -notcontains $key) {
+            throw "Resource budget fixture contains unsupported key: $key"
+        }
+    }
+
+    Import-Module $prodSafetyModule -Force
+    $budget = Read-ProdResourceBudget -Path $budgetPath
+    if ([int]$budget.maxSessionsPerRun -ne 1) {
+        throw 'prodResourceBudget.maxSessionsPerRun must be exactly 1.'
+    }
+    if ([int]$budget.maxParallelSessions -ne 1) {
+        throw 'prodResourceBudget.maxParallelSessions must be exactly 1.'
+    }
+    if ([int]$budget.maxSessionDurationSeconds -lt 1 -or [int]$budget.maxSessionDurationSeconds -gt 120) {
+        throw 'prodResourceBudget.maxSessionDurationSeconds must be between 1 and 120.'
+    }
+    if ([int]$budget.maxRunsPerHour -lt 1 -or [int]$budget.maxRunsPerHour -gt 3) {
+        throw 'prodResourceBudget.maxRunsPerHour must be between 1 and 3.'
+    }
+    if ($budget.requireCleanupVerification -ne $true) {
+        throw 'prodResourceBudget.requireCleanupVerification must be true.'
+    }
+    if ($budget.requireExplicitConditionalFlag -ne $true) {
+        throw 'prodResourceBudget.requireExplicitConditionalFlag must be true.'
+    }
+
+    $regions = @($budget.allowedRegions)
+    if ($regions.Count -eq 0) {
+        throw 'prodResourceBudget.allowedRegions must contain at least one region.'
+    }
+    foreach ($region in $regions) {
+        if ([string]$region -notmatch '^[a-z]{2}-[a-z]+$') {
+            throw "prodResourceBudget.allowedRegions contains unsupported region alias: $region"
+        }
+    }
+
+    $allowedGamesData = Get-Content -LiteralPath $allowedGamesPath -Raw | ConvertFrom-Json
+    if ($null -eq $allowedGamesData.allowedGames) {
+        throw "Allowed games fixture must contain a top-level 'allowedGames' array."
+    }
+    $productionCanaryGames = @($allowedGamesData.allowedGames | Where-Object {
+            $_.environment -eq 'production' -and @($_.allowedFor) -contains 'prod_conditional_stream_canary'
+        } | ForEach-Object { $_.alias })
+
+    $budgetGames = @($budget.allowedGames)
+    if ($budgetGames.Count -eq 0) {
+        throw 'prodResourceBudget.allowedGames must contain at least one game alias.'
+    }
+    foreach ($game in $budgetGames) {
+        if ([string]$game -notmatch '^qa-[a-z0-9-]+-\d+$') {
+            throw "prodResourceBudget.allowedGames contains unsupported game alias: $game"
+        }
+        if ($productionCanaryGames -notcontains [string]$game) {
+            throw "prodResourceBudget.allowedGames contains a game that is not allowlisted for production canary: $game"
+        }
+    }
+
+    Write-Host 'ResourceBudgetSafety gate passed.'
 }
 
 function Invoke-ProdMatrixSafetyGate {
@@ -1342,6 +1453,10 @@ if ($Scope -in @('TestDataSafety', 'Full')) {
 
 if ($Scope -in @('SyntheticUsersSafety', 'Full')) {
     Invoke-SyntheticUsersSafetyGate
+}
+
+if ($Scope -in @('ResourceBudgetSafety', 'Full')) {
+    Invoke-ResourceBudgetSafetyGate
 }
 
 if ($Scope -in @('ProdMatrixSafety', 'Full')) {

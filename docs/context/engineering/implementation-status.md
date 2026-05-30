@@ -625,3 +625,35 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Resource budget fixture safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/resource-budget-policy.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ResourceBudgetSafety` quality gate scope;
+- `testdata/prod-resource-budget.example.yaml` must contain the expected `prodResourceBudget` keys only;
+- budget fixture must avoid credential-like fields, URLs and user runtime paths;
+- production game-session budget remains one session per run, one parallel session, at most 120 seconds and at most 3 runs per hour;
+- cleanup verification and explicit conditional flags remain required;
+- allowed regions and games must be declared as aliases;
+- budget games must also be allowlisted in `testdata/allowed-games.example.json` for `prod_conditional_stream_canary`;
+- `ResourceBudgetSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

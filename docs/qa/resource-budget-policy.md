@@ -19,3 +19,5 @@ prodResourceBudget:
 ```
 
 No uncontrolled retries that create new sessions.
+
+Committed budget fixtures must stay local and alias-only. They must not contain production URLs, credentials, tokens, cookies, auth headers or user runtime paths, and production canary game aliases must also appear in the allowed-games fixture.

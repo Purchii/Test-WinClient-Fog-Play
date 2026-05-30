@@ -7,6 +7,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety
+.\scripts\quality-gate.ps1 -Scope ResourceBudgetSafety
 .\scripts\quality-gate.ps1 -Scope ProdMatrixSafety
 .\scripts\quality-gate.ps1 -Scope BacklogSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafety
@@ -33,6 +34,8 @@ The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramewor
 The `TestDataSafety` scope statically checks `testdata/` text fixtures so risky content such as credentials, bearer tokens, user runtime paths and non-placeholder URLs only appears in explicit unsafe/negative fixture allowlists.
 
 The `SyntheticUsersSafety` scope statically checks `testdata/synthetic-users.example.json` and the synthetic users policy so allowlisted users remain alias-only, contain no credential-like fields or values, and reserve game-session permission for bounded canary aliases.
+
+The `ResourceBudgetSafety` scope statically checks `testdata/prod-resource-budget.example.yaml`, `testdata/allowed-games.example.json` and the resource budget policy so production canary budgets stay single-session, short-duration, cleanup-gated and tied to allowlisted QA game aliases.
 
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
