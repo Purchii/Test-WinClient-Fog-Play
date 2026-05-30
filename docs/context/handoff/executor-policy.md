@@ -5,7 +5,8 @@
 - Default to NON_AUTONOMOUS until the user accepts the plan.
 - Every new independent task or milestone in autonomous work must use a separate Codex thread.
 - Start new independent tasks with `create_thread` first.
-- Prefer a Codex worktree when a follow-on task needs isolated branch/workspace state from the previous task.
+- If a normal `create_thread` attempt is unusable, invisible or unmanageable, mark it inactive/orphan and retry `create_thread` once.
+- Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state from the previous task.
 - The previous task thread remains unarchived and becomes inactive after handoff.
 - If work for a new independent task continues in the previous thread, mark it as `PROCESS_ERROR_THREAD_REUSE`, update context docs, and stop before implementation until the task is handed off to a new thread.
 - Do not expand scope without user approval.

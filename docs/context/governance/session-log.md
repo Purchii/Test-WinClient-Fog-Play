@@ -95,6 +95,8 @@ Process error:
 
 - `PROCESS_ERROR_THREAD_REUSE`: M3 work began to continue in the previous long-running thread context instead of a separate task thread.
 - Corrective action: document the thread-per-task rule, use `create_thread` first for new independent tasks, use Codex worktrees when follow-on tasks need isolated branch/workspace state, leave previous task threads unarchived but inactive after handoff, and stop M3 implementation in this thread until a dedicated M3 thread is created.
+- Retry refinement: if `create_thread` returns an unusable, invisible or unmanageable thread, record it inactive/orphan and retry normal `create_thread` once before worktree fallback.
+- Observed M3 attempts: `019e7902-70cb-7f31-8487-907e53f1fc45` was inactive/orphan because AppServerManager was unavailable; retry `019e7907-e739-7213-a690-125ea2fbafeb` accepted a follow-up message and is the active M3 handoff target.
 
 Production safety:
 

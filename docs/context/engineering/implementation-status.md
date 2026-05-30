@@ -144,6 +144,7 @@ Implemented outputs:
 - Thread-per-task rule added to source-of-truth docs.
 - `create_thread` priority added for new independent tasks.
 - Codex worktree use documented for follow-on tasks that need isolated branch/workspace state.
+- Retry behavior documented: unusable, invisible or unmanageable thread attempts are marked inactive/orphan, normal `create_thread` is retried once, then worktree fallback is used after a second normal failure.
 - Previous task thread lifecycle clarified: unarchived but inactive after handoff.
 - `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
 
@@ -151,6 +152,7 @@ Current process error:
 
 - M3 implementation started to continue in the previous long-running thread context.
 - M3 implementation must stop in this thread and resume in a dedicated M3 task thread.
+- M3 thread attempt `019e7902-70cb-7f31-8487-907e53f1fc45` is inactive/orphan; retry `019e7907-e739-7213-a690-125ea2fbafeb` accepted a follow-up message.
 
 Not implemented:
 

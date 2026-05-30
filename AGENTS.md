@@ -57,7 +57,8 @@ Cloud gaming session tests must:
 - Repository docs and code are the source of truth.
 - Every new independent task or milestone in autonomous work must start in a separate Codex thread.
 - Use `create_thread` as the priority mechanism for starting each new independent task.
-- Use a Codex worktree for tasks that flow from a previous task when isolated branch/workspace state is needed.
+- If `create_thread` returns an unusable, invisible or unmanageable thread, mark that attempt inactive/orphan in handoff context and retry `create_thread` once.
+- Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state.
 - The previous task thread must remain unarchived, but becomes inactive after handoff.
 - Continuing implementation for a new independent task in the previous task thread is a process error. Record it in `active-run.md` and `session-log.md`, then stop implementation and hand off to a new thread.
 - For every new independent task, re-read:

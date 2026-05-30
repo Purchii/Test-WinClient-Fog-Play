@@ -26,6 +26,14 @@ Current goal:
 Document that every new independent autonomous task or milestone requires a separate Codex thread, `create_thread` is the priority mechanism, Codex worktrees are used when follow-on tasks need isolated branch/workspace state, and the current M3 continuation attempt is `PROCESS_ERROR_THREAD_REUSE`.
 ```
 
+Thread creation status:
+
+```text
+Incomplete M3 thread attempt: 019e7902-70cb-7f31-8487-907e53f1fc45, inactive/orphan because AppServerManager was unavailable and the thread could not receive messages or title updates.
+Successful M3 thread retry: 019e7907-e739-7213-a690-125ea2fbafeb.
+Worktree fallback is reserved for a second normal create_thread failure or a task that needs isolated branch/workspace state immediately.
+```
+
 Allowed now:
 
 - `AGENTS.md`;

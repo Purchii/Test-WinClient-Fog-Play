@@ -196,6 +196,8 @@ Process note:
 - M3 implementation must resume in a separate M3 task thread.
 - New independent tasks must use `create_thread` first.
 - Codex worktrees are reserved for follow-on tasks that need isolated branch/workspace state.
+- Unusable thread attempts must be marked inactive/orphan, then normal `create_thread` retried once before worktree fallback.
+- M3 retry `019e7907-e739-7213-a690-125ea2fbafeb` accepted a follow-up message; incomplete attempt `019e7902-70cb-7f31-8487-907e53f1fc45` is inactive/orphan.
 
 Safety notes:
 - No real credentials used.

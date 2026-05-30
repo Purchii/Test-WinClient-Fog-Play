@@ -67,6 +67,6 @@ Status: accepted.
 
 Decision: every new independent task or milestone in autonomous work uses a separate Codex thread. The previous task thread remains unarchived, but becomes inactive after handoff.
 
-Decision: `create_thread` is the priority mechanism for new independent tasks. A Codex worktree should be used when a follow-on task flows from prior work and needs isolated branch/workspace state.
+Decision: `create_thread` is the priority mechanism for new independent tasks. If a normal thread creation attempt is unusable, invisible or unmanageable, Codex records it as inactive/orphan and retries `create_thread` once. A Codex worktree is used after the second normal `create_thread` failure, or earlier when a follow-on task flows from prior work and needs isolated branch/workspace state.
 
 Decision: continuing implementation for a new independent task in the previous task thread is a process error named `PROCESS_ERROR_THREAD_REUSE`. Codex must record the error in context docs and stop implementation until the task is handed off to a correct thread.
