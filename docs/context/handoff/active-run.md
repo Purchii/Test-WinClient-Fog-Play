@@ -1,48 +1,39 @@
 # Active run
 
-Status: M5 minimal game-session canary readiness gate in progress.
+Status: M5 minimal game-session canary readiness gate implemented, verified and merged to `main`.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for accepted M5 dry-run readiness validator scope.
+Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to push to `main`.
 
-Current milestone: M5 Minimal game-session canary readiness gate.
+Current milestone: M5 closeout complete.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = implement local game-session canary readiness plan validation only.
+Current work = M5 closeout/status sync only.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/m5-game-session-canary
+main
 ```
 
-Current goal:
+Current result:
 
 ```text
-Implement a local dry-run validator for future game-session canary readiness without launching the client, authenticating, calling production backend or starting a game session.
+M5 local dry-run validator for future game-session canary readiness is merged to origin/main at 33a5611.
 ```
 
 Thread creation status:
 
 ```text
-M5 is running in a dedicated new task thread after the prior create_thread worktree retry issue.
-Previous M4 thread is handoff/planning history only and must not continue M5 implementation.
+M5 ran in a dedicated new task thread after the prior create_thread worktree retry issue.
+New independent milestones still require a separate Codex thread.
 ```
 
-Allowed now:
-
-- `docs/qa/game-session-canary.md`;
-- `src/TestFramework/GameSessionCanary/**`;
-- `scripts/run-game-session-canary.ps1`;
-- `scripts/quality-gate.ps1`;
-- `testdata/game-session-canary*.json`;
-- M5 context/handoff/verification docs.
-
-Forbidden now:
+Forbidden without a new approved plan:
 
 - installed client launch;
 - WebView debug/CDP port;
@@ -54,8 +45,7 @@ Forbidden now:
 - update/rollback flows;
 - CI/CD enablement;
 - dependency upgrades;
-- weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier;
-- merge to `main` without explicit approval.
+- weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier.
 
 Stop-and-ask triggers:
 
@@ -67,13 +57,9 @@ Stop-and-ask triggers:
 - any need to read user runtime files;
 - any need to execute or stop a real game session;
 - any production-impacting action;
-- scope expansion beyond local M5 dry-run readiness validation.
+- scope expansion beyond local dry-run/fake validation.
 
-Verification plan:
+Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\GameSessionCanary\GameSessionCanary.Tests.ps1`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
-- `git diff --check`;
-- `git status --short --branch`.
+- `git diff --check`.

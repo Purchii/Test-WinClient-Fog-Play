@@ -225,7 +225,7 @@ Not implemented:
 
 ## M5 - Minimal game-session canary readiness gate
 
-Status: in progress on `codex/m5-game-session-canary`.
+Status: dry-run readiness gate implemented and merged to `main`.
 
 Implemented outputs:
 

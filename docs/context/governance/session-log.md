@@ -84,6 +84,12 @@ Safety:
 - No production backend or streaming network calls.
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
+
+Closeout:
+
+- User explicitly allowed push to the primary branch.
+- `codex/m5-game-session-canary` was fast-forward merged to `main`.
+- `origin/main` was updated to `33a5611`.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold
