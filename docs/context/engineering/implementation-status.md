@@ -137,7 +137,7 @@ Not implemented in M2:
 
 ## Governance - Thread lifecycle
 
-Status: correction in progress on `codex/thread-lifecycle-governance`.
+Status: documentation correction implemented and merged to `main`.
 
 Implemented outputs:
 

@@ -23,7 +23,7 @@ main
 Current result:
 
 ```text
-M6 local dry-run validator for future NON_PROD_ONLY fake, replay, network and hardware foundation components is merged to origin/main at f1abc6a.
+M6 local dry-run validator for future NON_PROD_ONLY fake, replay, network and hardware foundation components is merged to origin/main. Implementation commit: f1abc6a. Closeout commit: c8488be.
 ```
 
 Forbidden without a new approved plan:

@@ -90,6 +90,7 @@ Closeout:
 - User explicitly allowed push to the primary branch.
 - `codex/m5-game-session-canary` was fast-forward merged to `main`.
 - `origin/main` was updated to `33a5611`.
+- M5 closeout docs were pushed to `origin/main` at `45b633b`.
 
 ## 2026-05-30 - M6 Future non-prod foundation
 
@@ -119,6 +120,7 @@ Closeout:
 
 - `codex/m6-nonprod-foundation` was fast-forward merged to `main`.
 - `origin/main` was updated to `f1abc6a`.
+- M6 closeout docs were pushed to `origin/main` at `c8488be`.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold
