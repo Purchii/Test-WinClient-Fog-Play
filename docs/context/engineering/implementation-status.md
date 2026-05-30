@@ -1027,6 +1027,39 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Incoming reference safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `AGENTS.md`
+- `docs/context/handoff/context-protocol.md`
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `IncomingReferenceSafety` quality gate scope;
+- `docs/_incoming_reference` must keep the expected reference-only markdown inventory;
+- AGENTS and context protocol must state that old chat context is advisory only;
+- AGENTS and context protocol must state that repository docs and code are source of truth;
+- AGENTS and context protocol must state that `docs/_incoming_reference/` is historical/reference-only input and not active scope unless restated in repository docs, scripts or code;
+- `IncomingReferenceSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Framework inventory safety gate
 
 Status: local static quality gate implemented and verified locally.

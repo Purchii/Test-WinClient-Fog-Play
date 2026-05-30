@@ -52,6 +52,34 @@ Safety notes:
 - No production game session started.
 - No unsafe test enabled.
 
+## 2026-05-30 - Incoming reference safety gate
+
+Branch: `codex/incoming-reference-safety-gate`
+Status: passed
+Production impact: none; static local reference inventory validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope IncomingReferenceSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- IncomingReferenceSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including IncomingReferenceSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates reference-only documentation inventory only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Framework inventory safety gate
 
 Branch: `codex/framework-inventory-safety-gate`

@@ -109,6 +109,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 IncomingReferenceSafety static gate
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/incoming-reference-safety-gate`
+
+Scope:
+
+- Add `IncomingReferenceSafety` quality gate scope.
+- Statically check `docs/_incoming_reference` inventory and source-of-truth wording.
+- Include `IncomingReferenceSafety` in `Full`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 BacklogSafety static gate
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.

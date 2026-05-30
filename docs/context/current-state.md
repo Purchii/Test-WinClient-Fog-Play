@@ -44,6 +44,7 @@ Post-M6: TaskRequestSafety static gate - implemented and verified locally.
 Post-M6: CodexTemplateSafety static gate - implemented and verified locally.
 Post-M6: QaStrategySafety static gate - implemented and verified locally.
 Post-M6: HandoffProtocolSafety static gate - implemented and verified locally.
+Post-M6: IncomingReferenceSafety static gate - implemented and verified locally.
 Post-M6: FrameworkInventorySafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
@@ -90,6 +91,7 @@ Repository bootstrap state:
 - Post-M6 CodexTemplateSafety static gate was completed on `codex/codex-template-safety-gate`.
 - Post-M6 QaStrategySafety static gate was completed on `codex/qa-strategy-safety-gate`.
 - Post-M6 HandoffProtocolSafety static gate was completed on `codex/handoff-protocol-safety-gate`.
+- Post-M6 IncomingReferenceSafety static gate was completed on `codex/incoming-reference-safety-gate`.
 - Post-M6 FrameworkInventorySafety static gate was completed on `codex/framework-inventory-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
@@ -130,6 +132,7 @@ Current artifact status:
 - CodexTemplateSafety statically checks Codex review/task/communication/agent-role docs for reporting, role separation, verification, production classification, stop-trigger, secret and no-main-merge requirements.
 - QaStrategySafety statically checks QA strategy, testability contract and flakiness policy docs for layered order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 - HandoffProtocolSafety statically checks context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
+- IncomingReferenceSafety statically checks incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 - FrameworkInventorySafety statically checks TestFramework modules for matching tests, local runners, QA docs and example/unsafe fixtures.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.

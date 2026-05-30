@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through FixtureInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through IncomingReferenceSafety.
 
 Planning boundary:
 
@@ -35,6 +35,7 @@ Post-M6 TaskRequestSafety static gate is complete.
 Post-M6 CodexTemplateSafety static gate is complete.
 Post-M6 QaStrategySafety static gate is complete.
 Post-M6 HandoffProtocolSafety static gate is complete.
+Post-M6 IncomingReferenceSafety static gate is complete.
 Post-M6 FrameworkInventorySafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
@@ -93,6 +94,8 @@ CodexTemplateSafety adds `Full` coverage for Codex review/task/communication/age
 QaStrategySafety adds `Full` coverage for QA strategy/testability/flakiness drift around layered test order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 
 HandoffProtocolSafety adds `Full` coverage for context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
+
+IncomingReferenceSafety adds `Full` coverage for incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 
 FrameworkInventorySafety adds `Full` coverage for TestFramework module inventory, matching tests, local runners, QA docs and example/unsafe fixtures.
 
@@ -154,5 +157,6 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexTemplateSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaStrategySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope IncomingReferenceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FrameworkInventorySafety`;
 - `git diff --check`.

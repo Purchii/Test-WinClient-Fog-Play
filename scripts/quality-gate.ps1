@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through FixtureInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through FixtureInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through IncomingReferenceSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through IncomingReferenceSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -741,6 +741,57 @@ function Invoke-HandoffProtocolSafetyGate {
     }
 
     Write-Host 'HandoffProtocolSafety gate passed.'
+}
+
+function Invoke-IncomingReferenceSafetyGate {
+    $incomingRoot = Join-Path $repoRoot 'docs/_incoming_reference'
+    $agentsPath = Join-Path $repoRoot 'AGENTS.md'
+    $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
+    Assert-PathExists 'docs/_incoming_reference'
+    Assert-PathExists 'AGENTS.md'
+    Assert-PathExists 'docs/context/handoff/context-protocol.md'
+
+    $expectedReferences = @(
+        'CODEX_GOAL_PROMPT_QA_AUTOMATION_MTC_FOG_PLAY.md',
+        'CODEX_MULTIAGENT_GOAL_RULES_MTC_FOG_PLAY.md',
+        'CODEX_QA_AUTOMATION_TZ_MTC_FOG_PLAY.md',
+        'QUICK_START_CODEX_QA_MTC_FOG_PLAY.md',
+        'TZ_WinClient_QA_Automation_Prod_Codex_v0.1.md'
+    )
+    $actualReferences = @(Get-ChildItem -LiteralPath $incomingRoot -File -Filter '*.md' | ForEach-Object { $_.Name } | Sort-Object)
+    foreach ($reference in $expectedReferences) {
+        if ($actualReferences -notcontains $reference) {
+            throw "docs/_incoming_reference is missing expected reference file: $reference"
+        }
+    }
+    foreach ($reference in $actualReferences) {
+        if ($expectedReferences -notcontains $reference) {
+            throw "docs/_incoming_reference contains undocumented reference file: $reference"
+        }
+    }
+
+    $agents = Get-Content -LiteralPath $agentsPath -Raw
+    $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
+    foreach ($requiredPhrase in @(
+            'Old chat context is advisory only',
+            'Repository docs and code are the source of truth',
+            '`docs/_incoming_reference/` is historical/reference-only input; it is not active scope unless restated in repository docs, scripts or code'
+        )) {
+        if ($agents -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "AGENTS.md must preserve incoming-reference source-of-truth phrase: $requiredPhrase"
+        }
+    }
+    foreach ($requiredPhrase in @(
+            'Old chat context is advisory only',
+            'Repository docs and code are source of truth',
+            '`docs/_incoming_reference/` is historical/reference-only input and is not active scope unless restated in repository docs, scripts or code'
+        )) {
+        if ($contextProtocol -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "context-protocol.md must preserve incoming-reference source-of-truth phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'IncomingReferenceSafety gate passed.'
 }
 
 function Invoke-FrameworkInventorySafetyGate {
@@ -2978,6 +3029,10 @@ if ($Scope -in @('QaStrategySafety', 'Full')) {
 
 if ($Scope -in @('HandoffProtocolSafety', 'Full')) {
     Invoke-HandoffProtocolSafetyGate
+}
+
+if ($Scope -in @('IncomingReferenceSafety', 'Full')) {
+    Invoke-IncomingReferenceSafetyGate
 }
 
 if ($Scope -in @('FrameworkInventorySafety', 'Full')) {

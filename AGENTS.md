@@ -55,6 +55,7 @@ Cloud gaming session tests must:
 
 - Old chat context is advisory only.
 - Repository docs and code are the source of truth.
+- `docs/_incoming_reference/` is historical/reference-only input; it is not active scope unless restated in repository docs, scripts or code.
 - Every new independent task or milestone in autonomous work must start in a separate Codex thread.
 - Use `create_thread` as the priority mechanism for starting each new independent task.
 - If `create_thread` returns an unusable, invisible or unmanageable thread, mark that attempt inactive/orphan in handoff context and retry `create_thread` once.
