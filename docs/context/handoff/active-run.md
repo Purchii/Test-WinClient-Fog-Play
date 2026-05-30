@@ -28,6 +28,7 @@ Post-M6 AllowedGamesSafety static gate is complete.
 Post-M6 ProdMetadataSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
+Post-M6 ArtifactPolicySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -65,6 +66,8 @@ SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataS
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
 QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory and core safety phrases.
+
+ArtifactPolicySafety adds `Full` coverage for release/privacy policy fixture drift around required files, forbidden extensions, finding ids, privacy patterns and scan limits.
 ```
 
 Forbidden without a new approved plan:

@@ -839,3 +839,34 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Artifact policy safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ArtifactPolicySafety` quality gate scope;
+- release policy fixtures must keep required artifact files, forbidden `.pdb`/`.map` extensions and sanitized finding ids;
+- default release policy must require configured signatures while the local clean fixture keeps signature checks relaxed;
+- privacy pattern fixture must keep token, password, bearer, API key, private key, local path and TURN credential coverage;
+- text extension scanning and maximum text file size remain bounded;
+- `ArtifactPolicySafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

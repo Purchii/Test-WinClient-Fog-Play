@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -323,6 +323,120 @@ function Invoke-QaDocsSafetyGate {
     }
 
     Write-Host 'QaDocsSafety gate passed.'
+}
+
+function Assert-JsonPatternIds {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]] $Patterns,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $RequiredIds,
+
+        [Parameter(Mandatory = $true)]
+        [string] $PolicyName
+    )
+
+    $ids = @($Patterns | ForEach-Object { [string]$_.id })
+    foreach ($id in $RequiredIds) {
+        if ($ids -notcontains $id) {
+            throw "$PolicyName must contain pattern id: $id"
+        }
+    }
+    foreach ($pattern in $Patterns) {
+        if ([string]::IsNullOrWhiteSpace([string]$pattern.id)) {
+            throw "$PolicyName contains a pattern without an id."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$pattern.pattern)) {
+            throw "$PolicyName pattern '$($pattern.id)' must define a regex pattern."
+        }
+        if (@('fail', 'warn') -notcontains [string]$pattern.severity) {
+            throw "$PolicyName pattern '$($pattern.id)' has unsupported severity '$($pattern.severity)'."
+        }
+    }
+}
+
+function Invoke-ArtifactPolicySafetyGate {
+    $releasePolicyPath = Join-Path $repoRoot 'testdata/release-gate-policy.example.json'
+    $releaseCleanPolicyPath = Join-Path $repoRoot 'testdata/release-gate-policy.clean-fixture.json'
+    $privacyPatternsPath = Join-Path $repoRoot 'testdata/privacy-patterns.example.json'
+    $privacySmallLimitPath = Join-Path $repoRoot 'testdata/privacy-patterns-small-limit.example.json'
+    Assert-PathExists 'testdata/release-gate-policy.example.json'
+    Assert-PathExists 'testdata/release-gate-policy.clean-fixture.json'
+    Assert-PathExists 'testdata/privacy-patterns.example.json'
+    Assert-PathExists 'testdata/privacy-patterns-small-limit.example.json'
+
+    $releasePolicy = Get-Content -LiteralPath $releasePolicyPath -Raw | ConvertFrom-Json
+    $releaseCleanPolicy = Get-Content -LiteralPath $releaseCleanPolicyPath -Raw | ConvertFrom-Json
+    $privacyPolicy = Get-Content -LiteralPath $privacyPatternsPath -Raw | ConvertFrom-Json
+    $privacySmallLimitPolicy = Get-Content -LiteralPath $privacySmallLimitPath -Raw | ConvertFrom-Json
+
+    foreach ($requiredFile in @('bin/rds-client.exe', 'bin/rds-updater.exe', 'Uninstall.exe', 'bin/libcef.dll', 'bin/crashpad_handler.exe', 'bin/sentry.dll')) {
+        if (@($releasePolicy.requiredFiles) -notcontains $requiredFile) {
+            throw "release-gate-policy.example.json must require file: $requiredFile"
+        }
+        if (@($releaseCleanPolicy.requiredFiles) -notcontains $requiredFile) {
+            throw "release-gate-policy.clean-fixture.json must require file: $requiredFile"
+        }
+    }
+
+    foreach ($extension in @('.pdb', '.map')) {
+        if (@($releasePolicy.forbiddenExtensions) -notcontains $extension) {
+            throw "release-gate-policy.example.json must forbid extension: $extension"
+        }
+        if (@($releaseCleanPolicy.forbiddenExtensions) -notcontains $extension) {
+            throw "release-gate-policy.clean-fixture.json must forbid extension: $extension"
+        }
+    }
+
+    Assert-JsonPatternIds -Patterns @($releasePolicy.forbiddenTextPatterns) -RequiredIds @(
+        'local-user-path',
+        'source-map-reference',
+        'unsafe-debug-flag'
+    ) -PolicyName 'release-gate-policy.example.json'
+    Assert-JsonPatternIds -Patterns @($releaseCleanPolicy.forbiddenTextPatterns) -RequiredIds @(
+        'local-user-path',
+        'source-map-reference',
+        'unsafe-debug-flag'
+    ) -PolicyName 'release-gate-policy.clean-fixture.json'
+
+    $signatureRequired = @($releasePolicy.signatureChecks | Where-Object { $_.required -ne $true })
+    if ($signatureRequired.Count -gt 0) {
+        throw 'release-gate-policy.example.json must require configured signatures.'
+    }
+    $cleanSignatureRelaxed = @($releaseCleanPolicy.signatureChecks | Where-Object { $_.required -ne $false })
+    if ($cleanSignatureRelaxed.Count -gt 0) {
+        throw 'release-gate-policy.clean-fixture.json must keep signature checks relaxed for local clean fixtures.'
+    }
+
+    Assert-JsonPatternIds -Patterns @($privacyPolicy.patterns) -RequiredIds @(
+        'access-token',
+        'refresh-token',
+        'password',
+        'bearer-token',
+        'generic-token',
+        'api-key',
+        'private-key',
+        'local-user-path',
+        'turn-credential'
+    ) -PolicyName 'privacy-patterns.example.json'
+
+    foreach ($extension in @('.txt', '.log', '.json', '.yaml', '.yml', '.ini', '.cfg', '.conf', '.xml', '.js', '.css', '.html', '.map')) {
+        if (@($privacyPolicy.textFileExtensions) -notcontains $extension) {
+            throw "privacy-patterns.example.json must scan extension: $extension"
+        }
+    }
+    if ([int64]$privacyPolicy.maxTextFileBytes -lt 1 -or [int64]$privacyPolicy.maxTextFileBytes -gt 5242880) {
+        throw 'privacy-patterns.example.json maxTextFileBytes must stay between 1 and 5242880.'
+    }
+    if (@($privacySmallLimitPolicy.patterns | ForEach-Object { [string]$_.id }) -notcontains 'access-token') {
+        throw 'privacy-patterns-small-limit.example.json must keep access-token coverage.'
+    }
+    if ([int64]$privacySmallLimitPolicy.maxTextFileBytes -ge [int64]$privacyPolicy.maxTextFileBytes) {
+        throw 'privacy-patterns-small-limit.example.json must keep a smaller scan limit than the default policy.'
+    }
+
+    Write-Host 'ArtifactPolicySafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -1928,6 +2042,10 @@ if ($Scope -in @('IncidentStopSafety', 'Full')) {
 
 if ($Scope -in @('QaDocsSafety', 'Full')) {
     Invoke-QaDocsSafetyGate
+}
+
+if ($Scope -in @('ArtifactPolicySafety', 'Full')) {
+    Invoke-ArtifactPolicySafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {
