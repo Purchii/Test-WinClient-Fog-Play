@@ -64,6 +64,10 @@ function Test-AppWebViewSmokeArtifact {
     $findings = @()
     $checks = @()
 
+    if (-not $DryRun) {
+        $findings += Add-AppSmokeFinding -Id 'dry-run-flag-required' -Severity 'fail' -Path '<runner>' -Message 'M2 App/WebView smoke validator requires the dry-run flag.'
+    }
+
     $dryRunOnlyProperty = $Policy.PSObject.Properties['dryRunOnly']
     $dryRunOnly = $null -ne $dryRunOnlyProperty -and $dryRunOnlyProperty.Value -eq $true
     $checks += [pscustomobject]@{

@@ -23,6 +23,10 @@ if ([string]::IsNullOrWhiteSpace($SyntheticUsersPath)) {
     $SyntheticUsersPath = Join-Path $repoRoot 'testdata/synthetic-users.example.json'
 }
 
+if (-not $DryRun) {
+    throw 'Prod-safe smoke runner is dry-run only. Pass -DryRun to validate guard metadata without production action.'
+}
+
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
 function Test-HasSuite {
     param(
@@ -59,8 +63,4 @@ $result | ConvertTo-Json -Depth 8
 
 if (-not $result.passed) {
     throw 'Prod-safe smoke guard rejected the requested run.'
-}
-
-if (-not $DryRun) {
-    Write-Host 'Guard passed. M0 does not implement real app execution; no production action was performed by this script.'
 }

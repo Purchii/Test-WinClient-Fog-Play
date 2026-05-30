@@ -42,6 +42,10 @@ Assert-True (-not $result.gameSessionStarted) 'M4 dry-run must not start game se
 Assert-True (-not $result.readRuntimeUserData) 'M4 dry-run must not read runtime user data.'
 Assert-True (-not $result.mutatingRequestAttempted) 'M4 dry-run must not attempt mutating requests.'
 
+$result = Test-BackendSmokePolicy -Policy $policy
+Assert-True (-not $result.passed) 'Backend smoke validator should fail closed without -DryRun.'
+Assert-FindingId -Result $result -Id 'dry-run-flag-required'
+
 $broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $broken.endpoints[0].method = 'POST'
 $broken.endpoints[1].requiresAuth = $true

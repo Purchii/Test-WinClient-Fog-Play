@@ -41,6 +41,8 @@ Runner:
 scripts/run-webview-bridge-contract.ps1 -DryRun
 ```
 
+Post-M6 guard hardening added `BridgeContract` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
+
 Known limitation:
 
 - M3 proves local contract shape and fake-host dry-run expectations only. It does not verify real C++ bridge handlers or runtime WebView behavior because client source and approved debug/runtime access are not available.

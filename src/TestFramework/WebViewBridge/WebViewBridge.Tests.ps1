@@ -44,6 +44,10 @@ Assert-True (-not $result.authAttempted) 'M3 dry-run must report authAttempted=f
 Assert-True (-not $result.gameSessionStarted) 'M3 dry-run must report gameSessionStarted=false.'
 Assert-True (-not $result.readRuntimeUserData) 'M3 dry-run must not read runtime user data.'
 
+$result = Test-WebViewBridgeContract -Contract $contract
+Assert-True (-not $result.passed) 'WebView bridge contract validator should fail closed without -DryRun.'
+Assert-FindingId -Result $result -Id 'dry-run-flag-required'
+
 $broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $broken.commands[0].payloadSchema = $null
 $broken.events[0].direction = 'web -> native'

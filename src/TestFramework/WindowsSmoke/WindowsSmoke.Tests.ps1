@@ -31,6 +31,9 @@ Assert-True (-not $result.debugPortUsed) 'Dry-run fixture must report debugPortU
 Assert-True (-not $result.authAttempted) 'Dry-run fixture must report authAttempted=false.'
 Assert-True (-not $result.gameSessionStarted) 'Dry-run fixture must report gameSessionStarted=false.'
 
+$result = Test-AppWebViewSmokeArtifact -ArtifactRoot $fixtureRoot -Policy $policy
+Assert-True (-not $result.passed) 'App/WebView smoke validator should fail closed without -DryRun.'
+
 $brokenPolicy = $policy | ConvertTo-Json -Depth 8 | ConvertFrom-Json
 $brokenPolicy.webViewBundles[0].requiredManifestKeys = @('main.css', 'missing.js')
 $result = Test-AppWebViewSmokeArtifact -ArtifactRoot $fixtureRoot -Policy $brokenPolicy -DryRun

@@ -83,6 +83,10 @@ function Test-WebViewBridgeContract {
     $findings = @()
     $checks = @()
 
+    if (-not $DryRun) {
+        $findings += Add-WebViewBridgeFinding -Id 'dry-run-flag-required' -Severity 'fail' -Path '<runner>' -Message 'M3 WebView bridge contract validator requires the dry-run flag.'
+    }
+
     $dryRunOnlyProperty = $Contract.PSObject.Properties['dryRunOnly']
     $dryRunOnly = $null -ne $dryRunOnlyProperty -and $dryRunOnlyProperty.Value -eq $true
     $checks += [pscustomobject]@{

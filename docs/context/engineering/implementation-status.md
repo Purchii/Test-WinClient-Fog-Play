@@ -362,6 +362,47 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Runner/validator guard hardening
+
+Status: local runner/quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/run-app-webview-smoke.ps1`
+- `scripts/run-prod-safe-smoke.ps1`
+- `scripts/run-prod-canary.ps1`
+- `src/TestFramework/WindowsSmoke/WindowsSmoke.psm1`
+- `src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1`
+- `src/TestFramework/WebViewBridge/WebViewBridge.psm1`
+- `src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1`
+- `src/TestFramework/BackendSmoke/BackendSmoke.psm1`
+- `src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1`
+- `scripts/quality-gate.ps1`
+- `docs/qa/app-webview-smoke.md`
+- `docs/qa/webview-bridge-contract.md`
+
+Implemented checks:
+
+- App/WebView smoke runner now has the same explicit `if (-not $DryRun)` fail-closed guard as other dry-run runners;
+- prod-safe smoke and prod canary runners reject calls without `-DryRun` before guard metadata execution;
+- App/WebView smoke, WebView bridge and BackendSmoke direct validators add `dry-run-flag-required` fail findings without `-DryRun`;
+- `AppSmoke` quality gate asserts missing `-DryRun` rejection;
+- `AppSmoke` quality gate asserts `-AllowClientLaunch` rejection;
+- `AppSmoke` quality gate asserts `-AllowWebViewDebugPort` rejection;
+- `BridgeContract` quality gate asserts missing `-DryRun` rejection;
+- `BridgeContract` quality gate asserts `-AllowClientLaunch` rejection;
+- `BridgeContract` quality gate asserts `-AllowWebViewDebugPort` rejection.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - M1 dry-run fail-closed hardening
 
 Status: local runner/quality gate hardening implemented and verified locally.

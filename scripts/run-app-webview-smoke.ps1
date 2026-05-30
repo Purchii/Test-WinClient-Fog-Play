@@ -29,8 +29,8 @@ if ($AllowWebViewDebugPort) {
     throw 'WebView debug port is not allowed by default for production smoke. Use a separately approved diagnostic milestone.'
 }
 
-if (-not $DryRun -and -not $AllowClientLaunch) {
-    throw 'M2 app smoke is dry-run/static by default. Real client launch requires explicit -AllowClientLaunch and a separate approval.'
+if (-not $DryRun) {
+    throw 'M2 app smoke runner is dry-run/static only. Pass -DryRun to perform local artifact validation.'
 }
 
 if ($AllowClientLaunch) {

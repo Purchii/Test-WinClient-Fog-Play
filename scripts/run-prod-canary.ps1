@@ -34,6 +34,10 @@ if ([string]::IsNullOrWhiteSpace($ResourceBudgetPath)) {
     $ResourceBudgetPath = Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml'
 }
 
+if (-not $DryRun) {
+    throw 'Prod canary runner is dry-run only. Pass -DryRun to validate guard metadata without production action.'
+}
+
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
 function Test-HasSuite {
     param(
@@ -85,8 +89,4 @@ if ($ExpectFailure) {
 
 if (-not $result.passed) {
     throw 'Prod canary guard rejected the requested run.'
-}
-
-if (-not $DryRun) {
-    Write-Host 'Guard passed. M0 does not implement real game-session execution; no production action was performed by this script.'
 }

@@ -38,3 +38,5 @@ Production guard behavior:
 - non-dry-run production canary automation also requires `QA_PROD_CANARY_ENABLED`.
 
 M0 scripts are dry-run capable and do not launch the client or start game sessions.
+
+Post-M6 guard hardening made `run-prod-safe-smoke.ps1` and `run-prod-canary.ps1` reject calls without `-DryRun` before guard metadata execution.

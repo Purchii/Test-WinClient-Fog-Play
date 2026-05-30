@@ -24,6 +24,7 @@ M5: Minimal game-session canary readiness gate - dry-run plan validator implemen
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
 Post-M6: Script inventory guard - implemented and verified locally.
 Post-M6: M1 dry-run fail-closed hardening - implemented and verified locally.
+Post-M6: Runner/validator guard hardening - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -42,6 +43,7 @@ Repository bootstrap state:
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
 - Post-M6 script inventory guard hardening was completed on `codex/scripts-inventory-guard`.
 - Post-M6 M1 dry-run fail-closed hardening was completed on `codex/m1-dryrun-fail-closed`.
+- Post-M6 runner/validator guard hardening was completed on `codex/app-bridge-runner-guard`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
@@ -58,4 +60,5 @@ Current artifact status:
 - Testability gaps registry exists as local/dry-run validation only.
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
 - Release and privacy runners require `-DryRun` before reading artifact roots.
+- ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

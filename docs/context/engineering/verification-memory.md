@@ -203,6 +203,40 @@ Safety notes:
 - No user AppData logs, cookies, DBs or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Post-M6 runner/validator guard hardening
+
+Branch: `codex/app-bridge-runner-guard`
+Status: passed
+Production impact: none; local runner/quality gate hardening only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AppSmoke`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BackendSmoke`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- ProdSafety gate passed and now asserts prod-safe smoke/prod canary missing `-DryRun` rejection.
+- AppSmoke gate passed and now asserts missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` rejection.
+- BridgeContract gate passed and now asserts missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` rejection.
+- BackendSmoke gate passed and direct validator tests now assert missing `-DryRun` fail-closed behavior.
+- Full quality gate passed, including ProdSafety, Release, UpdateManifest, Privacy, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps.
+
+Not run:
+- Installed client launch because this hardening is runner/static gate only.
+- WebView debug/CDP because it is forbidden.
+- Auth/login/game-session checks because they are forbidden.
+- Production backend or streaming network calls because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DBs or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - Post-M6 M1 dry-run fail-closed hardening
 
 Branch: `codex/m1-dryrun-fail-closed`

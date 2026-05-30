@@ -94,6 +94,29 @@ function Invoke-ProdSafetyGate {
     & (Join-Path $repoRoot 'scripts/run-prod-safe-smoke.ps1') -Environment production -DryRun
 
     $canaryScript = Join-Path $repoRoot 'scripts/run-prod-canary.ps1'
+    $smokeScript = Join-Path $repoRoot 'scripts/run-prod-safe-smoke.ps1'
+    $missingSmokeDryRunRejected = $false
+    try {
+        & $smokeScript -Environment production | Out-Null
+    }
+    catch {
+        $missingSmokeDryRunRejected = $true
+    }
+    if (-not $missingSmokeDryRunRejected) {
+        throw 'Prod-safe smoke runner must reject calls without -DryRun.'
+    }
+
+    $missingCanaryDryRunRejected = $false
+    try {
+        & $canaryScript -Environment production -AllowProdConditional -CleanupVerified | Out-Null
+    }
+    catch {
+        $missingCanaryDryRunRejected = $true
+    }
+    if (-not $missingCanaryDryRunRejected) {
+        throw 'Prod canary runner must reject calls without -DryRun.'
+    }
+
     & $canaryScript -Environment production -DryRun -ExpectFailure
     & $canaryScript -Environment production -DryRun -AllowProdConditional -CleanupVerified
 
@@ -359,6 +382,49 @@ function Invoke-AppSmokeGate {
     & (Join-Path $repoRoot 'src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1')
 
     $appSmoke = Join-Path $repoRoot 'scripts/run-app-webview-smoke.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'App/WebView smoke runner must reject calls without -DryRun.'
+    }
+
+    $clientLaunchRejected = $false
+    try {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
+            -DryRun `
+            -AllowClientLaunch | Out-Null
+    }
+    catch {
+        $clientLaunchRejected = $true
+    }
+    if (-not $clientLaunchRejected) {
+        throw 'App/WebView smoke runner must reject -AllowClientLaunch.'
+    }
+
+    $debugPortRejected = $false
+    try {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
+            -DryRun `
+            -AllowWebViewDebugPort | Out-Null
+    }
+    catch {
+        $debugPortRejected = $true
+    }
+    if (-not $debugPortRejected) {
+        throw 'App/WebView smoke runner must reject -AllowWebViewDebugPort.'
+    }
+
     $result = Invoke-JsonGate {
         & $appSmoke `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
@@ -404,6 +470,46 @@ function Invoke-BridgeContractGate {
     & (Join-Path $repoRoot 'src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1')
 
     $bridgeContract = Join-Path $repoRoot 'scripts/run-webview-bridge-contract.ps1'
+    $missingDryRunRejected = $false
+    try {
+        & $bridgeContract `
+            -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') | Out-Null
+    }
+    catch {
+        $missingDryRunRejected = $true
+    }
+    if (-not $missingDryRunRejected) {
+        throw 'WebView bridge contract runner must reject calls without -DryRun.'
+    }
+
+    $clientLaunchRejected = $false
+    try {
+        & $bridgeContract `
+            -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `
+            -DryRun `
+            -AllowClientLaunch | Out-Null
+    }
+    catch {
+        $clientLaunchRejected = $true
+    }
+    if (-not $clientLaunchRejected) {
+        throw 'WebView bridge contract runner must reject -AllowClientLaunch.'
+    }
+
+    $debugPortRejected = $false
+    try {
+        & $bridgeContract `
+            -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `
+            -DryRun `
+            -AllowWebViewDebugPort | Out-Null
+    }
+    catch {
+        $debugPortRejected = $true
+    }
+    if (-not $debugPortRejected) {
+        throw 'WebView bridge contract runner must reject -AllowWebViewDebugPort.'
+    }
+
     $result = Invoke-JsonGate {
         & $bridgeContract `
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `

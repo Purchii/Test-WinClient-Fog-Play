@@ -86,6 +86,31 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 runner/validator guard hardening
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/app-bridge-runner-guard`
+
+Scope:
+
+- Normalize App/WebView smoke runner to an explicit dry-run-only guard.
+- Add AppSmoke and BridgeContract quality gate assertions for missing `-DryRun`, client launch flags and WebView debug/CDP flags.
+- Make prod-safe smoke and prod canary runners reject missing `-DryRun`.
+- Make App/WebView smoke, WebView bridge and BackendSmoke direct validators return fail findings without `-DryRun`.
+- Keep all verification on local fixtures only.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 M1 dry-run fail-closed hardening
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.

@@ -38,6 +38,8 @@ Safety defaults:
 
 `scripts/run-app-webview-smoke.ps1` fails unless `-DryRun` is used. `-AllowClientLaunch` and `-AllowWebViewDebugPort` are intentionally blocked in M2 and require a separate approved milestone.
 
+Post-M6 guard hardening added `AppSmoke` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
+
 Known limitation:
 
 - M2 proves static artifact readiness only. It does not prove that the main window opens or that WebView content renders at runtime.

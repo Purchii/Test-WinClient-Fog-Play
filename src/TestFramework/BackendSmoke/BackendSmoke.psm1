@@ -73,6 +73,10 @@ function Test-BackendSmokePolicy {
     $findings = @()
     $checks = @()
 
+    if (-not $DryRun) {
+        $findings += Add-BackendSmokeFinding -Id 'dry-run-flag-required' -Severity 'fail' -Path '<runner>' -Message 'M4 backend smoke validator requires the dry-run flag.'
+    }
+
     $dryRunOnlyProperty = $Policy.PSObject.Properties['dryRunOnly']
     $dryRunOnly = $null -ne $dryRunOnlyProperty -and $dryRunOnlyProperty.Value -eq $true
     $checks += [pscustomobject]@{
