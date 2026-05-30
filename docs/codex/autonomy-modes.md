@@ -58,6 +58,8 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - verification commands are specified or can be safely discovered;
 - a dedicated task branch is used;
 - a separate Codex thread is used for the current independent task or milestone;
+- `create_thread` was used or attempted first for the new independent task;
+- a Codex worktree is used when the task flows from prior work and needs isolated branch/workspace state;
 - the previous task thread is left unarchived but inactive after handoff;
 - the task is not changing production behavior directly;
 - no real credentials, tokens, or personal data are needed;
@@ -101,6 +103,8 @@ For MTC Fog Play QA Automation, use this default:
 
 ```text
 New independent task or milestone: separate Codex thread.
+Thread creation priority: use create_thread first.
+Follow-on task isolation: use Codex worktree when needed.
 Initial discovery and plan: NON_AUTONOMOUS.
 After user accepts the plan: BOUNDED_AUTONOMOUS only for the approved milestone.
 Production-impacting actions: NON_AUTONOMOUS.

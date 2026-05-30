@@ -142,6 +142,8 @@ Status: correction in progress on `codex/thread-lifecycle-governance`.
 Implemented outputs:
 
 - Thread-per-task rule added to source-of-truth docs.
+- `create_thread` priority added for new independent tasks.
+- Codex worktree use documented for follow-on tasks that need isolated branch/workspace state.
 - Previous task thread lifecycle clarified: unarchived but inactive after handoff.
 - `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
 

@@ -194,6 +194,8 @@ Results:
 Process note:
 - `PROCESS_ERROR_THREAD_REUSE` recorded because M3 work began to continue in the previous long-running thread context.
 - M3 implementation must resume in a separate M3 task thread.
+- New independent tasks must use `create_thread` first.
+- Codex worktrees are reserved for follow-on tasks that need isolated branch/workspace state.
 
 Safety notes:
 - No real credentials used.

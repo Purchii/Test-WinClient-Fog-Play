@@ -23,7 +23,7 @@ codex/thread-lifecycle-governance
 Current goal:
 
 ```text
-Document that every new independent autonomous task or milestone requires a separate Codex thread, and record the current M3 continuation attempt as `PROCESS_ERROR_THREAD_REUSE`.
+Document that every new independent autonomous task or milestone requires a separate Codex thread, `create_thread` is the priority mechanism, Codex worktrees are used when follow-on tasks need isolated branch/workspace state, and the current M3 continuation attempt is `PROCESS_ERROR_THREAD_REUSE`.
 ```
 
 Allowed now:

@@ -5,6 +5,8 @@ Before implementation:
 - [ ] `git status --short` checked.
 - [ ] Correct task thread confirmed.
 - [ ] New independent task/milestone has its own Codex thread.
+- [ ] `create_thread` used or attempted first for a new independent task.
+- [ ] Worktree used only when isolated branch/workspace state is useful for a follow-on task.
 - [ ] Previous task thread is left unarchived but inactive.
 - [ ] No `PROCESS_ERROR_THREAD_REUSE` remains unresolved.
 - [ ] Not working directly on main, unless explicitly allowed.

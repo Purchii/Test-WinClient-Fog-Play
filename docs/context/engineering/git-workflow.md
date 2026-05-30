@@ -6,6 +6,8 @@
 - Do not work directly on `main` for backlog tasks.
 - Every bounded goal uses a dedicated task branch.
 - Every new independent autonomous task or milestone uses a separate Codex thread.
+- Use `create_thread` first for new independent tasks.
+- Use Codex worktrees when follow-on tasks need isolated branch/workspace state.
 - The previous task thread remains unarchived but inactive after handoff.
 - If a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE` before doing more implementation.
 - Branch must be atomic but useful: one rollback-sized backlog slice.

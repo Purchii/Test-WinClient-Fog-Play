@@ -94,7 +94,7 @@ Mode: `BOUNDED_AUTONOMOUS` governance correction requested by the user; implemen
 Process error:
 
 - `PROCESS_ERROR_THREAD_REUSE`: M3 work began to continue in the previous long-running thread context instead of a separate task thread.
-- Corrective action: document the thread-per-task rule, leave previous task threads unarchived but inactive after handoff, and stop M3 implementation in this thread until a dedicated M3 thread is created.
+- Corrective action: document the thread-per-task rule, use `create_thread` first for new independent tasks, use Codex worktrees when follow-on tasks need isolated branch/workspace state, leave previous task threads unarchived but inactive after handoff, and stop M3 implementation in this thread until a dedicated M3 thread is created.
 
 Production safety:
 

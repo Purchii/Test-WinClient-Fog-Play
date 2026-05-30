@@ -26,6 +26,8 @@ Repository docs and code are source of truth.
 Thread lifecycle:
 
 - A new independent task or milestone in autonomous work requires a separate Codex thread.
+- `create_thread` is the priority mechanism for starting a new independent task.
+- Use a Codex worktree when the new task flows from a previous task and needs isolated branch/workspace state.
 - The previous task thread is not archived automatically. It remains available as history, but is inactive after handoff.
 - If a new task is continued in the previous thread, treat it as `PROCESS_ERROR_THREAD_REUSE`: record the error, do not implement further task changes, and create or hand off to the correct task thread.
 - A current thread may make a narrowly scoped governance correction documenting this error before handoff.
