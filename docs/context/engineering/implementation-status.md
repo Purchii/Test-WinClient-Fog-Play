@@ -362,6 +362,30 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Quality gate scope inventory guard
+
+Status: local context quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- `Context` quality gate extracts supported scopes from `quality-gate.ps1` `ValidateSet`;
+- `Context` quality gate fails if `docs/context/engineering/quality-gates.md` does not list any supported scope.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - TestDataSafety static gate
 
 Status: local quality gate hardening implemented and verified locally.

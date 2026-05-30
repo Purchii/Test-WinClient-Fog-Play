@@ -38,6 +38,34 @@ function Assert-ScriptsReadmeInventory {
     }
 }
 
+function Assert-QualityGateDocsInventory {
+    $docsPath = Join-Path $repoRoot 'docs/context/engineering/quality-gates.md'
+    $scriptPath = Join-Path $repoRoot 'scripts/quality-gate.ps1'
+    if (-not (Test-Path -LiteralPath $docsPath -PathType Leaf)) {
+        throw 'Required path is missing: docs/context/engineering/quality-gates.md'
+    }
+    if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        throw 'Required path is missing: scripts/quality-gate.ps1'
+    }
+
+    $docs = Get-Content -LiteralPath $docsPath -Raw
+    $script = Get-Content -LiteralPath $scriptPath -Raw
+    $validateSetMatch = [regex]::Match($script, "\[ValidateSet\((?<values>[^\)]*)\)\]")
+    if (-not $validateSetMatch.Success) {
+        throw 'quality-gate.ps1 does not declare a ValidateSet for -Scope.'
+    }
+
+    $scopes = [regex]::Matches($validateSetMatch.Groups['values'].Value, "'([^']+)'") |
+        ForEach-Object { $_.Groups[1].Value } |
+        Sort-Object -Unique
+
+    foreach ($scopeName in $scopes) {
+        if ($docs -notmatch "-Scope\s+$([regex]::Escape($scopeName))(\s|`r|`n|$)") {
+            throw "docs/context/engineering/quality-gates.md does not list quality gate scope: $scopeName"
+        }
+    }
+}
+
 function Invoke-ContextGate {
     $required = @(
         'AGENTS.md',
@@ -65,6 +93,7 @@ function Invoke-ContextGate {
     }
 
     Assert-ScriptsReadmeInventory
+    Assert-QualityGateDocsInventory
 
     Write-Host 'Context gate passed.'
 }

@@ -203,6 +203,33 @@ Safety notes:
 - No user AppData logs, cookies, DBs or dumps read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - Post-M6 quality gate scope inventory guard
+
+Branch: `codex/quality-gate-scope-inventory`
+Status: passed
+Production impact: none; local context quality gate hardening only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+
+Results:
+- Context gate passed.
+- Context now verifies that every supported `quality-gate.ps1 -Scope` value is documented in `docs/context/engineering/quality-gates.md`.
+
+Not run:
+- Installed client launch because this hardening is context/static gate only.
+- WebView debug/CDP because it is forbidden.
+- Auth/login/game-session checks because they are forbidden.
+- Production backend or streaming network calls because they are forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DBs or dumps read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - Post-M6 TestDataSafety static gate
 
 Branch: `codex/testdata-safety-gate`

@@ -86,6 +86,28 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 quality gate scope inventory guard
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/quality-gate-scope-inventory`
+
+Scope:
+
+- Add a `Context` assertion that every `quality-gate.ps1 -Scope` value is documented.
+- Keep the change documentation/static-gate only.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 TestDataSafety static gate
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
