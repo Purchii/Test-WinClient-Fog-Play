@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through SessionLogSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through SessionLogSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through VerificationMemorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through VerificationMemorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -219,6 +219,39 @@ function Invoke-SessionLogSafetyGate {
     }
 
     Write-Host 'SessionLogSafety gate passed.'
+}
+
+function Invoke-VerificationMemorySafetyGate {
+    $verificationPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
+    Assert-PathExists 'docs/context/engineering/verification-memory.md'
+
+    $verificationMemory = Get-Content -LiteralPath $verificationPath -Raw
+    foreach ($forbiddenPending in @('verification pending', '- pending', 'pending local run')) {
+        if ($verificationMemory -match [regex]::Escape($forbiddenPending)) {
+            throw "verification-memory.md must not contain unresolved marker: $forbiddenPending"
+        }
+    }
+
+    $entryMatches = @([regex]::Matches($verificationMemory, '(?ms)^## \d{4}-\d{2}-\d{2} - .+?(?=^## \d{4}-\d{2}-\d{2} - |\z)'))
+    $branchEntries = @($entryMatches | Where-Object { $_.Value -match 'Branch:\s+`codex/' })
+    if ($branchEntries.Count -eq 0) {
+        throw 'verification-memory.md must contain codex branch verification entries.'
+    }
+
+    foreach ($entry in $branchEntries) {
+        $entryText = $entry.Value
+        $title = ([regex]::Match($entryText, '^## .+', 'Multiline')).Value
+        foreach ($requiredPhrase in @('Status: passed', 'Production impact:', 'Commands:', 'Results:')) {
+            if ($entryText -notmatch [regex]::Escape($requiredPhrase)) {
+                throw "verification-memory.md entry '$title' must include $requiredPhrase"
+            }
+        }
+        if ($entryText -match 'Production impact:\s+none; static' -and $entryText -notmatch 'Not run:') {
+            throw "verification-memory.md static entry '$title' must include Not run rationale."
+        }
+    }
+
+    Write-Host 'VerificationMemorySafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2277,6 +2310,10 @@ if ($Scope -in @('ActiveRunSafety', 'Full')) {
 
 if ($Scope -in @('SessionLogSafety', 'Full')) {
     Invoke-SessionLogSafetyGate
+}
+
+if ($Scope -in @('VerificationMemorySafety', 'Full')) {
+    Invoke-VerificationMemorySafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

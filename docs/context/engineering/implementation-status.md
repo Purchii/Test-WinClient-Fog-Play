@@ -785,6 +785,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Verification memory safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `VerificationMemorySafety` quality gate scope;
+- `docs/context/engineering/verification-memory.md` must not retain unresolved `verification pending` or `- pending` markers;
+- codex branch entries must include passed status, production impact, commands and results;
+- static branch entries must include a `Not run` rationale;
+- `VerificationMemorySafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Full scope dispatch guard
 
 Status: local static quality gate hardening implemented and verified locally.

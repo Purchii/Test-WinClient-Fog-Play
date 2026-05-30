@@ -29,6 +29,8 @@ The `ActiveRunSafety` quality gate fails if the active handoff/current-state doc
 
 The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes.
 
+The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers or lose status, production impact, command or result evidence.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.
