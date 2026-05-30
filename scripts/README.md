@@ -27,6 +27,8 @@ The `Context` quality gate also fails if any `quality-gate.ps1 -Scope` value is 
 
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
+The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
+
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.

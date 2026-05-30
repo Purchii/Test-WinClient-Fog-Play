@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Incident stop safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/incident-stop-safety-gate`
+
+Scope:
+
+- Add `docs/qa/incident-stop-policy.md`.
+- Add local `IncidentStopSafety` quality gate.
+- Validate testability gap stop triggers against the approved incident-stop vocabulary.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Full scope dispatch guard
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

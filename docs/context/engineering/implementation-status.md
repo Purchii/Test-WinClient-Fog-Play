@@ -778,3 +778,34 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - Incident stop safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `docs/qa/incident-stop-policy.md`
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `IncidentStopSafety` quality gate scope;
+- incident stop trigger vocabulary is centralized in `docs/qa/incident-stop-policy.md`;
+- active handoff must preserve the core stop-and-ask trigger phrases;
+- `testdata/testability-gaps.example.json` gap stop triggers must stay within the approved incident-stop vocabulary;
+- `IncidentStopSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

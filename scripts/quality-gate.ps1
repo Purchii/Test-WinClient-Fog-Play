@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -170,6 +170,95 @@ function Invoke-ActiveRunSafetyGate {
     }
 
     Write-Host 'ActiveRunSafety gate passed.'
+}
+
+function Invoke-IncidentStopSafetyGate {
+    $policyPath = Join-Path $repoRoot 'docs/qa/incident-stop-policy.md'
+    $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
+    $testabilityGapsPath = Join-Path $repoRoot 'testdata/testability-gaps.example.json'
+    Assert-PathExists 'docs/qa/incident-stop-policy.md'
+    Assert-PathExists 'docs/context/handoff/active-run.md'
+    Assert-PathExists 'testdata/testability-gaps.example.json'
+
+    $policy = Get-Content -LiteralPath $policyPath -Raw
+    $activeRun = Get-Content -LiteralPath $activeRunPath -Raw
+    $gaps = Get-Content -LiteralPath $testabilityGapsPath -Raw | ConvertFrom-Json
+
+    $requiredTriggers = @(
+        'installed-client-launch',
+        'webview-debug-cdp',
+        'authentication',
+        'synthetic-login',
+        'production-backend-network',
+        'streaming-network',
+        'network-call',
+        'game-session-execution',
+        'runtime-user-data',
+        'credentials',
+        'production-impact',
+        'replay-server-runtime',
+        'network-shaping',
+        'hardware-inspection',
+        'update-rollback-execution',
+        'cicd-enablement',
+        'dependency-upgrade',
+        'guard-weakening',
+        'scope-expansion'
+    )
+
+    foreach ($trigger in $requiredTriggers) {
+        if ($policy -notmatch "(?m)^-\s+$([regex]::Escape($trigger))\s*$") {
+            throw "incident-stop-policy.md must list stop trigger: $trigger"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'do not launch the installed client',
+            'do not enable WebView debug/CDP',
+            'do not authenticate',
+            'do not call production backend or streaming services',
+            'do not start or stop a real game session',
+            'do not read user AppData, logs, cookies, databases or dumps',
+            'do not enable CI/CD or upgrade dependencies'
+        )) {
+        if ($policy -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "incident-stop-policy.md must document default handling phrase: $requiredPhrase"
+        }
+    }
+
+    foreach ($activeRunPhrase in @(
+            'installed client launch',
+            'WebView debug/CDP',
+            'authentication',
+            'real game session',
+            'production backend or streaming network interaction',
+            'credentials, secrets',
+            'reading user AppData',
+            'CI/CD enablement',
+            'dependency upgrades',
+            'scope expansion beyond local dry-run/schema validation'
+        )) {
+        if ($activeRun -notmatch [regex]::Escape($activeRunPhrase)) {
+            throw "active-run.md must preserve stop trigger phrase: $activeRunPhrase"
+        }
+    }
+
+    if ($null -eq $gaps.gaps) {
+        throw "testability-gaps.example.json must contain a top-level 'gaps' array."
+    }
+    foreach ($gap in @($gaps.gaps)) {
+        $stopTriggers = @($gap.stopTriggers)
+        if ($stopTriggers.Count -eq 0) {
+            throw "Testability gap '$($gap.id)' must list at least one stop trigger."
+        }
+        foreach ($trigger in $stopTriggers) {
+            if ($requiredTriggers -notcontains [string]$trigger) {
+                throw "Testability gap '$($gap.id)' uses a stop trigger not listed in incident-stop-policy.md: $trigger"
+            }
+        }
+    }
+
+    Write-Host 'IncidentStopSafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -1767,6 +1856,10 @@ if ($Scope -in @('Context', 'Full')) {
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {
     Invoke-ActiveRunSafetyGate
+}
+
+if ($Scope -in @('IncidentStopSafety', 'Full')) {
+    Invoke-IncidentStopSafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {

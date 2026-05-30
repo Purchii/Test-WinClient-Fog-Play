@@ -205,6 +205,37 @@ Safety notes:
 - No client process launched.
 - No user AppData logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Incident stop safety gate
+
+Branch: `codex/incident-stop-safety-gate`
+Status: passed
+Production impact: none; static local policy/handoff validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope IncidentStopSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- IncidentStopSafety gate passed.
+- Context quality gate passed.
+- ActiveRunSafety gate passed.
+- Full quality gate passed, including IncidentStopSafety, ActiveRunSafety, ProdSafety, AppSmoke, BridgeContract, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Runtime execution because this is static policy/handoff validation only.
+- Client launch, auth, backend calls or game sessions because they remain forbidden.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Full scope dispatch guard
 
 Branch: `codex/full-scope-dispatch-guard`
