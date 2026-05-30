@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ChecklistSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ChecklistSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through DecisionsLogSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through DecisionsLogSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -312,6 +312,56 @@ function Invoke-ChecklistSafetyGate {
     }
 
     Write-Host 'ChecklistSafety gate passed.'
+}
+
+function Invoke-DecisionsLogSafetyGate {
+    $decisionsLogPath = Join-Path $repoRoot 'docs/context/governance/decisions-log.md'
+    Assert-PathExists 'docs/context/governance/decisions-log.md'
+
+    $decisionsLog = Get-Content -LiteralPath $decisionsLogPath -Raw
+    foreach ($decisionId in 1..10) {
+        $formattedId = 'D-{0:D3}' -f $decisionId
+        if ($decisionsLog -notmatch "##\s+${formattedId}:") {
+            throw "decisions-log.md must preserve decision entry: $formattedId"
+        }
+    }
+
+    $decisionEntries = @([regex]::Matches($decisionsLog, '(?ms)^## D-\d{3}: .+?(?=^## D-\d{3}: |\z)'))
+    foreach ($entry in $decisionEntries) {
+        $entryText = $entry.Value
+        $title = ([regex]::Match($entryText, '^## D-\d{3}: .+', 'Multiline')).Value
+        if ($entryText -notmatch 'Status:\s+accepted\.') {
+            throw "decisions-log.md entry '$title' must keep accepted status."
+        }
+        if ($entryText -notmatch 'Decision:') {
+            throw "decisions-log.md entry '$title' must include a Decision statement."
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'production-safety foundation, not game-session E2E',
+            'does not work directly on main',
+            'no production game-session automation before ProdGuard',
+            'release artifact and privacy gates are independent from E2E',
+            'update rollback, network degradation, load/stress/chaos and destructive tests are not production tests',
+            'NON_AUTONOMOUS for discovery/risky/production-impacting work',
+            'BOUNDED_AUTONOMOUS only after the user accepts a bounded plan',
+            'multi-agent mode by default for non-trivial milestones',
+            'Merge to `main` still requires explicit user approval',
+            'commit and push are separate actions',
+            'user approval to "push" the current task branch includes permission to create the required local commit',
+            'does not include permission to merge to `main`',
+            'every new independent task or milestone in autonomous work uses a separate Codex thread',
+            '`create_thread` is the priority mechanism',
+            'retries `create_thread` once',
+            'PROCESS_ERROR_THREAD_REUSE'
+        )) {
+        if ($decisionsLog -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "decisions-log.md must preserve decision phrase: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'DecisionsLogSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2378,6 +2428,10 @@ if ($Scope -in @('VerificationMemorySafety', 'Full')) {
 
 if ($Scope -in @('ChecklistSafety', 'Full')) {
     Invoke-ChecklistSafetyGate
+}
+
+if ($Scope -in @('DecisionsLogSafety', 'Full')) {
+    Invoke-DecisionsLogSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

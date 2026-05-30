@@ -38,6 +38,7 @@ Post-M6: ProdMetadataSafety static gate - implemented and verified locally.
 Post-M6: SessionLogSafety static gate - implemented and verified locally.
 Post-M6: VerificationMemorySafety static gate - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
+Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
@@ -76,6 +77,7 @@ Repository bootstrap state:
 - Post-M6 SessionLogSafety static gate was completed on `codex/session-log-safety-gate`.
 - Post-M6 VerificationMemorySafety static gate was completed on `codex/verification-memory-safety-gate`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
+- Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
@@ -108,6 +110,7 @@ Current artifact status:
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers and missing evidence fields.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
+- DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.

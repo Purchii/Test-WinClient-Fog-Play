@@ -24,6 +24,34 @@ Safety notes:
 - No unsafe test enabled.
 ```
 
+## 2026-05-30 - Decisions log safety gate
+
+Branch: `codex/decisions-log-safety-gate`
+Status: passed
+Production impact: none; static local decisions-log validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- DecisionsLogSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including DecisionsLogSafety.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates durable decision records only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Checklist safety gate
 
 Branch: `codex/checklist-safety-gate`

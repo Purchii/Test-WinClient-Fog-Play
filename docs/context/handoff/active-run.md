@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ChecklistSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through DecisionsLogSafety.
 
 Planning boundary:
 
@@ -29,6 +29,7 @@ Post-M6 ProdMetadataSafety static gate is complete.
 Post-M6 SessionLogSafety static gate is complete.
 Post-M6 VerificationMemorySafety static gate is complete.
 Post-M6 ChecklistSafety static gate is complete.
+Post-M6 DecisionsLogSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -73,6 +74,8 @@ SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, b
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers and missing evidence fields fail closed.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
+
+DecisionsLogSafety adds `Full` coverage for durable decision drift around production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
@@ -123,4 +126,5 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ChecklistSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`;
 - `git diff --check`.

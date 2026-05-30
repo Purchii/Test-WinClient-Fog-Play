@@ -845,6 +845,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Decisions log safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `DecisionsLogSafety` quality gate scope;
+- decision entries D-001 through D-010 must remain present and accepted;
+- durable decisions around production safety, game-session gating, autonomy, multi-agent mode, thread isolation and process errors must remain explicit;
+- commit/push and main-merge authority decisions must remain explicit;
+- `DecisionsLogSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Full scope dispatch guard
 
 Status: local static quality gate hardening implemented and verified locally.
