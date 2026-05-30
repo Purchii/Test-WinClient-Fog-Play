@@ -194,6 +194,7 @@ Results:
 - Context quality gate passed.
 - Full quality gate passed, including ProdSafety, Release, Privacy, AppSmoke, BridgeContract, BackendSmoke and GameSessionCanary.
 - GameSessionCanary quality gate verifies `PROD_CONDITIONAL` rejection without explicit `-AllowProdConditional`.
+- GameSessionCanary unit coverage verifies the direct validator fails closed without `-DryRun`.
 - Unsafe M5 fixture reports fail findings for non-dry-run policy, real execution/client/network/auth enablement, runtime user path, wrong classification, missing cleanup, oversized duration, non-allowlisted game, retries and missing first-frame readiness signal.
 - `git diff --check` passed with line-ending warnings only.
 

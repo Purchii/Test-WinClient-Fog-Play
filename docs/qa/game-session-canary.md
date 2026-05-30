@@ -22,6 +22,7 @@ Implemented checks:
 - retries are disabled;
 - expected readiness signals include `stream-ready` and `first-frame`;
 - policy is dry-run only;
+- direct validator invocation requires the dry-run flag;
 - real execution, client launch, network calls and authentication are disabled;
 - policy does not request user runtime paths, logs, cookies, DBs or dumps;
 - policy test metadata passes ProdGuard only with explicit `-AllowProdConditional` and `-CleanupVerified`.

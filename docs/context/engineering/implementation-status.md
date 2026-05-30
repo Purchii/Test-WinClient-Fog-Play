@@ -239,6 +239,7 @@ Implemented outputs:
 Implemented checks:
 
 - dry-run-only policy;
+- direct validator invocation requires the dry-run flag;
 - real execution, client launch, network and auth disablement;
 - runtime user path rejection;
 - exactly one `PROD_CONDITIONAL` canary test;

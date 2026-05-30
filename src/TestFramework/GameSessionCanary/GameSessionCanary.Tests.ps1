@@ -48,6 +48,10 @@ Assert-True (-not $result.gameSessionStarted) 'M5 dry-run must not start game se
 Assert-True (-not $result.cleanupAttempted) 'M5 dry-run must not attempt real cleanup.'
 Assert-True (-not $result.readRuntimeUserData) 'M5 dry-run must not read runtime user data.'
 
+$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -ResourceBudget $budget
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should fail closed without -DryRun.'
+Assert-FindingId -Result $result -Id 'dry-run-flag-required'
+
 $unsafe = Read-GameSessionCanaryPlan -Path (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json')
 $result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -ResourceBudget $budget -DryRun
 Assert-True (-not $result.passed) 'Unsafe game-session canary plan should fail.'

@@ -92,8 +92,10 @@ function Test-GameSessionCanaryPlan {
     $clientLaunchDisabled = (Get-GameSessionCanaryValue -Object $Plan -Name 'clientLaunchDisabled' -Default $false) -eq $true
     $networkDisabled = (Get-GameSessionCanaryValue -Object $Plan -Name 'networkDisabled' -Default $false) -eq $true
     $authDisabled = (Get-GameSessionCanaryValue -Object $Plan -Name 'authDisabled' -Default $false) -eq $true
+    $dryRunFlagProvided = [bool]$DryRun
 
     foreach ($policyCheck in @(
+        @{ Name = 'dryRunFlag'; Passed = $dryRunFlagProvided; Id = 'dry-run-flag-required'; Message = 'M5 readiness gate must be invoked with the dry-run flag.' },
         @{ Name = 'dryRunOnly'; Passed = $dryRunOnly; Id = 'policy-not-dry-run-only'; Message = 'M5 readiness gate must be dry-run only.' },
         @{ Name = 'executionDisabled'; Passed = $executionDisabled; Id = 'execution-not-disabled'; Message = 'M5 readiness gate must disable real game-session execution.' },
         @{ Name = 'clientLaunchDisabled'; Passed = $clientLaunchDisabled; Id = 'client-launch-not-disabled'; Message = 'M5 readiness gate must not launch the installed client.' },
