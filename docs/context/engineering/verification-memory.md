@@ -24,6 +24,34 @@ Safety notes:
 - No unsafe test enabled.
 ```
 
+## 2026-05-30 - Codex policy safety gate
+
+Branch: `codex/codex-policy-safety-gate`
+Status: passed
+Production impact: none; static local Codex/executor policy validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- CodexPolicySafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including CodexPolicySafety.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates policy documents only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Decisions log safety gate
 
 Branch: `codex/decisions-log-safety-gate`

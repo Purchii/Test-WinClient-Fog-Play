@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Codex policy safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/codex-policy-safety-gate`
+
+Scope:
+
+- Add local `CodexPolicySafety` quality gate.
+- Validate Codex autonomy, workflow and production-safe rule docs keep stop-and-ask boundaries.
+- Validate executor and git handoff policies keep thread, branch, merge, credential, CI/CD and production-impact rules.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Decisions log safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.

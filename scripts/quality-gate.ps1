@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through DecisionsLogSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through DecisionsLogSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexPolicySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through CodexPolicySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -362,6 +362,120 @@ function Invoke-DecisionsLogSafetyGate {
     }
 
     Write-Host 'DecisionsLogSafety gate passed.'
+}
+
+function Invoke-CodexPolicySafetyGate {
+    $prodSafeRulesPath = Join-Path $repoRoot 'docs/codex/prod-safe-codex-rules.md'
+    $gitHandoffRulesPath = Join-Path $repoRoot 'docs/codex/git-handoff-rules.md'
+    $autonomyModesPath = Join-Path $repoRoot 'docs/codex/autonomy-modes.md'
+    $goalModeRulesPath = Join-Path $repoRoot 'docs/codex/goal-mode-rules.md'
+    $workflowPath = Join-Path $repoRoot 'docs/codex/codex-workflow.md'
+    $executorPolicyPath = Join-Path $repoRoot 'docs/context/handoff/executor-policy.md'
+
+    Assert-PathExists 'docs/codex/prod-safe-codex-rules.md'
+    Assert-PathExists 'docs/codex/git-handoff-rules.md'
+    Assert-PathExists 'docs/codex/autonomy-modes.md'
+    Assert-PathExists 'docs/codex/goal-mode-rules.md'
+    Assert-PathExists 'docs/codex/codex-workflow.md'
+    Assert-PathExists 'docs/context/handoff/executor-policy.md'
+
+    $prodSafeRules = Get-Content -LiteralPath $prodSafeRulesPath -Raw
+    $gitHandoffRules = Get-Content -LiteralPath $gitHandoffRulesPath -Raw
+    $autonomyModes = Get-Content -LiteralPath $autonomyModesPath -Raw
+    $goalModeRules = Get-Content -LiteralPath $goalModeRulesPath -Raw
+    $workflow = Get-Content -LiteralPath $workflowPath -Raw
+    $executorPolicy = Get-Content -LiteralPath $executorPolicyPath -Raw
+
+    foreach ($requiredPhrase in @(
+            'run unclassified tests on production',
+            'run PROD_FORBIDDEN on production',
+            'run PROD_CONDITIONAL without explicit flag',
+            'use real user accounts',
+            'hardcode credentials',
+            'weaken ProdGuard/KillSwitch',
+            'add blind retries hiding instability',
+            'start game sessions before resource budget and cleanup verification exist'
+        )) {
+        if ($prodSafeRules -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "prod-safe-codex-rules.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Branch per task',
+            'No direct work on main',
+            'No merge to main without explicit user approval',
+            'Declare autonomy mode in active-run.md',
+            'Default to NON_AUTONOMOUS when scope or production impact is unclear',
+            'verification-memory.md keeps commands/results',
+            'decisions-log.md keeps durable decisions'
+        )) {
+        if ($gitHandoffRules -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "git-handoff-rules.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'autonomy is never implicit',
+            'If the mode is not declared, use **non-autonomous / supervised mode**',
+            'After the user accepts the current milestone plan, Codex may work in `BOUNDED_AUTONOMOUS` mode only inside that accepted scope',
+            'production-impacting tasks',
+            'any change that can start a cloud-gaming session',
+            'CI/CD changes that can run tests automatically',
+            'dependency upgrades',
+            'credentials, secrets, auth, synthetic-user configuration',
+            'merge to `main`',
+            'no production game session is started',
+            'no merge to `main` happens without explicit approval',
+            'Stop and ask before any production-impacting action, scope expansion, credential use, CI/CD enablement, commit/push if not explicitly allowed, or merge to main'
+        )) {
+        if ($autonomyModes -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "autonomy-modes.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Every new milestone starts with a `NON_AUTONOMOUS` discovery/planning step',
+            'Codex must not create or execute a detailed implementation plan for all future milestones unless the user explicitly requests it',
+            'Codex must stop and ask before production impact, scope expansion, game sessions, credential/secret use, CI/CD enablement, dependency upgrade, guard weakening, commit/push if not explicitly allowed, or merge to `main`'
+        )) {
+        if ($goalModeRules -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "goal-mode-rules.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Confirm this is the correct Codex thread',
+            'For a new independent task or milestone, use `create_thread` first',
+            'Wait for approval if in NON_AUTONOMOUS discovery mode',
+            'Confirm production classification',
+            'Implement only allowed scope',
+            'Do not merge main without explicit approval',
+            'PROCESS_ERROR_THREAD_REUSE'
+        )) {
+        if ($workflow -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "codex-workflow.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Every run must declare autonomy mode: NON_AUTONOMOUS or BOUNDED_AUTONOMOUS',
+            'Default to NON_AUTONOMOUS until the user accepts the plan',
+            'Every new independent task or milestone in autonomous work must use a separate Codex thread',
+            'Do not expand scope without user approval',
+            'Do not work directly on main',
+            'Do not merge to main without explicit user approval',
+            'Do not commit secrets, logs, crash dumps or release binaries unless explicitly approved as fixtures',
+            'If a task may affect production, classify it before implementation',
+            'If safety cannot be proven, treat production run as forbidden',
+            'stop and ask before scope expansion, production impact, credential use, CI/CD enablement, commit/push if not explicitly allowed, or merge to main'
+        )) {
+        if ($executorPolicy -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "executor-policy.md must preserve rule: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'CodexPolicySafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2432,6 +2546,10 @@ if ($Scope -in @('ChecklistSafety', 'Full')) {
 
 if ($Scope -in @('DecisionsLogSafety', 'Full')) {
     Invoke-DecisionsLogSafetyGate
+}
+
+if ($Scope -in @('CodexPolicySafety', 'Full')) {
+    Invoke-CodexPolicySafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

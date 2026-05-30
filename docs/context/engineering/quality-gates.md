@@ -9,6 +9,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety
 .\scripts\quality-gate.ps1 -Scope ChecklistSafety
 .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety
+.\scripts\quality-gate.ps1 -Scope CodexPolicySafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -52,6 +53,8 @@ The `VerificationMemorySafety` scope statically checks `docs/context/engineering
 The `ChecklistSafety` scope statically checks `docs/context/handoff/executor-checklist.md` and `docs/context/governance/context-integrity-checklist.md` so thread isolation, verification records, stop triggers, secrets and production-impact checklist items remain explicit.
 
 The `DecisionsLogSafety` scope statically checks `docs/context/governance/decisions-log.md` so accepted decisions around production safety, autonomy, thread isolation, push/merge authority and process errors remain explicit.
+
+The `CodexPolicySafety` scope statically checks Codex and executor policy docs so autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries remain explicit.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 
