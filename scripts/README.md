@@ -71,6 +71,8 @@ The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, s
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
 
+The `TestDataInventorySafety` quality gate fails if the `testdata/` fixture file inventory changes without updating the gate.
+
 The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, or grants game-session permission outside bounded canary aliases.
 
 The `AllowedGamesSafety` quality gate fails if the allowed-games fixture stops being alias-only, gains real game metadata, or allows purposes outside the production canary plan.

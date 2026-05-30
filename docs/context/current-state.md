@@ -28,6 +28,7 @@ Post-M6: Runner/validator guard hardening - implemented and verified locally.
 Post-M6: Dangerous flag negative coverage - implemented and verified locally.
 Post-M6: RunnerSafety static gate - implemented and verified locally.
 Post-M6: TestDataSafety static gate - implemented and verified locally.
+Post-M6: TestDataInventorySafety static gate - implemented and verified locally.
 Post-M6: Quality gate scope inventory guard - implemented and verified locally.
 Post-M6: ProdMatrixSafety static gate - implemented and verified locally.
 Post-M6: BacklogSafety static gate - implemented and verified locally.
@@ -78,6 +79,7 @@ Repository bootstrap state:
 - Post-M6 dangerous flag negative coverage was completed on `codex/danger-flag-negative-coverage`.
 - Post-M6 RunnerSafety static gate was completed on `codex/runner-safety-static-gate`.
 - Post-M6 TestDataSafety static gate was completed on `codex/testdata-safety-gate`.
+- Post-M6 TestDataInventorySafety static gate was completed on `codex/testdata-inventory-safety-gate`.
 - Post-M6 quality gate scope inventory guard was completed on `codex/quality-gate-scope-inventory`.
 - Post-M6 ProdMatrixSafety static gate was completed on `codex/prod-matrix-safety-gate`.
 - Post-M6 BacklogSafety static gate was completed on `codex/backlog-safety-gate`.
@@ -126,6 +128,7 @@ Current artifact status:
 - UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.
 - RunnerSafety statically checks runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
 - TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
+- TestDataInventorySafety statically checks the `testdata/` fixture file inventory.
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers and stale literal latest-commit markers.
 - ActiveRunSafety also checks that active-run's current milestone marker and last-verification notes stay synced with current static gate coverage.

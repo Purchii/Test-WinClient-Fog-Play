@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ContextDocsInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through TestDataInventorySafety.
 
 Planning boundary:
 
@@ -19,6 +19,7 @@ Post-M6 runner/validator guard hardening is complete.
 Post-M6 dangerous flag negative coverage is complete.
 Post-M6 RunnerSafety static gate is complete.
 Post-M6 TestDataSafety static gate is complete.
+Post-M6 TestDataInventorySafety static gate is complete.
 Post-M6 quality gate scope inventory guard is complete.
 Post-M6 ProdMatrixSafety static gate is complete.
 Post-M6 BacklogSafety static gate is complete.
@@ -71,6 +72,8 @@ Dangerous flag negative coverage adds `Full` assertions for UpdateManifest, Game
 RunnerSafety static gate adds `Full` coverage for runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
 
 TestDataSafety static gate adds `Full` coverage for risky test fixture content outside explicit unsafe/negative allowlists.
+
+TestDataInventorySafety adds `Full` coverage for the `testdata/` fixture file inventory.
 
 Quality gate scope inventory guard makes `Context` fail if a `quality-gate.ps1 -Scope` value is not documented in `docs/context/engineering/quality-gates.md`.
 
@@ -156,6 +159,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;

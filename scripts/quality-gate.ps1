@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ContextDocsInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ContextDocsInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TestDataInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through TestDataInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -1682,6 +1682,87 @@ function Invoke-TestDataSafetyGate {
     Write-Host 'TestDataSafety gate passed.'
 }
 
+function Invoke-TestDataInventorySafetyGate {
+    $testDataRoot = Join-Path $repoRoot 'testdata'
+    Assert-PathExists 'testdata'
+
+    $expectedFiles = @(
+        'allowed-games.example.json',
+        'app-webview-smoke.example.json',
+        'app-webview-smoke-fixture/bin/chrome_100_percent.pak',
+        'app-webview-smoke-fixture/bin/libcef.dll',
+        'app-webview-smoke-fixture/bin/rds-client.exe',
+        'app-webview-smoke-fixture/bin/resources.pak',
+        'app-webview-smoke-fixture/bin/resources/error-connect/asset-manifest.json',
+        'app-webview-smoke-fixture/bin/resources/error-connect/index.html',
+        'app-webview-smoke-fixture/bin/resources/settings/asset-manifest.json',
+        'app-webview-smoke-fixture/bin/resources/settings/index.html',
+        'app-webview-smoke-fixture/bin/resources/stream-settings/asset-manifest.json',
+        'app-webview-smoke-fixture/bin/resources/stream-settings/index.html',
+        'app-webview-smoke-fixture/bin/resources/update/asset-manifest.json',
+        'app-webview-smoke-fixture/bin/resources/update/index.html',
+        'app-webview-smoke-unsafe-policy.example.json',
+        'backend-smoke.example.json',
+        'backend-smoke-unsafe.example.json',
+        'game-session-canary.example.json',
+        'game-session-canary-unsafe.example.json',
+        'nonprod-foundation.example.json',
+        'nonprod-foundation-unsafe.example.json',
+        'privacy-clean-fixture/app.log',
+        'privacy-large-fixture/large.log',
+        'privacy-negative-fixture/app.log',
+        'privacy-patterns.example.json',
+        'privacy-patterns-small-limit.example.json',
+        'prod-resource-budget.example.yaml',
+        'prod-safety-tests.example.json',
+        'release-clean-fixture/Uninstall.exe',
+        'release-clean-fixture/bin/crashpad_handler.exe',
+        'release-clean-fixture/bin/libcef.dll',
+        'release-clean-fixture/bin/rds-client.exe',
+        'release-clean-fixture/bin/rds-updater.exe',
+        'release-clean-fixture/bin/sentry.dll',
+        'release-fixture/Uninstall.exe',
+        'release-fixture/Uninstall.exe.fixture',
+        'release-fixture/bin/crashpad_handler.exe',
+        'release-fixture/bin/crashpad_handler.exe.fixture',
+        'release-fixture/bin/installer_info.txt',
+        'release-fixture/bin/libcef.dll',
+        'release-fixture/bin/libcef.dll.fixture',
+        'release-fixture/bin/rds-client.exe',
+        'release-fixture/bin/rds-client.exe.fixture',
+        'release-fixture/bin/rds-updater.exe',
+        'release-fixture/bin/rds-updater.exe.fixture',
+        'release-fixture/bin/resources/settings/static/js/main.fixture.js',
+        'release-fixture/bin/resources/settings/static/js/main.fixture.js.map',
+        'release-fixture/bin/sentry.dll',
+        'release-fixture/bin/sentry.dll.fixture',
+        'release-gate-policy.clean-fixture.json',
+        'release-gate-policy.example.json',
+        'synthetic-users.example.json',
+        'testability-gaps.example.json',
+        'testability-gaps-unsafe.example.json',
+        'update-manifest.example.json',
+        'update-manifest-unsafe.example.json',
+        'webview-bridge-contract.example.json',
+        'webview-bridge-contract-unsafe.example.json'
+    )
+    $actualFiles = @(Get-ChildItem -LiteralPath $testDataRoot -Recurse -File | ForEach-Object {
+            $_.FullName.Substring($testDataRoot.Length + 1) -replace '\\', '/'
+        } | Sort-Object)
+    foreach ($file in $expectedFiles) {
+        if ($actualFiles -notcontains $file) {
+            throw "testdata is missing required fixture file: $file"
+        }
+    }
+    foreach ($file in $actualFiles) {
+        if ($expectedFiles -notcontains $file) {
+            throw "testdata contains undocumented fixture file: $file"
+        }
+    }
+
+    Write-Host 'TestDataInventorySafety gate passed.'
+}
+
 function Get-JsonPropertyRecords {
     param(
         [AllowNull()]
@@ -3181,6 +3262,10 @@ if ($Scope -in @('RunnerSafety', 'Full')) {
 
 if ($Scope -in @('TestDataSafety', 'Full')) {
     Invoke-TestDataSafetyGate
+}
+
+if ($Scope -in @('TestDataInventorySafety', 'Full')) {
+    Invoke-TestDataInventorySafetyGate
 }
 
 if ($Scope -in @('SyntheticUsersSafety', 'Full')) {
