@@ -1,84 +1,70 @@
 # Active run
 
-Status: M1.1 quality hardening in progress after multi-agent audit of M0/M1.
+Status: M2 App/WebView smoke scaffold in progress.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for corrective hardening requested by the user.
+Execution mode: `BOUNDED_AUTONOMOUS` for the accepted safe M2 direction, limited to static/dry-run artifact checks.
 
-Current milestone: `M1.1`.
+Current milestone: `M2`.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = harden already implemented M0/M1 quality gates and handoff docs.
+Current work = App launch + WebView/CEF smoke scaffold, static/dry-run only.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step.
 ```
-
-Accepted trigger: user requested multi-agent audit and then said `чини`.
-
-Autonomy boundary: fix findings from the M0/M1 multi-agent audit; no client launch, no production-impacting action, no credentials, no game sessions, no CI/CD enablement, no dependency upgrades, no merge to `main`.
-
-Agent mode: multi-agent by default. Current run uses real sub-agents for ProdSafety, Release/Privacy and Governance review, with Orchestrator integrating fixes.
-
-Remote Git mode: remote-first when safe. Commit/push task branch only after verification and allowed user/project policy; do not merge `main` without explicit approval.
 
 Current branch:
 
 ```text
-codex/release-privacy-gates
+codex/app-webview-smoke
 ```
 
 Current goal:
 
 ```text
-Harden M0/M1 gates so failing gates fail closed, fixtures cover real code paths, ProdSafety blocks known bypasses and handoff docs match actual Git state.
+Add a dry-run App/WebView smoke gate that validates installed artifact layout and safety policy without launching the client.
 ```
 
-Allowed in M1.1:
+Allowed in M2:
 
-- `AGENTS.md`;
-- `docs/context/**`;
-- `docs/qa/release-gates.md`;
-- `docs/qa/privacy-and-logging-checks.md`;
+- `src/TestFramework/WindowsSmoke/**`;
+- `scripts/run-app-webview-smoke.ps1`;
 - `scripts/quality-gate.ps1`;
-- `scripts/run-release-gate.ps1`;
-- `scripts/run-privacy-gate.ps1`;
-- `scripts/run-prod-safe-smoke.ps1`;
-- `scripts/run-prod-canary.ps1`;
-- `src/TestFramework/ProdSafety/**`;
-- `testdata/**` fixtures and example policies.
+- `testdata/app-webview-smoke*.json`;
+- `testdata/app-webview-smoke-fixture/**`;
+- `docs/qa/app-webview-smoke.md`;
+- M2 status updates in `docs/context/**`;
+- `scripts/README.md`;
+- `docs/context/engineering/quality-gates.md`.
 
-Forbidden in M1.1:
+Forbidden in M2:
 
 - client launch;
-- real production game-session tests;
+- WebView debug/CDP port;
 - authentication;
-- reading user cookies, local DB, logs or crash dumps;
-- load/stress/chaos/destructive tests;
-- update rollback on production;
-- hardcoded credentials;
-- copying real release binaries into repo;
+- game session;
+- production backend interaction;
+- reading user AppData, cookies, local DB, logs or crash dumps;
+- update/rollback flows;
 - CI/CD enablement;
 - dependency upgrades;
+- weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier;
 - merge to `main` without explicit approval.
 
 Stop-and-ask triggers:
 
-- production impact;
-- credentials/secrets;
-- game session;
-- client launch;
-- need to read user AppData/logs/cookies/DB;
-- scope expansion beyond M0/M1 hardening;
-- dependency upgrade;
-- merge to `main`.
+- any need to start `rds-client.exe`;
+- any need for credentials or synthetic login;
+- any need for WebView debug port;
+- any need to read user runtime files;
+- any production-impacting action;
+- scope expansion beyond static/dry-run M2.
 
 Verification plan:
 
-- Context, ProdSafety, Release, Privacy and Full quality gates;
-- release gate negative fixture with expected findings;
-- release gate clean fixture with `passed=true`;
-- privacy installed-like, negative, large-file and clean fixtures;
-- release/privacy dry-run against installed artifact in report-only mode;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AppSmoke`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-smoke.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun -ReportOnly`;
 - `git diff --check`;
 - `git status --short --branch`.

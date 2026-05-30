@@ -1,0 +1,81 @@
+{
+  "dryRunOnly": true,
+  "launchArguments": [],
+  "runtimePaths": [],
+  "tests": [
+    {
+      "name": "app-launch-static",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "webview-cef-static",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "requiredFiles": [
+    "bin/rds-client.exe",
+    "bin/libcef.dll",
+    "bin/chrome_100_percent.pak",
+    "bin/resources.pak"
+  ],
+  "webViewBundles": [
+    {
+      "name": "settings",
+      "path": "bin/resources/settings",
+      "requiredFiles": [
+        "index.html",
+        "asset-manifest.json"
+      ],
+      "requiredManifestKeys": [
+        "main.css",
+        "main.js",
+        "index.html"
+      ]
+    },
+    {
+      "name": "stream-settings",
+      "path": "bin/resources/stream-settings",
+      "requiredFiles": [
+        "index.html",
+        "asset-manifest.json"
+      ],
+      "requiredManifestKeys": [
+        "main.css",
+        "main.js",
+        "index.html"
+      ]
+    },
+    {
+      "name": "error-connect",
+      "path": "bin/resources/error-connect",
+      "requiredFiles": [
+        "index.html",
+        "asset-manifest.json"
+      ],
+      "requiredManifestKeys": [
+        "main.css",
+        "main.js",
+        "index.html"
+      ]
+    },
+    {
+      "name": "update",
+      "path": "bin/resources/update",
+      "requiredFiles": [
+        "index.html",
+        "asset-manifest.json"
+      ],
+      "requiredManifestKeys": [
+        "main.css",
+        "main.js",
+        "index.html"
+      ]
+    }
+  ]
+}

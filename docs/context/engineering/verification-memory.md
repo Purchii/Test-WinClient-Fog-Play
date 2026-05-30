@@ -137,3 +137,40 @@ Safety notes:
 - No production game session started.
 - No client process launched.
 - No user AppData logs, cookies or DB files read.
+
+## 2026-05-30 - M2 App/WebView smoke scaffold
+
+Branch: `codex/app-webview-smoke`
+Status: in progress; local AppSmoke verification passed
+Production impact: dry-run/static artifact scan only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\WindowsSmoke\WindowsSmoke.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Release`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AppSmoke`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-smoke.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun -ReportOnly`
+- `git diff --check`
+- `git status --short --branch`
+
+Results:
+- WindowsSmoke unit tests passed.
+- Context, ProdSafety, Release, Privacy and Full quality gates passed.
+- AppSmoke quality gate passed.
+- Installed artifact static App/WebView smoke passed and reported `processStarted=false`, `debugPortUsed=false`, `authAttempted=false`, `gameSessionStarted=false`.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch because M2 is static/dry-run only.
+- WebView runtime rendering because debug/CDP and client launch are out of scope.
+- Auth/login/game-session checks because they are forbidden in M2.
+
+Safety notes:
+- No real credentials used.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies or DB files read.
+- No WebView debug port enabled.

@@ -7,6 +7,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ProdSafety
 .\scripts\quality-gate.ps1 -Scope Release
 .\scripts\quality-gate.ps1 -Scope Privacy
+.\scripts\quality-gate.ps1 -Scope AppSmoke
 .\scripts\quality-gate.ps1 -Scope Full
 ```
 

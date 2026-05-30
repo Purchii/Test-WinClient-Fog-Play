@@ -1,0 +1,22 @@
+{
+  "dryRunOnly": false,
+  "launchArguments": [
+    "--remote-debugging-port=9222"
+  ],
+  "runtimePaths": [
+    "C:\\Users\\qa\\AppData\\Local\\rds-client\\rds-client.log"
+  ],
+  "tests": [
+    {
+      "name": "unsafe-debug-static",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "requiredFiles": [
+    "bin/rds-client.exe"
+  ],
+  "webViewBundles": []
+}

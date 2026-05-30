@@ -101,3 +101,36 @@ M1.1 hardening:
 Known deferred gap:
 
 - Update manifest integrity validation is documented but not implemented until updater/package metadata format is available.
+
+## M2 - App launch + WebView smoke
+
+Status: static/dry-run scaffold implemented on `codex/app-webview-smoke`; no real client launch.
+
+Implemented outputs:
+
+- `src/TestFramework/WindowsSmoke/WindowsSmoke.psm1`
+- `src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1`
+- `scripts/run-app-webview-smoke.ps1`
+- `scripts/quality-gate.ps1` AppSmoke scope
+- `testdata/app-webview-smoke.example.json`
+- `testdata/app-webview-smoke-unsafe-policy.example.json`
+- `testdata/app-webview-smoke-fixture/**`
+- `docs/qa/app-webview-smoke.md`
+
+Implemented checks:
+
+- required client and CEF files;
+- WebView bundle entrypoints and asset manifests;
+- manifest keys for `main.css`, `main.js` and `index.html`;
+- dry-run-only policy;
+- unsafe launch argument and runtime path rejection;
+- ProdGuard validation of policy test metadata.
+
+Not implemented in M2:
+
+- real Windows client launch;
+- native UI/window detection;
+- WebView runtime rendering verification;
+- WebView debug/CDP connection;
+- authentication;
+- game-session tests.

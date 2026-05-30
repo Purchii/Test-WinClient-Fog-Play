@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -229,6 +229,52 @@ function Invoke-PrivacyGate {
     Write-Host 'Privacy gate passed.'
 }
 
+function Invoke-AppSmokeGate {
+    $required = @(
+        'docs/qa/app-webview-smoke.md',
+        'src/TestFramework/WindowsSmoke/WindowsSmoke.psm1',
+        'src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1',
+        'scripts/run-app-webview-smoke.ps1',
+        'testdata/app-webview-smoke.example.json',
+        'testdata/app-webview-smoke-unsafe-policy.example.json',
+        'testdata/app-webview-smoke-fixture'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1')
+
+    $appSmoke = Join-Path $repoRoot 'scripts/run-app-webview-smoke.ps1'
+    $result = Invoke-JsonGate {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'App/WebView smoke fixture should pass.'
+    }
+    if ($result.processStarted -ne $false -or $result.debugPortUsed -ne $false -or $result.authAttempted -ne $false -or $result.gameSessionStarted -ne $false) {
+        throw 'App/WebView smoke dry-run must report no process/debug/auth/game activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke-unsafe-policy.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'unsafe-launch-argument'
+    Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+
+    Write-Host 'AppSmoke gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -243,4 +289,8 @@ if ($Scope -in @('Release', 'Full')) {
 
 if ($Scope -in @('Privacy', 'Full')) {
     Invoke-PrivacyGate
+}
+
+if ($Scope -in @('AppSmoke', 'Full')) {
+    Invoke-AppSmokeGate
 }

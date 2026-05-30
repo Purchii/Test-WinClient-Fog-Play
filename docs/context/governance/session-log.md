@@ -63,3 +63,26 @@ Production safety:
 - No game session started.
 - No user AppData logs, cookies or DB files read.
 - No CI/CD automation enabled.
+
+## 2026-05-30 - M2 App/WebView smoke scaffold
+
+Mode: `BOUNDED_AUTONOMOUS` static/dry-run implementation on a dedicated task branch.
+
+Summary:
+
+- Created `codex/app-webview-smoke` from current `main`.
+- Added WindowsSmoke PowerShell module and tests.
+- Added `scripts/run-app-webview-smoke.ps1`.
+- Added `AppSmoke` quality gate scope.
+- Added safe and unsafe policy fixtures for App/WebView smoke.
+- Verified installed artifact layout at `C:\Program Files\MTC Fog Play` without launching the client.
+
+Production safety:
+
+- No client launch.
+- No credentials used.
+- No production backend interaction.
+- No game session started.
+- No user AppData logs, cookies or DB files read.
+- No WebView debug port enabled.
+- No CI/CD automation enabled.
