@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -505,6 +505,37 @@ function Invoke-ScriptsReadmeScopeSafetyGate {
     Write-Host 'ScriptsReadmeScopeSafety gate passed.'
 }
 
+function Invoke-GovernanceHistoryScopeSafetyGate {
+    $scriptPath = Join-Path $repoRoot 'scripts/quality-gate.ps1'
+    $verificationPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
+    $sessionLogPath = Join-Path $repoRoot 'docs/context/governance/session-log.md'
+    Assert-PathExists 'scripts/quality-gate.ps1'
+    Assert-PathExists 'docs/context/engineering/verification-memory.md'
+    Assert-PathExists 'docs/context/governance/session-log.md'
+
+    $script = Get-Content -LiteralPath $scriptPath -Raw
+    $verificationMemory = Get-Content -LiteralPath $verificationPath -Raw
+    $sessionLog = Get-Content -LiteralPath $sessionLogPath -Raw
+    $validateSetMatch = [regex]::Match($script, "\[ValidateSet\((?<values>[^\)]*)\)\]")
+    if (-not $validateSetMatch.Success) {
+        throw 'quality-gate.ps1 does not declare a ValidateSet for -Scope.'
+    }
+
+    $safetyScopes = [regex]::Matches($validateSetMatch.Groups['values'].Value, "'([^']+Safety)'") |
+        ForEach-Object { $_.Groups[1].Value } |
+        Sort-Object -Unique
+    foreach ($scopeName in $safetyScopes) {
+        if ($verificationMemory -notmatch [regex]::Escape($scopeName)) {
+            throw "verification-memory.md must mention safety scope from ValidateSet: $scopeName"
+        }
+        if ($sessionLog -notmatch [regex]::Escape($scopeName)) {
+            throw "session-log.md must mention safety scope from ValidateSet: $scopeName"
+        }
+    }
+
+    Write-Host 'GovernanceHistoryScopeSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -547,7 +578,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -558,8 +589,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ScriptsReadmeScopeSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ScriptsReadmeScopeSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through GovernanceHistoryScopeSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through GovernanceHistoryScopeSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3673,6 +3704,10 @@ if ($Scope -in @('ActiveSafetyScopeInventorySafety', 'Full')) {
 
 if ($Scope -in @('ScriptsReadmeScopeSafety', 'Full')) {
     Invoke-ScriptsReadmeScopeSafetyGate
+}
+
+if ($Scope -in @('GovernanceHistoryScopeSafety', 'Full')) {
+    Invoke-GovernanceHistoryScopeSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {
