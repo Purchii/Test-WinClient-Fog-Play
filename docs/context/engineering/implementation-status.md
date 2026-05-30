@@ -187,3 +187,38 @@ Not implemented:
 - WebView debug/CDP connection;
 - authentication;
 - game-session tests.
+
+## M4 - Safe backend smoke
+
+Status: in progress on `codex/m4-backend-smoke`.
+
+Implemented outputs:
+
+- `src/TestFramework/BackendSmoke/BackendSmoke.psm1`
+- `src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1`
+- `scripts/run-backend-smoke.ps1`
+- `testdata/backend-smoke.example.json`
+- `testdata/backend-smoke-unsafe.example.json`
+- `docs/qa/backend-smoke.md`
+
+Implemented checks:
+
+- endpoint registry validation;
+- read-only `GET` method enforcement;
+- `PROD_SAFE` classification enforcement;
+- no-auth and no-state-mutation enforcement;
+- endpoint path checks for user ids, tokens, secrets and session values;
+- response schema and mock response presence;
+- dry-run-only policy;
+- real network call disablement;
+- auth, cookie, token, secret and session header rejection;
+- runtime user path rejection.
+
+Not implemented:
+
+- real backend network calls;
+- authentication or synthetic-user backend flows;
+- production endpoint availability checks;
+- catalog freshness checks against production;
+- state-mutating backend tests;
+- game-session tests.

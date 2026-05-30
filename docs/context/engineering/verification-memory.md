@@ -175,6 +175,39 @@ Safety notes:
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - M4 Safe backend smoke
+
+Branch: `codex/m4-backend-smoke`
+Status: passed
+Production impact: dry-run/local contract only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\BackendSmoke\BackendSmoke.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BackendSmoke`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+- `git status --short --branch`
+
+Results:
+- BackendSmoke unit tests passed.
+- BackendSmoke quality gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ProdSafety, Release, Privacy, AppSmoke, BridgeContract and BackendSmoke.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Real backend network calls because M4 is local contract/fake-response dry-run only.
+- Auth/login checks because synthetic-user backend auth requires a separate approval.
+- Game-session checks because they are forbidden until the M5 canary plan is approved.
+
+Safety notes:
+- No real credentials used.
+- No production backend interaction.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies or DB files read.
+
 ## 2026-05-30 - M3 WebView/native bridge contract
 
 Branch: `codex/m3-webview-bridge-contract`

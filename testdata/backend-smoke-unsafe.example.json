@@ -1,0 +1,42 @@
+{
+  "dryRunOnly": false,
+  "networkDisabled": false,
+  "headers": [
+    "Authorization: Bearer example-token",
+    "Cookie: session=example"
+  ],
+  "runtimePaths": [
+    "AppData/Local/MTC Fog Play/Cookies",
+    "logs/backend.log"
+  ],
+  "tests": [
+    {
+      "name": "unsafe-backend-smoke",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "start-session",
+      "method": "POST",
+      "path": "/session/start?userId=real-user",
+      "classification": "PROD_CONDITIONAL",
+      "requiresAuth": true,
+      "mutatesState": true,
+      "responseSchema": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          }
+        }
+      },
+      "mockResponse": {
+        "sessionId": "unsafe"
+      }
+    }
+  ]
+}

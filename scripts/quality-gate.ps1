@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -318,6 +318,51 @@ function Invoke-BridgeContractGate {
     Write-Host 'BridgeContract gate passed.'
 }
 
+function Invoke-BackendSmokeGate {
+    $required = @(
+        'docs/qa/backend-smoke.md',
+        'src/TestFramework/BackendSmoke/BackendSmoke.psm1',
+        'src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1',
+        'scripts/run-backend-smoke.ps1',
+        'testdata/backend-smoke.example.json',
+        'testdata/backend-smoke-unsafe.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1')
+
+    $backendSmoke = Join-Path $repoRoot 'scripts/run-backend-smoke.ps1'
+    $result = Invoke-JsonGate {
+        & $backendSmoke `
+            -PolicyPath (Join-Path $repoRoot 'testdata/backend-smoke.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'Backend smoke fixture should pass.'
+    }
+    if ($result.networkCallAttempted -ne $false -or $result.authAttempted -ne $false -or $result.gameSessionStarted -ne $false -or $result.readRuntimeUserData -ne $false -or $result.mutatingRequestAttempted -ne $false) {
+        throw 'Backend smoke dry-run must report no network/auth/game/runtime-data/mutation activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $backendSmoke `
+            -PolicyPath (Join-Path $repoRoot 'testdata/backend-smoke-unsafe.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'network-not-disabled'
+    Assert-FindingId -Result $negative -Id 'unsafe-header'
+    Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+    Assert-FindingId -Result $negative -Id 'state-mutating-endpoint'
+
+    Write-Host 'BackendSmoke gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -340,4 +385,8 @@ if ($Scope -in @('AppSmoke', 'Full')) {
 
 if ($Scope -in @('BridgeContract', 'Full')) {
     Invoke-BridgeContractGate
+}
+
+if ($Scope -in @('BackendSmoke', 'Full')) {
+    Invoke-BackendSmokeGate
 }

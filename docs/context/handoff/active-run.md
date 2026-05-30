@@ -1,29 +1,29 @@
 # Active run
 
-Status: M3 WebView/native bridge contract implementation in progress.
+Status: M4 safe backend smoke implementation in progress.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for accepted M3 local contract/fake-host dry-run scope.
+Execution mode: `BOUNDED_AUTONOMOUS` for accepted M4 local backend smoke dry-run scope.
 
-Current milestone: M3 WebView/native bridge contract + fake native host.
+Current milestone: M4 Safe backend smoke.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = implement local WebView/native bridge contract checks and fake native host dry-run scaffold.
+Current work = implement local backend endpoint contract checks and fake response dry-run scaffold.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/m3-webview-bridge-contract
+codex/m4-backend-smoke
 ```
 
 Current goal:
 
 ```text
-Implement M3 local WebView/native bridge contract and fake native host dry-run checks without launching the installed client or using WebView debug/CDP.
+Implement M4 local backend smoke checks without real backend network calls, auth, credentials or state mutation.
 ```
 
 Thread creation status:
@@ -36,12 +36,12 @@ Worktree fallback is reserved for a second normal create_thread failure or a tas
 
 Allowed now:
 
-- `docs/qa/webview-bridge-contract.md`;
-- `src/TestFramework/WebViewBridge/**`;
-- `scripts/run-webview-bridge-contract.ps1`;
+- `docs/qa/backend-smoke.md`;
+- `src/TestFramework/BackendSmoke/**`;
+- `scripts/run-backend-smoke.ps1`;
 - `scripts/quality-gate.ps1`;
-- `testdata/webview-bridge-contract*.json`;
-- M3 context/handoff/verification docs.
+- `testdata/backend-smoke*.json`;
+- M4 context/handoff/verification docs.
 
 Forbidden now:
 
@@ -50,6 +50,9 @@ Forbidden now:
 - authentication;
 - game session;
 - production backend interaction;
+- real backend network calls;
+- credentials, secrets, bearer tokens, cookies or session headers;
+- state-mutating backend methods;
 - reading user AppData, cookies, local DB, logs or crash dumps;
 - update/rollback flows;
 - CI/CD enablement;
@@ -62,13 +65,16 @@ Stop-and-ask triggers:
 - any need to start `rds-client.exe`;
 - any need for credentials or synthetic login;
 - any need for WebView debug port;
+- any need for real backend URL or network calls;
+- any need for auth headers, cookies, tokens or secrets;
+- any need for state-mutating backend requests;
 - any need to read user runtime files;
 - any production-impacting action;
-- scope expansion beyond local M3 contract/fake-host dry-run.
+- scope expansion beyond local M4 backend smoke dry-run.
 
 Verification plan:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BackendSmoke`;
 - `git diff --check`;
 - `git status --short --branch`.

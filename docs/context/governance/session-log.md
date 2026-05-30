@@ -118,6 +118,26 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - M4 Safe backend smoke
+
+Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user accepted the M4 plan.
+
+Branch: `codex/m4-backend-smoke`
+
+Scope:
+
+- Implement local backend endpoint contract checks.
+- Implement fake-response dry-run fixture validation.
+- Keep all checks offline/local and `PROD_SAFE`.
+
+Safety:
+
+- No real backend network calls.
+- No authentication, credentials, cookies, tokens or secrets.
+- No state-mutating backend requests.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 Production safety:
 
 - No client launch.
