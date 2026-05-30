@@ -22,6 +22,7 @@ For every new Codex task, read in this order:
 
 Old chat context is advisory only.
 Repository docs and code are source of truth.
+Use `git log --oneline --decorate -1` as the authoritative latest commit source. Do not record a literal latest pushed commit in `active-run.md`; context-sync commits would immediately make that line stale.
 
 Thread lifecycle:
 

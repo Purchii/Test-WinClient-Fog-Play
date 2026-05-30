@@ -36,8 +36,6 @@ Script inventory guard hardening updates `scripts/README.md` and makes the `Cont
 
 M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
 
-Latest pushed main commit: `9ad845b`.
-
 Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`.
 
 Dangerous flag negative coverage adds `Full` assertions for UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps allow-flags.
