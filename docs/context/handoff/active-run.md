@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ScriptEncodingSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through BinaryFixturePlaceholderSafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 BinaryFixturePlaceholderSafety static gate is complete.
 Post-M6 ScriptEncodingSafety static gate is complete.
 Post-M6 ProdSafetyFrameworkSafety static gate is complete.
 Post-M6 RootPromptSafety static gate is complete.
@@ -68,6 +69,8 @@ Current result:
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 
 RepositoryRootInventorySafety adds `Full` coverage for the repository-root file and directory inventory.
+
+BinaryFixturePlaceholderSafety adds `Full` coverage for binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 
 ScriptEncodingSafety adds `Full` coverage for `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 
@@ -175,6 +178,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;

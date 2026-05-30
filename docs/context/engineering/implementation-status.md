@@ -456,6 +456,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Binary fixture placeholder safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `BinaryFixturePlaceholderSafety` quality gate scope;
+- binary-like files under `testdata/` must match the approved placeholder inventory;
+- `.exe`, `.dll` and `.pak` fixtures must stay tiny placeholders no larger than 1KB;
+- real PE `MZ` headers are rejected in fixture binaries;
+- dump, database and debug-symbol extensions are rejected.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Script inventory guard
 
 Status: local documentation/quality gate hardening implemented and verified locally.

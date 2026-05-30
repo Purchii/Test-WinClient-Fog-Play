@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: BinaryFixturePlaceholderSafety static gate - implemented and verified locally.
 Post-M6: ScriptEncodingSafety static gate - implemented and verified locally.
 Post-M6: ProdSafetyFrameworkSafety static gate - implemented and verified locally.
 Post-M6: RootPromptSafety static gate - implemented and verified locally.
@@ -79,6 +80,7 @@ Repository bootstrap state:
 - M4 implementation was completed on `codex/m4-backend-smoke` and merged to `main`.
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
+- Post-M6 BinaryFixturePlaceholderSafety static gate was completed on `codex/binary-fixture-placeholder-safety-gate`.
 - Post-M6 ScriptEncodingSafety static gate was completed on `codex/script-encoding-safety-gate`.
 - Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
@@ -134,6 +136,7 @@ Current artifact status:
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.
+- BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - ProdSafetyFrameworkSafety statically checks the ProdSafety README, module exports and regression assertion text around classification, kill switch, synthetic user, resource budget and cleanup guard contracts.
 - RepositoryRootInventorySafety statically checks the repository-root file and directory inventory.

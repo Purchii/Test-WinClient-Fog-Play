@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -332,6 +332,81 @@ function Invoke-ScriptEncodingSafetyGate {
     Write-Host 'ScriptEncodingSafety gate passed.'
 }
 
+function Invoke-BinaryFixturePlaceholderSafetyGate {
+    $testdataRoot = Join-Path $repoRoot 'testdata'
+    Assert-PathExists 'testdata'
+
+    $placeholderExtensions = @('.exe', '.dll', '.pak')
+    $forbiddenExtensions = @('.dmp', '.dump', '.db', '.sqlite', '.pdb')
+    $maxPlaceholderBytes = 1024
+    $binaryFixtureFiles = @(Get-ChildItem -LiteralPath $testdataRoot -Recurse -File | Where-Object {
+            $extension = $_.Extension.ToLowerInvariant()
+            ($placeholderExtensions -contains $extension) -or ($forbiddenExtensions -contains $extension)
+        } | Sort-Object FullName)
+
+    $expectedPlaceholderFiles = @(
+        'testdata/app-webview-smoke-fixture/bin/chrome_100_percent.pak',
+        'testdata/app-webview-smoke-fixture/bin/libcef.dll',
+        'testdata/app-webview-smoke-fixture/bin/rds-client.exe',
+        'testdata/app-webview-smoke-fixture/bin/resources.pak',
+        'testdata/release-clean-fixture/Uninstall.exe',
+        'testdata/release-clean-fixture/bin/crashpad_handler.exe',
+        'testdata/release-clean-fixture/bin/libcef.dll',
+        'testdata/release-clean-fixture/bin/rds-client.exe',
+        'testdata/release-clean-fixture/bin/rds-updater.exe',
+        'testdata/release-clean-fixture/bin/sentry.dll',
+        'testdata/release-fixture/Uninstall.exe',
+        'testdata/release-fixture/bin/crashpad_handler.exe',
+        'testdata/release-fixture/bin/libcef.dll',
+        'testdata/release-fixture/bin/rds-client.exe',
+        'testdata/release-fixture/bin/rds-updater.exe',
+        'testdata/release-fixture/bin/sentry.dll'
+    )
+
+    $actualRelativePaths = @($binaryFixtureFiles | ForEach-Object {
+            $relative = Resolve-Path -LiteralPath $_.FullName -Relative
+            $relative.TrimStart('.', '\') -replace '\\', '/'
+        })
+
+    foreach ($expectedPath in $expectedPlaceholderFiles) {
+        if ($actualRelativePaths -notcontains $expectedPath) {
+            throw "Binary fixture placeholder is missing: $expectedPath"
+        }
+    }
+    foreach ($actualPath in $actualRelativePaths) {
+        if ($expectedPlaceholderFiles -notcontains $actualPath) {
+            throw "Unexpected binary-like fixture path: $actualPath"
+        }
+    }
+
+    foreach ($file in $binaryFixtureFiles) {
+        $relativePath = (Resolve-Path -LiteralPath $file.FullName -Relative).TrimStart('.', '\') -replace '\\', '/'
+        $extension = $file.Extension.ToLowerInvariant()
+        if ($forbiddenExtensions -contains $extension) {
+            throw "Forbidden runtime/debug/database fixture extension is not allowed: $relativePath"
+        }
+        if ($file.Length -gt $maxPlaceholderBytes) {
+            throw "Binary fixture must stay a tiny placeholder <= $maxPlaceholderBytes bytes: $relativePath"
+        }
+        $bytesToRead = [Math]::Min(2, [int]$file.Length)
+        if ($bytesToRead -ge 2) {
+            $stream = [System.IO.File]::OpenRead($file.FullName)
+            try {
+                $header = New-Object byte[] 2
+                [void]$stream.Read($header, 0, 2)
+                if ($header[0] -eq 0x4D -and $header[1] -eq 0x5A) {
+                    throw "Binary fixture must not contain a real PE MZ header: $relativePath"
+                }
+            }
+            finally {
+                $stream.Dispose()
+            }
+        }
+    }
+
+    Write-Host 'BinaryFixturePlaceholderSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -374,7 +449,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'BinaryFixturePlaceholderSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -385,8 +460,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ScriptEncodingSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ScriptEncodingSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through BinaryFixturePlaceholderSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through BinaryFixturePlaceholderSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3484,6 +3559,10 @@ if ($Scope -in @('ProdSafetyFrameworkSafety', 'Full')) {
 
 if ($Scope -in @('ScriptEncodingSafety', 'Full')) {
     Invoke-ScriptEncodingSafetyGate
+}
+
+if ($Scope -in @('BinaryFixturePlaceholderSafety', 'Full')) {
+    Invoke-BinaryFixturePlaceholderSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {
