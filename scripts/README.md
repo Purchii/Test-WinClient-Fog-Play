@@ -1,14 +1,21 @@
 # Scripts
 
-Codex should implement these scripts in M0/M1:
+Implemented in M0:
 
 ```text
 quality-gate.ps1
 run-prod-safe-smoke.ps1
 run-prod-canary.ps1
 run-release-gate.ps1
+```
+
+Planned for later milestones:
+
+```text
 collect-artifacts.ps1
 reset-test-env.ps1
 ```
 
-Initial versions may support dry-run only.
+M0 scripts are guard/dry-run first. They do not launch the Windows client, authenticate, start a game session, mutate production state or inspect release artifacts.
+
+Use `powershell -NoProfile -ExecutionPolicy Bypass -File ...` on machines where local script execution is restricted by PowerShell policy.

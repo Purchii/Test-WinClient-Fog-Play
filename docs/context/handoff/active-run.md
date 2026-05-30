@@ -1,8 +1,8 @@
 # Active run
 
-Status: starter package created.
+Status: M0 implemented and verified locally; final report pending.
 
-Execution mode: not started yet; default `NON_AUTONOMOUS` until the first current-milestone plan is accepted.
+Execution mode: `BOUNDED_AUTONOMOUS` for accepted M0 scope.
 
 Current milestone: `M0`.
 
@@ -14,9 +14,9 @@ Current milestone = detailed technical implementation plan for M0 only.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step.
 ```
 
-Accepted plan status: not accepted yet.
+Accepted plan status: accepted by user continuation after M0 discovery plan.
 
-Autonomy boundary: none yet. `BOUNDED_AUTONOMOUS` becomes allowed only after the user accepts the detailed M0 plan.
+Autonomy boundary: implement only M0 ProdSafety + Git/Handoff/Verification governance foundation; no production-impacting action, no credentials, no game sessions, no CI/CD enablement, no dependency upgrades, no merge to `main`.
 
 Stop-and-ask triggers:
 
@@ -40,6 +40,12 @@ Branch:
 
 ```text
 codex/prod-safety-foundation
+```
+
+Bootstrap note:
+
+```text
+The project repository was empty. Starter governance docs were committed as the local main baseline before creating the task branch.
 ```
 
 Allowed in M0:
@@ -69,3 +75,14 @@ Verification plan:
 - conditional command rejection without explicit flag;
 - context docs updated;
 - git status and diff check.
+
+Latest verification:
+
+```text
+2026-05-30: Context gate passed.
+2026-05-30: ProdSafety gate passed.
+2026-05-30: prod-safe smoke dry-run passed.
+2026-05-30: prod canary dry-run rejected without explicit flag as expected.
+2026-05-30: prod canary dry-run passed with explicit flag, resource budget and cleanup verification.
+2026-05-30: git diff --check passed.
+```

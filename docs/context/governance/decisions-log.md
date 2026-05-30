@@ -36,3 +36,11 @@ Decision: update rollback, network degradation, load/stress/chaos and destructiv
 Status: accepted.
 
 Decision: Codex work uses two explicit modes: NON_AUTONOMOUS for discovery/risky/production-impacting work and BOUNDED_AUTONOMOUS only after the user accepts a bounded plan.
+
+## D-007: Empty repository bootstrap
+
+Status: accepted.
+
+Decision: because the GitHub repository and local project root were empty, the starter governance package was imported as the initial local `main` baseline before creating `codex/prod-safety-foundation`.
+
+Safety note: no push or merge to remote `main` has been performed during M0 implementation.
