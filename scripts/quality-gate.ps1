@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through FrameworkInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through FrameworkInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through FixtureInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through FixtureInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -1258,6 +1258,93 @@ function Invoke-StaticSurfaceSafetyGate {
     }
 
     Write-Host 'StaticSurfaceSafety gate passed.'
+}
+
+function Invoke-FixtureInventorySafetyGate {
+    foreach ($fixtureRoot in @(
+            'testdata/release-fixture',
+            'testdata/release-clean-fixture',
+            'testdata/privacy-negative-fixture',
+            'testdata/privacy-large-fixture',
+            'testdata/privacy-clean-fixture',
+            'testdata/app-webview-smoke-fixture'
+        )) {
+        Assert-PathExists $fixtureRoot
+    }
+
+    foreach ($requiredFile in @(
+            'testdata/release-fixture/bin/rds-client.exe',
+            'testdata/release-fixture/bin/rds-updater.exe',
+            'testdata/release-fixture/bin/libcef.dll',
+            'testdata/release-fixture/bin/crashpad_handler.exe',
+            'testdata/release-fixture/bin/sentry.dll',
+            'testdata/release-fixture/Uninstall.exe',
+            'testdata/release-fixture/bin/installer_info.txt',
+            'testdata/release-fixture/bin/resources/settings/static/js/main.fixture.js',
+            'testdata/release-fixture/bin/resources/settings/static/js/main.fixture.js.map'
+        )) {
+        Assert-PathExists $requiredFile
+    }
+
+    foreach ($requiredFile in @(
+            'testdata/release-clean-fixture/bin/rds-client.exe',
+            'testdata/release-clean-fixture/bin/rds-updater.exe',
+            'testdata/release-clean-fixture/bin/libcef.dll',
+            'testdata/release-clean-fixture/bin/crashpad_handler.exe',
+            'testdata/release-clean-fixture/bin/sentry.dll',
+            'testdata/release-clean-fixture/Uninstall.exe'
+        )) {
+        Assert-PathExists $requiredFile
+    }
+
+    $releaseCleanRoot = Join-Path $repoRoot 'testdata/release-clean-fixture'
+    $releaseCleanForbidden = @(Get-ChildItem -LiteralPath $releaseCleanRoot -Recurse -File | Where-Object {
+            $_.Extension.ToLowerInvariant() -in @('.map', '.pdb') -or $_.Name -eq 'installer_info.txt'
+        })
+    if ($releaseCleanForbidden.Count -gt 0) {
+        throw 'release-clean-fixture must not contain sourcemaps, PDBs or installer_info.txt.'
+    }
+
+    foreach ($requiredFile in @(
+            'testdata/privacy-negative-fixture/app.log',
+            'testdata/privacy-large-fixture/large.log',
+            'testdata/privacy-clean-fixture/app.log'
+        )) {
+        Assert-PathExists $requiredFile
+    }
+
+    $largePrivacyFile = Get-Item -LiteralPath (Join-Path $repoRoot 'testdata/privacy-large-fixture/large.log')
+    $privacySmallLimitPath = Join-Path $repoRoot 'testdata/privacy-patterns-small-limit.example.json'
+    $privacySmallLimitPolicy = Get-Content -LiteralPath $privacySmallLimitPath -Raw | ConvertFrom-Json
+    if ($largePrivacyFile.Length -le [int64]$privacySmallLimitPolicy.maxTextFileBytes) {
+        throw 'privacy-large-fixture/large.log must remain larger than the small-limit privacy policy.'
+    }
+    $largePrivacyText = Get-Content -LiteralPath $largePrivacyFile.FullName -Raw
+    if ($largePrivacyText -notmatch '(?i)access[_-]?token') {
+        throw 'privacy-large-fixture/large.log must keep token-like fixture content for scan-limit coverage.'
+    }
+
+    $cleanPrivacyText = Get-Content -LiteralPath (Join-Path $repoRoot 'testdata/privacy-clean-fixture/app.log') -Raw
+    if ($cleanPrivacyText -match '(?i)(token|password|secret|C:\\Users\\|AppData)') {
+        throw 'privacy-clean-fixture/app.log must remain sanitized.'
+    }
+
+    foreach ($requiredFile in @(
+            'testdata/app-webview-smoke-fixture/bin/rds-client.exe',
+            'testdata/app-webview-smoke-fixture/bin/libcef.dll',
+            'testdata/app-webview-smoke-fixture/bin/chrome_100_percent.pak',
+            'testdata/app-webview-smoke-fixture/bin/resources.pak'
+        )) {
+        Assert-PathExists $requiredFile
+    }
+
+    foreach ($bundleName in @('settings', 'stream-settings', 'error-connect', 'update')) {
+        foreach ($requiredFile in @('index.html', 'asset-manifest.json')) {
+            Assert-PathExists "testdata/app-webview-smoke-fixture/bin/resources/$bundleName/$requiredFile"
+        }
+    }
+
+    Write-Host 'FixtureInventorySafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -2915,6 +3002,10 @@ if ($Scope -in @('ContractFixtureSafety', 'Full')) {
 
 if ($Scope -in @('StaticSurfaceSafety', 'Full')) {
     Invoke-StaticSurfaceSafetyGate
+}
+
+if ($Scope -in @('FixtureInventorySafety', 'Full')) {
+    Invoke-FixtureInventorySafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {
