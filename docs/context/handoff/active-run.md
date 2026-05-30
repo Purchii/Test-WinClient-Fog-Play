@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through QaDocsRunnerExampleCoverageSafety.
 
 Planning boundary:
 
@@ -18,6 +18,7 @@ Post-M6 ScriptsReadmeScopeSafety static gate is complete.
 Post-M6 ActiveSafetyScopeInventorySafety static gate is complete.
 Post-M6 QaDocsCommandSafety static gate is complete.
 Post-M6 QaDocsPowerShellInvocationSafety static gate is complete.
+Post-M6 QaDocsRunnerExampleCoverageSafety static gate is complete.
 Post-M6 QualityGatesDocsScopeSafety static gate is complete.
 Post-M6 BinaryFixturePlaceholderSafety static gate is complete.
 Post-M6 ScriptEncodingSafety static gate is complete.
@@ -97,6 +98,8 @@ ActiveSafetyScopeInventorySafety adds `Full` coverage for `quality-gate.ps1` `*S
 QaDocsCommandSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 
 QaDocsPowerShellInvocationSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
+
+QaDocsRunnerExampleCoverageSafety adds `Full` coverage for active QA runner/doc contracts so each local FrameworkInventorySafety runner has a command-looking dry-run example in its mapped QA doc.
 
 QualityGatesDocsScopeSafety adds `Full` coverage for the preferred `docs/context/engineering/quality-gates.md` command block so supported `quality-gate.ps1 -Scope` commands cannot drift, duplicate or list unknown scopes.
 
@@ -223,6 +226,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsPowerShellInvocationSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsRunnerExampleCoverageSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;

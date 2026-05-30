@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - QA docs runner example coverage safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after the delegated task thread created the branch but did not leave a durable diff, so coordination fallback completed the local-only task.
+
+Branch: `codex/qa-docs-runner-example-coverage-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Task thread `019e7b46-6e8c-7f73-97ab-3baf5cf85513` created the dedicated branch and reached discovery, then did not produce a durable diff during monitoring.
+- Coordination fallback used the same dedicated branch for this local/static task.
+
+Scope:
+
+- Add local `QaDocsRunnerExampleCoverageSafety` quality gate.
+- Statically require each active QA runner/doc contract from `FrameworkInventorySafety` to document a command-looking dry-run example for its mapped local runner.
+- Add a fixture-based dry-run example for `run-app-webview-smoke.ps1` so the active QA doc no longer relies only on inline runner mention.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Quality gates docs scope safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after replacement task threads failed to leave a durable diff and coordination fallback completed the local-only task.

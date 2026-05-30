@@ -38,6 +38,12 @@ Safety defaults:
 
 `scripts/run-app-webview-smoke.ps1` fails unless `-DryRun` is used. `-AllowClientLaunch` and `-AllowWebViewDebugPort` are intentionally blocked in M2 and require a separate approved milestone.
 
+Local fixture command:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-smoke.ps1 -ArtifactRoot .\testdata\app-webview-smoke-fixture -DryRun -ReportOnly
+```
+
 Post-M6 guard hardening added `AppSmoke` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
 Known limitation:

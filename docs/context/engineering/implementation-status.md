@@ -584,6 +584,37 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - QA docs runner example coverage safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/qa/app-webview-smoke.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `QaDocsRunnerExampleCoverageSafety` quality gate scope;
+- each active QA runner/doc contract from `FrameworkInventorySafety` must include a command-looking example for its mapped local runner;
+- mapped runner examples must use the safe PowerShell invocation shape and include `-DryRun`;
+- `app-webview-smoke.md` now documents a fixture-based dry-run command instead of relying on the installed client default path;
+- `QaDocsRunnerExampleCoverageSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Quality gates docs scope safety gate
 
 Status: local static quality gate implemented and verified locally.

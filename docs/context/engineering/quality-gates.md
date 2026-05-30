@@ -12,6 +12,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsPowerShellInvocationSafety
+.\scripts\quality-gate.ps1 -Scope QaDocsRunnerExampleCoverageSafety
 .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety
 .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety
 .\scripts\quality-gate.ps1 -Scope ScriptsReadmeScopeSafety
@@ -88,6 +89,8 @@ The `BinaryFixturePlaceholderSafety` scope statically checks binary-like files u
 The `QaDocsCommandSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
 
 The `QaDocsPowerShellInvocationSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
+
+The `QaDocsRunnerExampleCoverageSafety` scope statically checks active QA runner/doc contracts so each local runner owned by `FrameworkInventorySafety` has at least one command-looking dry-run example in its mapped QA doc.
 
 The `QualityGatesDocsScopeSafety` scope statically checks the `docs/context/engineering/quality-gates.md` preferred command block so every `quality-gate.ps1` `ValidateSet` scope is listed exactly once, unknown scopes are rejected and command syntax stays stable.
 
