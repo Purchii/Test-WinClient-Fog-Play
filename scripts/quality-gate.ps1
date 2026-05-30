@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TestDataInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through TestDataInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TestFrameworkInventorySafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through TestFrameworkInventorySafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -952,6 +952,46 @@ function Invoke-FrameworkInventorySafetyGate {
     }
 
     Write-Host 'FrameworkInventorySafety gate passed.'
+}
+
+function Invoke-TestFrameworkInventorySafetyGate {
+    $frameworkRoot = Join-Path $repoRoot 'src/TestFramework'
+    Assert-PathExists 'src/TestFramework'
+
+    $expectedFiles = @(
+        'BackendSmoke/BackendSmoke.psm1',
+        'BackendSmoke/BackendSmoke.Tests.ps1',
+        'GameSessionCanary/GameSessionCanary.psm1',
+        'GameSessionCanary/GameSessionCanary.Tests.ps1',
+        'NonProdFoundation/NonProdFoundation.psm1',
+        'NonProdFoundation/NonProdFoundation.Tests.ps1',
+        'ProdSafety/ProdSafety.psm1',
+        'ProdSafety/ProdSafety.Tests.ps1',
+        'ProdSafety/README.md',
+        'TestabilityGaps/TestabilityGaps.psm1',
+        'TestabilityGaps/TestabilityGaps.Tests.ps1',
+        'UpdateManifest/UpdateManifest.psm1',
+        'UpdateManifest/UpdateManifest.Tests.ps1',
+        'WebViewBridge/WebViewBridge.psm1',
+        'WebViewBridge/WebViewBridge.Tests.ps1',
+        'WindowsSmoke/WindowsSmoke.psm1',
+        'WindowsSmoke/WindowsSmoke.Tests.ps1'
+    )
+    $actualFiles = @(Get-ChildItem -LiteralPath $frameworkRoot -Recurse -File | ForEach-Object {
+            $_.FullName.Substring($frameworkRoot.Length + 1) -replace '\\', '/'
+        } | Sort-Object)
+    foreach ($file in $expectedFiles) {
+        if ($actualFiles -notcontains $file) {
+            throw "src/TestFramework is missing required file: $file"
+        }
+    }
+    foreach ($file in $actualFiles) {
+        if ($expectedFiles -notcontains $file) {
+            throw "src/TestFramework contains undocumented file: $file"
+        }
+    }
+
+    Write-Host 'TestFrameworkInventorySafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -3230,6 +3270,10 @@ if ($Scope -in @('IncomingReferenceSafety', 'Full')) {
 
 if ($Scope -in @('FrameworkInventorySafety', 'Full')) {
     Invoke-FrameworkInventorySafetyGate
+}
+
+if ($Scope -in @('TestFrameworkInventorySafety', 'Full')) {
+    Invoke-TestFrameworkInventorySafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

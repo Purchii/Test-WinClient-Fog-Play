@@ -50,6 +50,7 @@ Post-M6: QaStrategySafety static gate - implemented and verified locally.
 Post-M6: HandoffProtocolSafety static gate - implemented and verified locally.
 Post-M6: IncomingReferenceSafety static gate - implemented and verified locally.
 Post-M6: FrameworkInventorySafety static gate - implemented and verified locally.
+Post-M6: TestFrameworkInventorySafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
@@ -101,6 +102,7 @@ Repository bootstrap state:
 - Post-M6 HandoffProtocolSafety static gate was completed on `codex/handoff-protocol-safety-gate`.
 - Post-M6 IncomingReferenceSafety static gate was completed on `codex/incoming-reference-safety-gate`.
 - Post-M6 FrameworkInventorySafety static gate was completed on `codex/framework-inventory-safety-gate`.
+- Post-M6 TestFrameworkInventorySafety static gate was completed on `codex/testframework-inventory-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
@@ -145,6 +147,7 @@ Current artifact status:
 - HandoffProtocolSafety statically checks context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
 - IncomingReferenceSafety statically checks incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 - FrameworkInventorySafety statically checks TestFramework modules for matching tests, local runners, QA docs and example/unsafe fixtures.
+- TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.

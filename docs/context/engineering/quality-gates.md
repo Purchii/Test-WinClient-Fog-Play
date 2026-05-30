@@ -19,6 +19,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety
 .\scripts\quality-gate.ps1 -Scope IncomingReferenceSafety
 .\scripts\quality-gate.ps1 -Scope FrameworkInventorySafety
+.\scripts\quality-gate.ps1 -Scope TestFrameworkInventorySafety
 .\scripts\quality-gate.ps1 -Scope IncidentStopSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsSafety
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
@@ -84,6 +85,8 @@ The `HandoffProtocolSafety` scope statically checks context protocol and Git wor
 The `IncomingReferenceSafety` scope statically checks `docs/_incoming_reference` inventory and source-of-truth wording so historical incoming references cannot silently become active scope.
 
 The `FrameworkInventorySafety` scope statically checks `src/TestFramework`, runners, QA docs and fixture paths so implemented modules keep matching tests, local runners, documentation and example/unsafe fixtures.
+
+The `TestFrameworkInventorySafety` scope statically checks `src/TestFramework` file inventory so framework modules, tests and local support docs cannot be added, removed or renamed silently.
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 

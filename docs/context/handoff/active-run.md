@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through TestDataInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through TestFrameworkInventorySafety.
 
 Planning boundary:
 
@@ -41,6 +41,7 @@ Post-M6 QaStrategySafety static gate is complete.
 Post-M6 HandoffProtocolSafety static gate is complete.
 Post-M6 IncomingReferenceSafety static gate is complete.
 Post-M6 FrameworkInventorySafety static gate is complete.
+Post-M6 TestFrameworkInventorySafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -111,6 +112,8 @@ IncomingReferenceSafety adds `Full` coverage for incoming reference inventory an
 
 FrameworkInventorySafety adds `Full` coverage for TestFramework module inventory, matching tests, local runners, QA docs and example/unsafe fixtures.
 
+TestFrameworkInventorySafety adds `Full` coverage for the `src/TestFramework` file inventory.
+
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
 QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory and core safety phrases.
@@ -175,4 +178,5 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope IncomingReferenceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FrameworkInventorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestFrameworkInventorySafety`;
 - `git diff --check`.

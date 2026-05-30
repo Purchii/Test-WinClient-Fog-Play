@@ -55,6 +55,8 @@ The `IncomingReferenceSafety` quality gate fails if `docs/_incoming_reference` i
 
 The `FrameworkInventorySafety` quality gate fails if implemented TestFramework modules lose matching tests, local runners, QA docs or example/unsafe fixtures.
 
+The `TestFrameworkInventorySafety` quality gate fails if the `src/TestFramework` file inventory changes without updating the gate.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.

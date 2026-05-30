@@ -192,6 +192,34 @@ Safety notes:
 - No production game session started.
 - No unsafe test enabled.
 
+## 2026-05-30 - TestFramework inventory safety gate
+
+Branch: `codex/testframework-inventory-safety-gate`
+Status: passed
+Production impact: none; static local TestFramework file inventory validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestFrameworkInventorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- TestFrameworkInventorySafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including TestFrameworkInventorySafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates TestFramework file inventory only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Framework inventory safety gate
 
 Branch: `codex/framework-inventory-safety-gate`
