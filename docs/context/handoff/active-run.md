@@ -64,7 +64,7 @@ Post-M6 ScriptsInventorySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
-Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread for PowerShellStructuredSyntaxSafety. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
+Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread after handoff from source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1`. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`, is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks.
 ```
 
 Current branch:

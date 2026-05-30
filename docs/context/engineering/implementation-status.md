@@ -184,6 +184,7 @@ Implemented outputs:
 - Codex worktree use documented for follow-on tasks that need isolated branch/workspace state.
 - Retry behavior documented: unusable, invisible or unmanageable thread attempts are marked inactive/orphan, normal `create_thread` is retried once, then worktree fallback is used after a second normal failure.
 - Previous task thread lifecycle clarified: unarchived but inactive after handoff.
+- Previous task thread lifecycle further clarified: after a new task thread is created, the previous thread is inactive/history-only, preserved for history, not deleted and not archived automatically unless the user explicitly asks.
 - `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
 - Extended autonomous time, push permission and merge permission now explicitly do not waive thread-per-task.
 - Follow-up gates, hardening items, feature slices, backlog items and milestones are explicitly new independent tasks unless they only repair current-task verification.

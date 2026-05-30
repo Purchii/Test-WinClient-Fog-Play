@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-30 - Thread inactive/history-only lifecycle wording
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only governance correction after user allowed autonomous work, fast-forward merge and pushes to main.
+
+Branch: `codex/thread-inactive-history-docs`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
+- Previous task threads are preserved for history, are not deleted, and are not archived automatically unless the user explicitly asks.
+
+Scope:
+
+- Clarify thread lifecycle wording across source-of-truth governance docs.
+- Keep the change documentation/static-gate only.
+- Preserve the existing `PROCESS_ERROR_THREAD_REUSE` rule.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - PowerShell structured syntax safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work, fast-forward merge and pushes to main.
@@ -9,7 +37,7 @@ Branch: `codex/powershell-structured-syntax-safety-gate`
 Thread lifecycle:
 
 - Active task thread: `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
-- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`, is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks.
 
 Scope:
 

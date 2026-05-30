@@ -667,7 +667,9 @@ function Invoke-ActiveRunSafetyGate {
             'CI/CD enablement',
             'dependency upgrades',
             'weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier',
-            'scope expansion beyond local dry-run/schema validation'
+            'scope expansion beyond local dry-run/schema validation',
+            'became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`',
+            'is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks'
         )) {
         if ($activeRun -notmatch [regex]::Escape($requiredPhrase)) {
             throw "active-run.md must document safety boundary phrase: $requiredPhrase"
@@ -921,6 +923,8 @@ function Invoke-DecisionsLogSafetyGate {
             'each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task',
             '`create_thread` is the priority mechanism',
             'retries `create_thread` once',
+            'the previous task thread becomes inactive/history-only after handoff',
+            'must not be deleted and is not archived automatically unless the user explicitly asks',
             'PROCESS_ERROR_THREAD_REUSE'
         )) {
         if ($decisionsLog -notmatch [regex]::Escape($requiredPhrase)) {
@@ -988,6 +992,8 @@ function Invoke-CodexPolicySafetyGate {
             'After the user accepts the current milestone plan, Codex may work in `BOUNDED_AUTONOMOUS` mode only inside that accepted scope',
             'extended autonomous time, push permission or merge permission does not permit batching multiple independent tasks in one thread',
             'each newly selected follow-up gate, hardening item, feature slice or backlog item starts a new independent task',
+            'the previous task thread becomes inactive/history-only after handoff',
+            'is not deleted and is not archived automatically unless the user explicitly asks',
             'production-impacting tasks',
             'any change that can start a cloud-gaming session',
             'CI/CD changes that can run tests automatically',
@@ -1018,6 +1024,7 @@ function Invoke-CodexPolicySafetyGate {
             'For a new independent task or milestone, use `create_thread` first',
             'Treat a newly selected follow-up gate, hardening item, feature slice or backlog item as a new independent task',
             'Treat extended autonomous time, push permission and merge permission as execution permissions only',
+            'Preserve the previous task thread for history: do not delete it, and do not archive it automatically unless the user explicitly asks',
             'Wait for approval if in NON_AUTONOMOUS discovery mode',
             'Confirm production classification',
             'Implement only allowed scope',
@@ -1035,6 +1042,7 @@ function Invoke-CodexPolicySafetyGate {
             'Every new independent task or milestone in autonomous work must use a separate Codex thread',
             'User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread',
             'Each newly chosen follow-up hardening gate, milestone, feature slice, or backlog item is a new independent task',
+            'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',
             'Do not expand scope without user approval',
             'Do not work directly on main',
             'Do not merge to main without explicit user approval',
@@ -1347,7 +1355,8 @@ function Invoke-HandoffProtocolSafetyGate {
             '`create_thread` is the priority mechanism for starting a new independent task',
             'record that attempt as inactive/orphan and retry `create_thread` once',
             'After the second normal `create_thread` failure, create the task thread with a Codex worktree',
-            'The previous task thread is not archived automatically',
+            'After a new task thread is created, the previous task thread becomes inactive/history-only after handoff',
+            'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',
             'PROCESS_ERROR_THREAD_REUSE',
             'If execution mode is not declared, use `NON_AUTONOMOUS`',
             'If the current milestone plan is not recorded or not accepted, Codex must stop and ask before changing files'
@@ -1364,6 +1373,8 @@ function Invoke-HandoffProtocolSafetyGate {
             'Every new independent autonomous task or milestone uses a separate Codex thread',
             'Extended autonomous time, push permission or merge permission does not waive thread-per-task',
             'A newly selected follow-up gate, hardening item, feature slice or backlog item is a new independent task',
+            'After a new task thread is created, the previous task thread becomes inactive/history-only after handoff',
+            'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',
             'Use `create_thread` first for new independent tasks',
             'retry `create_thread` once',
             'Codex worktree fallback after the second failure',

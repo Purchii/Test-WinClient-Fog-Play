@@ -63,7 +63,8 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - `create_thread` was used or attempted first for the new independent task;
 - unusable, invisible or unmanageable thread attempts are recorded inactive/orphan and retried once with normal `create_thread`;
 - a Codex worktree is used after the second normal `create_thread` failure or when the task flows from prior work and needs isolated branch/workspace state;
-- the previous task thread is left unarchived but inactive after handoff;
+- after a new task thread is created, the previous task thread becomes inactive/history-only after handoff;
+- the previous task thread is preserved for history: it is not deleted and is not archived automatically unless the user explicitly asks;
 - the task is not changing production behavior directly;
 - no real credentials, tokens, or personal data are needed;
 - no production game session is started;
@@ -117,7 +118,7 @@ Production-impacting actions: NON_AUTONOMOUS.
 Merge to main: NON_AUTONOMOUS and requires explicit user approval.
 ```
 
-The previous thread remains unarchived as historical context, but becomes inactive after handoff. If a new independent task continues in the previous thread, record `PROCESS_ERROR_THREAD_REUSE` and stop implementation until the task is moved to a correct thread.
+After a new task thread is created, the previous task thread becomes inactive/history-only after handoff. It is preserved for history, is not deleted, and is not archived automatically unless the user explicitly asks. If a new independent task continues in the previous thread, record `PROCESS_ERROR_THREAD_REUSE` and stop implementation until the task is moved to a correct thread.
 
 For the first milestone, the recommended mode is:
 
@@ -171,7 +172,7 @@ Thread:
 - New independent task/milestone uses a separate Codex thread.
 - Extended autonomous time or push/merge permission does not waive thread-per-task.
 - Next follow-up gate/backlog item starts in a new Codex thread unless it repairs current-task verification.
-- Previous task thread remains unarchived but inactive after handoff.
+- Previous task thread becomes inactive/history-only after handoff, is preserved for history, is not deleted, and is not archived automatically unless the user explicitly asks.
 
 Execution mode:
 - Discovery and plan: NON_AUTONOMOUS.

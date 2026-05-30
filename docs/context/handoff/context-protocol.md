@@ -35,7 +35,8 @@ Thread lifecycle:
 - If `create_thread` creates an unusable, invisible or unmanageable thread, record that attempt as inactive/orphan and retry `create_thread` once.
 - After the second normal `create_thread` failure, create the task thread with a Codex worktree.
 - Use a Codex worktree earlier when the new task flows from a previous task and needs isolated branch/workspace state.
-- The previous task thread is not archived automatically. It remains available as history, but is inactive after handoff.
+- After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
+- The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 - If a new task is continued in the previous thread, treat it as `PROCESS_ERROR_THREAD_REUSE`: record the error, do not implement further task changes, and create or hand off to the correct task thread.
 - A current thread may make a narrowly scoped governance correction documenting this error before handoff.
 

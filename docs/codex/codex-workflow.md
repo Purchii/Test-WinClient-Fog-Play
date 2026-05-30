@@ -7,19 +7,20 @@
 5. If the new thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
 6. Use a Codex worktree after the second normal `create_thread` failure, or earlier when the follow-on task benefits from isolated branch/workspace state.
 7. Hand off before implementation if this is the previous task thread.
-8. Leave the previous task thread unarchived, but inactive after handoff.
-9. Read source-of-truth docs.
-10. Declare autonomy mode.
-11. Check git status.
-12. Create/propose task branch.
-13. Produce repo map and plan.
-14. Wait for approval if in NON_AUTONOMOUS discovery mode.
-15. Confirm production classification.
-16. Implement only allowed scope.
-17. Run verification.
-18. Update verification-memory/session-log/active-run.
-19. Final report including autonomy mode and stop-and-ask triggers.
-20. Do not merge main without explicit approval.
+8. After a new task thread is created, treat the previous task thread as inactive/history-only after handoff.
+9. Preserve the previous task thread for history: do not delete it, and do not archive it automatically unless the user explicitly asks.
+10. Read source-of-truth docs.
+11. Declare autonomy mode.
+12. Check git status.
+13. Create/propose task branch.
+14. Produce repo map and plan.
+15. Wait for approval if in NON_AUTONOMOUS discovery mode.
+16. Confirm production classification.
+17. Implement only allowed scope.
+18. Run verification.
+19. Update verification-memory/session-log/active-run.
+20. Final report including autonomy mode and stop-and-ask triggers.
+21. Do not merge main without explicit approval.
 
 If implementation for a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE`, update context docs, and stop task implementation until a correct task thread exists.
 
@@ -37,7 +38,7 @@ For each new milestone:
 3. Do not treat extended autonomous time as approval to run multiple independent milestones in the same thread.
 4. If the thread is unusable, invisible or unmanageable, record it as inactive/orphan and retry `create_thread` once.
 5. Use a Codex worktree after the second normal `create_thread` failure, or when the milestone follows from prior work and needs isolated branch/workspace state.
-6. Keep the previous milestone thread unarchived but inactive.
+6. After the new milestone thread is created, keep the previous milestone thread inactive/history-only, preserved, not deleted and not archived automatically unless the user explicitly asks.
 7. Start in `NON_AUTONOMOUS` mode.
 8. Re-read source-of-truth docs and current diff.
 9. Produce high-level roadmap for the whole project.

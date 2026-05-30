@@ -11,7 +11,8 @@
 - Use `create_thread` first for new independent tasks.
 - If normal thread creation is unusable, mark it inactive/orphan, retry `create_thread` once, then use Codex worktree fallback after the second failure.
 - Use Codex worktrees earlier when follow-on tasks need isolated branch/workspace state.
-- The previous task thread remains unarchived but inactive after handoff.
+- After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
+- The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 - If a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE` before doing more implementation.
 - Branch must be atomic but useful: one rollback-sized backlog slice.
 - Work with remote Git by default when it does not reduce quality or safety.

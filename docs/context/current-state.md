@@ -31,6 +31,7 @@ Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
 Post-M6: BinaryFixturePlaceholderSafety static gate - implemented and verified locally.
 Post-M6: ScriptEncodingSafety static gate - implemented and verified locally.
 Post-M6: PowerShellStructuredSyntaxSafety static gate - implemented and verified locally.
+Post-M6: Thread inactive/history-only lifecycle wording - implemented and verified locally.
 Post-M6: ProdSafetyFrameworkSafety static gate - implemented and verified locally.
 Post-M6: RootPromptSafety static gate - implemented and verified locally.
 Post-M6: RepositoryRootInventorySafety static gate - implemented and verified locally.
@@ -96,6 +97,7 @@ Repository bootstrap state:
 - Post-M6 BinaryFixturePlaceholderSafety static gate was completed on `codex/binary-fixture-placeholder-safety-gate`.
 - Post-M6 ScriptEncodingSafety static gate was completed on `codex/script-encoding-safety-gate`.
 - Post-M6 PowerShellStructuredSyntaxSafety static gate was completed on `codex/powershell-structured-syntax-safety-gate`.
+- Post-M6 thread inactive/history-only lifecycle wording was completed on `codex/thread-inactive-history-docs`.
 - Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
 - Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
@@ -137,7 +139,7 @@ Repository bootstrap state:
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
-- Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread for PowerShellStructuredSyntaxSafety. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only after handoff and must not be used to implement new independent tasks.
+- Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread after handoff from source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1`. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`, is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
 - Each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task unless it only repairs verification for the current task.
 - Current installed artifact source for offline checks: `C:\Program Files\MTC Fog Play`.

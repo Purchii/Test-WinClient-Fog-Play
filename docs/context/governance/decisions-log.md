@@ -65,7 +65,7 @@ Decision: user approval to "push" the current task branch includes permission to
 
 Status: accepted.
 
-Decision: every new independent task or milestone in autonomous work uses a separate Codex thread. The previous task thread remains unarchived, but becomes inactive after handoff.
+Decision: every new independent task or milestone in autonomous work uses a separate Codex thread. After a new task thread is created, the previous task thread becomes inactive/history-only after handoff. The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 
 Decision: extended autonomous time, permission to push, or permission to merge changes execution authority only; it does not permit batching multiple independent tasks in one Codex thread.
 
