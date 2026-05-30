@@ -132,6 +132,29 @@ Safety:
 - No CI/CD enablement.
 - No dependency changes.
 
+## 2026-05-30 - Post-M6 CodexGoalTemplateSafety static gate
+
+Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
+
+Branch: `codex/goal-template-safety-gate`
+
+Scope:
+
+- Add `CodexGoalTemplateSafety` quality gate scope.
+- Statically check the Codex goal template for execution mode, scope, forbidden actions, acceptance criteria, verification and stop conditions.
+- Include `CodexGoalTemplateSafety` in `Full`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Post-M6 BacklogSafety static gate
 
 Mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.

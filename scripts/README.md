@@ -41,6 +41,8 @@ The `TaskRequestSafety` quality gate fails if task request template/log docs los
 
 The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/agent-role docs lose reporting, role separation, verification, production classification, stop-trigger, secret or no-main-merge requirements.
 
+The `CodexGoalTemplateSafety` quality gate fails if the Codex goal template loses execution mode, scope, forbidden action, acceptance criteria, verification or stop-condition requirements.
+
 The `QaStrategySafety` quality gate fails if QA strategy, testability contract or flakiness policy docs lose layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking or retry/session-budget rules.
 
 The `HandoffProtocolSafety` quality gate fails if context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification or main-merge approval rules.
