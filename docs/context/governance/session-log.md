@@ -1,5 +1,28 @@
 # Session log
 
+## 2026-05-30 - Root prompt safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/root-prompt-safety-gate`
+
+Scope:
+
+- Add a local `RootPromptSafety` quality gate.
+- Validate top-level Codex prompt/TZ files for source-of-truth wording and autonomy boundaries.
+- Keep production-impact stop rules plus game-session and credential prerequisites explicit.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - M0 ProdSafety foundation
 
 Mode: `NON_AUTONOMOUS` discovery/planning, then `BOUNDED_AUTONOMOUS` after user continuation accepted the M0 plan.

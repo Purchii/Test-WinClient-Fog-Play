@@ -366,6 +366,36 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Root prompt safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `RootPromptSafety` quality gate scope;
+- top-level Codex prompt/TZ documents must preserve source-of-truth wording;
+- autonomy-mode boundaries must keep NON_AUTONOMOUS/BOUNDED_AUTONOMOUS requirements visible;
+- production-impact stop rules and game-session/credential prerequisites must remain explicit;
+- `RootPromptSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - Script inventory guard
 
 Status: local documentation/quality gate hardening implemented and verified locally.

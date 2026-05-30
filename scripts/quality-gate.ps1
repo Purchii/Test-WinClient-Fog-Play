@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -142,6 +142,95 @@ function Invoke-RepositoryRootInventorySafetyGate {
     Write-Host 'RepositoryRootInventorySafety gate passed.'
 }
 
+function Invoke-RootPromptSafetyGate {
+    $requirements = @(
+        @{
+            Path = 'AGENTS.md'
+            Phrases = @(
+                'This repository is production-sensitive',
+                'Non-negotiable production rules',
+                'Repository docs and code are the source of truth',
+                'default to `NON_AUTONOMOUS`',
+                'Do not add real game-session tests'
+            )
+        },
+        @{
+            Path = 'CODEX_AUTONOMY_MODES_INTEGRATION.md'
+            Phrases = @(
+                'Discovery and plan: NON_AUTONOMOUS.',
+                'After user accepts the plan: BOUNDED_AUTONOMOUS only inside M0 scope.',
+                'Any production-impacting action: NON_AUTONOMOUS.',
+                'Merge to main: NON_AUTONOMOUS and explicit user approval required.'
+            )
+        },
+        @{
+            Path = 'CODEX_FINAL_TZ_WINCLIENT_QA_AUTOMATION.md'
+            Phrases = @(
+                'No synthetic user guard = no prod auth test.',
+                'No resource budget = no prod game session test.',
+                'Any production-impacting action: NON_AUTONOMOUS.',
+                'Merge to main: NON_AUTONOMOUS + explicit approval.',
+                'M5. Minimal game-session canary',
+                'no game session starts during dry-run'
+            )
+        },
+        @{
+            Path = 'CODEX_FIRST_GOAL_PROMPT.md'
+            Phrases = @(
+                'All automation must be production-safe by default.',
+                'Repository docs and code are the source of truth.',
+                'Discovery and initial plan: NON_AUTONOMOUS.',
+                'BOUNDED_AUTONOMOUS within M0 scope only',
+                'Stop and ask before any production-impacting action',
+                'no production game sessions are started'
+            )
+        },
+        @{
+            Path = 'CODEX_NEW_THREAD_BOUNDED_AUTONOMOUS_PROMPT.md'
+            Phrases = @(
+                'For first discovery of an unknown repository, use NON_AUTONOMOUS mode first.',
+                'BOUNDED_AUTONOMOUS within the approved M0 scope only.',
+                'repository docs and code are the source of truth',
+                'No synthetic user guard = no prod auth test.',
+                'No resource budget = no prod game session test.',
+                'no production game sessions are started'
+            )
+        },
+        @{
+            Path = 'CODEX_START_INSTRUCTION.md'
+            Phrases = @(
+                'source of truth',
+                'NON_AUTONOMOUS',
+                'BOUNDED_AUTONOMOUS',
+                'Do not add game-session tests.',
+                'Game-session canary'
+            )
+        },
+        @{
+            Path = 'README_CODEX_START.md'
+            Phrases = @(
+                'Discovery/plan: NON_AUTONOMOUS.',
+                'Implementation after accepted plan: BOUNDED_AUTONOMOUS within approved scope.',
+                'Production impact and merge to main: NON_AUTONOMOUS.',
+                'game-session tests',
+                'M0 scope'
+            )
+        }
+    )
+
+    foreach ($requirement in $requirements) {
+        Assert-PathExists $requirement.Path
+        $content = Get-Content -LiteralPath (Join-Path $repoRoot $requirement.Path) -Raw
+        foreach ($phrase in $requirement.Phrases) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "$($requirement.Path) must preserve root prompt safety phrase: $phrase"
+            }
+        }
+    }
+
+    Write-Host 'RootPromptSafety gate passed.'
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -184,7 +273,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -195,8 +284,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through RepositoryRootInventorySafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through RepositoryRootInventorySafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through RootPromptSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through RootPromptSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -3282,6 +3371,10 @@ if ($Scope -in @('Context', 'Full')) {
 
 if ($Scope -in @('RepositoryRootInventorySafety', 'Full')) {
     Invoke-RepositoryRootInventorySafetyGate
+}
+
+if ($Scope -in @('RootPromptSafety', 'Full')) {
+    Invoke-RootPromptSafetyGate
 }
 
 if ($Scope -in @('ActiveRunSafety', 'Full')) {

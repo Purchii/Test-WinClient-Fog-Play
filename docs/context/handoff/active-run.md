@@ -4,13 +4,14 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through RepositoryRootInventorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through RootPromptSafety.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
+Post-M6 RootPromptSafety static gate is complete.
 Post-M6 RepositoryRootInventorySafety static gate is complete.
 Post-M6 update manifest hardening is complete.
 Post-M6 testability gaps registry is complete.
@@ -65,6 +66,8 @@ Current result:
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
 
 RepositoryRootInventorySafety adds `Full` coverage for the repository-root file and directory inventory.
+
+RootPromptSafety adds `Full` coverage for top-level Codex prompt/TZ safety wording around repository source-of-truth, autonomy boundaries, production-impact stops and game-session/credential prerequisites.
 
 Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
 
@@ -166,6 +169,7 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety`;

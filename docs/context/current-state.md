@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: RootPromptSafety static gate - implemented and verified locally.
 Post-M6: RepositoryRootInventorySafety static gate - implemented and verified locally.
 Post-M6: Script inventory guard - implemented and verified locally.
 Post-M6: M1 dry-run fail-closed hardening - implemented and verified locally.
@@ -77,6 +78,7 @@ Repository bootstrap state:
 - M5 implementation was completed on `codex/m5-game-session-canary` and merged to `main`.
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
+- Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
 - Post-M6 script inventory guard hardening was completed on `codex/scripts-inventory-guard`.
 - Post-M6 M1 dry-run fail-closed hardening was completed on `codex/m1-dryrun-fail-closed`.
 - Post-M6 runner/validator guard hardening was completed on `codex/app-bridge-runner-guard`.
@@ -129,6 +131,7 @@ Current artifact status:
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.
 - RepositoryRootInventorySafety statically checks the repository-root file and directory inventory.
+- RootPromptSafety statically checks top-level Codex prompt/TZ safety wording around repository source-of-truth, autonomy boundaries, production-impact stops and game-session/credential prerequisites.
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
 - Release and privacy runners require `-DryRun` before reading artifact roots.
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags.

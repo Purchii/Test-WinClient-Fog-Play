@@ -27,6 +27,8 @@ The `Context` quality gate also fails if any `quality-gate.ps1 -Scope` value is 
 
 The `RepositoryRootInventorySafety` quality gate fails if the repository-root file or directory inventory changes without updating the gate.
 
+The `RootPromptSafety` quality gate fails if top-level Codex prompt/TZ documents lose source-of-truth wording, autonomy-mode boundaries, production-impact stop rules or game-session/credential guard prerequisites.
+
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
