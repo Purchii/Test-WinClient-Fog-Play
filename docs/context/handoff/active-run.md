@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through PowerShellStructuredSyntaxSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through WebViewBundleLocalReferenceSafety.
 
 Planning boundary:
 
@@ -59,6 +59,7 @@ Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
 Post-M6 ContractFixtureSafety static gate is complete.
 Post-M6 StaticSurfaceSafety static gate is complete.
+Post-M6 WebViewBundleLocalReferenceSafety static gate is complete.
 Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
@@ -70,7 +71,7 @@ Thread `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0` is the active task thread after ha
 Current branch:
 
 ```text
-main
+codex/webview-bundle-local-reference-safety-gate
 ```
 
 Current result:
@@ -166,6 +167,8 @@ ContractFixtureSafety adds `Full` coverage for backend, update manifest and WebV
 
 StaticSurfaceSafety adds `Full` coverage for App/WebView smoke and non-prod foundation fixture drift around static layout, WebView bundle inventory and schema-only non-runtime placeholders.
 
+WebViewBundleLocalReferenceSafety adds `Full` coverage for fixture WebView bundle entrypoints and manifests so remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths cannot drift into the local smoke bundle.
+
 FixtureInventorySafety adds `Full` coverage for release, privacy and App/WebView smoke fixture directory drift around required positive, negative and clean local fixture files.
 
 ScriptsInventorySafety adds `Full` coverage for the `scripts/` runner/support file inventory.
@@ -217,6 +220,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope WebViewBundleLocalReferenceSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptsInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataInventorySafety`;

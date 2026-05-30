@@ -37,6 +37,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ArtifactPolicySafety
 .\scripts\quality-gate.ps1 -Scope ContractFixtureSafety
 .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety
+.\scripts\quality-gate.ps1 -Scope WebViewBundleLocalReferenceSafety
 .\scripts\quality-gate.ps1 -Scope FixtureInventorySafety
 .\scripts\quality-gate.ps1 -Scope ScriptsInventorySafety
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
@@ -134,6 +135,8 @@ The `ArtifactPolicySafety` scope statically checks release and privacy policy fi
 The `ContractFixtureSafety` scope statically checks backend, update manifest and WebView bridge fixtures so dry-run flags, local paths, read-only endpoint contracts, package integrity metadata and bridge safety vocabulary cannot drift silently.
 
 The `StaticSurfaceSafety` scope statically checks App/WebView smoke and non-prod foundation fixtures so static artifact layout, WebView bundle inventory and future non-prod component placeholders remain local, dry-run and non-runtime.
+
+The `WebViewBundleLocalReferenceSafety` scope statically checks fixture WebView bundle entrypoints and manifests so remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths cannot drift into the local smoke bundle.
 
 The `FixtureInventorySafety` scope statically checks local fixture directory trees so release, privacy and App/WebView smoke fixtures keep their required positive, negative and clean file layouts.
 

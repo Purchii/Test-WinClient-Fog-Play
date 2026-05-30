@@ -1835,3 +1835,33 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - WebView bundle local reference safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `WebViewBundleLocalReferenceSafety` quality gate scope;
+- fixture WebView bundle entrypoints and `asset-manifest.json` files are scanned without WebView runtime;
+- remote `http`/`https`/`ws`/`wss` URLs, localhost references, WebView debug/CDP vocabulary, user runtime paths and production-looking endpoints are rejected;
+- manifest `files` mappings must stay root-relative local static paths under `/static/css/`, `/static/js/` and `/index.html`;
+- `WebViewBundleLocalReferenceSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

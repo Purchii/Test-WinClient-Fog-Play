@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - WebView bundle local reference safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user delegated this independent task to a new thread and allowed autonomous implementation, fast-forward merge and pushes if discovery stayed clean.
+
+Branch: `codex/webview-bundle-local-reference-safety-gate`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This task used the delegated new task thread and a dedicated task branch.
+
+Scope:
+
+- Add local `WebViewBundleLocalReferenceSafety` quality gate.
+- Statically validate fixture WebView bundle `index.html` and `asset-manifest.json` files.
+- Keep manifest paths root-relative local static paths and reject remote/runtime/debug references.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-30 - Thread inactive/history-only lifecycle wording
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only governance correction after user allowed autonomous work, fast-forward merge and pushes to main.

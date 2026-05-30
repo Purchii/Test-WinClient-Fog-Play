@@ -70,6 +70,7 @@ Post-M6: QaDocsSafety static gate - implemented and verified locally.
 Post-M6: ArtifactPolicySafety static gate - implemented and verified locally.
 Post-M6: ContractFixtureSafety static gate - implemented and verified locally.
 Post-M6: StaticSurfaceSafety static gate - implemented and verified locally.
+Post-M6: WebViewBundleLocalReferenceSafety static gate - implemented and verified locally.
 Post-M6: FixtureInventorySafety static gate - implemented and verified locally.
 Post-M6: ScriptsInventorySafety static gate - implemented and verified locally.
 ```
@@ -136,6 +137,7 @@ Repository bootstrap state:
 - Post-M6 ArtifactPolicySafety static gate was completed on `codex/artifact-policy-safety-gate`.
 - Post-M6 ContractFixtureSafety static gate was completed on `codex/contract-fixture-safety-gate`.
 - Post-M6 StaticSurfaceSafety static gate was completed on `codex/static-surface-safety-gate`.
+- Post-M6 WebViewBundleLocalReferenceSafety static gate was completed on `codex/webview-bundle-local-reference-safety-gate`.
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
@@ -200,6 +202,7 @@ Current artifact status:
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
 - ContractFixtureSafety statically checks backend, update manifest and WebView bridge fixtures for dry-run, local-only and safety-vocabulary drift.
 - StaticSurfaceSafety statically checks App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory and schema-only non-runtime drift.
+- WebViewBundleLocalReferenceSafety statically checks fixture WebView bundle entrypoints and manifests for remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths.
 - FixtureInventorySafety statically checks release, privacy and App/WebView smoke fixture directory trees for required positive, negative and clean local fixture files.
 - ScriptsInventorySafety statically checks the `scripts/` runner/support file inventory.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

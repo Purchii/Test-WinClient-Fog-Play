@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -680,7 +680,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -691,8 +691,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through PowerShellStructuredSyntaxSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through PowerShellStructuredSyntaxSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through WebViewBundleLocalReferenceSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through WebViewBundleLocalReferenceSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -2001,6 +2001,108 @@ function Invoke-StaticSurfaceSafetyGate {
     }
 
     Write-Host 'StaticSurfaceSafety gate passed.'
+}
+
+function Invoke-WebViewBundleLocalReferenceSafetyGate {
+    $policyPath = Join-Path $repoRoot 'testdata/app-webview-smoke.example.json'
+    $resourcesRoot = Join-Path $repoRoot 'testdata/app-webview-smoke-fixture/bin/resources'
+    Assert-PathExists 'testdata/app-webview-smoke.example.json'
+    Assert-PathExists 'testdata/app-webview-smoke-fixture/bin/resources'
+
+    $policy = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json
+    $expectedBundles = @('settings', 'stream-settings', 'error-connect', 'update')
+    $bundleNames = @($policy.webViewBundles | ForEach-Object { [string]$_.name })
+    foreach ($bundleName in $expectedBundles) {
+        if ($bundleNames -notcontains $bundleName) {
+            throw "app-webview-smoke.example.json must include WebView bundle: $bundleName"
+        }
+    }
+
+    $forbiddenReferencePatterns = @(
+        @{ Id = 'remote-url'; Pattern = '(?i)\b(?:https?|wss?)://' },
+        @{ Id = 'localhost'; Pattern = '(?i)\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\[?::1\]?)\b' },
+        @{ Id = 'webview-debug'; Pattern = '(?i)(remote-debugging|debug-port|webview-debug|devtools|chrome-devtools|cdp\b)' },
+        @{ Id = 'runtime-user-path'; Pattern = '(?i)(AppData|C:\\Users\\|\\Users\\|/Users/|Cookies|Local Storage|IndexedDB|\.db\b|\\logs\\|/logs/)' },
+        @{ Id = 'production-endpoint'; Pattern = '(?i)\b(?:api|prod|production|stream|signaling)[-.][A-Za-z0-9.-]+\.(?:ru|com|net|org)\b' }
+    )
+
+    foreach ($bundle in @($policy.webViewBundles)) {
+        $bundleName = [string]$bundle.name
+        $bundlePath = [string]$bundle.path
+        if ($expectedBundles -notcontains $bundleName) {
+            throw "Unexpected WebView bundle in app-webview-smoke.example.json: $bundleName"
+        }
+        if ($bundlePath -ne "bin/resources/$bundleName") {
+            throw "WebView bundle '$bundleName' must use local fixture path bin/resources/$bundleName."
+        }
+        foreach ($pattern in $forbiddenReferencePatterns) {
+            if ($bundlePath -match $pattern.Pattern) {
+                throw "WebView bundle '$bundleName' policy path contains forbidden reference: $($pattern.Id)"
+            }
+        }
+    }
+
+    $bundleDirs = @(Get-ChildItem -LiteralPath $resourcesRoot -Directory | Sort-Object Name)
+    $actualBundleNames = @($bundleDirs | ForEach-Object { $_.Name })
+    foreach ($bundleName in $expectedBundles) {
+        if ($actualBundleNames -notcontains $bundleName) {
+            throw "Fixture resources are missing WebView bundle directory: $bundleName"
+        }
+    }
+    foreach ($bundleName in $actualBundleNames) {
+        if ($expectedBundles -notcontains $bundleName) {
+            throw "Fixture resources contain undocumented WebView bundle directory: $bundleName"
+        }
+    }
+
+    foreach ($bundleDir in $bundleDirs) {
+        foreach ($fileName in @('index.html', 'asset-manifest.json')) {
+            $bundleFile = Join-Path $bundleDir.FullName $fileName
+            if (-not (Test-Path -LiteralPath $bundleFile -PathType Leaf)) {
+                throw "WebView bundle '$($bundleDir.Name)' is missing $fileName."
+            }
+            $relative = $bundleFile.Substring($repoRoot.Length + 1) -replace '\\', '/'
+            $text = Get-Content -LiteralPath $bundleFile -Raw
+            foreach ($pattern in $forbiddenReferencePatterns) {
+                if ($text -match $pattern.Pattern) {
+                    throw "$relative contains forbidden WebView bundle reference: $($pattern.Id)"
+                }
+            }
+        }
+
+        $manifestPath = Join-Path $bundleDir.FullName 'asset-manifest.json'
+        $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+        if ($null -eq $manifest.files) {
+            throw "WebView bundle '$($bundleDir.Name)' asset-manifest.json must contain files mapping."
+        }
+        foreach ($key in @('main.css', 'main.js', 'index.html')) {
+            $property = $manifest.files.PSObject.Properties[$key]
+            if ($null -eq $property) {
+                throw "WebView bundle '$($bundleDir.Name)' asset-manifest.json is missing files.$key."
+            }
+            $value = [string]$property.Value
+            if ($value -match '^\s*$' -or $value -match '(?i)^[a-z][a-z0-9+.-]*:' -or $value -match '\\|//|\.\.' -or $value -notmatch '^/') {
+                throw "WebView bundle '$($bundleDir.Name)' manifest path for $key must be a root-relative local static path."
+            }
+            if ($key -eq 'index.html') {
+                if ($value -ne '/index.html') {
+                    throw "WebView bundle '$($bundleDir.Name)' manifest path for index.html must stay /index.html."
+                }
+            }
+            elseif ($key -eq 'main.css') {
+                if ($value -notmatch '^/static/css/[A-Za-z0-9][A-Za-z0-9._/-]*\.css$') {
+                    throw "WebView bundle '$($bundleDir.Name)' manifest path for main.css must stay under /static/css/."
+                }
+            }
+            elseif ($key -eq 'main.js') {
+                if ($value -notmatch '^/static/js/[A-Za-z0-9][A-Za-z0-9._/-]*\.js$') {
+                    throw "WebView bundle '$($bundleDir.Name)' manifest path for main.js must stay under /static/js/."
+                }
+            }
+        }
+    }
+
+    Write-Host 'WebViewBundleLocalReferenceSafety gate passed.'
 }
 
 function Invoke-FixtureInventorySafetyGate {
@@ -3928,6 +4030,10 @@ if ($Scope -in @('ContractFixtureSafety', 'Full')) {
 
 if ($Scope -in @('StaticSurfaceSafety', 'Full')) {
     Invoke-StaticSurfaceSafetyGate
+}
+
+if ($Scope -in @('WebViewBundleLocalReferenceSafety', 'Full')) {
+    Invoke-WebViewBundleLocalReferenceSafetyGate
 }
 
 if ($Scope -in @('FixtureInventorySafety', 'Full')) {

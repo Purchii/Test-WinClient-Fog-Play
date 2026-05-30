@@ -1,5 +1,33 @@
 # Verification memory
 
+## 2026-05-31 - WebView bundle local reference safety gate
+
+Branch: `codex/webview-bundle-local-reference-safety-gate`
+Status: passed
+Production impact: none; local static WebView fixture reference validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope WebViewBundleLocalReferenceSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- WebViewBundleLocalReferenceSafety gate passed.
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including WebViewBundleLocalReferenceSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates local fixture files only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-30 - Thread inactive/history-only lifecycle wording
 
 Branch: `codex/thread-inactive-history-docs`

@@ -91,6 +91,8 @@ The `ContractFixtureSafety` quality gate fails if backend, update manifest or We
 
 The `StaticSurfaceSafety` quality gate fails if App/WebView smoke or non-prod foundation fixtures lose static layout requirements, WebView bundle inventory, dry-run flags or schema-only non-runtime constraints.
 
+The `WebViewBundleLocalReferenceSafety` quality gate fails if fixture WebView bundle entrypoints or asset manifests include remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints or non-local manifest paths.
+
 The `FixtureInventorySafety` quality gate fails if release, privacy or App/WebView smoke fixture directory trees lose required positive, negative or clean local fixture files.
 
 The `ScriptsInventorySafety` quality gate fails if the `scripts/` runner/support file inventory changes without updating the gate.
