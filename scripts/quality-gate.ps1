@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'Full')]
+    [ValidateSet('Context', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -275,6 +275,49 @@ function Invoke-AppSmokeGate {
     Write-Host 'AppSmoke gate passed.'
 }
 
+function Invoke-BridgeContractGate {
+    $required = @(
+        'docs/qa/webview-bridge-contract.md',
+        'src/TestFramework/WebViewBridge/WebViewBridge.psm1',
+        'src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1',
+        'scripts/run-webview-bridge-contract.ps1',
+        'testdata/webview-bridge-contract.example.json',
+        'testdata/webview-bridge-contract-unsafe.example.json'
+    )
+
+    foreach ($item in $required) {
+        Assert-PathExists $item
+    }
+
+    & (Join-Path $repoRoot 'src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1')
+
+    $bridgeContract = Join-Path $repoRoot 'scripts/run-webview-bridge-contract.ps1'
+    $result = Invoke-JsonGate {
+        & $bridgeContract `
+            -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `
+            -DryRun
+    }
+
+    if ($result.passed -ne $true) {
+        throw 'WebView bridge contract fixture should pass.'
+    }
+    if ($result.processStarted -ne $false -or $result.debugPortUsed -ne $false -or $result.authAttempted -ne $false -or $result.gameSessionStarted -ne $false -or $result.readRuntimeUserData -ne $false) {
+        throw 'WebView bridge contract dry-run must report no process/debug/auth/game/runtime-data activity.'
+    }
+
+    $negative = Invoke-JsonGate {
+        & $bridgeContract `
+            -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract-unsafe.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
+    Assert-FindingId -Result $negative -Id 'unsafe-diagnostic'
+    Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+
+    Write-Host 'BridgeContract gate passed.'
+}
+
 if ($Scope -in @('Context', 'Full')) {
     Invoke-ContextGate
 }
@@ -293,4 +336,8 @@ if ($Scope -in @('Privacy', 'Full')) {
 
 if ($Scope -in @('AppSmoke', 'Full')) {
     Invoke-AppSmokeGate
+}
+
+if ($Scope -in @('BridgeContract', 'Full')) {
+    Invoke-BridgeContractGate
 }

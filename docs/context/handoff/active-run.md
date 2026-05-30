@@ -1,29 +1,29 @@
 # Active run
 
-Status: thread lifecycle governance correction in progress.
+Status: M3 WebView/native bridge contract implementation in progress.
 
-Execution mode: `BOUNDED_AUTONOMOUS` for the user-requested documentation correction only.
+Execution mode: `BOUNDED_AUTONOMOUS` for accepted M3 local contract/fake-host dry-run scope.
 
-Current milestone: governance correction before M3 implementation.
+Current milestone: M3 WebView/native bridge contract + fake native host.
 
 Planning boundary:
 
 ```text
 Whole project = high-level roadmap M0-M6.
-Current work = document thread-per-task lifecycle and record the current thread reuse process error.
+Current work = implement local WebView/native bridge contract checks and fake native host dry-run scaffold.
 Future milestones = high-level until their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/thread-lifecycle-governance
+codex/m3-webview-bridge-contract
 ```
 
 Current goal:
 
 ```text
-Document that every new independent autonomous task or milestone requires a separate Codex thread, `create_thread` is the priority mechanism, Codex worktrees are used when follow-on tasks need isolated branch/workspace state, and the current M3 continuation attempt is `PROCESS_ERROR_THREAD_REUSE`.
+Implement M3 local WebView/native bridge contract and fake native host dry-run checks without launching the installed client or using WebView debug/CDP.
 ```
 
 Thread creation status:
@@ -36,16 +36,15 @@ Worktree fallback is reserved for a second normal create_thread failure or a tas
 
 Allowed now:
 
-- `AGENTS.md`;
-- `docs/context/handoff/**`;
-- `docs/context/governance/**`;
-- `docs/codex/codex-workflow.md`.
+- `docs/qa/webview-bridge-contract.md`;
+- `src/TestFramework/WebViewBridge/**`;
+- `scripts/run-webview-bridge-contract.ps1`;
+- `scripts/quality-gate.ps1`;
+- `testdata/webview-bridge-contract*.json`;
+- M3 context/handoff/verification docs.
 
 Forbidden now:
 
-- M3 implementation;
-- WebView bridge contract implementation;
-- fake-host implementation;
 - client launch;
 - WebView debug/CDP port;
 - authentication;
@@ -60,16 +59,16 @@ Forbidden now:
 
 Stop-and-ask triggers:
 
-- any request to implement M3 in this thread before handoff to a dedicated M3 thread;
 - any need to start `rds-client.exe`;
 - any need for credentials or synthetic login;
 - any need for WebView debug port;
 - any need to read user runtime files;
 - any production-impacting action;
-- scope expansion beyond static/dry-run M2.
+- scope expansion beyond local M3 contract/fake-host dry-run.
 
 Verification plan:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
 - `git diff --check`;
 - `git status --short --branch`.

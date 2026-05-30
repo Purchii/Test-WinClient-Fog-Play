@@ -98,6 +98,26 @@ Process error:
 - Retry refinement: if `create_thread` returns an unusable, invisible or unmanageable thread, record it inactive/orphan and retry normal `create_thread` once before worktree fallback.
 - Observed M3 attempts: `019e7902-70cb-7f31-8487-907e53f1fc45` was inactive/orphan because AppServerManager was unavailable; retry `019e7907-e739-7213-a690-125ea2fbafeb` accepted a follow-up message and is the active M3 handoff target.
 
+## 2026-05-30 - M3 WebView/native bridge contract
+
+Mode: `NON_AUTONOMOUS` discovery/status sync, then `BOUNDED_AUTONOMOUS` after user explicitly asked to continue autonomously.
+
+Branch: `codex/m3-webview-bridge-contract`
+
+Scope:
+
+- Implement local WebView/native bridge contract checks.
+- Implement fake native host dry-run fixture validation.
+- Keep all checks offline/local and `PROD_SAFE`.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 Production safety:
 
 - No client launch.

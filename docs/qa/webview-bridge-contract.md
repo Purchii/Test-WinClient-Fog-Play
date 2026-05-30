@@ -1,18 +1,46 @@
 # WebView/native bridge contract
 
-Codex must fill this after repository discovery.
+M3 implements a local, dry-run WebView/native bridge contract and fake native host scaffold.
 
-For each command/event:
+The goal is to prevent silent breakage between WebView UI and the native C++ host before real source-level bridge handlers are available.
+
+Default contract:
 
 ```text
-name:
-direction: web -> native / native -> web
-payload schema:
-expected effect:
-error behavior:
-logging policy:
-production safety:
-tests:
+testdata/webview-bridge-contract.example.json
 ```
 
-Goal: prevent silent breakage between WebView UI and native C++ host.
+Implemented checks:
+
+- command registry exists;
+- event registry exists;
+- command names and event names are stable identifiers;
+- command direction is `web -> native`;
+- event direction is `native -> web`;
+- payload schemas exist;
+- expected effects and malformed-payload behavior are documented;
+- logging policy requires sanitized output and no secrets;
+- production safety is `PROD_SAFE` local contract only;
+- fake native host cases target known commands/events;
+- malformed fake-host cases expect rejection, error or ignore behavior;
+- policy does not request WebView debug/CDP diagnostics;
+- policy does not request user runtime paths, logs, cookies, DBs or dumps;
+- policy test metadata passes ProdGuard as `PROD_SAFE`.
+
+Safety defaults:
+
+- no client process is launched;
+- no WebView debug/CDP port is enabled or used;
+- no authentication is attempted;
+- no game session is started;
+- no user AppData, cookies, local DB, logs or crash dumps are read.
+
+Runner:
+
+```text
+scripts/run-webview-bridge-contract.ps1 -DryRun
+```
+
+Known limitation:
+
+- M3 proves local contract shape and fake-host dry-run expectations only. It does not verify real C++ bridge handlers or runtime WebView behavior because client source and approved debug/runtime access are not available.

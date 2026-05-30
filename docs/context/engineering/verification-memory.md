@@ -175,6 +175,38 @@ Safety notes:
 - No user AppData logs, cookies or DB files read.
 - No WebView debug port enabled.
 
+## 2026-05-30 - M3 WebView/native bridge contract
+
+Branch: `codex/m3-webview-bridge-contract`
+Status: passed
+Production impact: dry-run/local contract only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\WebViewBridge\WebViewBridge.Tests.ps1`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `git diff --check`
+- `git status --short --branch`
+
+Results:
+- WebViewBridge unit tests passed.
+- BridgeContract quality gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ProdSafety, Release, Privacy, AppSmoke and BridgeContract.
+- `git diff --check` passed with line-ending warnings only.
+
+Not run:
+- Client launch because M3 is local contract/fake-host dry-run only.
+- WebView runtime rendering because debug/CDP and client launch are out of scope.
+- Auth/login/game-session checks because they are forbidden in M3.
+
+Safety notes:
+- No real credentials used.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies or DB files read.
+- No WebView debug port enabled.
+
 ## 2026-05-30 - Thread lifecycle governance correction
 
 Branch: `codex/thread-lifecycle-governance`

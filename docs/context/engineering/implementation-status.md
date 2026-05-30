@@ -154,7 +154,36 @@ Current process error:
 - M3 implementation must stop in this thread and resume in a dedicated M3 task thread.
 - M3 thread attempt `019e7902-70cb-7f31-8487-907e53f1fc45` is inactive/orphan; retry `019e7907-e739-7213-a690-125ea2fbafeb` accepted a follow-up message.
 
+## M3 - WebView/native bridge contract + fake native host
+
+Status: in progress on `codex/m3-webview-bridge-contract`.
+
+Implemented outputs:
+
+- `src/TestFramework/WebViewBridge/WebViewBridge.psm1`
+- `src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1`
+- `scripts/run-webview-bridge-contract.ps1`
+- `testdata/webview-bridge-contract.example.json`
+- `testdata/webview-bridge-contract-unsafe.example.json`
+- `docs/qa/webview-bridge-contract.md`
+
+Implemented checks:
+
+- command and event registry validation;
+- direction validation for `web -> native` commands and `native -> web` events;
+- payload schema presence;
+- expected effects and malformed-payload behavior;
+- sanitized logging policy and `PROD_SAFE` local contract classification;
+- fake native host case target validation;
+- malformed case rejection/error/ignore expectations;
+- dry-run-only policy;
+- WebView debug/CDP and runtime user path rejection.
+
 Not implemented:
 
-- M3 WebView bridge contract changes.
-- M3 fake native host changes.
+- real C++ native bridge handler verification;
+- runtime WebView rendering;
+- client launch;
+- WebView debug/CDP connection;
+- authentication;
+- game-session tests.

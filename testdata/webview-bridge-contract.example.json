@@ -1,0 +1,163 @@
+{
+  "dryRunOnly": true,
+  "diagnostics": [],
+  "runtimePaths": [],
+  "tests": [
+    {
+      "name": "webview-bridge-contract-local",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "webview-bridge-fake-native-host",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "commands": [
+    {
+      "name": "settings.get",
+      "direction": "web -> native",
+      "payloadSchema": {
+        "type": "object",
+        "required": [
+          "requestId"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          }
+        }
+      },
+      "expectedEffect": "Fake native host returns current non-secret settings fixture.",
+      "errorBehavior": "Reject malformed payload with sanitized bridge error.",
+      "loggingPolicy": "Sanitized command name and request id only; no secrets and no payload values.",
+      "productionSafety": "PROD_SAFE local contract only; no client launch, auth or game session.",
+      "tests": [
+        "accepts-valid-request",
+        "rejects-missing-request-id"
+      ]
+    },
+    {
+      "name": "stream.stopPreview",
+      "direction": "web -> native",
+      "payloadSchema": {
+        "type": "object",
+        "required": [
+          "requestId"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          }
+        }
+      },
+      "expectedEffect": "Fake native host records a local no-op stop-preview command.",
+      "errorBehavior": "Reject malformed payload with sanitized bridge error.",
+      "loggingPolicy": "Sanitized command name and request id only; no secrets and no payload values.",
+      "productionSafety": "PROD_SAFE local contract only; no real stream or game session.",
+      "tests": [
+        "accepts-valid-request",
+        "rejects-extra-runtime-path"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "settings.changed",
+      "direction": "native -> web",
+      "payloadSchema": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "settings"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "object"
+          }
+        }
+      },
+      "expectedEffect": "Fake WebView handler updates local settings fixture state.",
+      "errorBehavior": "Ignore malformed event and record sanitized bridge error.",
+      "loggingPolicy": "Sanitized event name and request id only; no secrets and no payload values.",
+      "productionSafety": "PROD_SAFE local contract only; no runtime user data.",
+      "tests": [
+        "accepts-valid-event",
+        "ignores-malformed-event"
+      ]
+    },
+    {
+      "name": "stream.previewStopped",
+      "direction": "native -> web",
+      "payloadSchema": {
+        "type": "object",
+        "required": [
+          "requestId",
+          "status"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "expectedEffect": "Fake WebView handler marks local preview state as stopped.",
+      "errorBehavior": "Ignore malformed event and record sanitized bridge error.",
+      "loggingPolicy": "Sanitized event name and request id only; no secrets and no payload values.",
+      "productionSafety": "PROD_SAFE local contract only; no real stream or game session.",
+      "tests": [
+        "accepts-valid-event",
+        "rejects-unknown-status"
+      ]
+    }
+  ],
+  "fakeNativeHostCases": [
+    {
+      "name": "settings-get-valid",
+      "type": "command",
+      "target": "settings.get",
+      "payload": {
+        "requestId": "req-001"
+      },
+      "expectedResult": "return settings.changed event"
+    },
+    {
+      "name": "settings-get-malformed",
+      "type": "malformed-command",
+      "target": "settings.get",
+      "payload": {},
+      "expectedResult": "reject with sanitized error"
+    },
+    {
+      "name": "preview-stopped-valid",
+      "type": "event",
+      "target": "stream.previewStopped",
+      "payload": {
+        "requestId": "req-002",
+        "status": "stopped"
+      },
+      "expectedResult": "accept local event fixture"
+    },
+    {
+      "name": "preview-stopped-malformed",
+      "type": "malformed-event",
+      "target": "stream.previewStopped",
+      "payload": {
+        "requestId": "req-002",
+        "status": "unknown"
+      },
+      "expectedResult": "ignore with sanitized error"
+    }
+  ]
+}
