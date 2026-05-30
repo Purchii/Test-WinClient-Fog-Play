@@ -9,3 +9,5 @@
 | M4 Safe backend smoke | 4 | 3 | P1 |
 | M5 Minimal game-session canary | 5 | 5 | P1/P2 |
 | M6 Fake/replay/network/hardware | 5 | 5 | P2 |
+
+`BacklogSafety` validates this table as the current M0-M6 roadmap inventory.

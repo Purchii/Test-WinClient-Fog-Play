@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdMatrixSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RunnerSafety', 'TestDataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -346,6 +346,67 @@ function Invoke-ProdMatrixSafetyGate {
     }
 
     Write-Host 'ProdMatrixSafety gate passed.'
+}
+
+function Invoke-BacklogSafetyGate {
+    $backlogPath = Join-Path $repoRoot 'docs/qa/value-effort-backlog.md'
+    Assert-PathExists 'docs/qa/value-effort-backlog.md'
+
+    $expectedMilestonePrefixes = @('M0', 'M1', 'M2', 'M3', 'M4', 'M5', 'M6')
+    $allowedPriorities = @('P0', 'P1', 'P2', 'P0/P1', 'P1/P2')
+    $rows = @()
+    $lines = Get-Content -LiteralPath $backlogPath
+    foreach ($line in $lines) {
+        $trimmed = $line.Trim()
+        if (-not $trimmed.StartsWith('|')) {
+            continue
+        }
+        if ($trimmed -match '^\|\s*-+') {
+            continue
+        }
+
+        $columns = @($trimmed.Trim('|').Split('|') | ForEach-Object { $_.Trim() })
+        if ($columns.Count -lt 4 -or $columns[0] -eq 'Milestone') {
+            continue
+        }
+
+        $rows += [pscustomobject]@{
+            Milestone = $columns[0]
+            Value = $columns[1]
+            Effort = $columns[2]
+            Priority = $columns[3]
+        }
+    }
+
+    if ($rows.Count -ne $expectedMilestonePrefixes.Count) {
+        throw "Value/effort backlog must contain exactly $($expectedMilestonePrefixes.Count) milestone rows."
+    }
+
+    foreach ($prefix in $expectedMilestonePrefixes) {
+        $matches = @($rows | Where-Object { $_.Milestone -match "^$prefix(\s|$)" })
+        if ($matches.Count -ne 1) {
+            throw "Value/effort backlog must contain exactly one row for $prefix."
+        }
+    }
+
+    foreach ($row in $rows) {
+        $value = 0
+        $effort = 0
+        if (-not [int]::TryParse($row.Value, [ref]$value) -or $value -lt 1 -or $value -gt 5) {
+            throw "Backlog milestone '$($row.Milestone)' has invalid Value '$($row.Value)'."
+        }
+        if (-not [int]::TryParse($row.Effort, [ref]$effort) -or $effort -lt 1 -or $effort -gt 5) {
+            throw "Backlog milestone '$($row.Milestone)' has invalid Effort '$($row.Effort)'."
+        }
+        if ($allowedPriorities -notcontains $row.Priority) {
+            throw "Backlog milestone '$($row.Milestone)' has unsupported Priority '$($row.Priority)'."
+        }
+        if ($row.Milestone -match '(?i)game-session|Fake|replay|network|hardware' -and $row.Priority -notmatch 'P[12]') {
+            throw "Backlog milestone '$($row.Milestone)' must remain P1/P2 until non-production/runtime prerequisites are approved."
+        }
+    }
+
+    Write-Host 'BacklogSafety gate passed.'
 }
 
 function Invoke-ProdSafetyGate {
@@ -1125,6 +1186,10 @@ if ($Scope -in @('TestDataSafety', 'Full')) {
 
 if ($Scope -in @('ProdMatrixSafety', 'Full')) {
     Invoke-ProdMatrixSafetyGate
+}
+
+if ($Scope -in @('BacklogSafety', 'Full')) {
+    Invoke-BacklogSafetyGate
 }
 
 if ($Scope -in @('ProdSafety', 'Full')) {

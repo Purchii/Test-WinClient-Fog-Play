@@ -7,6 +7,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope RunnerSafety
 .\scripts\quality-gate.ps1 -Scope TestDataSafety
 .\scripts\quality-gate.ps1 -Scope ProdMatrixSafety
+.\scripts\quality-gate.ps1 -Scope BacklogSafety
 .\scripts\quality-gate.ps1 -Scope ProdSafety
 .\scripts\quality-gate.ps1 -Scope Release
 .\scripts\quality-gate.ps1 -Scope UpdateManifest
@@ -31,3 +32,5 @@ The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramewor
 The `TestDataSafety` scope statically checks `testdata/` text fixtures so risky content such as credentials, bearer tokens, user runtime paths and non-placeholder URLs only appears in explicit unsafe/negative fixture allowlists.
 
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
+
+The `BacklogSafety` scope statically checks `docs/qa/value-effort-backlog.md` so roadmap rows stay bounded to M0-M6, value/effort stay in the 1-5 range, and runtime/non-prod milestones remain lower priority until prerequisites are approved.

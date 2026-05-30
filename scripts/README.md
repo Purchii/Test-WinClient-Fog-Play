@@ -28,3 +28,5 @@ The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, s
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
 
 The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.
+
+The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.

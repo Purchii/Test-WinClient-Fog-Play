@@ -362,6 +362,35 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - BacklogSafety static gate
+
+Status: local quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/qa/value-effort-backlog.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `BacklogSafety` quality gate scope;
+- value/effort backlog must contain exactly one row for each M0-M6 milestone;
+- value and effort must stay in the 1-5 range;
+- priority values must stay in the approved P0/P1/P2 combinations;
+- runtime/non-prod milestones must remain P1/P2 until prerequisites are approved;
+- `BacklogSafety` is included in `Full`.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - ProdMatrixSafety static gate
 
 Status: local quality gate hardening implemented and verified locally.
