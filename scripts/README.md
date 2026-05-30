@@ -27,6 +27,8 @@ The `Context` quality gate also fails if any `quality-gate.ps1 -Scope` value is 
 
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, or omit current static safety gates.
 
+The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
+
 The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes.
 
 The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers or lose status, production impact, command or result evidence.

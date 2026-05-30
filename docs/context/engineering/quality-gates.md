@@ -5,6 +5,7 @@ Preferred script:
 ```powershell
 .\scripts\quality-gate.ps1 -Scope Context
 .\scripts\quality-gate.ps1 -Scope ActiveRunSafety
+.\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
 .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety
 .\scripts\quality-gate.ps1 -Scope ChecklistSafety
@@ -54,6 +55,8 @@ The `Context` scope also verifies that every `quality-gate.ps1 -Scope` value is 
 The `Context` scope also verifies that every documented scope except `Full` is included exactly once in a `Full` dispatch block, so new gates cannot silently stay out of the complete local verification command.
 
 The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
+
+The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inventory so handoff, governance and engineering context docs cannot be added, removed or renamed silently.
 
 The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases.
 

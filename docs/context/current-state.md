@@ -35,6 +35,7 @@ Post-M6: SyntheticUsersSafety static gate - implemented and verified locally.
 Post-M6: ResourceBudgetSafety static gate - implemented and verified locally.
 Post-M6: AllowedGamesSafety static gate - implemented and verified locally.
 Post-M6: ProdMetadataSafety static gate - implemented and verified locally.
+Post-M6: ContextDocsInventorySafety static gate - implemented and verified locally.
 Post-M6: SessionLogSafety static gate - implemented and verified locally.
 Post-M6: VerificationMemorySafety static gate - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
@@ -84,6 +85,7 @@ Repository bootstrap state:
 - Post-M6 ResourceBudgetSafety static gate was completed on `codex/resource-budget-safety-gate`.
 - Post-M6 AllowedGamesSafety static gate was completed on `codex/allowed-games-safety-gate`.
 - Post-M6 ProdMetadataSafety static gate was completed on `codex/prod-metadata-safety-gate`.
+- Post-M6 ContextDocsInventorySafety static gate was completed on `codex/context-docs-inventory-safety-gate`.
 - Post-M6 SessionLogSafety static gate was completed on `codex/session-log-safety-gate`.
 - Post-M6 VerificationMemorySafety static gate was completed on `codex/verification-memory-safety-gate`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
@@ -143,6 +145,7 @@ Current artifact status:
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.
+- ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
