@@ -1,10 +1,10 @@
 # Active run
 
-Status: Post-M6 testability gaps registry in progress.
+Status: Post-M6 testability gaps registry implemented, verified and merged to `main`.
 
 Execution mode: `BOUNDED_AUTONOMOUS` closeout after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 testability gaps hardening.
+Current milestone: Post-M6 testability gaps hardening complete.
 
 Planning boundary:
 
@@ -12,20 +12,20 @@ Planning boundary:
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 update manifest hardening is complete.
-Current work = local testability gap registry and dry-run validation only.
+Post-M6 testability gaps registry is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
 Current branch:
 
 ```text
-codex/testability-gaps-registry
+main
 ```
 
 Current result:
 
 ```text
-Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
+Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads. Merged to origin/main at aa34621.
 ```
 
 Forbidden without a new approved plan:

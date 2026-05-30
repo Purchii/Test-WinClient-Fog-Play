@@ -168,6 +168,11 @@ Safety:
 - No installed client launch.
 - No WebView debug/CDP.
 - No authentication or game sessions.
+
+Closeout:
+
+- `codex/testability-gaps-registry` was fast-forward merged to `main`.
+- `origin/main` was updated to `aa34621`.
 - No CI/CD automation enabled.
 
 ## 2026-05-30 - M2 App/WebView smoke scaffold
