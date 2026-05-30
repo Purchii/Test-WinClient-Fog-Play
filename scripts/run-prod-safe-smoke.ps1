@@ -24,8 +24,25 @@ if ([string]::IsNullOrWhiteSpace($SyntheticUsersPath)) {
 }
 
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
-$smokeTests = @($allTests | Where-Object { $_.classification -eq 'PROD_SAFE' })
-$unsafeInSmoke = @($allTests | Where-Object { $_.classification -ne 'PROD_SAFE' -and $_.name -match 'smoke' })
+function Test-HasSuite {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object] $Test,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Suite
+    )
+
+    $property = $Test.PSObject.Properties['suites']
+    if ($null -eq $property) {
+        return $false
+    }
+
+    return @($property.Value) -contains $Suite
+}
+
+$smokeTests = @($allTests | Where-Object { Test-HasSuite -Test $_ -Suite 'prod-safe-smoke' })
+$unsafeInSmoke = @($smokeTests | Where-Object { $_.classification -ne 'PROD_SAFE' })
 
 if ($unsafeInSmoke.Count -gt 0) {
     throw 'Prod-safe smoke metadata contains non-PROD_SAFE smoke tests.'

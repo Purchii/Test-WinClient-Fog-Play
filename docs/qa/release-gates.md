@@ -42,10 +42,26 @@ Implemented checks:
 
 Findings are sanitized: the script reports pattern ids, file paths and messages, not matched secret values.
 
+Default behavior is fail-closed: fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
+
+M1.1 hardening added:
+
+- negative and clean fixtures;
+- executable signature code-path coverage for client, updater, uninstaller and crashpad;
+- version metadata code-path coverage;
+- large text-like artifact fail findings instead of silent pass;
+- unreadable text-like artifact fail findings;
+- `quality-gate.ps1` assertions for concrete expected finding ids.
+
+Not implemented yet:
+
+- update manifest integrity validation. This remains a documented gap until updater/package metadata format is available.
+
 Known findings from the installed artifact observed on 2026-05-30:
 
 - `bin/rds-client.exe` reported `NotSigned`;
 - `Uninstall.exe` reported `NotSigned`;
+- `bin/crashpad_handler.exe` reported `NotSigned`;
 - `bin/rds-updater.exe` signature reported `Valid`;
 - 8 sourcemap files were present under `bin/resources/**`;
 - source map references were present in bundled CSS/JS;

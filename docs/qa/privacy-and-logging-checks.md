@@ -32,12 +32,24 @@ Implemented checks:
 - access token patterns;
 - refresh token patterns;
 - password/passwd assignments with non-empty secret-like values;
+- authorization bearer tokens;
+- generic `token=` assignments;
 - API key patterns;
 - private key blocks;
 - local developer paths;
 - TURN/ICE/STUN credential-like diagnostics.
 
 Findings are sanitized: the script reports pattern id, severity, relative path and line number only.
+
+Default behavior is fail-closed: fail-severity findings make the script fail unless `-ExpectFindings` is used for a negative fixture or `-ReportOnly` is used for explicit artifact discovery.
+
+M1.1 hardening added:
+
+- negative and clean fixtures;
+- bearer token, generic token and unquoted password coverage;
+- large text-like artifact fail findings instead of silent pass;
+- unreadable text-like artifact fail findings;
+- `quality-gate.ps1` assertions for concrete expected finding ids.
 
 Known finding from the installed artifact observed on 2026-05-30:
 

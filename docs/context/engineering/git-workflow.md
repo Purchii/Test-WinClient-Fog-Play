@@ -45,6 +45,6 @@ Then update:
 - Planner does not write code.
 - Builder does not commit/push.
 - QA Reviewer does not commit/push.
-- Orchestrator commits after verification.
-- Orchestrator pushes verified task branches to remote when allowed.
+- Orchestrator commits after verification only when explicit user approval or an accepted project policy allows it.
+- Orchestrator pushes verified task branches to remote only when allowed.
 - Merge to main requires explicit user approval.

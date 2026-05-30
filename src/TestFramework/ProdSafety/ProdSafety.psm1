@@ -222,9 +222,13 @@ function Test-SyntheticUserGuard {
     $testName = [string](Get-MetadataValue -Metadata $Metadata -Name 'name' -Default '<unnamed>')
     $classification = [string](Get-MetadataValue -Metadata $Metadata -Name 'classification' -Default '')
     $startsGameSession = [bool](Get-MetadataValue -Metadata $Metadata -Name 'startsGameSession' -Default $false)
+    $targetRegion = [string](Get-MetadataValue -Metadata $Metadata -Name 'targetRegion' -Default '')
+    $targetGame = [string](Get-MetadataValue -Metadata $Metadata -Name 'targetGame' -Default '')
+    $mutatesState = [bool](Get-MetadataValue -Metadata $Metadata -Name 'mutatesState' -Default $false)
+    $requiresCleanupVerification = [bool](Get-MetadataValue -Metadata $Metadata -Name 'requiresCleanupVerification' -Default $false)
     $alias = [string](Get-MetadataValue -Metadata $Metadata -Name 'requiresSyntheticUserAlias' -Default '')
     if ([string]::IsNullOrWhiteSpace($alias)) {
-        if ($classification -eq 'PROD_CONDITIONAL' -or $startsGameSession) {
+        if ($classification -eq 'PROD_CONDITIONAL' -or $startsGameSession -or $mutatesState -or $requiresCleanupVerification) {
             $errors += "Test '$testName' requires an allowlisted synthetic user."
         }
         return $errors
@@ -262,6 +266,8 @@ function Test-ResourceBudget {
     $testName = [string](Get-MetadataValue -Metadata $Metadata -Name 'name' -Default '<unnamed>')
     $classification = [string](Get-MetadataValue -Metadata $Metadata -Name 'classification' -Default '')
     $startsGameSession = [bool](Get-MetadataValue -Metadata $Metadata -Name 'startsGameSession' -Default $false)
+    $targetRegion = [string](Get-MetadataValue -Metadata $Metadata -Name 'targetRegion' -Default '')
+    $targetGame = [string](Get-MetadataValue -Metadata $Metadata -Name 'targetGame' -Default '')
 
     if (-not $startsGameSession -and $classification -ne 'PROD_CONDITIONAL') {
         return $errors
@@ -272,19 +278,51 @@ function Test-ResourceBudget {
         return $errors
     }
 
-    if ($Budget.maxSessionsPerRun -lt 1) {
-        $errors += 'prodResourceBudget.maxSessionsPerRun must be at least 1.'
+    $maxSessionsPerRun = [int](Get-MetadataValue -Metadata $Budget -Name 'maxSessionsPerRun' -Default 0)
+    $maxParallelSessions = [int](Get-MetadataValue -Metadata $Budget -Name 'maxParallelSessions' -Default 0)
+    $maxSessionDurationSeconds = [int](Get-MetadataValue -Metadata $Budget -Name 'maxSessionDurationSeconds' -Default 0)
+    $maxRunsPerHour = [int](Get-MetadataValue -Metadata $Budget -Name 'maxRunsPerHour' -Default 0)
+    $allowedRegions = @(Get-MetadataValue -Metadata $Budget -Name 'allowedRegions' -Default @())
+    $allowedGames = @(Get-MetadataValue -Metadata $Budget -Name 'allowedGames' -Default @())
+    $requireCleanupVerification = [bool](Get-MetadataValue -Metadata $Budget -Name 'requireCleanupVerification' -Default $false)
+    $requireExplicitConditionalFlag = [bool](Get-MetadataValue -Metadata $Budget -Name 'requireExplicitConditionalFlag' -Default $false)
+
+    if ($maxSessionsPerRun -ne 1) {
+        $errors += 'prodResourceBudget.maxSessionsPerRun must be exactly 1 for M0.'
     }
-    if ($Budget.maxParallelSessions -ne 1) {
+    if ($maxParallelSessions -ne 1) {
         $errors += 'prodResourceBudget.maxParallelSessions must be exactly 1 for M0.'
     }
-    if ($Budget.maxSessionDurationSeconds -lt 1 -or $Budget.maxSessionDurationSeconds -gt 120) {
+    if ($maxSessionDurationSeconds -lt 1 -or $maxSessionDurationSeconds -gt 120) {
         $errors += 'prodResourceBudget.maxSessionDurationSeconds must be between 1 and 120 for M0.'
     }
-    if ($Budget.requireCleanupVerification -ne $true) {
+    if ($maxRunsPerHour -lt 1 -or $maxRunsPerHour -gt 3) {
+        $errors += 'prodResourceBudget.maxRunsPerHour must be between 1 and 3 for M0.'
+    }
+    if ($allowedRegions.Count -lt 1) {
+        $errors += 'prodResourceBudget.allowedRegions must contain at least one allowlisted region.'
+    }
+    if ([string]::IsNullOrWhiteSpace($targetRegion)) {
+        $errors += "Test '$testName' requires an explicit targetRegion for resource budget validation."
+    }
+    elseif (-not ($allowedRegions -contains $targetRegion)) {
+        $errors += "Test '$testName' targetRegion '$targetRegion' is not allowlisted in prodResourceBudget.allowedRegions."
+    }
+    if ($startsGameSession -and $allowedGames.Count -lt 1) {
+        $errors += 'prodResourceBudget.allowedGames must contain at least one allowlisted game for game-session tests.'
+    }
+    if ($startsGameSession) {
+        if ([string]::IsNullOrWhiteSpace($targetGame)) {
+            $errors += "Game-session test '$testName' requires an explicit targetGame for resource budget validation."
+        }
+        elseif (-not ($allowedGames -contains $targetGame)) {
+            $errors += "Game-session test '$testName' targetGame '$targetGame' is not allowlisted in prodResourceBudget.allowedGames."
+        }
+    }
+    if ($requireCleanupVerification -ne $true) {
         $errors += 'prodResourceBudget.requireCleanupVerification must be true.'
     }
-    if ($Budget.requireExplicitConditionalFlag -ne $true) {
+    if ($requireExplicitConditionalFlag -ne $true) {
         $errors += 'prodResourceBudget.requireExplicitConditionalFlag must be true.'
     }
     return $errors

@@ -1,0 +1,13 @@
+{
+  "patterns": [
+    {
+      "id": "access-token",
+      "pattern": "(?i)access[_-]?token\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]+",
+      "severity": "fail"
+    }
+  ],
+  "textFileExtensions": [
+    ".log"
+  ],
+  "maxTextFileBytes": 10
+}

@@ -35,7 +35,28 @@ if ([string]::IsNullOrWhiteSpace($ResourceBudgetPath)) {
 }
 
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
-$canaryTests = @($allTests | Where-Object { $_.classification -eq 'PROD_CONDITIONAL' })
+function Test-HasSuite {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object] $Test,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Suite
+    )
+
+    $property = $Test.PSObject.Properties['suites']
+    if ($null -eq $property) {
+        return $false
+    }
+
+    return @($property.Value) -contains $Suite
+}
+
+$canaryTests = @($allTests | Where-Object { Test-HasSuite -Test $_ -Suite 'prod-canary' })
+$unsafeInCanary = @($canaryTests | Where-Object { $_.classification -ne 'PROD_CONDITIONAL' })
+if ($unsafeInCanary.Count -gt 0) {
+    throw 'Prod canary metadata contains non-PROD_CONDITIONAL canary tests.'
+}
 if ($canaryTests.Count -eq 0) {
     throw 'No PROD_CONDITIONAL canary tests are available.'
 }

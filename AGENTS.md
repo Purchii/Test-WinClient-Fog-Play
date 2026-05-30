@@ -156,7 +156,7 @@ Full policy: `docs/codex/milestone-planning-policy.md`.
 - Builder may change files inside scope but does not commit/push.
 - Prod Safety Agent reviews any production-impacting behavior.
 - QA Reviewer independently reviews the diff and gates.
-- Orchestrator performs final verification, commit and push.
+- Orchestrator performs final verification. It commits and pushes only when explicit user approval or an accepted project policy allows it.
 - Orchestrator does not merge to main without explicit user approval.
 
 ## First milestone rule

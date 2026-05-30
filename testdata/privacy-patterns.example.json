@@ -12,7 +12,17 @@
     },
     {
       "id": "password",
-      "pattern": "(?i)(password|passwd)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}",
+      "pattern": "(?i)(password|passwd)\\s*[:=]\\s*['\\\"]?(?!(password|new-password|current-password)['\\\"\\s,}])[^'\\\"\\s,}]{8,}",
+      "severity": "fail"
+    },
+    {
+      "id": "bearer-token",
+      "pattern": "(?i)authorization\\s*:\\s*bearer\\s+[A-Za-z0-9._~+\\/-]+=*",
+      "severity": "fail"
+    },
+    {
+      "id": "generic-token",
+      "pattern": "(?i)(^|[^A-Za-z0-9_-])token\\s*[:=]\\s*['\\\"]?[^'\\\"\\s]{12,}",
       "severity": "fail"
     },
     {

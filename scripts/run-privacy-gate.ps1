@@ -7,7 +7,9 @@ param(
 
     [switch] $FailOnFindings,
 
-    [switch] $ExpectFindings
+    [switch] $ExpectFindings,
+
+    [switch] $ReportOnly
 )
 
 Set-StrictMode -Version Latest
@@ -23,7 +25,8 @@ function Add-Finding {
         [Parameter(Mandatory = $true)][string] $Id,
         [Parameter(Mandatory = $true)][string] $Severity,
         [Parameter(Mandatory = $true)][string] $Path,
-        [Parameter(Mandatory = $true)][int] $LineNumber
+        [Parameter(Mandatory = $true)][int] $LineNumber,
+        [string] $Message = 'Sanitized privacy pattern match found.'
     )
 
     return [pscustomobject]@{
@@ -31,7 +34,7 @@ function Add-Finding {
         severity = $Severity
         path = $Path
         line = $LineNumber
-        message = 'Sanitized privacy pattern match found.'
+        message = $Message
     }
 }
 
@@ -63,7 +66,7 @@ $findings = @()
 $scannedFiles = 0
 $skippedLargeFiles = 0
 
-$files = @(Get-ChildItem -LiteralPath $ArtifactRoot -Recurse -Force -File -ErrorAction SilentlyContinue)
+$files = @(Get-ChildItem -LiteralPath $ArtifactRoot -Recurse -Force -File -ErrorAction Stop)
 foreach ($file in $files) {
     if (-not ($textExtensions -contains $file.Extension.ToLowerInvariant())) {
         continue
@@ -71,12 +74,16 @@ foreach ($file in $files) {
 
     if ($file.Length -gt $maxTextFileBytes) {
         $skippedLargeFiles += 1
+        $findings += Add-Finding -Id 'text-file-too-large' -Severity 'fail' -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -LineNumber 0 -Message "Text-like artifact exceeds scan limit of $maxTextFileBytes bytes."
         continue
     }
 
     $scannedFiles += 1
-    $lines = @(Get-Content -LiteralPath $file.FullName -ErrorAction SilentlyContinue)
-    if ($null -eq $lines) {
+    try {
+        $lines = @(Get-Content -LiteralPath $file.FullName -ErrorAction Stop)
+    }
+    catch {
+        $findings += Add-Finding -Id 'unreadable-file' -Severity 'fail' -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -LineNumber 0 -Message 'Text-like artifact could not be read.'
         continue
     }
 
@@ -105,6 +112,10 @@ $result | ConvertTo-Json -Depth 8
 
 if ($ExpectFindings -and $findings.Count -eq 0) {
     throw 'Expected privacy gate findings, but none were produced.'
+}
+
+if ($failFindings.Count -gt 0 -and -not $ExpectFindings -and -not $ReportOnly) {
+    throw "Privacy gate failed with $($failFindings.Count) fail finding(s)."
 }
 
 if ($FailOnFindings -and $failFindings.Count -gt 0) {

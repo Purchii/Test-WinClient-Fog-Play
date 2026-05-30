@@ -52,3 +52,11 @@ Status: accepted.
 Decision: Codex work uses multi-agent mode by default for non-trivial milestones. If multiple real agents are unavailable, one Codex instance must preserve explicit role separation across Planner, Builder, Prod Safety, QA Reviewer and Orchestrator.
 
 Decision: Codex should work with remote Git directly when that does not reduce quality or safety. Verified task branches may be pushed after approval or accepted project policy. Merge to `main` still requires explicit user approval.
+
+## D-009: Commit and push authority
+
+Status: accepted.
+
+Decision: commit and push are separate actions. Codex may commit or push a task branch only after explicit user approval or after the current accepted milestone policy clearly allows that action. Builder and QA Reviewer never commit or push; Orchestrator may do so only after verification.
+
+Decision: user approval to "push" the current task branch includes permission to create the required local commit for that push, but does not include permission to merge to `main`.

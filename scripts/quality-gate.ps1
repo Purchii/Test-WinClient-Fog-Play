@@ -89,11 +89,43 @@ function Invoke-StubGate {
     Write-Host "$Name gate is documented but not implemented in M0."
 }
 
+function Invoke-JsonGate {
+    param(
+        [Parameter(Mandatory = $true)]
+        [scriptblock] $Command
+    )
+
+    $output = & $Command
+    $json = ($output | Out-String).Trim()
+    if ([string]::IsNullOrWhiteSpace($json)) {
+        throw 'Gate command did not return JSON output.'
+    }
+
+    return $json | ConvertFrom-Json
+}
+
+function Assert-FindingId {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object] $Result,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Id
+    )
+
+    $matches = @($Result.findings | Where-Object { $_.id -eq $Id })
+    if ($matches.Count -eq 0) {
+        throw "Expected finding id was not produced: $Id"
+    }
+}
+
 function Invoke-ReleaseGate {
     $required = @(
         'docs/qa/release-gates.md',
         'testdata/release-gate-policy.example.json',
+        'testdata/release-gate-policy.clean-fixture.json',
         'testdata/release-fixture',
+        'testdata/release-clean-fixture',
         'scripts/run-release-gate.ps1'
     )
 
@@ -101,11 +133,39 @@ function Invoke-ReleaseGate {
         Assert-PathExists $item
     }
 
-    & (Join-Path $repoRoot 'scripts/run-release-gate.ps1') `
-        -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
-        -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') `
-        -DryRun `
-        -ExpectFindings
+    $releaseGate = Join-Path $repoRoot 'scripts/run-release-gate.ps1'
+    $negative = Invoke-JsonGate {
+        & $releaseGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') `
+            -DryRun `
+            -ExpectFindings
+    }
+
+    if ($negative.passed -ne $false) {
+        throw 'Release negative fixture should report passed=false.'
+    }
+    if (@($negative.signatureResults).Count -lt 4) {
+        throw 'Release negative fixture did not exercise signature checks.'
+    }
+    if (@($negative.versionResults).Count -lt 1) {
+        throw 'Release negative fixture did not exercise version metadata checks.'
+    }
+    Assert-FindingId -Result $negative -Id 'invalid-signature'
+    Assert-FindingId -Result $negative -Id 'missing-version-metadata'
+    Assert-FindingId -Result $negative -Id 'forbidden-extension'
+    Assert-FindingId -Result $negative -Id 'local-user-path'
+
+    $clean = Invoke-JsonGate {
+        & $releaseGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-clean-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.clean-fixture.json') `
+            -DryRun
+    }
+
+    if ($clean.passed -ne $true) {
+        throw 'Release clean fixture should report passed=true.'
+    }
 
     Write-Host 'Release gate passed.'
 }
@@ -114,7 +174,11 @@ function Invoke-PrivacyGate {
     $required = @(
         'docs/qa/privacy-and-logging-checks.md',
         'testdata/privacy-patterns.example.json',
+        'testdata/privacy-patterns-small-limit.example.json',
         'testdata/release-fixture',
+        'testdata/privacy-clean-fixture',
+        'testdata/privacy-negative-fixture',
+        'testdata/privacy-large-fixture',
         'scripts/run-privacy-gate.ps1'
     )
 
@@ -122,11 +186,45 @@ function Invoke-PrivacyGate {
         Assert-PathExists $item
     }
 
-    & (Join-Path $repoRoot 'scripts/run-privacy-gate.ps1') `
-        -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
-        -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
-        -DryRun `
-        -ExpectFindings
+    $privacyGate = Join-Path $repoRoot 'scripts/run-privacy-gate.ps1'
+    $installedLike = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun `
+            -ExpectFindings
+    }
+    Assert-FindingId -Result $installedLike -Id 'local-user-path'
+
+    $negative = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun `
+            -ExpectFindings
+    }
+    Assert-FindingId -Result $negative -Id 'bearer-token'
+    Assert-FindingId -Result $negative -Id 'password'
+    Assert-FindingId -Result $negative -Id 'generic-token'
+
+    $large = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-large-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns-small-limit.example.json') `
+            -DryRun `
+            -ExpectFindings
+    }
+    Assert-FindingId -Result $large -Id 'text-file-too-large'
+
+    $clean = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-clean-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun
+    }
+    if ($clean.passed -ne $true) {
+        throw 'Privacy clean fixture should report passed=true.'
+    }
 
     Write-Host 'Privacy gate passed.'
 }

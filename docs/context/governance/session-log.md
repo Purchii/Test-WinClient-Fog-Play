@@ -42,3 +42,24 @@ Production safety:
 - No game session started.
 - No real logs, crash dumps, installers or release binaries copied into repo.
 - No commit or push performed during M1 implementation unless separately approved.
+
+## 2026-05-30 - M1.1 Quality hardening after multi-agent audit
+
+Mode: `BOUNDED_AUTONOMOUS` corrective hardening after user requested multi-agent audit and then said `чини`.
+
+Summary:
+
+- Used real sub-agents for ProdSafety, Release/Privacy and Governance review.
+- Fixed release/privacy gates so fail-severity findings fail closed by default.
+- Added negative and clean fixtures for release/privacy gate regression coverage.
+- Hardened ProdSafety resource budget, synthetic user requirements and suite selection.
+- Updated handoff/governance docs to reflect current branch, commit/push authority and installed artifact status.
+
+Production safety:
+
+- No client launch.
+- No credentials used.
+- No production backend interaction.
+- No game session started.
+- No user AppData logs, cookies or DB files read.
+- No CI/CD automation enabled.

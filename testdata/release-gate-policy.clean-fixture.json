@@ -10,28 +10,28 @@
   "signatureChecks": [
     {
       "path": "bin/rds-client.exe",
-      "required": true
+      "required": false
     },
     {
       "path": "bin/rds-updater.exe",
-      "required": true
+      "required": false
     },
     {
       "path": "Uninstall.exe",
-      "required": true
+      "required": false
     },
     {
       "path": "bin/crashpad_handler.exe",
-      "required": true
+      "required": false
     }
   ],
   "versionMetadata": [
     {
       "path": "bin/rds-client.exe",
-      "requireProductVersion": true,
-      "requireFileVersion": true,
-      "requireCompanyName": true,
-      "requireProductName": true
+      "requireProductVersion": false,
+      "requireFileVersion": false,
+      "requireCompanyName": false,
+      "requireProductName": false
     }
   ],
   "forbiddenExtensions": [

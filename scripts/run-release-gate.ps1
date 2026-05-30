@@ -7,7 +7,9 @@ param(
 
     [switch] $FailOnFindings,
 
-    [switch] $ExpectFindings
+    [switch] $ExpectFindings,
+
+    [switch] $ReportOnly
 )
 
 Set-StrictMode -Version Latest
@@ -64,7 +66,7 @@ function Test-TextPattern {
         return $false
     }
 
-    $text = Get-Content -LiteralPath $File.FullName -Raw -ErrorAction SilentlyContinue
+    $text = Get-Content -LiteralPath $File.FullName -Raw -ErrorAction Stop
     if ($null -eq $text) {
         return $false
     }
@@ -139,7 +141,7 @@ foreach ($check in @($policy.versionMetadata)) {
     }
 }
 
-$files = @(Get-ChildItem -LiteralPath $ArtifactRoot -Recurse -Force -File -ErrorAction SilentlyContinue)
+$files = @(Get-ChildItem -LiteralPath $ArtifactRoot -Recurse -Force -File -ErrorAction Stop)
 $forbiddenExtensions = @($policy.forbiddenExtensions | ForEach-Object { [string]$_ })
 foreach ($file in $files) {
     if ($forbiddenExtensions -contains $file.Extension.ToLowerInvariant()) {
@@ -154,9 +156,20 @@ foreach ($file in $files) {
         continue
     }
 
+    if ($file.Length -gt $maxTextFileBytes) {
+        $findings += Add-Finding -Id 'text-file-too-large' -Severity 'fail' -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -Message "Text-like artifact exceeds scan limit of $maxTextFileBytes bytes."
+        continue
+    }
+
     foreach ($pattern in @($policy.forbiddenTextPatterns)) {
-        if (Test-TextPattern -File $file -Pattern $pattern -MaxBytes $maxTextFileBytes) {
-            $findings += Add-Finding -Id ([string]$pattern.id) -Severity ([string]$pattern.severity) -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -Message 'Sanitized pattern match found.'
+        try {
+            if (Test-TextPattern -File $file -Pattern $pattern -MaxBytes $maxTextFileBytes) {
+                $findings += Add-Finding -Id ([string]$pattern.id) -Severity ([string]$pattern.severity) -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -Message 'Sanitized pattern match found.'
+            }
+        }
+        catch {
+            $findings += Add-Finding -Id 'unreadable-file' -Severity 'fail' -Path (Get-RelativeArtifactPath -Root $ArtifactRoot -Path $file.FullName) -Message 'Text-like artifact could not be read.'
+            break
         }
     }
 }
@@ -177,6 +190,10 @@ $result | ConvertTo-Json -Depth 8
 
 if ($ExpectFindings -and $findings.Count -eq 0) {
     throw 'Expected release gate findings, but none were produced.'
+}
+
+if ($failFindings.Count -gt 0 -and -not $ExpectFindings -and -not $ReportOnly) {
+    throw "Release gate failed with $($failFindings.Count) fail finding(s)."
 }
 
 if ($FailOnFindings -and $failFindings.Count -gt 0) {

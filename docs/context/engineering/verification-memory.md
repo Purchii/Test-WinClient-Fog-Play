@@ -101,3 +101,39 @@ Safety notes:
 - No client process launched.
 - No real logs, crash dumps, installers or release binaries copied into repo.
 - No commit or push performed during M1 without explicit approval.
+
+## 2026-05-30 - M1.1 Quality hardening after multi-agent audit
+
+Branch: `codex/release-privacy-gates`
+Status: in progress; local verification passed before final review
+Production impact: offline artifact scan only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Release`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-release-gate.ps1 -ArtifactRoot .\testdata\release-fixture -PolicyPath .\testdata\release-gate-policy.example.json -DryRun`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-privacy-gate.ps1 -ArtifactRoot .\testdata\privacy-negative-fixture -PatternsPath .\testdata\privacy-patterns.example.json -DryRun`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-release-gate.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun -ReportOnly`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-privacy-gate.ps1 -ArtifactRoot "C:\Program Files\MTC Fog Play" -DryRun -ReportOnly`
+
+Results:
+- Context, ProdSafety, Release, Privacy and Full quality gates passed.
+- ProdSafety regression coverage includes disallowed target region/game rejection.
+- Release negative fixture failed closed without `-ExpectFindings`.
+- Privacy negative fixture failed closed without `-ExpectFindings`.
+- Release installed artifact report-only scan reported fail findings: unsigned `rds-client.exe`, `Uninstall.exe`, `crashpad_handler.exe`, sourcemaps, source map references and local user path.
+- Privacy installed artifact report-only scan reported local user path only after password-pattern false positives were narrowed.
+
+Not run:
+- Client launch because M1.1 is offline hardening only.
+- Auth/login/game-session checks because they are out of scope.
+- CI because CI/CD enablement is out of scope.
+
+Safety notes:
+- No real credentials used.
+- No production game session started.
+- No client process launched.
+- No user AppData logs, cookies or DB files read.
