@@ -41,6 +41,7 @@ Post-M6: ChecklistSafety static gate - implemented and verified locally.
 Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: CodexPolicySafety static gate - implemented and verified locally.
 Post-M6: TaskRequestSafety static gate - implemented and verified locally.
+Post-M6: CodexTemplateSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
@@ -82,6 +83,7 @@ Repository bootstrap state:
 - Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 CodexPolicySafety static gate was completed on `codex/codex-policy-safety-gate`.
 - Post-M6 TaskRequestSafety static gate was completed on `codex/task-request-safety-gate`.
+- Post-M6 CodexTemplateSafety static gate was completed on `codex/codex-template-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
@@ -117,6 +119,7 @@ Current artifact status:
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 - CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.
 - TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, production classification, verification and stop conditions.
+- CodexTemplateSafety statically checks Codex review/task/communication/agent-role docs for reporting, role separation, verification, production classification, stop-trigger, secret and no-main-merge requirements.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety statically check production guard fixture drift around aliases, canary budgets, game allowlists and production metadata.

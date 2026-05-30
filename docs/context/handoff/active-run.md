@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through TaskRequestSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through CodexTemplateSafety.
 
 Planning boundary:
 
@@ -32,6 +32,7 @@ Post-M6 ChecklistSafety static gate is complete.
 Post-M6 DecisionsLogSafety static gate is complete.
 Post-M6 CodexPolicySafety static gate is complete.
 Post-M6 TaskRequestSafety static gate is complete.
+Post-M6 CodexTemplateSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -82,6 +83,8 @@ DecisionsLogSafety adds `Full` coverage for durable decision drift around produc
 CodexPolicySafety adds `Full` coverage for Codex and executor policy drift around autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.
 
 TaskRequestSafety adds `Full` coverage for task request template/log drift around bounded goals, forbidden actions, production classification, verification commands and stop conditions.
+
+CodexTemplateSafety adds `Full` coverage for Codex review/task/communication/agent-role drift around Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules.
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
@@ -135,4 +138,5 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TaskRequestSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexTemplateSafety`;
 - `git diff --check`.

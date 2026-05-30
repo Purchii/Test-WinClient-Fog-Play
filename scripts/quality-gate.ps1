@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -161,8 +161,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through TaskRequestSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through TaskRequestSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through CodexTemplateSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through CodexTemplateSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -522,6 +522,88 @@ function Invoke-TaskRequestSafetyGate {
     }
 
     Write-Host 'TaskRequestSafety gate passed.'
+}
+
+function Invoke-CodexTemplateSafetyGate {
+    $reviewTemplatePath = Join-Path $repoRoot 'docs/codex/review-template.md'
+    $taskTemplatePath = Join-Path $repoRoot 'docs/codex/task-template.md'
+    $communicationPolicyPath = Join-Path $repoRoot 'docs/codex/communication-policy.md'
+    $agentRolesPath = Join-Path $repoRoot 'docs/codex/agent-roles.md'
+
+    Assert-PathExists 'docs/codex/review-template.md'
+    Assert-PathExists 'docs/codex/task-template.md'
+    Assert-PathExists 'docs/codex/communication-policy.md'
+    Assert-PathExists 'docs/codex/agent-roles.md'
+
+    $reviewTemplate = Get-Content -LiteralPath $reviewTemplatePath -Raw
+    $taskTemplate = Get-Content -LiteralPath $taskTemplatePath -Raw
+    $communicationPolicy = Get-Content -LiteralPath $communicationPolicyPath -Raw
+    $agentRoles = Get-Content -LiteralPath $agentRolesPath -Raw
+
+    foreach ($requiredPhrase in @(
+            'scope drift',
+            'autonomy mode declared and respected',
+            'production classification',
+            'secrets',
+            'flakiness',
+            'cleanup',
+            'verification evidence',
+            'docs updated',
+            'no merge to main without approval',
+            'stop-and-ask triggers were not bypassed'
+        )) {
+        if ($reviewTemplate -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "review-template.md must preserve review item: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'Task:',
+            'Execution mode:',
+            'Scope:',
+            'Classification:',
+            'Allowed files:',
+            'Forbidden:',
+            'Verification:'
+        )) {
+        if ($taskTemplate -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "task-template.md must preserve template field: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'User-facing answers, plans, status updates, final reports, blockers and questions must be written in Russian by default',
+            'Codex must not expose private chain-of-thought or raw scratchpad reasoning',
+            'production-safety implications',
+            'verification performed',
+            'Stop-and-ask language',
+            'what decision is needed',
+            'why Codex cannot safely proceed without it',
+            'Production-safety',
+            'Production-impacting'
+        )) {
+        if ($communicationPolicy -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "communication-policy.md must preserve communication rule: $requiredPhrase"
+        }
+    }
+
+    foreach ($requiredPhrase in @(
+            'multi-agent mode by default for all non-trivial milestones',
+            'Planner does not change files',
+            'Builder does not commit/push',
+            'QA Reviewer does not commit/push',
+            'Orchestrator commits/pushes only after verification and only when allowed',
+            'Merge to `main` always requires explicit user approval',
+            'Never use remote speed as a reason to skip local verification',
+            'Never merge or force-push protected trunk without explicit approval',
+            'Prod Safety: production classification, credentials, game-session and guard review'
+        )) {
+        if ($agentRoles -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "agent-roles.md must preserve role rule: $requiredPhrase"
+        }
+    }
+
+    Write-Host 'CodexTemplateSafety gate passed.'
 }
 
 function Invoke-IncidentStopSafetyGate {
@@ -2600,6 +2682,10 @@ if ($Scope -in @('CodexPolicySafety', 'Full')) {
 
 if ($Scope -in @('TaskRequestSafety', 'Full')) {
     Invoke-TaskRequestSafetyGate
+}
+
+if ($Scope -in @('CodexTemplateSafety', 'Full')) {
+    Invoke-CodexTemplateSafetyGate
 }
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {

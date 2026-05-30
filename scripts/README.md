@@ -39,6 +39,8 @@ The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose
 
 The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, production classification, verification or stop-condition requirements.
 
+The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/agent-role docs lose reporting, role separation, verification, production classification, stop-trigger, secret or no-main-merge requirements.
+
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
 The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.

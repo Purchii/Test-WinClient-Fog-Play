@@ -478,6 +478,27 @@ Safety:
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
+## 2026-05-30 - Codex template safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
+
+Branch: `codex/codex-template-safety-gate`
+
+Scope:
+
+- Add local `CodexTemplateSafety` quality gate.
+- Validate review/task templates keep production classification, verification, forbidden scope and stop-trigger fields.
+- Validate communication and agent role docs keep Russian reporting, role separation, no-main-merge and no-skip-verification rules.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
+
 ## 2026-05-30 - Task request safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after user allowed autonomous work and pushes to main.
