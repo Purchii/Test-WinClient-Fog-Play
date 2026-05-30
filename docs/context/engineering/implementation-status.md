@@ -809,3 +809,33 @@ Not implemented:
 - production backend or streaming network calls;
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
+
+## Post-M6 - QA docs safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `QaDocsSafety` quality gate scope;
+- required `docs/qa/*.md` policy inventory is explicit and checked;
+- adding a new QA markdown policy requires updating the gate inventory;
+- core safety phrases in production, synthetic users, resource budget, incident stop, flakiness, artifacts, canary and testability docs must remain present;
+- `QaDocsSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.

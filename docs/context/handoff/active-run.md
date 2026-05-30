@@ -27,6 +27,7 @@ Post-M6 ResourceBudgetSafety static gate is complete.
 Post-M6 AllowedGamesSafety static gate is complete.
 Post-M6 ProdMetadataSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
+Post-M6 QaDocsSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 ```
 
@@ -62,6 +63,8 @@ BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog dr
 SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, resource budgets and production test metadata.
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
+
+QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory and core safety phrases.
 ```
 
 Forbidden without a new approved plan:

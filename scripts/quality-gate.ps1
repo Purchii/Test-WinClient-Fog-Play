@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'ActiveRunSafety', 'IncidentStopSafety', 'QaDocsSafety', 'RunnerSafety', 'TestDataSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -150,7 +150,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'IncidentStopSafety', 'QaDocsSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -259,6 +259,70 @@ function Invoke-IncidentStopSafetyGate {
     }
 
     Write-Host 'IncidentStopSafety gate passed.'
+}
+
+function Invoke-QaDocsSafetyGate {
+    $docsRoot = Join-Path $repoRoot 'docs/qa'
+    Assert-PathExists 'docs/qa'
+
+    $requiredDocs = @(
+        'app-webview-smoke.md',
+        'artifacts-policy.md',
+        'backend-smoke.md',
+        'flakiness-policy.md',
+        'game-session-canary.md',
+        'incident-stop-policy.md',
+        'nonprod-foundation.md',
+        'privacy-and-logging-checks.md',
+        'prod-safe-test-matrix.md',
+        'prod-testing-policy.md',
+        'release-gates.md',
+        'resource-budget-policy.md',
+        'synthetic-users-policy.md',
+        'test-strategy.md',
+        'testability-contract.md',
+        'testability-gaps.md',
+        'update-manifest-gate.md',
+        'value-effort-backlog.md',
+        'webview-bridge-contract.md'
+    )
+
+    foreach ($docName in $requiredDocs) {
+        Assert-PathExists "docs/qa/$docName"
+    }
+
+    $safetyPhrasesByDoc = @{
+        'test-strategy.md' = @('Do not start with broad E2E')
+        'testability-contract.md' = @('Debug/CDP ports must never be enabled for normal production users by default')
+        'artifacts-policy.md' = @('synthetic account alias, not password/token', 'Do not publish unsanitized logs')
+        'flakiness-policy.md' = @('Blind retry is not a fix', 'Retry must not create extra production sessions outside budget')
+        'incident-stop-policy.md' = @('Stop-and-ask triggers', 'do not launch the installed client')
+        'prod-testing-policy.md' = @('No classification = no prod run', 'No resource budget = no prod game session test')
+        'synthetic-users-policy.md' = @('hardcoded credentials', 'Committed allowlist fixtures must stay alias-only')
+        'resource-budget-policy.md' = @('Any production test that starts a game session must have a resource budget')
+        'prod-safe-test-matrix.md' = @('PROD_CONDITIONAL', 'PROD_FORBIDDEN')
+        'game-session-canary.md' = @('This milestone does not execute a game session')
+        'testability-gaps.md' = @('does not close gaps by launching the client')
+    }
+
+    foreach ($docName in $safetyPhrasesByDoc.Keys) {
+        $path = Join-Path $docsRoot $docName
+        $content = Get-Content -LiteralPath $path -Raw
+        foreach ($phrase in $safetyPhrasesByDoc[$docName]) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "docs/qa/$docName must preserve safety phrase: $phrase"
+            }
+        }
+    }
+
+    $docs = Get-ChildItem -LiteralPath $docsRoot -Filter '*.md' -File | Sort-Object Name
+    foreach ($doc in $docs) {
+        if ($requiredDocs -notcontains $doc.Name) {
+            throw "docs/qa contains an undocumented markdown policy file: $($doc.Name)"
+        }
+    }
+
+    Write-Host 'QaDocsSafety gate passed.'
 }
 
 function Invoke-RunnerSafetyGate {
@@ -1860,6 +1924,10 @@ if ($Scope -in @('ActiveRunSafety', 'Full')) {
 
 if ($Scope -in @('IncidentStopSafety', 'Full')) {
     Invoke-IncidentStopSafetyGate
+}
+
+if ($Scope -in @('QaDocsSafety', 'Full')) {
+    Invoke-QaDocsSafetyGate
 }
 
 if ($Scope -in @('RunnerSafety', 'Full')) {

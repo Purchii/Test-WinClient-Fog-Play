@@ -29,6 +29,8 @@ The `ActiveRunSafety` quality gate fails if the active handoff/current-state doc
 
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
+The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, or if core safety phrases are removed.
+
 The `RunnerSafety` quality gate fails if a `run-*.ps1` runner loses `-DryRun`, stops rejecting missing `-DryRun`, exposes an unguarded dangerous `Allow*` switch, or introduces forbidden runtime/network primitives.
 
 The `TestDataSafety` quality gate fails if risky fixture content is added outside the explicit unsafe/negative fixture allowlist.
