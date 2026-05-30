@@ -21,7 +21,7 @@ Future execution milestones require their own NON_AUTONOMOUS planning step in a 
 Current branch:
 
 ```text
-codex/m1-dryrun-fail-closed
+main
 ```
 
 Current result:
@@ -32,6 +32,8 @@ Local testability gap registry tracks runtime blockers and required evidence wit
 Script inventory guard hardening updates `scripts/README.md` and makes the `Context` quality gate fail if any `scripts/*.ps1` runner is undocumented.
 
 M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
+
+Latest pushed main commit: `a3ab91b`.
 ```
 
 Forbidden without a new approved plan:
