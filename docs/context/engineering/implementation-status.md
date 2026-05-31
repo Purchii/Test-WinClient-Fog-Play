@@ -1693,6 +1693,7 @@ Implemented outputs:
 Implemented checks:
 
 - new `HandoffProtocolSafety` quality gate scope;
+- `AGENTS.md` must preserve source-of-truth, incoming-reference, separate-thread, `create_thread`, inactive/history-only previous-thread and process-error rules;
 - context protocol must preserve source-of-truth read order, docs/code authority and `git log` latest-commit guidance;
 - context protocol must preserve thread isolation, `create_thread` retry, worktree fallback, inactive previous-thread and `PROCESS_ERROR_THREAD_REUSE` rules;
 - Git workflow must preserve protected main, branch-per-task, local verification, no-force-push and explicit main-merge approval rules;

@@ -2275,13 +2275,35 @@ function Invoke-QaStrategySafetyGate {
 }
 
 function Invoke-HandoffProtocolSafetyGate {
+    $agentsPath = Join-Path $repoRoot 'AGENTS.md'
     $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
     $gitWorkflowPath = Join-Path $repoRoot 'docs/context/engineering/git-workflow.md'
+    Assert-PathExists 'AGENTS.md'
     Assert-PathExists 'docs/context/handoff/context-protocol.md'
     Assert-PathExists 'docs/context/engineering/git-workflow.md'
 
+    $agents = Get-Content -LiteralPath $agentsPath -Raw
     $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
     $gitWorkflow = Get-Content -LiteralPath $gitWorkflowPath -Raw
+
+    foreach ($requiredPhrase in @(
+            'Source of truth rules',
+            'Repository docs and code are the source of truth.',
+            '`docs/_incoming_reference/` is historical/reference-only input; it is not active scope unless restated in repository docs, scripts or code.',
+            'Every new independent task or milestone in autonomous work must start in a separate Codex thread.',
+            'Use `create_thread` as the priority mechanism for starting each new independent task.',
+            'If `create_thread` returns an unusable, invisible or unmanageable thread, mark that attempt inactive/orphan in handoff context and retry `create_thread` once.',
+            'Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state.',
+            'After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.',
+            'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.',
+            'Continuing implementation for a new independent task in the previous task thread is a process error.',
+            'For every new independent task, re-read:',
+            'docs/context/handoff/context-protocol.md'
+        )) {
+        if ($agents -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "AGENTS.md must preserve handoff protocol phrase: $requiredPhrase"
+        }
+    }
 
     foreach ($requiredSource in @(
             'AGENTS.md',

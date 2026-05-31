@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - HandoffProtocolSafety AGENTS source-of-truth guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static handoff protocol hardening after separate discovery/status sync confirmed `HandoffProtocolSafety` checked context protocol and Git workflow docs but did not directly guard `AGENTS.md` source-of-truth and thread lifecycle handoff rules.
+
+Branch: `codex/handoff-protocol-agents-guard`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` and older task threads were treated as inactive/history-only for this independent implementation.
+- Delegated discovery thread `019e7f52-ad9a-76a2-ad66-88fd746df162` was created for this narrow discovery/status sync task; implementation proceeded from direct local static repository evidence, and the discovery thread is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Extend `HandoffProtocolSafety` to read `AGENTS.md`.
+- Require `AGENTS.md` to preserve source-of-truth, incoming-reference, separate-thread, `create_thread`, inactive/history-only previous-thread and process-error handoff rules.
+- Sync quality-gates, scripts README, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after separate discovery/status sync identified a `GameSessionCanary` summary drift: local checks already reject non-exact or duplicated canary suite metadata, while the quality-gates summary contract only required generic suite metadata wording.

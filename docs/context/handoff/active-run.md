@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety.
+Current latest completed item: Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard.
 
 Planning boundary:
 
@@ -188,6 +188,7 @@ Post-M6 QualityGatesDocsScopeSafety ProdSafety dry-run summary guard is complete
 Post-M6 SessionLogSafety delegated discovery lifecycle guard is complete.
 Post-M6 TaskRequestSafety thread lifecycle field guard is complete.
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard is complete.
+Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -319,6 +320,8 @@ SessionLogSafety delegated discovery lifecycle guard fails if the latest session
 TaskRequestSafety thread lifecycle field guard fails if task request templates or log guidance lose the separate Codex thread rule or the inactive/history-only lifecycle for previous task threads after handoff, completion or takeover.
 
 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard fails if GameSessionCanary quality-gates or scripts README summaries stop saying that canary suite metadata must be exact and non-duplicated.
+
+HandoffProtocolSafety AGENTS source-of-truth guard fails if `AGENTS.md` loses source-of-truth, incoming-reference, separate-thread, `create_thread`, inactive/history-only previous-thread or process-error handoff rules.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
@@ -534,7 +537,7 @@ CodexDocsInventorySafety adds `Full` coverage for the `docs/codex/*.md` policy/t
 
 QaStrategySafety adds `Full` coverage for QA strategy/testability/flakiness drift around layered test order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 
-HandoffProtocolSafety adds `Full` coverage for context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
+HandoffProtocolSafety adds `Full` coverage for `AGENTS.md`, context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
 
 IncomingReferenceSafety adds `Full` coverage for incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 
