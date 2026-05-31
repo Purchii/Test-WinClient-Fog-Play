@@ -730,6 +730,18 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'unsafe runtime input path guards',
                 'forbidden runtime/network primitives'
             )
+        },
+        @{
+            Scope             = 'Release'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local release artifact fixtures',
+                'without launching the installed client',
+                'fail-closed negative fixture behavior',
+                '`-ReportOnly` explicit artifact discovery behavior',
+                'unsafe runtime `ArtifactRoot` and `PolicyPath` input paths'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {

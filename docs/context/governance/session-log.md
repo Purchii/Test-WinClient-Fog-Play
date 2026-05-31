@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - QualityGatesDocsScopeSafety Release summary parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after separate discovery/status sync and local read-only inspection confirmed `Release` summaries describe local release fixtures, installed-client non-launch, fail-closed negative fixture, report-only and unsafe input-path coverage but were not included in `QualityGatesDocsScopeSafety` summary contracts.
+
+Branch: `codex/release-summary-parity-guard`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated discovery thread `019e7d35-ad10-7cf2-bbcc-6397f9b59c43` was created for this narrow discovery/status sync task; implementation proceeded from direct local static repository evidence, and the discovery thread is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Extend `QualityGatesDocsScopeSafety` summary parity contracts to cover `Release` summary fragments.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QualityGatesDocsScopeSafety RunnerSafety summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after separate discovery/status sync and local read-only inspection confirmed `RunnerSafety` summaries describe dry-run, dangerous allow-switch, path-like input guard and forbidden runtime/network primitive coverage but were not included in `QualityGatesDocsScopeSafety` summary contracts.
