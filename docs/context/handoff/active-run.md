@@ -18,6 +18,7 @@ Post-M6 ScriptsReadmeScopeSafety static gate is complete.
 Post-M6 ActiveSafetyScopeInventorySafety static gate is complete.
 Post-M6 QaDocsCommandSafety static gate is complete.
 Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag hardening is complete.
+Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag implementation-status sync is complete.
 Post-M6 QaDocsCommandLocalPathSafety static gate is complete.
 Post-M6 QaDocsPowerShellInvocationSafety static gate is complete.
 Post-M6 QaDocsRunnerExampleCoverageSafety static gate is complete.
@@ -292,6 +293,8 @@ ScriptsReadmeScopeSafety adds `Full` coverage for `scripts/README.md` so the loc
 ActiveSafetyScopeInventorySafety adds `Full` coverage for `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
 
 QaDocsCommandSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags, including TestabilityGaps production-action and runtime-user-data allow flags.
+
+QaDocsCommandSafety TestabilityGaps allow-flag implementation-status sync keeps implementation status aligned with the current QA docs command forbidden allow-flag set.
 
 QaDocsCommandLocalPathSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations stay local fixture-oriented and do not include installed-client paths, user runtime paths, endpoints, localhost or WebView debug/CDP references.
 

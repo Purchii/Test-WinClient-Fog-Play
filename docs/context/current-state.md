@@ -161,6 +161,7 @@ Repository bootstrap state:
 - Post-M6 ScriptsReadmeScopeSafety static gate was completed on `codex/scripts-readme-scope-safety-gate`.
 - Post-M6 ActiveSafetyScopeInventorySafety static gate was completed on `codex/active-safety-scope-inventory-gate`.
 - Post-M6 QaDocsCommandSafety static gate was completed on `codex/qa-docs-command-safety-gate`.
+- Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-qa-command-allow-flags`.
 - Post-M6 QaDocsCommandLocalPathSafety static gate was completed on `codex/qa-docs-command-local-path-safety`.
 - Post-M6 QaDocsPowerShellInvocationSafety static gate was completed on `codex/qa-docs-powershell-invocation-safety-gate`.
 - Post-M6 QaDocsRunnerExampleCoverageSafety static gate was completed on `codex/qa-docs-runner-example-coverage-safety`.

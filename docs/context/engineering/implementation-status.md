@@ -550,7 +550,7 @@ Implemented checks:
 
 - new `QaDocsCommandSafety` quality gate scope;
 - command-looking `run-*.ps1` examples in active `docs/qa/*.md` files must include `-DryRun`;
-- active QA docs must not show forbidden runtime allow flags such as client launch, WebView debug, network, auth, execution, rollback or credential allowances;
+- active QA docs must not show forbidden runtime allow flags such as client launch, WebView debug, network, auth, execution, rollback, credential, TestabilityGaps production-action or runtime-user-data allowances;
 - `QaDocsCommandSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
