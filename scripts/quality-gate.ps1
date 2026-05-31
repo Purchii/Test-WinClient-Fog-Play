@@ -4477,6 +4477,12 @@ function Invoke-NonProdFoundationGate {
         }
     }
 
+    Assert-CommandRejected -Message 'Non-prod foundation runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $nonProdFoundation `
+            -PlanPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\nonprod.json' `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $nonProdFoundation `
             -PlanPath (Join-Path $repoRoot 'testdata/nonprod-foundation.example.json') `

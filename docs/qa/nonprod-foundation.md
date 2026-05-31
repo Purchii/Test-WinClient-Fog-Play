@@ -7,6 +7,7 @@ This milestone does not create runnable fake services, replay servers, network s
 Implemented safety checks:
 
 - the runner is dry-run only;
+- runner plan path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
 - client launch, WebView debug/CDP, network calls, authentication and runtime data reads are disabled;
 - CI/CD enablement and dependency changes are outside scope;
 - components are `NON_PROD_ONLY`;
@@ -42,4 +43,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-nonprod-founda
 .\scripts\quality-gate.ps1 -Scope NonProdFoundation
 ```
 
-Post-M6 guard hardening added `NonProdFoundation` quality gate assertions that `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected before any fake/replay execution, network call or authentication action can occur.
+Post-M6 guard hardening added `NonProdFoundation` quality gate assertions that unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected before any fake/replay execution, network call, authentication or runtime data read can occur.

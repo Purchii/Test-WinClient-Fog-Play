@@ -25,6 +25,10 @@ if ([string]::IsNullOrWhiteSpace($PlanPath)) {
     $PlanPath = Join-Path $repoRoot 'testdata/nonprod-foundation.example.json'
 }
 
+if ($PlanPath -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+    throw 'M6 non-prod foundation runner must not read unsafe runtime input paths.'
+}
+
 if ($AllowExecution) {
     throw 'Execution is not allowed in M6 local-only foundation.'
 }
