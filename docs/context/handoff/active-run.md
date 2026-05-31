@@ -81,6 +81,7 @@ Post-M6 GameSessionCanary synthetic alias environment hardening is complete.
 Post-M6 GameSessionCanary run-frequency budget hardening is complete.
 Post-M6 GameSessionCanary resource-budget policy flag hardening is complete.
 Post-M6 GameSessionCanary suite metadata hardening is complete.
+Post-M6 GameSessionCanary readiness signal allowlist hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -95,6 +96,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+GameSessionCanary readiness signal allowlist hardening requires M5 readiness plans to declare only `stream-ready` and `first-frame` readiness signals before the direct dry-run validator can pass.
+
 GameSessionCanary suite metadata hardening requires M5 readiness plans to declare `prod-canary` and `game-session-canary-readiness` suites before the direct dry-run validator can pass.
 
 GameSessionCanary resource-budget policy flag hardening requires M5 readiness plans to keep cleanup verification and explicit conditional flag requirements enabled in `prodResourceBudget` before the direct dry-run validator can pass.
@@ -189,7 +192,7 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
-SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, canary suite metadata, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, canary suite metadata, readiness signal allowlists, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 

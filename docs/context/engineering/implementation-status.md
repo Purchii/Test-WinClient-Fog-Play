@@ -293,7 +293,7 @@ Implemented checks:
 - cleanup verification and explicit conditional flag budget requirements;
 - cleanup verification requirement;
 - retry rejection;
-- readiness signal requirements for `stream-ready` and `first-frame`.
+- exact readiness signal requirements for `stream-ready` and `first-frame`.
 
 Not implemented:
 

@@ -93,6 +93,7 @@ Post-M6: GameSessionCanary synthetic alias environment hardening - implemented a
 Post-M6: GameSessionCanary run-frequency budget hardening - implemented and verified locally.
 Post-M6: GameSessionCanary resource-budget policy flag hardening - implemented and verified locally.
 Post-M6: GameSessionCanary suite metadata hardening - implemented and verified locally.
+Post-M6: GameSessionCanary readiness signal allowlist hardening - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -180,6 +181,7 @@ Repository bootstrap state:
 - Post-M6 GameSessionCanary run-frequency budget hardening was completed on `codex/resource-budget-game-session-canary-runs-safety`.
 - Post-M6 GameSessionCanary resource-budget policy flag hardening was completed on `codex/resource-budget-game-session-canary-policy-flags-safety`.
 - Post-M6 GameSessionCanary suite metadata hardening was completed on `codex/game-session-canary-suite-metadata-safety`.
+- Post-M6 GameSessionCanary readiness signal allowlist hardening was completed on `codex/prod-metadata-game-session-canary-readiness-signal-safety`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -242,7 +244,7 @@ Current artifact status:
 - TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
-- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, game allowlists, production metadata, canary suite metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
+- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, game allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
 - ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.

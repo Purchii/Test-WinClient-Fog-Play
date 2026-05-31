@@ -150,6 +150,7 @@ function Test-GameSessionCanaryPlan {
         $durationSeconds = [int](Get-GameSessionCanaryValue -Object $test -Name 'maxSessionDurationSeconds' -Default 0)
         $retries = [int](Get-GameSessionCanaryValue -Object $test -Name 'maxRetries' -Default 0)
         $expectedSignals = @(Get-GameSessionCanaryArray -Object $test -Name 'expectedReadinessSignals')
+        $unsupportedReadinessSignals = @($expectedSignals | Where-Object { @('stream-ready', 'first-frame') -notcontains [string]$_ })
 
         $allowedGameMatches = @($AllowedGames | Where-Object {
             $_.alias -eq $targetGame -and
@@ -197,6 +198,7 @@ function Test-GameSessionCanaryPlan {
                 $allowedBudgetGames -contains $targetGame -and
                 $allowedGameMatches.Count -eq 1 -and
                 $retries -eq 0 -and
+                $unsupportedReadinessSignals.Count -eq 0 -and
                 $expectedSignals -contains 'stream-ready' -and
                 $expectedSignals -contains 'first-frame'
             )
@@ -258,6 +260,9 @@ function Test-GameSessionCanaryPlan {
         }
         if (-not ($expectedSignals -contains 'stream-ready') -or -not ($expectedSignals -contains 'first-frame')) {
             $findings += Add-GameSessionCanaryFinding -Id 'missing-readiness-signals' -Severity 'fail' -Path $path -Message 'M5 canary plan must require stream-ready and first-frame readiness signals.'
+        }
+        if ($unsupportedReadinessSignals.Count -gt 0) {
+            $findings += Add-GameSessionCanaryFinding -Id 'unsupported-readiness-signal' -Severity 'fail' -Path $path -Message 'M5 canary plan must not declare readiness signals outside stream-ready and first-frame.'
         }
     }
 
