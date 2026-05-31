@@ -41,3 +41,5 @@ Verification:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-nonprod-foundation.ps1 -DryRun
 .\scripts\quality-gate.ps1 -Scope NonProdFoundation
 ```
+
+Post-M6 guard hardening added `NonProdFoundation` quality gate assertions that `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected before any fake/replay execution, network call or authentication action can occur.

@@ -38,3 +38,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-update-manifes
 Known limitation:
 
 - This gate proves local manifest shape only. It does not validate a real vendor manifest, package signature chain or updater runtime behavior until updater/package metadata is provided through an approved offline fixture.
+
+Post-M6 guard hardening added `UpdateManifest` quality gate assertions that `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected before any download, updater, rollback or credential action can occur.

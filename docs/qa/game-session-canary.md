@@ -48,3 +48,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-game-session-c
 Known limitation:
 
 - M5 proves local readiness metadata and guard behavior only. It does not prove real login, catalog state, stream startup, first-frame rendering, session stop or cleanup until a separately approved production-conditional execution plan exists.
+
+Post-M6 guard hardening added `GameSessionCanary` quality gate assertions that `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected before any client launch, backend call, authentication or game-session action can occur.

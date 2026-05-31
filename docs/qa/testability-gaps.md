@@ -31,3 +31,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-testability-ga
 Known limitation:
 
 - This registry proves that gaps are tracked and safety-scoped. It does not provide the missing client source, non-production environments, synthetic auth fixtures or runtime harnesses.
+
+Post-M6 guard hardening added `TestabilityGaps` quality gate assertions that `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected before any production action, credential use or runtime user data read can occur.

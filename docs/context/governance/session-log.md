@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Runner safety QA dangerous allow-flag note sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed QA dangerous allow-flag note drift.
+
+Branch: `codex/qa-dangerous-flag-notes-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7b95-8b7f-77f1-8111-ba8a4f186feb` confirmed the narrow local/static documentation drift; coordination takeover completed the docs-only sync on a dedicated branch.
+
+Scope:
+
+- Update UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps QA docs to mention their dangerous allow-flag rejection coverage.
+- Preserve dry-run examples without adding runnable allow-flag examples.
+- Keep verification memory and session log latest branch entries synchronized for the docs-only task.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety backend smoke QA Post-M6 flag note sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed BackendSmoke QA Post-M6 note drift.
