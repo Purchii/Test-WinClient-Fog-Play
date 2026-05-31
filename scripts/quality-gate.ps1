@@ -2743,6 +2743,18 @@ function Invoke-RunnerSafetyGate {
         '(?i)\\Local Storage\\',
         '(?i)\\IndexedDB\\'
     )
+    $unsafeInputPathVocabulary = @(
+        'AppData',
+        'Cookies',
+        'cookie',
+        '\.log',
+        'logs',
+        'crash',
+        'dump',
+        'Local Storage',
+        'IndexedDB',
+        '\.db'
+    )
 
     foreach ($runner in $runnerScripts) {
         $relative = "scripts/$($runner.Name)"
@@ -2771,6 +2783,25 @@ function Invoke-RunnerSafetyGate {
         foreach ($pattern in $forbiddenRuntimePatterns) {
             if ($text -match $pattern) {
                 throw "$relative contains forbidden runtime user-data path pattern: $pattern"
+            }
+        }
+
+        $runnerParamText = ($text -split 'Set-StrictMode', 2)[0]
+        $pathParameterMatches = [regex]::Matches($runnerParamText, '\[string\]\s+\$(?<name>[A-Za-z0-9]*(?:Path|Root))')
+        $pathParameterNames = @($pathParameterMatches | ForEach-Object { $_.Groups['name'].Value } | Sort-Object -Unique)
+        if ($pathParameterNames.Count -gt 0) {
+            foreach ($requiredToken in $unsafeInputPathVocabulary) {
+                if ($text -notmatch [regex]::Escape($requiredToken)) {
+                    throw "$relative exposes path-like parameters but does not preserve unsafe input path guard token: $requiredToken"
+                }
+            }
+
+            foreach ($parameterName in $pathParameterNames) {
+                $inlineGuardPattern = '\$' + [regex]::Escape($parameterName) + '\s+-match\s+[''"].*AppData'
+                $helperGuardPattern = 'InputPathSafe\s+-Name\s+''' + [regex]::Escape($parameterName) + '''\s+-Path\s+\$' + [regex]::Escape($parameterName)
+                if ($text -notmatch $inlineGuardPattern -and $text -notmatch $helperGuardPattern) {
+                    throw "$relative exposes `$$parameterName but does not guard it against unsafe runtime input paths."
+                }
             }
         }
     }
