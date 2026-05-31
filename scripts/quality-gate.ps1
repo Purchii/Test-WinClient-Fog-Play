@@ -3986,15 +3986,8 @@ function Invoke-ProdSafetyGate {
 
     $canaryScript = Join-Path $repoRoot 'scripts/run-prod-canary.ps1'
     $smokeScript = Join-Path $repoRoot 'scripts/run-prod-safe-smoke.ps1'
-    $missingSmokeDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Prod-safe smoke runner must reject calls without -DryRun.' -Command {
         & $smokeScript -Environment production | Out-Null
-    }
-    catch {
-        $missingSmokeDryRunRejected = $true
-    }
-    if (-not $missingSmokeDryRunRejected) {
-        throw 'Prod-safe smoke runner must reject calls without -DryRun.'
     }
 
     Assert-CommandRejected -Message 'Prod-safe smoke runner must reject unsafe runtime test metadata paths before reading them.' -Command {
@@ -4012,15 +4005,8 @@ function Invoke-ProdSafetyGate {
             -DryRun | Out-Null
     }
 
-    $missingCanaryDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Prod canary runner must reject calls without -DryRun.' -Command {
         & $canaryScript -Environment production -AllowProdConditional -CleanupVerified | Out-Null
-    }
-    catch {
-        $missingCanaryDryRunRejected = $true
-    }
-    if (-not $missingCanaryDryRunRejected) {
-        throw 'Prod canary runner must reject calls without -DryRun.'
     }
 
     Assert-CommandRejected -Message 'Prod canary runner must reject unsafe runtime test metadata paths before reading them.' -Command {
@@ -4121,17 +4107,10 @@ function Invoke-ReleaseGate {
     }
 
     $releaseGate = Join-Path $repoRoot 'scripts/run-release-gate.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Release gate runner must reject calls without -DryRun.' -Command {
         & $releaseGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
             -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') | Out-Null
-    }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'Release gate runner must reject calls without -DryRun.'
     }
 
     Assert-CommandRejected -Message 'Release gate runner must reject unsafe runtime policy paths before reading them.' -Command {
@@ -4292,17 +4271,10 @@ function Invoke-PrivacyGate {
     }
 
     $privacyGate = Join-Path $repoRoot 'scripts/run-privacy-gate.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'Privacy gate runner must reject calls without -DryRun.' -Command {
         & $privacyGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
             -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') | Out-Null
-    }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'Privacy gate runner must reject calls without -DryRun.'
     }
 
     Assert-CommandRejected -Message 'Privacy gate runner must reject unsafe runtime patterns paths before reading them.' -Command {
@@ -4426,17 +4398,10 @@ function Invoke-AppSmokeGate {
     & (Join-Path $repoRoot 'src/TestFramework/WindowsSmoke/WindowsSmoke.Tests.ps1')
 
     $appSmoke = Join-Path $repoRoot 'scripts/run-app-webview-smoke.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'App/WebView smoke runner must reject calls without -DryRun.' -Command {
         & $appSmoke `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
             -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') | Out-Null
-    }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'App/WebView smoke runner must reject calls without -DryRun.'
     }
 
     $clientLaunchRejected = $false
@@ -4528,16 +4493,9 @@ function Invoke-BridgeContractGate {
     & (Join-Path $repoRoot 'src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1')
 
     $bridgeContract = Join-Path $repoRoot 'scripts/run-webview-bridge-contract.ps1'
-    $missingDryRunRejected = $false
-    try {
+    Assert-CommandRejected -Message 'WebView bridge contract runner must reject calls without -DryRun.' -Command {
         & $bridgeContract `
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') | Out-Null
-    }
-    catch {
-        $missingDryRunRejected = $true
-    }
-    if (-not $missingDryRunRejected) {
-        throw 'WebView bridge contract runner must reject calls without -DryRun.'
     }
 
     $clientLaunchRejected = $false
