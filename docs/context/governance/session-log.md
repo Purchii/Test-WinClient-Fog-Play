@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Prod metadata safety canary alias duration policy hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/static policy-phrase hardening after separate task-thread discovery/takeover confirmed ProdMetadataSafety did not require the production policy wording for canary alias duration budgets.
+
+Branch: `codex/prod-metadata-canary-alias-duration-policy-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bcf-7784-7870-9200-2a9b29ee237b` was created for the narrow local/static docs-contract discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require ProdMetadataSafety policy wording for prod-canary synthetic alias duration within the committed resource budget.
+- Update current context evidence for the policy-phrase hardening.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Prod metadata safety canary alias duration hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery/takeover confirmed ProdMetadataSafety did not independently cross-check the prod-canary synthetic alias duration against the resource budget.

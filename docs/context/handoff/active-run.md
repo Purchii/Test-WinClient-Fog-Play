@@ -73,6 +73,7 @@ Post-M6 ProdMetadataSafety canary target allowlist hardening is complete.
 Post-M6 ProdMetadataSafety synthetic alias allowlist hardening is complete.
 Post-M6 SyntheticUsersSafety resource budget duration hardening is complete.
 Post-M6 ProdMetadataSafety canary alias duration hardening is complete.
+Post-M6 ProdMetadataSafety canary alias duration policy phrase hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -87,6 +88,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ProdMetadataSafety canary alias duration policy phrase hardening keeps production testing policy wording synced with metadata-scoped canary alias duration budget checks.
+
 ProdMetadataSafety canary alias duration hardening cross-checks the prod-canary synthetic alias maxSessionDurationSeconds against prodResourceBudget.maxSessionDurationSeconds inside the scoped metadata gate.
 
 SyntheticUsersSafety resource budget duration hardening cross-checks canary synthetic user maxSessionDurationSeconds against prodResourceBudget.maxSessionDurationSeconds.
@@ -165,7 +168,7 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
-SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, production metadata, synthetic alias allowlist links, metadata-scoped alias duration and canary target allowlist consistency.
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, production metadata, synthetic alias allowlist links, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 

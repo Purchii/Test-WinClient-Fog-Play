@@ -3457,7 +3457,7 @@ function Invoke-ProdMetadataSafetyGate {
     Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
 
     $policy = Get-Content -LiteralPath $policyPath -Raw
-    foreach ($requiredPolicyPhrase in @('Every test must be classified', 'No classification = no prod run', 'No resource budget = no prod game session test', 'target region and target game metadata must stay allowlisted')) {
+    foreach ($requiredPolicyPhrase in @('Every test must be classified', 'No classification = no prod run', 'No resource budget = no prod game session test', 'bounded game-session permission within the committed resource budget', 'target region and target game metadata must stay allowlisted')) {
         if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
             throw "Production testing policy must document: $requiredPolicyPhrase"
         }
