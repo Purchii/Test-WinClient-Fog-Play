@@ -3492,6 +3492,7 @@ function Invoke-ProdMetadataSafetyGate {
     Import-Module $prodSafetyModule -Force
     $allowedClassifications = @(Get-ProdSafetyClassificationValues)
     $budget = Read-ProdResourceBudget -Path $budgetPath
+    $budgetMaxSessionDurationSeconds = [int]$budget.maxSessionDurationSeconds
     $budgetRegions = @($budget.allowedRegions)
     $budgetGames = @($budget.allowedGames)
     $syntheticUsersData = Get-Content -LiteralPath $syntheticUsersPath -Raw | ConvertFrom-Json
@@ -3632,6 +3633,10 @@ function Invoke-ProdMetadataSafetyGate {
             }
             if ($syntheticUser.canStartGameSession -ne $true) {
                 throw "prod-canary suite test '$name' synthetic alias '$alias' must have canStartGameSession=true."
+            }
+            $syntheticUserMaxSessionDurationSeconds = [int]$syntheticUser.maxSessionDurationSeconds
+            if ($syntheticUserMaxSessionDurationSeconds -lt 1 -or $syntheticUserMaxSessionDurationSeconds -gt $budgetMaxSessionDurationSeconds) {
+                throw "prod-canary suite test '$name' synthetic alias '$alias' maxSessionDurationSeconds must fit prodResourceBudget.maxSessionDurationSeconds."
             }
             if ([string]::IsNullOrWhiteSpace($targetRegion) -or [string]::IsNullOrWhiteSpace($targetGame)) {
                 throw "prod-canary suite test '$name' must declare targetRegion and targetGame."

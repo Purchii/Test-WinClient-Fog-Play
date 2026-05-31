@@ -1260,7 +1260,7 @@ Implemented checks:
 - `prod-safe-smoke` entries must remain `PROD_SAFE` and read-only;
 - optional `PROD_SAFE` synthetic aliases must resolve to `prod_safe_login_logout` users without game-session permission;
 - `prod-canary` must remain exactly one `PROD_CONDITIONAL` entry with canary alias, target region, target game, session start, state mutation and cleanup verification metadata;
-- `prod-canary` synthetic aliases must resolve to `prod_conditional_stream_canary` users with bounded game-session permission;
+- `prod-canary` synthetic aliases must resolve to `prod_conditional_stream_canary` users with bounded game-session permission within the resource budget duration;
 - `prod-canary` target region and target game must be allowlisted by `prod-resource-budget.example.yaml`;
 - `prod-canary` target game must also be present as a production `prod_conditional_stream_canary` alias in `allowed-games.example.json`;
 - `PROD_FORBIDDEN` and `NON_PROD_ONLY` placeholders must not be assigned to production runner suites;
