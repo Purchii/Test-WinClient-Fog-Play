@@ -932,16 +932,14 @@ function Invoke-ActiveRunSafetyGate {
         throw 'current-state.md must not declare a literal historical thread id as the active task thread; document lifecycle rules instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ActiveVerificationCommandSafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
+    $currentStaticSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' } | Sort-Object -Unique)
+    foreach ($scopeName in $currentStaticSafetyScopes) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
         if ($currentState -notmatch [regex]::Escape($scopeName)) {
             throw "current-state.md must mention current static safety gate: $scopeName"
         }
-    }
-    if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
-        throw 'current-state.md must mention ActiveRunSafety.'
     }
     $latestVerificationEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
     $knownSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' })

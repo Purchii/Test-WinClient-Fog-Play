@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run safety scope coverage hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ActiveRunSafety current static safety scope coverage drift.
+
+Branch: `codex/active-run-safety-scope-coverage-hardening`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7ba4-d560-7142-a6a6-3d9d846ea243` confirmed the narrow local/static gate-hardening gap; coordination takeover completed the branch after stopping further delegated edits.
+
+Scope:
+
+- Replace the stale manual current static safety scope list in `ActiveRunSafety` with the `quality-gate.ps1` `*Safety` scope inventory.
+- Ensure `RunnerSafety`, `TestDataSafety`, `ProdMatrixSafety`, `BacklogSafety` and future safety scopes cannot drift out of active/current context checks.
+- Keep verification memory, session log and active-run evidence synchronized for the local/static task.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run safety current branch main sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery found active-run current branch drift after fast-forwarding to main.

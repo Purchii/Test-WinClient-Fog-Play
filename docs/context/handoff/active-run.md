@@ -77,12 +77,14 @@ Each dedicated task thread is active only for its own task and becomes inactive/
 Current branch:
 
 ```text
-main
+codex/active-run-safety-scope-coverage-hardening
 ```
 
 Current result:
 
 ```text
+ActiveRunSafety scope coverage hardening derives current static safety scope checks from `quality-gate.ps1` so RunnerSafety, TestDataSafety, ProdMatrixSafety, BacklogSafety and future `*Safety` scopes cannot silently drift out of active/current context checks.
+
 Active-run current branch sync records `main` after the verification-memory template cleanup was fast-forwarded and pushed.
 
 Verification memory template cleanup replaces the non-ASCII heading separator with ASCII while preserving local/static documentation-only boundaries.
@@ -231,6 +233,8 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
