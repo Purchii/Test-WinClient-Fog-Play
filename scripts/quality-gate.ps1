@@ -2215,6 +2215,10 @@ function Invoke-QaDocsSafetyGate {
         'release-gates.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'executable signature code-path coverage', 'version metadata code-path coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
         'privacy-and-logging-checks.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'bearer token, generic token and unquoted password coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
     }
+    $reportOnlyCoveragePhrasesByDoc = @{
+        'release-gates.md' = @('Post-M6 report-only coverage hardening added', 'local negative fixtures keep `-ReportOnly` explicit artifact discovery behavior', 'concrete finding ids without reading installed artifacts')
+        'privacy-and-logging-checks.md' = @('Post-M6 report-only coverage hardening added', 'local installed-like, negative and large fixtures keep `-ReportOnly` explicit artifact discovery behavior', 'concrete finding ids without reading installed artifacts')
+    }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {
         $path = Join-Path $docsRoot $docName
@@ -2249,6 +2253,15 @@ function Invoke-QaDocsSafetyGate {
         foreach ($phrase in $m11HardeningPhrasesByDoc[$docName]) {
             if ($content -notmatch [regex]::Escape($phrase)) {
                 throw "docs/qa/$docName must preserve M1.1 hardening phrase: $phrase"
+            }
+        }
+    }
+    foreach ($docName in $reportOnlyCoveragePhrasesByDoc.Keys) {
+        $path = Join-Path $docsRoot $docName
+        $content = Get-Content -LiteralPath $path -Raw
+        foreach ($phrase in $reportOnlyCoveragePhrasesByDoc[$docName]) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "docs/qa/$docName must preserve report-only coverage phrase: $phrase"
             }
         }
     }

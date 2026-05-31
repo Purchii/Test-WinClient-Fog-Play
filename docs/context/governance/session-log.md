@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety QaDocsSafety report-only coverage wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation guard hardening after separate task-thread discovery was started for the next safe static drift guard; coordinator takeover updated only the local safety gate and context evidence.
+
+Branch: `codex/qa-docs-reportonly-coverage-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c9c-4fe0-7d71-a9b3-8fa00f8c59af` was created for the narrow next static hardening discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Add QaDocsSafety required phrase checks for release/privacy Post-M6 report-only coverage notes.
+- Preserve release negative fixture report-only coverage wording.
+- Preserve privacy installed-like, negative and large fixture report-only coverage wording.
+- Sync scripts README, quality-gates docs, active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety Release Privacy ReportOnly coverage
 
 Mode: `BOUNDED_AUTONOMOUS` local static fixture hardening after a separate task-thread discovery/status sync for Release/Privacy report-only coverage; coordinator takeover updated only local quality gates and context evidence.
