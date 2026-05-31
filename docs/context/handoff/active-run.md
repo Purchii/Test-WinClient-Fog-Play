@@ -115,6 +115,7 @@ Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 BackendSmoke missing DryRun guard hardening is complete.
 Post-M6 BackendSmoke guard documentation sync is complete.
 Post-M6 NonProdFoundation/TestabilityGaps DryRun documentation sync is complete.
+Post-M6 QA docs DryRun guard documentation sync is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -169,6 +170,8 @@ BackendSmoke missing DryRun guard hardening adds direct local quality-gate cover
 BackendSmoke guard documentation sync aligns the older runner/validator guard hardening status text with the direct BackendSmoke missing-`DryRun` quality-gate assertion.
 
 NonProdFoundation/TestabilityGaps DryRun documentation sync aligns dangerous-flag status text with their direct missing-`DryRun` quality-gate assertions.
+
+QA docs DryRun guard documentation sync aligns active QA docs and scripts README guard summaries with UpdateManifest, NonProdFoundation and TestabilityGaps missing-`DryRun` runner rejection assertions.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 

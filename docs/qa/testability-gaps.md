@@ -33,6 +33,6 @@ Known limitation:
 
 - This registry proves that gaps are tracked and safety-scoped. It does not provide the missing client source, non-production environments, synthetic auth fixtures or runtime harnesses.
 
-Post-M6 guard hardening added `TestabilityGaps` quality gate assertions that unsafe runtime input paths, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected before any production action, credential use or runtime user data read can occur.
+Post-M6 guard hardening added `TestabilityGaps` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected before any production action, credential use or runtime user data read can occur.
 
 Post-M6 finding coverage hardening added direct registry assertions for missing gap registries, missing next safe steps and runtime gaps without stop triggers.

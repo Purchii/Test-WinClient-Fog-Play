@@ -40,6 +40,6 @@ Known limitation:
 
 - This gate proves local manifest shape only. It does not validate a real vendor manifest, package signature chain or updater runtime behavior until updater/package metadata is provided through an approved offline fixture.
 
-Post-M6 guard hardening added `UpdateManifest` quality gate assertions that unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected before any download, updater, rollback, credential action or runtime data read can occur.
+Post-M6 guard hardening added `UpdateManifest` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected before any download, updater, rollback, credential action or runtime data read can occur.
 
 Post-M6 finding coverage hardening added direct manifest assertions for invalid package ids and missing package registries.
