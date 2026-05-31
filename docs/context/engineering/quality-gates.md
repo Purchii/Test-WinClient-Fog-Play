@@ -158,7 +158,7 @@ The `FixtureInventorySafety` scope statically checks local fixture directory tre
 
 The `ScriptsInventorySafety` scope statically checks `scripts/` file inventory so local runners and support docs cannot be added, removed or renamed silently.
 
-The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, and forbidden runtime/network primitives must not appear.
+The `RunnerSafety` scope statically checks `scripts/*.ps1` and `src/TestFramework` for production-safety drift: every `run-*.ps1` runner must expose and require `-DryRun`, dangerous `Allow*` switches must be explicitly rejected unless allowlisted, path-like runner inputs must keep unsafe runtime input path guards, and forbidden runtime/network primitives must not appear.
 
 The `TestDataSafety` scope statically checks `testdata/` text fixtures so risky content such as credentials, bearer tokens, user runtime paths and non-placeholder URLs only appears in explicit unsafe/negative fixture allowlists.
 
@@ -177,4 +177,22 @@ The `ProdMetadataSafety` scope statically checks `testdata/prod-safety-tests.exa
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
 The `BacklogSafety` scope statically checks `docs/qa/value-effort-backlog.md` so roadmap rows stay bounded to M0-M6, value/effort stay in the 1-5 range, and runtime/non-prod milestones remain lower priority until prerequisites are approved.
-The `GameSessionCanary` scope validates the local dry-run canary readiness plan without starting or stopping a game session, requires exact non-duplicated canary readiness signals and canary suite metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, bounded run-frequency budget and cleanup/conditional budget flags in direct plan validation, and asserts dangerous runtime allow flags are rejected.
+The `ProdSafety` scope validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
+
+The `Release` scope validates local release artifact fixtures without launching the installed client, and asserts unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
+
+The `Privacy` scope validates local privacy/logging fixtures without launching the installed client, and asserts unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.
+
+The `AppSmoke` scope validates the local App/WebView smoke scaffold without launching the installed client, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
+
+The `BridgeContract` scope validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
+
+The `BackendSmoke` scope validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts unsafe runtime input paths, `-AllowNetwork` and `-AllowAuth` are rejected.
+
+The `GameSessionCanary` scope validates the local dry-run canary readiness plan without starting or stopping a game session, requires exact non-duplicated canary readiness signals and canary suite metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, bounded run-frequency budget and cleanup/conditional budget flags in direct plan validation, and asserts unsafe runtime input paths plus dangerous runtime allow flags are rejected.
+
+The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, and asserts unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
+
+The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, and asserts unsafe runtime input paths, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
+
+The `UpdateManifest` scope validates the local update manifest fixture without network, updater execution, rollback or credentials, and asserts unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.

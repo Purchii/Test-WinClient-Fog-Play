@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Quality Gates Docs Scope Safety input path summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` local documentation sync after separate task-thread discovery/takeover confirmed `docs/context/engineering/quality-gates.md` lagged behind current unsafe runtime input path guard coverage.
+
+Branch: `codex/quality-gates-docs-input-path-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c31-f2e4-7632-89de-7017f7b33109` was created for the narrow local/static quality-gates docs summary sync discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Update RunnerSafety summary to include path-like runner input guard coverage.
+- Add current runner-scope summaries for unsafe runtime input path rejection.
+- Keep the task local/static documentation-only.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Scripts Readme Scope Safety TestabilityGaps duplicate cleanup
 
 Mode: `BOUNDED_AUTONOMOUS` local documentation cleanup after separate task-thread discovery/takeover confirmed `scripts/README.md` had duplicate TestabilityGaps quality gate descriptions.
