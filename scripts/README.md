@@ -127,16 +127,16 @@ The `ProdMatrixSafety` quality gate fails if the production-safe test matrix dri
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.
 
-The `AppSmoke` quality gate validates the local App/WebView smoke scaffold and dangerous flag rejection without launching the installed client.
+The `AppSmoke` quality gate validates the local App/WebView smoke scaffold without launching the installed client, and asserts that `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
-The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch.
+The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts that `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
 The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts that `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session.
+The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session, and asserts that `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems.
+The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, and asserts that `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials.
+The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials, and asserts that `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.
 
-The `TestabilityGaps` quality gate validates the local testability gap registry without closing gaps through runtime actions.
+The `TestabilityGaps` quality gate validates the local testability gap registry without closing gaps through runtime actions, and asserts that `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.

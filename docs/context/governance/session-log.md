@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Runner safety scripts README dangerous allow-flag summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread creation for scripts README dangerous allow-flag summary drift.
+
+Branch: `codex/runner-safety-scripts-dangerous-flag-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7b98-c50c-7a80-a957-9c71d23a7e2e` was created for the narrow local/static documentation task; coordination takeover completed the docs-only sync on a dedicated branch.
+
+Scope:
+
+- Update `scripts/README.md` gate descriptions to mention dangerous allow-flag rejection coverage for AppSmoke, BridgeContract, GameSessionCanary, NonProdFoundation, UpdateManifest and TestabilityGaps.
+- Preserve dry-run examples without adding runnable allow-flag examples.
+- Keep verification memory and session log latest branch entries synchronized for the docs-only task.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety QA dangerous allow-flag note sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed QA dangerous allow-flag note drift.
