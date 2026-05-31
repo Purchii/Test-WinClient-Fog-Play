@@ -817,6 +817,12 @@ function Invoke-QualityGateStructureSafetyGate {
         }
     }
 
+    $manualRejectionPattern = '(?m)^\s*\$[A-Za-z0-9]*(?:DryRun|ClientLaunch|DebugPort|Allow|Rejected)[A-Za-z0-9]*Rejected\s*=\s*\$false\b'
+    $manualRejectionMatches = @([regex]::Matches($script, $manualRejectionPattern))
+    if ($manualRejectionMatches.Count -gt 0) {
+        throw 'quality-gate.ps1 runner rejection assertions must use Assert-CommandRejected instead of manual *Rejected flags.'
+    }
+
     Write-Host 'QualityGateStructureSafety gate passed.'
 }
 

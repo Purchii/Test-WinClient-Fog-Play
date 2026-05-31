@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety QualityGateStructureSafety rejection helper guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static quality-gate structure hardening after a separate task-thread attempt and local read-only inspection confirmed manual runner rejection flag blocks had been removed and could be guarded against returning.
+
+Branch: `codex/quality-gate-rejection-helper-guard`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7ce4-6e8e-7f01-99ba-cf5958f992db` was created for the narrow QualityGateStructureSafety rejection helper guard task; coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Add `QualityGateStructureSafety` coverage preventing runner rejection assertions in `scripts/quality-gate.ps1` from regressing to manual `*Rejected` flag blocks instead of `Assert-CommandRejected`.
+- Sync scripts README, implementation status, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety App/Bridge allow-flag helper cleanup
 
 Mode: `BOUNDED_AUTONOMOUS` local quality-gate cleanup after a separate task-thread attempt and local read-only inspection confirmed AppSmoke and BridgeContract allow/debug runner rejection assertions still used manual try/catch blocks instead of the shared helper.
