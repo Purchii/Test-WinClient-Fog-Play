@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
 
 Planning boundary:
 
@@ -156,6 +156,7 @@ Post-M6 ActiveRunSafety implementation-status installed artifact source wording 
 Post-M6 QA docs installed artifact manual-boundary wording sync is complete.
 Post-M6 QaDocsSafety installed artifact manual-boundary wording guard is complete.
 Post-M6 VerificationMemorySafety installed artifact historical command boundary is complete.
+Post-M6 VerificationMemorySafety installed artifact summary sync is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -211,6 +212,8 @@ TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step t
 TestabilityGaps local finding coverage hardening requires local tests to assert missing gap registry, missing next safe step and runtime gap without stop trigger finding ids without closing runtime gaps or performing production actions.
 
 VerificationMemorySafety installed artifact historical command boundary requires old verification-memory entries with installed artifact commands to preserve 2026-05-30 historical evidence wording and a no-rerun-without-approved-plan boundary.
+
+VerificationMemorySafety installed artifact summary sync keeps active/current lower summaries aligned with the installed artifact historical command boundary enforced by the gate.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
@@ -394,7 +397,7 @@ ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` hand
 
 SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording and keeps the latest session-log codex branch synced with verification-memory.
 
-VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale and missing latest-entry safety notes fail closed.
+VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale, missing installed artifact historical command boundaries and missing latest-entry safety notes fail closed.
 
 ActiveVerificationCommandSafety adds `Full` coverage for active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and excludes installed-client paths, user runtime paths, endpoints, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 

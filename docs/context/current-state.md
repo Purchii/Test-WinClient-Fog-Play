@@ -166,6 +166,7 @@ Post-M6: ActiveRunSafety implementation-status installed artifact source wording
 Post-M6: QA docs installed artifact manual-boundary wording sync - implemented and verified locally.
 Post-M6: QaDocsSafety installed artifact manual-boundary wording guard - implemented and verified locally.
 Post-M6: VerificationMemorySafety installed artifact historical command boundary - implemented and verified locally.
+Post-M6: VerificationMemorySafety installed artifact summary sync - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -326,6 +327,7 @@ Repository bootstrap state:
 - Post-M6 QA docs installed artifact manual-boundary wording sync was completed on `codex/qa-docs-installed-artifact-manual-boundary`.
 - Post-M6 QaDocsSafety installed artifact manual-boundary wording guard was completed on `codex/qa-docs-installed-artifact-boundary-safety`.
 - Post-M6 VerificationMemorySafety installed artifact historical command boundary was completed on `codex/verification-memory-installed-artifact-history-boundary`.
+- Post-M6 VerificationMemorySafety installed artifact summary sync was completed on `codex/verification-memory-boundary-summary-sync`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -379,7 +381,7 @@ Current artifact status:
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex branch synced with verification-memory.
-- VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale and latest-entry core safety notes.
+- VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
