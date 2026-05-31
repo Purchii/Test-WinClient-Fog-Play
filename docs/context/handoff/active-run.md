@@ -83,6 +83,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ActiveRunSafety implementation-status hardening summary sync records scope coverage and branch/status policy checks in implementation-status.
+
 ActiveRunSafety current-state hardening summary sync records the completed scope coverage and branch/status policy hardening in current-state.
 
 ActiveRunSafety current branch/status policy replaces the live literal branch field with authoritative `git status --short --branch` guidance so active-run does not drift after task branches are fast-forwarded to `main`.

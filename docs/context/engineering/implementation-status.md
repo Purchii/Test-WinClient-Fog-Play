@@ -1283,13 +1283,15 @@ Implemented checks:
 
 - new `ActiveRunSafety` quality gate scope;
 - `active-run.md` must keep the forbidden-action boundary and stop-and-ask triggers explicit;
-- `current-state.md` must mention current static safety gates;
-- active handoff must mention current static safety gates for synthetic users, allowed games, resource budgets and production metadata;
+- active handoff and current-state must mention current static safety gates derived from `quality-gate.ps1`;
+- new `*Safety` scopes cannot silently drift out of active/current context checks;
 - active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;
 - active handoff must not record stale literal latest-pushed commit markers;
+- active handoff must use `git status --short --branch` as the authoritative current branch/worktree source instead of storing a live literal branch value;
 - active handoff/current-state must not declare a literal historical thread id as the active task thread;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
+- context protocol must keep `git status --short --branch` as the authoritative current branch/worktree source;
 - executor policy must preserve the explicit main-merge approval rule;
 - `ActiveRunSafety` is included in `Full`.
 
