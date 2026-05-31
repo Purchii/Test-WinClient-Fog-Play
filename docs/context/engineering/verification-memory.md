@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-05-31 - Synthetic users safety game-session canary environment hardening
+
+Branch: `codex/synthetic-users-game-session-canary-env-safety`
+Status: passed
+Production impact: none; local dry-run validator hardening and documentation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- GameSessionCanary gate passed.
+- SyntheticUsersSafety gate passed.
+- ActiveRunSafety gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Context quality gate passed.
+- QaDocsSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this task hardens the local dry-run readiness plan validator only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - Synthetic users safety game-session canary duration hardening
 
 Branch: `codex/synthetic-users-game-session-canary-duration-safety`

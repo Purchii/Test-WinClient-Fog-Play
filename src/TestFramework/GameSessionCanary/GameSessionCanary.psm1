@@ -158,8 +158,10 @@ function Test-GameSessionCanaryPlan {
             $_.canStartGameSession -eq $true
         })
         $syntheticUserMaxSessionDurationSeconds = 0
+        $syntheticUserProductionAllowed = $false
         if ($syntheticUserMatches.Count -eq 1) {
             $syntheticUserMaxSessionDurationSeconds = [int]$syntheticUserMatches[0].maxSessionDurationSeconds
+            $syntheticUserProductionAllowed = @($syntheticUserMatches[0].allowedEnvironments) -contains 'production'
         }
 
         $checks += [pscustomobject]@{
@@ -175,6 +177,7 @@ function Test-GameSessionCanaryPlan {
                 $requiresCleanupVerification -and
                 $syntheticAlias -match '^qa-canary-[a-z0-9-]+-\d{3}$' -and
                 $syntheticUserMatches.Count -eq 1 -and
+                $syntheticUserProductionAllowed -and
                 $durationSeconds -ge 1 -and
                 $durationSeconds -le $maxSessionDurationSeconds -and
                 $durationSeconds -le $syntheticUserMaxSessionDurationSeconds -and
@@ -206,6 +209,9 @@ function Test-GameSessionCanaryPlan {
         }
         if ($syntheticUserMatches.Count -ne 1) {
             $findings += Add-GameSessionCanaryFinding -Id 'synthetic-alias-not-allowlisted' -Severity 'fail' -Path $path -Message 'M5 canary metadata must use an allowlisted prod_conditional_stream_canary synthetic alias with game-session permission.'
+        }
+        if (-not $syntheticUserProductionAllowed) {
+            $findings += Add-GameSessionCanaryFinding -Id 'synthetic-alias-not-production-allowed' -Severity 'fail' -Path $path -Message 'M5 canary metadata must use a synthetic alias explicitly allowlisted for production.'
         }
         if ($durationSeconds -lt 1 -or $durationSeconds -gt $maxSessionDurationSeconds) {
             $findings += Add-GameSessionCanaryFinding -Id 'duration-exceeds-budget' -Severity 'fail' -Path $path -Message 'M5 canary duration must fit within prodResourceBudget.maxSessionDurationSeconds.'

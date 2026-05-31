@@ -133,7 +133,7 @@ The `BridgeContract` quality gate validates the local WebView/native bridge cont
 
 The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts that `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session, requires an allowlisted canary synthetic alias and matching synthetic-user duration ceiling in the direct plan validator, and asserts that `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session, requires an allowlisted production canary synthetic alias and matching synthetic-user duration ceiling in the direct plan validator, and asserts that `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, and asserts that `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 

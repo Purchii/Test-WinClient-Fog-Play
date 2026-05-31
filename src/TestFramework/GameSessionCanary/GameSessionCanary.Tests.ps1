@@ -53,6 +53,19 @@ $result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -Sy
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should fail closed without -DryRun.'
 Assert-FindingId -Result $result -Id 'dry-run-flag-required'
 
+$nonProductionSyntheticUsers = @(
+    [pscustomobject]@{
+        alias = 'qa-canary-stream-001'
+        purpose = 'prod_conditional_stream_canary'
+        allowedEnvironments = @('staging')
+        canStartGameSession = $true
+        maxSessionDurationSeconds = 120
+    }
+)
+$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -SyntheticUsers $nonProductionSyntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject synthetic users not allowlisted for production.'
+Assert-FindingId -Result $result -Id 'synthetic-alias-not-production-allowed'
+
 $unsafe = Read-GameSessionCanaryPlan -Path (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json')
 $result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
 Assert-True (-not $result.passed) 'Unsafe game-session canary plan should fail.'

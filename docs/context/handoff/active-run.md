@@ -77,6 +77,7 @@ Post-M6 ProdMetadataSafety canary alias duration policy phrase hardening is comp
 Post-M6 GameSessionCanary synthetic alias direct validator hardening is complete.
 Post-M6 GameSessionCanary synthetic alias allowlist hardening is complete.
 Post-M6 GameSessionCanary synthetic alias duration hardening is complete.
+Post-M6 GameSessionCanary synthetic alias environment hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -91,6 +92,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+GameSessionCanary synthetic alias environment hardening requires M5 readiness plans to use a matched synthetic user that explicitly includes `production` in `allowedEnvironments` before the local dry-run plan can pass.
+
 GameSessionCanary synthetic alias duration hardening requires M5 readiness plan duration to fit the matched synthetic user's own `maxSessionDurationSeconds` ceiling before the local dry-run plan can pass.
 
 GameSessionCanary synthetic alias allowlist hardening requires M5 readiness plans to use a `qa-canary-*` synthetic alias that exists in the synthetic users fixture with `prod_conditional_stream_canary` purpose and game-session permission before the local dry-run plan can pass.
@@ -177,7 +180,7 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
-SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
