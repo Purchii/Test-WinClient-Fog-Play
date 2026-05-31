@@ -43,4 +43,6 @@ Post-M6 guard hardening made `run-prod-safe-smoke.ps1` and `run-prod-canary.ps1`
 
 Post-M6 prod-safe smoke runner input path hardening made `run-prod-safe-smoke.ps1` reject AppData/log/cookie/DB/dump-like `TestMetadataPath` and `SyntheticUsersPath` overrides before reading them.
 
+Post-M6 prod canary runner input path hardening made `run-prod-canary.ps1` reject AppData/log/cookie/DB/dump-like `TestMetadataPath`, `SyntheticUsersPath` and `ResourceBudgetPath` overrides before reading them.
+
 Committed production metadata fixtures must stay local, alias-only and suite-scoped. `prod-safe-smoke` entries must remain `PROD_SAFE`; `PROD_SAFE` metadata aliases must resolve to synthetic users with `prod_safe_login_logout` purpose and no game-session permission. `prod-canary` entries must remain `PROD_CONDITIONAL` and declare synthetic alias, target region, target game, session start, state mutation and cleanup verification metadata. Prod-canary synthetic aliases must resolve to synthetic users with `prod_conditional_stream_canary` purpose and bounded game-session permission within the committed resource budget. Prod-canary target region and target game metadata must stay allowlisted by the committed resource budget and allowed-games fixtures.

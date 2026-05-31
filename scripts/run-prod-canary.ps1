@@ -38,6 +38,21 @@ if (-not $DryRun) {
     throw 'Prod canary runner is dry-run only. Pass -DryRun to validate guard metadata without production action.'
 }
 
+function Assert-ProdCanaryInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "Prod canary runner must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-ProdCanaryInputPathSafe -Name 'TestMetadataPath' -Path $TestMetadataPath
+Assert-ProdCanaryInputPathSafe -Name 'SyntheticUsersPath' -Path $SyntheticUsersPath
+Assert-ProdCanaryInputPathSafe -Name 'ResourceBudgetPath' -Path $ResourceBudgetPath
+
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
 function Test-HasSuite {
     param(

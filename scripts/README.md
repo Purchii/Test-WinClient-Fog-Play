@@ -129,6 +129,8 @@ The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of
 
 The `ProdSafety` quality gate validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts that the prod-safe smoke runner rejects unsafe runtime metadata and synthetic-user input paths.
 
+The `ProdSafety` quality gate also asserts that the prod canary runner rejects unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
+
 The `Release` quality gate validates local release artifact fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
 
 The `Privacy` quality gate validates local privacy/logging fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.

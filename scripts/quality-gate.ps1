@@ -3860,6 +3860,31 @@ function Invoke-ProdSafetyGate {
         throw 'Prod canary runner must reject calls without -DryRun.'
     }
 
+    Assert-CommandRejected -Message 'Prod canary runner must reject unsafe runtime test metadata paths before reading them.' -Command {
+        & $canaryScript `
+            -Environment production `
+            -TestMetadataPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\prod-safety-tests.json' `
+            -SyntheticUsersPath (Join-Path $repoRoot 'testdata/synthetic-users.example.json') `
+            -ResourceBudgetPath (Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml') `
+            -DryRun | Out-Null
+    }
+    Assert-CommandRejected -Message 'Prod canary runner must reject unsafe runtime synthetic user paths before reading them.' -Command {
+        & $canaryScript `
+            -Environment production `
+            -TestMetadataPath (Join-Path $repoRoot 'testdata/prod-safety-tests.example.json') `
+            -SyntheticUsersPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\synthetic-users.json' `
+            -ResourceBudgetPath (Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml') `
+            -DryRun | Out-Null
+    }
+    Assert-CommandRejected -Message 'Prod canary runner must reject unsafe runtime resource budget paths before reading them.' -Command {
+        & $canaryScript `
+            -Environment production `
+            -TestMetadataPath (Join-Path $repoRoot 'testdata/prod-safety-tests.example.json') `
+            -SyntheticUsersPath (Join-Path $repoRoot 'testdata/synthetic-users.example.json') `
+            -ResourceBudgetPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\prod-resource-budget.yaml' `
+            -DryRun | Out-Null
+    }
+
     & $canaryScript -Environment production -DryRun -ExpectFailure
     & $canaryScript -Environment production -DryRun -AllowProdConditional -CleanupVerified
 
