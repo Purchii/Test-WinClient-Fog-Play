@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
 
 Planning boundary:
 
@@ -77,12 +77,14 @@ Each dedicated task thread is active only for its own task and becomes inactive/
 Current branch:
 
 ```text
-codex/verification-memory-template-ascii-cleanup
+main
 ```
 
 Current result:
 
 ```text
+Active-run current branch sync records `main` after the verification-memory template cleanup was fast-forwarded and pushed.
+
 Verification memory template cleanup replaces the non-ASCII heading separator with ASCII while preserving local/static documentation-only boundaries.
 
 Local testability gap registry tracks runtime blockers and required evidence without production actions, credentials or runtime user data reads.
@@ -228,9 +230,9 @@ Stop-and-ask triggers:
 
 Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;

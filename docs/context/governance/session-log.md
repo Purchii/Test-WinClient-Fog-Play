@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run safety current branch main sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery found active-run current branch drift after fast-forwarding to main.
+
+Branch: `codex/active-run-current-branch-main-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7ba1-68c3-78a2-bb10-e724f7b214a3` was created for the narrow local/static current-context sync; coordination takeover completed the docs-only sync on a dedicated branch.
+
+Scope:
+
+- Update `active-run.md` Current branch to `main` after the completed verification-memory template cleanup was fast-forwarded and pushed.
+- Keep verification memory and session log latest branch entries synchronized for the docs-only task.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification memory safety template ASCII cleanup
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only cleanup after separate task-thread discovery confirmed verification-memory template non-ASCII separator drift.
