@@ -115,6 +115,7 @@ Post-M6 Structural finding QA docs coverage sync is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QaDocsSafety finding coverage wording guard is complete.
 Post-M6 QaDocsSafety release/privacy hardening wording guard is complete.
+Post-M6 QaDocsSafety release/privacy M1.1 hardening wording guard is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
 Post-M6 ActiveRunSafety current-state installed artifact wording sync is complete.
@@ -163,6 +164,8 @@ QaDocsSafety installed artifact manual-boundary wording guard fails if active re
 QaDocsSafety finding coverage wording guard fails if active QA docs lose the Post-M6 finding coverage summaries for local/static direct assertions.
 
 QaDocsSafety release/privacy hardening wording guard fails if release/privacy QA docs lose the fail-closed `-DryRun`, unsafe runtime input path, `-ExpectFindings` or `-ReportOnly` boundaries.
+
+QaDocsSafety release/privacy M1.1 hardening wording guard fails if release/privacy QA docs lose negative/clean fixture, signature/version, large/unreadable artifact, privacy bearer/generic/unquoted password or expected finding-id assertion wording.
 
 QA docs installed artifact manual-boundary wording sync keeps release, privacy and App/WebView smoke docs explicit that installed artifact defaults require a separate approved plan and autonomous verification uses committed local fixtures only.
 

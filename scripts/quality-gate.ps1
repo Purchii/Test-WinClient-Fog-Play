@@ -2211,6 +2211,10 @@ function Invoke-QaDocsSafetyGate {
         'release-gates.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PolicyPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
         'privacy-and-logging-checks.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PatternsPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
     }
+    $m11HardeningPhrasesByDoc = @{
+        'release-gates.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'executable signature code-path coverage', 'version metadata code-path coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
+        'privacy-and-logging-checks.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'bearer token, generic token and unquoted password coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
+    }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {
         $path = Join-Path $docsRoot $docName
@@ -2236,6 +2240,15 @@ function Invoke-QaDocsSafetyGate {
         foreach ($phrase in $runnerHardeningPhrasesByDoc[$docName]) {
             if ($content -notmatch [regex]::Escape($phrase)) {
                 throw "docs/qa/$docName must preserve runner hardening phrase: $phrase"
+            }
+        }
+    }
+    foreach ($docName in $m11HardeningPhrasesByDoc.Keys) {
+        $path = Join-Path $docsRoot $docName
+        $content = Get-Content -LiteralPath $path -Raw
+        foreach ($phrase in $m11HardeningPhrasesByDoc[$docName]) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "docs/qa/$docName must preserve M1.1 hardening phrase: $phrase"
             }
         }
     }
