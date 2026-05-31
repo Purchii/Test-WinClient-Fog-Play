@@ -44,6 +44,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-webview-bridge
 
 Post-M6 guard hardening added `BridgeContract` quality gate assertions that unsafe runtime input paths, unsafe bridge logging policies, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
+Post-M6 finding coverage hardening added direct dry-run contract assertions for invalid command direction, missing command/event production-safety metadata, invalid or duplicate event names, invalid fake native host case types, missing fake host expected results and malformed fake host cases that do not expect rejection, error or ignore behavior.
+
 Known limitation:
 
 - M3 proves local contract shape and fake-host dry-run expectations only. It does not verify real C++ bridge handlers or runtime WebView behavior because client source and approved debug/runtime access are not available.

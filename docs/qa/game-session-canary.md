@@ -55,3 +55,5 @@ Known limitation:
 - M5 proves local readiness metadata and guard behavior only. It does not prove real login, catalog state, stream startup, first-frame rendering, session stop or cleanup until a separately approved production-conditional execution plan exists.
 
 Post-M6 guard hardening added `GameSessionCanary` quality gate assertions that `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected before any client launch, backend call, authentication or game-session action can occur.
+
+Post-M6 finding coverage hardening added direct dry-run validator assertions for invalid canary counts, missing game-session and state-mutation intent metadata, unsafe session-concurrency budgets and target regions outside the resource budget allowlist.

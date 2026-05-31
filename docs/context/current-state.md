@@ -101,6 +101,7 @@ Post-M6: GameSessionCanary suite metadata exact-set hardening - implemented and 
 Post-M6: GameSessionCanary unsafe fixture finding coverage hardening - implemented and verified locally.
 Post-M6: GameSessionCanary runner input path safety hardening - implemented and verified locally.
 Post-M6: GameSessionCanary remaining finding coverage hardening - implemented and verified locally.
+Post-M6: GameSessionCanary/WebViewBridge QA docs finding coverage sync - implemented and verified locally.
 Post-M6: NonProdFoundation runner input path safety hardening - implemented and verified locally.
 Post-M6: TestabilityGaps runner input path safety hardening - implemented and verified locally.
 Post-M6: UpdateManifest runner input path safety hardening - implemented and verified locally.
@@ -226,6 +227,7 @@ Repository bootstrap state:
 - Post-M6 GameSessionCanary unsafe fixture finding coverage hardening was completed on `codex/unsafe-fixture-game-session-canary-finding-coverage-safety`.
 - Post-M6 GameSessionCanary runner input path safety hardening was completed on `codex/runner-game-session-canary-input-path-safety`.
 - Post-M6 GameSessionCanary remaining finding coverage hardening was completed on `codex/game-session-canary-remaining-finding-coverage`.
+- Post-M6 GameSessionCanary/WebViewBridge QA docs finding coverage sync was completed on `codex/qa-docs-canary-bridge-finding-sync`.
 - Post-M6 NonProdFoundation runner input path safety hardening was completed on `codex/runner-nonprod-foundation-input-path-safety`.
 - Post-M6 TestabilityGaps runner input path safety hardening was completed on `codex/runner-testability-gaps-input-path-safety`.
 - Post-M6 UpdateManifest runner input path safety hardening was completed on `codex/runner-update-manifest-input-path-safety`.
