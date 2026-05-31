@@ -23,6 +23,10 @@ if ([string]::IsNullOrWhiteSpace($PolicyPath)) {
     $PolicyPath = Join-Path $repoRoot 'testdata/backend-smoke.example.json'
 }
 
+if ($PolicyPath -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+    throw 'Backend smoke runner must not read unsafe runtime input paths.'
+}
+
 if ($AllowNetwork) {
     throw 'Real backend network calls are not allowed in M4 dry-run. Use a separately approved backend diagnostic milestone.'
 }

@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Runner safety backend smoke input path hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-backend-smoke.ps1` accepted caller-provided policy paths before any unsafe runtime path rejection.
+
+Branch: `codex/runner-backend-smoke-input-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c16-0d16-7cc2-abb6-c9f7d158e199` was created for the narrow local/static BackendSmoke runner input path discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add a pre-read guard for `PolicyPath`.
+- Reject AppData/log/cookie/DB/dump-like input path overrides before any file read.
+- Add BackendSmoke quality gate coverage for the pre-read rejection.
+- Keep the task local/static with no runtime, backend network, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety update manifest input path hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-update-manifest-gate.ps1` accepted caller-provided policy paths before any unsafe runtime path rejection.

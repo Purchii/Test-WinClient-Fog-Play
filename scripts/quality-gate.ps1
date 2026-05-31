@@ -4326,6 +4326,12 @@ function Invoke-BackendSmokeGate {
         }
     }
 
+    Assert-CommandRejected -Message 'Backend smoke runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $backendSmoke `
+            -PolicyPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\backend.json' `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $backendSmoke `
             -PolicyPath (Join-Path $repoRoot 'testdata/backend-smoke.example.json') `
