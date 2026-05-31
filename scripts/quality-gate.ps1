@@ -915,7 +915,7 @@ function Invoke-ActiveRunSafetyGate {
             'weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier',
             'scope expansion beyond local dry-run/schema validation',
             'became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`',
-            'is preserved for history, is not deleted, is not archived automatically unless the user explicitly asks'
+            'are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks'
         )) {
         if ($activeRun -notmatch [regex]::Escape($requiredPhrase)) {
             throw "active-run.md must document safety boundary phrase: $requiredPhrase"
@@ -924,6 +924,12 @@ function Invoke-ActiveRunSafetyGate {
 
     if ($activeRun -match '(?i)latest pushed main commit|merged to origin/main at\s+[0-9a-f]{7,40}') {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
+    }
+    if ($activeRun -match 'Thread\s+`[0-9a-f-]{36}`\s+is the active task thread') {
+        throw 'active-run.md must not declare a literal historical thread id as the active task thread; document lifecycle rules instead.'
+    }
+    if ($currentState -match 'Thread\s+`[0-9a-f-]{36}`\s+is the active task thread') {
+        throw 'current-state.md must not declare a literal historical thread id as the active task thread; document lifecycle rules instead.'
     }
 
     foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ActiveVerificationCommandSafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {

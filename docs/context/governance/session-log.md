@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run thread lifecycle stale-id safety
+
+Mode: `BOUNDED_AUTONOMOUS` static documentation and gate hardening after separate task-thread discovery confirmed drift.
+
+Branch: `codex/active-run-thread-lifecycle-stale-id-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7b7d-1cd1-7533-a62d-b8d833e780d8` confirmed the narrow local/static gap; coordination takeover completed the implementation on a dedicated branch.
+
+Scope:
+
+- Replace stale literal active task thread wording in active context with the durable per-task lifecycle rule.
+- Strengthen `ActiveRunSafety` so active context cannot declare a literal old thread id as the active task thread.
+- Keep historical session and verification entries preserved as history-only records.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Implementation status latest safety sync
 
 Mode: `BOUNDED_AUTONOMOUS` static documentation sync after clean discovery confirmed drift.

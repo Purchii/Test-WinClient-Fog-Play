@@ -1286,6 +1286,7 @@ Implemented checks:
 - active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;
 - active handoff must not record stale literal latest-pushed commit markers;
+- active handoff/current-state must not declare a literal historical thread id as the active task thread;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
 - executor policy must preserve the explicit main-merge approval rule;
 - `ActiveRunSafety` is included in `Full`.
