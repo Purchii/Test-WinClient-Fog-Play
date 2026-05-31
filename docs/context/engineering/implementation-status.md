@@ -1316,6 +1316,7 @@ Implemented checks:
 - current-state top statuses, current-state branch history and active-run planning-boundary statuses must stay aligned;
 - active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;
+- active-run verification history blocks must not repeat commands within a block;
 - active handoff must not record stale literal latest-pushed commit markers;
 - active handoff must use `git status --short --branch` as the authoritative current branch/worktree source instead of storing a live literal branch value;
 - active handoff/current-state must not declare a literal historical thread id as the active task thread;

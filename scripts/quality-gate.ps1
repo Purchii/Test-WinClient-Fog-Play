@@ -1036,6 +1036,17 @@ function Invoke-ActiveRunSafetyGate {
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
     }
+    $verificationSectionMatches = @([regex]::Matches($activeRun, '(?ms)^(?<heading>[A-Za-z ]+verification):\s*\r?\n\s*\r?\n(?<body>(?:^- `[^`]+`[;\.]\r?\n)+)'))
+    foreach ($verificationSectionMatch in $verificationSectionMatches) {
+        $commands = @(
+            [regex]::Matches($verificationSectionMatch.Groups['body'].Value, '(?m)^- `(?<command>[^`]+)`[;\.]') |
+                ForEach-Object { $_.Groups['command'].Value.Trim() }
+        )
+        $duplicateCommands = @($commands | Group-Object | Where-Object { $_.Count -gt 1 } | ForEach-Object { $_.Name })
+        if ($duplicateCommands.Count -gt 0) {
+            throw "active-run.md $($verificationSectionMatch.Groups['heading'].Value) must not repeat verification commands: $($duplicateCommands -join '; ')"
+        }
+    }
 
     if ($contextProtocol -notmatch 'git log --oneline --decorate -1') {
         throw 'context-protocol.md must identify git log as the authoritative latest commit source.'

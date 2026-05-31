@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active Run Safety archived verification dedupe
+
+Mode: `BOUNDED_AUTONOMOUS` local static active-run verification history cleanup after separate task-thread discovery confirmed an archived verification block repeated an `ActiveRunSafety` command.
+
+Branch: `codex/active-run-archived-verification-dedupe`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cf9-f81e-7881-abbe-c3be4c0a5d61` was created for the narrow active-run archived verification dedupe discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Remove the duplicate `ActiveRunSafety` command from the archived active-run verification block.
+- Add `ActiveRunSafety` coverage so active-run verification history blocks cannot repeat commands within a block.
+- Sync scripts README, quality gate docs, implementation status, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety installed artifact summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` local documentation/status synchronization after separate task-thread discovery was started and local read-only inspection confirmed active/current lower VerificationMemorySafety summaries omitted the installed artifact historical command boundary already documented in scripts README and quality-gates docs.
