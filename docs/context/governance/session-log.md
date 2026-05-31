@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - QaDocsSafety AppSmoke report-only coverage wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static QA-doc safety hardening after a separate discovery thread confirmed App/WebView smoke already documents a local `-ReportOnly` fixture command and installed-artifact manual boundary, while `QaDocsSafety` report-only wording coverage only guarded release/privacy docs.
+
+Branch: `codex/qa-docs-appsmoke-reportonly-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated discovery thread `019e7d21-5a2e-7ac2-9d63-69aa2d45d313` was created for this narrow discovery/status sync task; it is preserved as inactive/history-only and was not used for implementation.
+
+Scope:
+
+- Extend `QaDocsSafety` report-only coverage wording checks to App/WebView smoke QA docs.
+- Add the App/WebView smoke report-only coverage note and sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Session Log Safety lifecycle check cleanup
 
 Mode: `BOUNDED_AUTONOMOUS` local static session-log quality-gate cleanup after a separate discovery thread was created and local read-only inspection confirmed the latest-entry still-active wording check duplicated the newer history-wide `SessionLogSafety` rejection.

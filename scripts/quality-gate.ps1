@@ -2401,6 +2401,7 @@ function Invoke-QaDocsSafetyGate {
     $reportOnlyCoveragePhrasesByDoc = @{
         'release-gates.md' = @('Post-M6 report-only coverage hardening added', 'local negative fixtures keep `-ReportOnly` explicit artifact discovery behavior', 'concrete finding ids without reading installed artifacts')
         'privacy-and-logging-checks.md' = @('Post-M6 report-only coverage hardening added', 'local installed-like, negative and large fixtures keep `-ReportOnly` explicit artifact discovery behavior', 'concrete finding ids without reading installed artifacts')
+        'app-webview-smoke.md' = @('Post-M6 report-only coverage hardening added', 'local App/WebView fixture keeps `-ReportOnly` explicit artifact discovery behavior', 'without launching the client or reading installed artifacts')
     }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {

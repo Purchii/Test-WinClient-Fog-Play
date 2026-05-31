@@ -51,6 +51,8 @@ Post-M6 guard hardening added `AppSmoke` quality gate assertions that unsafe run
 
 Post-M6 finding coverage hardening added direct static fixture assertions for missing required files, missing WebView bundles, missing entrypoints, missing required asset-manifest keys and invalid asset manifests.
 
+Post-M6 report-only coverage hardening added local App/WebView fixture keeps `-ReportOnly` explicit artifact discovery behavior without launching the client or reading installed artifacts.
+
 Known limitation:
 
 - M2 proves static artifact readiness only. It does not prove that the main window opens or that WebView content renders at runtime.

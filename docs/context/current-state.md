@@ -174,6 +174,7 @@ Post-M6: QualityGatesDocsScopeSafety dry-run validator summary sync - implemente
 Post-M6: QualityGatesDocsScopeSafety summary parity guard - implemented and verified locally.
 Post-M6: SessionLogSafety lifecycle history guard - implemented and verified locally.
 Post-M6: SessionLogSafety lifecycle check cleanup - implemented and verified locally.
+Post-M6: QaDocsSafety AppSmoke report-only coverage wording guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -342,6 +343,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety summary parity guard was completed on `codex/quality-gates-summary-parity-guard`.
 - Post-M6 SessionLogSafety lifecycle history guard was completed on `codex/session-log-lifecycle-history-guard`.
 - Post-M6 SessionLogSafety lifecycle check cleanup was completed on `codex/session-log-lifecycle-check-cleanup`.
+- Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard was completed on `codex/qa-docs-appsmoke-reportonly-safety`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -415,7 +417,7 @@ Current artifact status:
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, session-concurrency budgets, run-frequency budgets, cleanup/conditional budget flags, game/region allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, game-session/state-mutation intent metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage, including the conditional flag budget requirement.
 - ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
-- QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes and release/privacy report-only coverage notes.
+- QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes and release/privacy/AppSmoke report-only coverage notes.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
 - ContractFixtureSafety, UpdateManifest and BridgeContract statically check backend, update manifest and WebView bridge fixtures for dry-run, local-only, update package finding coverage, bridge structural/fake-host finding coverage and safety-vocabulary drift.
 - StaticSurfaceSafety, AppSmoke and NonProdFoundation statically check App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory, schema-only non-runtime drift, local WebView bundle failure finding coverage and local non-prod component identity coverage.

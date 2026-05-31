@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
-Current latest completed item: Post-M6 SessionLogSafety lifecycle check cleanup.
+Current milestone: Post-M6 local/static safety gate hardening complete through QaDocsSafety.
+Current latest completed item: Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard.
 
 Planning boundary:
 
@@ -165,6 +165,7 @@ Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety summary parity guard is complete.
 Post-M6 SessionLogSafety lifecycle history guard is complete.
 Post-M6 SessionLogSafety lifecycle check cleanup is complete.
+Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -250,6 +251,8 @@ QaDocsSafety release/privacy M1.1 hardening wording guard fails if release/priva
 Release/Privacy report-only local coverage hardening asserts local negative fixtures preserve `-ReportOnly` explicit artifact discovery behavior without reading installed artifacts or runtime user data.
 
 QaDocsSafety release/privacy report-only coverage wording guard fails if release/privacy QA docs lose the Post-M6 report-only coverage notes for local finding-producing fixtures.
+
+QaDocsSafety AppSmoke report-only coverage wording guard fails if App/WebView smoke QA docs lose the Post-M6 report-only coverage note for local fixture artifact discovery without launching the client or reading installed artifacts.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
