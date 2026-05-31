@@ -24,6 +24,8 @@ Default artifact path:
 C:\Program Files\MTC Fog Play
 ```
 
+This default is for a separate manual/explicit-plan artifact read only. Current autonomous verification must use committed local fixtures; reading the installed artifact requires a separate approved plan.
+
 Default policy:
 
 ```text

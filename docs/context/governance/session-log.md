@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - QaDocsSafety QA docs installed artifact manual-boundary wording sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after user allowed autonomous work and pushes to main; separate task-thread discovery confirmed active QA docs still showed installed artifact defaults without the explicit current autonomous local-fixture-only boundary.
+
+Branch: `codex/qa-docs-installed-artifact-manual-boundary`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent docs sync.
+- Delegated task thread `019e7c43-c34d-79e3-bdc2-906c9771ae11` was created for the narrow QA docs installed artifact manual-boundary wording discovery task; coordination takeover completed the docs sync without using old task threads for edits.
+
+Scope:
+
+- Clarify `docs/qa/release-gates.md` installed artifact default as manual/explicit-plan only.
+- Clarify `docs/qa/privacy-and-logging-checks.md` installed artifact default as manual/explicit-plan only.
+- Clarify `docs/qa/app-webview-smoke.md` installed artifact default as manual/explicit-plan only.
+- Preserve local fixture command examples and historical installed artifact findings.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - ActiveRunSafety implementation-status installed artifact source wording guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after user allowed autonomous work and pushes to main; separate task-thread discovery/takeover confirmed ActiveRunSafety did not yet prevent implementation-status from regressing historical installed artifact observations into current autonomous verification source wording.
