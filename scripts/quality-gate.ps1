@@ -3834,6 +3834,21 @@ function Invoke-ProdSafetyGate {
         throw 'Prod-safe smoke runner must reject calls without -DryRun.'
     }
 
+    Assert-CommandRejected -Message 'Prod-safe smoke runner must reject unsafe runtime test metadata paths before reading them.' -Command {
+        & $smokeScript `
+            -Environment production `
+            -TestMetadataPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\prod-safety-tests.json' `
+            -SyntheticUsersPath (Join-Path $repoRoot 'testdata/synthetic-users.example.json') `
+            -DryRun | Out-Null
+    }
+    Assert-CommandRejected -Message 'Prod-safe smoke runner must reject unsafe runtime synthetic user paths before reading them.' -Command {
+        & $smokeScript `
+            -Environment production `
+            -TestMetadataPath (Join-Path $repoRoot 'testdata/prod-safety-tests.example.json') `
+            -SyntheticUsersPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\synthetic-users.json' `
+            -DryRun | Out-Null
+    }
+
     $missingCanaryDryRunRejected = $false
     try {
         & $canaryScript -Environment production -AllowProdConditional -CleanupVerified | Out-Null

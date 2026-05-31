@@ -27,6 +27,20 @@ if (-not $DryRun) {
     throw 'Prod-safe smoke runner is dry-run only. Pass -DryRun to validate guard metadata without production action.'
 }
 
+function Assert-ProdSafeSmokeInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "Prod-safe smoke runner must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-ProdSafeSmokeInputPathSafe -Name 'TestMetadataPath' -Path $TestMetadataPath
+Assert-ProdSafeSmokeInputPathSafe -Name 'SyntheticUsersPath' -Path $SyntheticUsersPath
+
 $allTests = Read-TestMetadataFile -Path $TestMetadataPath
 function Test-HasSuite {
     param(

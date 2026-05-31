@@ -127,6 +127,8 @@ The `ProdMatrixSafety` quality gate fails if the production-safe test matrix dri
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.
 
+The `ProdSafety` quality gate validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts that the prod-safe smoke runner rejects unsafe runtime metadata and synthetic-user input paths.
+
 The `Release` quality gate validates local release artifact fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
 
 The `Privacy` quality gate validates local privacy/logging fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.

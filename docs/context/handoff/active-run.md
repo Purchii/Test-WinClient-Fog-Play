@@ -95,6 +95,7 @@ Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
 Post-M6 Release runner input path safety hardening is complete.
 Post-M6 Privacy runner input path safety hardening is complete.
+Post-M6 ProdSafeSmoke runner input path safety hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -109,6 +110,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ProdSafeSmoke runner input path safety hardening rejects AppData/log/cookie/DB/dump-like TestMetadataPath and SyntheticUsersPath overrides before the runner reads them.
+
 Privacy runner input path safety hardening rejects AppData/log/cookie/DB/dump-like ArtifactRoot and PatternsPath overrides before the runner reads or probes them.
 
 Release runner input path safety hardening rejects AppData/log/cookie/DB/dump-like ArtifactRoot and PolicyPath overrides before the runner reads or probes them.
@@ -318,7 +321,7 @@ Stop-and-ask triggers:
 
 Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RunnerSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
