@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Resource budget safety game-session canary policy flags hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not check `prodResourceBudget.requireCleanupVerification` and `prodResourceBudget.requireExplicitConditionalFlag`.
+
+Branch: `codex/resource-budget-game-session-canary-policy-flags-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bf2-c180-7ec0-ad3f-7bb5f800833c` was created for the narrow local/static GameSessionCanary resource-budget policy flag discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require `Test-GameSessionCanaryPlan` to verify `prodResourceBudget.requireCleanupVerification=true`.
+- Require `Test-GameSessionCanaryPlan` to verify `prodResourceBudget.requireExplicitConditionalFlag=true`.
+- Add targeted negative coverage in GameSessionCanary tests without broadening runtime behavior.
+- Keep the task local/dry-run with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Resource budget safety game-session canary run frequency hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not check `prodResourceBudget.maxRunsPerHour` against the local resource-budget policy range.

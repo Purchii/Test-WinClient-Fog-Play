@@ -80,6 +80,21 @@ $result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -Sy
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject overbroad run-frequency budgets.'
 Assert-FindingId -Result $result -Id 'unsafe-run-frequency-budget'
 
+$weakenedPolicyBudget = [pscustomobject]@{
+    maxSessionsPerRun = 1
+    maxParallelSessions = 1
+    maxSessionDurationSeconds = 120
+    maxRunsPerHour = 3
+    allowedRegions = @('eu-west')
+    allowedGames = @('qa-allowlisted-game-1')
+    requireCleanupVerification = $false
+    requireExplicitConditionalFlag = $false
+}
+$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $weakenedPolicyBudget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject resource budgets without cleanup and explicit conditional flag requirements.'
+Assert-FindingId -Result $result -Id 'cleanup-budget-not-required'
+Assert-FindingId -Result $result -Id 'conditional-flag-budget-not-required'
+
 $unsafe = Read-GameSessionCanaryPlan -Path (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json')
 $result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
 Assert-True (-not $result.passed) 'Unsafe game-session canary plan should fail.'

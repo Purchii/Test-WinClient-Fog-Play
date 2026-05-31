@@ -289,6 +289,7 @@ Implemented checks:
 - allowlisted region and game via resource budget and allowed-games config;
 - max session duration within budget;
 - max run frequency within the resource budget policy range;
+- cleanup verification and explicit conditional flag budget requirements;
 - cleanup verification requirement;
 - retry rejection;
 - readiness signal requirements for `stream-ready` and `first-frame`.

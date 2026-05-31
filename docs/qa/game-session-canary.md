@@ -20,6 +20,7 @@ Implemented checks:
 - target game is allowlisted by `allowed-games.example.json`;
 - max duration is within the resource budget;
 - run frequency keeps `prodResourceBudget.maxRunsPerHour` between 1 and 3;
+- resource budget requires cleanup verification and an explicit conditional flag;
 - retries are disabled;
 - expected readiness signals include `stream-ready` and `first-frame`;
 - policy is dry-run only;

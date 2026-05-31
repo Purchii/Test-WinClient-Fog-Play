@@ -131,6 +131,8 @@ function Test-GameSessionCanaryPlan {
     $maxParallelSessions = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxParallelSessions' -Default 0)
     $maxSessionDurationSeconds = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxSessionDurationSeconds' -Default 0)
     $maxRunsPerHour = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxRunsPerHour' -Default 0)
+    $budgetRequiresCleanupVerification = (Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'requireCleanupVerification' -Default $false) -eq $true
+    $budgetRequiresExplicitConditionalFlag = (Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'requireExplicitConditionalFlag' -Default $false) -eq $true
     $allowedRegions = @(Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'allowedRegions' -Default @())
     $allowedBudgetGames = @(Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'allowedGames' -Default @())
 
@@ -186,6 +188,8 @@ function Test-GameSessionCanaryPlan {
                 $maxParallelSessions -eq 1 -and
                 $maxRunsPerHour -ge 1 -and
                 $maxRunsPerHour -le 3 -and
+                $budgetRequiresCleanupVerification -and
+                $budgetRequiresExplicitConditionalFlag -and
                 $allowedRegions -contains $targetRegion -and
                 $allowedBudgetGames -contains $targetGame -and
                 $allowedGameMatches.Count -eq 1 -and
@@ -227,6 +231,12 @@ function Test-GameSessionCanaryPlan {
         }
         if ($maxRunsPerHour -lt 1 -or $maxRunsPerHour -gt 3) {
             $findings += Add-GameSessionCanaryFinding -Id 'unsafe-run-frequency-budget' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires prodResourceBudget.maxRunsPerHour to stay between 1 and 3.'
+        }
+        if (-not $budgetRequiresCleanupVerification) {
+            $findings += Add-GameSessionCanaryFinding -Id 'cleanup-budget-not-required' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires prodResourceBudget.requireCleanupVerification=true.'
+        }
+        if (-not $budgetRequiresExplicitConditionalFlag) {
+            $findings += Add-GameSessionCanaryFinding -Id 'conditional-flag-budget-not-required' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires prodResourceBudget.requireExplicitConditionalFlag=true.'
         }
         if (-not ($allowedRegions -contains $targetRegion)) {
             $findings += Add-GameSessionCanaryFinding -Id 'region-not-allowlisted' -Severity 'fail' -Path $path -Message 'M5 canary targetRegion must be allowlisted by resource budget.'
