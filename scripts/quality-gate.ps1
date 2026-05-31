@@ -228,6 +228,17 @@ function Invoke-RootPromptSafetyGate {
         }
     }
 
+    $starterReadmePath = Join-Path $repoRoot 'README_CODEX_START.md'
+    $starterReadme = Get-Content -LiteralPath $starterReadmePath -Raw
+    $starterFenceCount = [regex]::Matches($starterReadme, '(?m)^```(?:text)?\s*$').Count
+    if ($starterFenceCount % 2 -ne 0) {
+        throw 'README_CODEX_START.md must keep balanced fenced code blocks.'
+    }
+
+    if ($starterReadme -match "(?m)^```\s*\r?\n```text\s*$") {
+        throw 'README_CODEX_START.md must not contain adjacent empty fenced code blocks.'
+    }
+
     Write-Host 'RootPromptSafety gate passed.'
 }
 

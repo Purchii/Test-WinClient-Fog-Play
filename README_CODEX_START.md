@@ -6,6 +6,7 @@
 
 ```text
 Сначала ProdSafety + Git/Handoff/Verification governance, потом широкие E2E.
+```
 
 
 Режимы работы Codex:
@@ -14,7 +15,6 @@
 Discovery/plan: NON_AUTONOMOUS.
 Implementation after accepted plan: BOUNDED_AUTONOMOUS within approved scope.
 Production impact and merge to main: NON_AUTONOMOUS.
-```
 ```
 
 ## Главные файлы

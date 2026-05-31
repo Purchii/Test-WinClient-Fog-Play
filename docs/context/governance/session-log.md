@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - RootPromptSafety README_CODEX_START markdown fence guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static root prompt markdown cleanup after separate discovery/status sync confirmed `README_CODEX_START.md` had nested/adjacent fenced code block structure not covered by `RootPromptSafety`.
+
+Branch: `codex/root-prompt-markdown-fence-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` and older task threads were treated as inactive/history-only for this independent implementation.
+- Delegated discovery thread `019e7f30-a9d0-73e0-b735-0be507ec56fe` was created for this narrow discovery/status sync task; implementation proceeded from direct local static repository evidence, and the discovery thread is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Clean up `README_CODEX_START.md` fenced code block structure.
+- Extend `RootPromptSafety` to reject unbalanced starter README fences and adjacent empty fenced blocks.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QualityGatesDocsScopeSafety production fixture summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after separate discovery/status sync confirmed `SyntheticUsersSafety`, `AllowedGamesSafety`, `ResourceBudgetSafety` and `ProdMetadataSafety` summaries existed in quality-gates and scripts README docs but were not locked by `QualityGatesDocsScopeSafety` summary contracts.
