@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety BackendSmoke summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety GameSessionCanary summary parity guard.
 
 Planning boundary:
 
@@ -175,6 +175,7 @@ Post-M6 QualityGatesDocsScopeSafety Privacy summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety AppSmoke summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety BridgeContract summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety BackendSmoke summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety GameSessionCanary summary parity guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -280,6 +281,8 @@ QualityGatesDocsScopeSafety AppSmoke summary parity guard fails if AppSmoke qual
 QualityGatesDocsScopeSafety BridgeContract summary parity guard fails if BridgeContract quality-gates and scripts README summaries drift on local WebView/native bridge contract scaffold, WebView debug/CDP and client launch bans, structural bridge finding, unsafe input-path, unsafe logging policy or dangerous launch/debug flag rejection coverage.
 
 QualityGatesDocsScopeSafety BackendSmoke summary parity guard fails if BackendSmoke quality-gates and scripts README summaries drift on local backend smoke contract scaffold, network/auth/backend interaction bans, structural endpoint finding, unsafe input-path, unsafe endpoint, missing mock response or dangerous network/auth flag rejection coverage.
+
+QualityGatesDocsScopeSafety GameSessionCanary summary parity guard fails if GameSessionCanary quality-gates and scripts README summaries drift on local dry-run readiness-plan, no game-session start/stop, canary cardinality, readiness signal, suite metadata, intent metadata, runtime path, synthetic alias, duration, concurrency, run-frequency, target region or cleanup/conditional budget guard coverage.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 

@@ -798,6 +798,28 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-AllowNetwork`',
                 '`-AllowAuth`'
             )
+        },
+        @{
+            Scope             = 'GameSessionCanary'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local dry-run canary readiness plan',
+                'without starting or stopping a game session',
+                'exactly one canary',
+                'exact non-duplicated canary readiness signals',
+                'canary suite metadata',
+                'explicit game-session/state-mutation intent metadata',
+                'empty runtime path requests',
+                'allowlisted production canary synthetic alias',
+                'matching synthetic-user duration ceiling',
+                'single-session concurrency',
+                'bounded run-frequency budget',
+                'allowlisted target region',
+                'cleanup/conditional budget flags',
+                'unsafe runtime input paths',
+                'unsafe conditional-flag budget drift'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
