@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
-Current latest completed item: Post-M6 SessionLogSafety delegated discovery lifecycle guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through TaskRequestSafety.
+Current latest completed item: Post-M6 TaskRequestSafety thread lifecycle field guard.
 
 Planning boundary:
 
@@ -186,6 +186,7 @@ Post-M6 RootPromptSafety README_CODEX_START markdown fence guard is complete.
 Post-M6 RootPromptSafety root prompt markdown fence guard is complete.
 Post-M6 QualityGatesDocsScopeSafety ProdSafety dry-run summary guard is complete.
 Post-M6 SessionLogSafety delegated discovery lifecycle guard is complete.
+Post-M6 TaskRequestSafety thread lifecycle field guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -313,6 +314,8 @@ RootPromptSafety root prompt markdown fence guard fails if any RootPromptSafety 
 QualityGatesDocsScopeSafety ProdSafety dry-run summary guard fails if ProdSafety quality-gates or scripts README summaries lose missing `-DryRun` rejection coverage for prod-safe smoke and prod canary runners.
 
 SessionLogSafety delegated discovery lifecycle guard fails if the latest session-log codex branch entry loses explicit delegated discovery thread preservation as inactive/history-only rather than reused for implementation.
+
+TaskRequestSafety thread lifecycle field guard fails if task request templates or log guidance lose the separate Codex thread rule or the inactive/history-only lifecycle for previous task threads after handoff, completion or takeover.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
@@ -518,7 +521,7 @@ DecisionsLogSafety adds `Full` coverage for durable decision drift around produc
 
 CodexPolicySafety adds `Full` coverage for Codex and executor policy drift around autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.
 
-TaskRequestSafety adds `Full` coverage for task request template/log drift around bounded goals, forbidden actions, production classification, verification commands and stop conditions.
+TaskRequestSafety adds `Full` coverage for task request template/log drift around bounded goals, thread lifecycle, forbidden actions, production classification, verification commands and stop conditions.
 
 CodexTemplateSafety adds `Full` coverage for Codex review/task/communication/agent-role drift around Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules.
 

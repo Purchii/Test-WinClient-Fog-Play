@@ -195,6 +195,7 @@ Post-M6: RootPromptSafety README_CODEX_START markdown fence guard - implemented 
 Post-M6: RootPromptSafety root prompt markdown fence guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety ProdSafety dry-run summary guard - implemented and verified locally.
 Post-M6: SessionLogSafety delegated discovery lifecycle guard - implemented and verified locally.
+Post-M6: TaskRequestSafety thread lifecycle field guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -384,6 +385,7 @@ Repository bootstrap state:
 - Post-M6 RootPromptSafety root prompt markdown fence guard was completed on `codex/root-prompt-all-fence-safety`.
 - Post-M6 QualityGatesDocsScopeSafety ProdSafety dry-run summary guard was completed on `codex/prodsafety-dryrun-summary-guard`.
 - Post-M6 SessionLogSafety delegated discovery lifecycle guard was completed on `codex/session-log-delegated-discovery-lifecycle-guard`.
+- Post-M6 TaskRequestSafety thread lifecycle field guard was completed on `codex/task-request-thread-lifecycle-guard`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -430,6 +432,7 @@ Current artifact status:
 - RootPromptSafety root prompt markdown fence guard keeps all RootPromptSafety prompt/TZ documents on balanced fenced code blocks and rejects adjacent empty fenced blocks.
 - QualityGatesDocsScopeSafety ProdSafety dry-run summary guard keeps ProdSafety quality-gates and scripts README summaries aligned with missing `-DryRun` rejection coverage for prod-safe smoke and prod canary runners.
 - SessionLogSafety delegated discovery lifecycle guard keeps the latest session-log codex branch entry explicit that delegated discovery threads are preserved as inactive/history-only rather than reused for implementation.
+- TaskRequestSafety thread lifecycle field guard keeps future task request templates and log guidance explicit that independent tasks require separate Codex threads and previous task threads become inactive/history-only after handoff, completion or takeover.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.
@@ -461,7 +464,7 @@ Current artifact status:
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 - CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.
-- TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, production classification, verification and stop conditions.
+- TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, thread lifecycle, production classification, verification and stop conditions.
 - CodexTemplateSafety statically checks Codex review/task/communication/agent-role docs for reporting, role separation, verification, production classification, stop-trigger, secret and no-main-merge requirements.
 - CodexGoalTemplateSafety statically checks the Codex goal template for execution mode, scope, forbidden actions, acceptance criteria, verification and stop conditions.
 - CodexDocsInventorySafety statically checks the `docs/codex/*.md` policy/template inventory.

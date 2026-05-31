@@ -73,7 +73,7 @@ The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted s
 
 The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, production-impact, credential, CI/CD, main-merge or game-session boundaries.
 
-The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, production classification, verification or stop-condition requirements.
+The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, thread lifecycle, production classification, verification or stop-condition requirements.
 
 The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/agent-role docs lose reporting, role separation, verification, production classification, stop-trigger, secret or no-main-merge requirements.
 

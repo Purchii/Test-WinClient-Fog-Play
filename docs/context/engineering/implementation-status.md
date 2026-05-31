@@ -1541,9 +1541,10 @@ Implemented outputs:
 Implemented checks:
 
 - new `TaskRequestSafety` quality gate scope;
-- task request template must preserve bounded goal, context, objective, scope, allowed path, forbidden action, production classification, acceptance criteria, verification and stop-condition fields;
+- task request template must preserve bounded goal, context, objective, thread lifecycle, scope, allowed path, forbidden action, production classification, acceptance criteria, verification and stop-condition fields;
 - task request log must not keep the stale no-task marker;
 - task request log must point to authoritative session, verification and active-run histories;
+- task request log must keep the separate Codex thread rule and inactive/history-only previous-thread lifecycle explicit;
 - `TaskRequestSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

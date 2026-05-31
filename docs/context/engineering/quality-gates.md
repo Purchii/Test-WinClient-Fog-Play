@@ -124,7 +124,7 @@ The `DecisionsLogSafety` scope statically checks `docs/context/governance/decisi
 
 The `CodexPolicySafety` scope statically checks Codex and executor policy docs so autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries remain explicit.
 
-The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
+The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, thread lifecycle, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
 
 The `CodexTemplateSafety` scope statically checks Codex review/task/communication/agent-role docs so Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules remain explicit.
 
