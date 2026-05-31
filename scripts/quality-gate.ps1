@@ -4559,6 +4559,12 @@ function Invoke-TestabilityGapsGate {
         }
     }
 
+    Assert-CommandRejected -Message 'Testability gaps runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $testabilityGaps `
+            -PolicyPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\gaps.json' `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $testabilityGaps `
             -PolicyPath (Join-Path $repoRoot 'testdata/testability-gaps.example.json') `

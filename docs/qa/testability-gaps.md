@@ -13,6 +13,7 @@ The registry is intentionally dry-run and local. It does not close gaps by launc
 Implemented checks:
 
 - runner and direct validator invocation require `-DryRun`;
+- runner policy path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
 - production execution, runtime user data reads and credentials are disabled;
 - gaps must use stable `GAP-###` ids;
 - gaps must use approved areas and statuses;
@@ -32,4 +33,4 @@ Known limitation:
 
 - This registry proves that gaps are tracked and safety-scoped. It does not provide the missing client source, non-production environments, synthetic auth fixtures or runtime harnesses.
 
-Post-M6 guard hardening added `TestabilityGaps` quality gate assertions that `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected before any production action, credential use or runtime user data read can occur.
+Post-M6 guard hardening added `TestabilityGaps` quality gate assertions that unsafe runtime input paths, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected before any production action, credential use or runtime user data read can occur.
