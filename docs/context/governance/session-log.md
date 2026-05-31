@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run safety current-state hardening summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only current-state sync after separate task-thread discovery confirmed the two latest ActiveRunSafety hardening tasks were recorded in active-run, verification memory and session log but not current-state.
+
+Branch: `codex/current-state-active-run-hardening-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bac-8553-7430-95b1-40c005647cf7` was created for the narrow local/static current-state sync; coordination takeover completed the docs-only update after requesting no further delegated edits.
+
+Scope:
+
+- Record ActiveRunSafety scope coverage hardening in current-state milestone, branch history and capability summaries.
+- Record ActiveRunSafety current branch/status policy in current-state milestone, branch history and capability summaries.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run safety current branch status policy
 
 Mode: `BOUNDED_AUTONOMOUS` docs/gate-only process hardening after separate task-thread discovery confirmed live active-run branch literals drift after fast-forward merges.
