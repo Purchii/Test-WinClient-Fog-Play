@@ -157,6 +157,10 @@ function Test-GameSessionCanaryPlan {
             $_.purpose -eq 'prod_conditional_stream_canary' -and
             $_.canStartGameSession -eq $true
         })
+        $syntheticUserMaxSessionDurationSeconds = 0
+        if ($syntheticUserMatches.Count -eq 1) {
+            $syntheticUserMaxSessionDurationSeconds = [int]$syntheticUserMatches[0].maxSessionDurationSeconds
+        }
 
         $checks += [pscustomobject]@{
             type = 'game-session-canary-plan'
@@ -173,6 +177,7 @@ function Test-GameSessionCanaryPlan {
                 $syntheticUserMatches.Count -eq 1 -and
                 $durationSeconds -ge 1 -and
                 $durationSeconds -le $maxSessionDurationSeconds -and
+                $durationSeconds -le $syntheticUserMaxSessionDurationSeconds -and
                 $maxSessionsPerRun -eq 1 -and
                 $maxParallelSessions -eq 1 -and
                 $allowedRegions -contains $targetRegion -and
@@ -204,6 +209,9 @@ function Test-GameSessionCanaryPlan {
         }
         if ($durationSeconds -lt 1 -or $durationSeconds -gt $maxSessionDurationSeconds) {
             $findings += Add-GameSessionCanaryFinding -Id 'duration-exceeds-budget' -Severity 'fail' -Path $path -Message 'M5 canary duration must fit within prodResourceBudget.maxSessionDurationSeconds.'
+        }
+        if ($durationSeconds -lt 1 -or $durationSeconds -gt $syntheticUserMaxSessionDurationSeconds) {
+            $findings += Add-GameSessionCanaryFinding -Id 'duration-exceeds-synthetic-user-budget' -Severity 'fail' -Path $path -Message 'M5 canary duration must fit within the matched synthetic user maxSessionDurationSeconds.'
         }
         if ($maxSessionsPerRun -ne 1 -or $maxParallelSessions -ne 1) {
             $findings += Add-GameSessionCanaryFinding -Id 'unsafe-session-concurrency-budget' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires exactly one session per run and one parallel session.'

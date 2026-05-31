@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Synthetic users safety game-session canary duration hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not compare plan duration with the matched synthetic user's own max session duration.
+
+Branch: `codex/synthetic-users-game-session-canary-duration-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7be6-f957-7b91-bd55-16fc79da1dc2` was created for the narrow local/static GameSessionCanary duration discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require `Test-GameSessionCanaryPlan` to compare canary plan duration against the matched synthetic user's `maxSessionDurationSeconds`.
+- Add negative coverage through the unsafe canary fixture, GameSessionCanary tests and quality gate finding assertions.
+- Keep the task local/dry-run with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Synthetic users safety game-session canary allowlist hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation required only a canary alias pattern, not a synthetic users allowlist match.
