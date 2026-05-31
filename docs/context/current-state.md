@@ -59,6 +59,7 @@ Post-M6: SessionLogSafety static gate - implemented and verified locally.
 Post-M6: VerificationMemorySafety static gate - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety static gate - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening - implemented and verified locally.
+Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
 Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: CodexPolicySafety static gate - implemented and verified locally.
@@ -191,6 +192,7 @@ Repository bootstrap state:
 - Post-M6 SessionLogSafety static gate was completed on `codex/session-log-safety-gate`.
 - Post-M6 VerificationMemorySafety static gate was completed on `codex/verification-memory-safety-gate`.
 - Post-M6 ActiveVerificationCommandSafety static gate was completed on `codex/active-verification-command-safety`.
+- Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-active-verification-allow-flags`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
 - Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 CodexPolicySafety static gate was completed on `codex/codex-policy-safety-gate`.

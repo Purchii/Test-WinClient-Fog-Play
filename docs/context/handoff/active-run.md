@@ -50,6 +50,7 @@ Post-M6 SessionLogSafety static gate is complete.
 Post-M6 VerificationMemorySafety static gate is complete.
 Post-M6 ActiveVerificationCommandSafety static gate is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening is complete.
+Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync is complete.
 Post-M6 ChecklistSafety static gate is complete.
 Post-M6 DecisionsLogSafety static gate is complete.
 Post-M6 CodexPolicySafety static gate is complete.
@@ -345,6 +346,8 @@ SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, b
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale and missing latest-entry safety notes fail closed.
 
 ActiveVerificationCommandSafety adds `Full` coverage for active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and excludes installed-client paths, user runtime paths, endpoints, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
+
+ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync keeps implementation status aligned with the current active verification forbidden command token set.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

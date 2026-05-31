@@ -581,7 +581,7 @@ Implemented checks:
 - `docs/context/handoff/active-run.md` Last verification command bullets are scanned as active command evidence;
 - only the most recent dated `docs/context/engineering/verification-memory.md` entry's `Commands:` block is scanned, leaving historical entries untouched;
 - active command evidence is limited to local/static `quality-gate.ps1` scope commands and safe git checks;
-- installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency and CI commands are rejected;
+- installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands are rejected;
 - `ActiveVerificationCommandSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
