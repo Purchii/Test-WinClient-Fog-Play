@@ -127,7 +127,7 @@ The `ProdMatrixSafety` quality gate statically checks `docs/qa/prod-safe-test-ma
 
 The `BacklogSafety` quality gate statically checks `docs/qa/value-effort-backlog.md` so roadmap rows stay bounded to M0-M6, value/effort stay in the 1-5 range, and runtime/non-prod milestones remain lower priority until prerequisites are approved.
 
-The `ProdSafety` quality gate validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
+The `ProdSafety` quality gate validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject missing `-DryRun`, unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
 
 The `Release` quality gate validates local release artifact fixtures without launching the installed client, asserts fail-closed negative fixture behavior, asserts `-ReportOnly` explicit artifact discovery behavior, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
 

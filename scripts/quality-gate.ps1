@@ -731,6 +731,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'authenticating or starting sessions',
                 'prod-safe smoke',
                 'prod canary',
+                'missing `-DryRun`',
                 'unsafe runtime metadata',
                 'synthetic-user',
                 'resource-budget input paths',

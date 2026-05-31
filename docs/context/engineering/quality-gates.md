@@ -177,7 +177,7 @@ The `ProdMetadataSafety` scope statically checks `testdata/prod-safety-tests.exa
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
 The `BacklogSafety` scope statically checks `docs/qa/value-effort-backlog.md` so roadmap rows stay bounded to M0-M6, value/effort stay in the 1-5 range, and runtime/non-prod milestones remain lower priority until prerequisites are approved.
-The `ProdSafety` scope validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
+The `ProdSafety` scope validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject missing `-DryRun`, unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
 
 The `Release` scope validates local release artifact fixtures without launching the installed client, asserts fail-closed negative fixture behavior, asserts `-ReportOnly` explicit artifact discovery behavior, and asserts unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
 
