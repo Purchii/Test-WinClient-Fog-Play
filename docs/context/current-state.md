@@ -56,6 +56,7 @@ Post-M6: ProdMetadataSafety static gate - implemented and verified locally.
 Post-M6: ContextDocsInventorySafety static gate - implemented and verified locally.
 Post-M6: SessionLogSafety static gate - implemented and verified locally.
 Post-M6: VerificationMemorySafety static gate - implemented and verified locally.
+Post-M6: ActiveVerificationCommandSafety static gate - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
 Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: CodexPolicySafety static gate - implemented and verified locally.
@@ -128,6 +129,7 @@ Repository bootstrap state:
 - Post-M6 ContextDocsInventorySafety static gate was completed on `codex/context-docs-inventory-safety-gate`.
 - Post-M6 SessionLogSafety static gate was completed on `codex/session-log-safety-gate`.
 - Post-M6 VerificationMemorySafety static gate was completed on `codex/verification-memory-safety-gate`.
+- Post-M6 ActiveVerificationCommandSafety static gate was completed on `codex/active-verification-command-safety`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
 - Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 CodexPolicySafety static gate was completed on `codex/codex-policy-safety-gate`.
@@ -195,6 +197,7 @@ Current artifact status:
 - ActiveRunSafety also checks that active-run's current milestone marker and last-verification notes stay synced with current static gate coverage.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers and missing evidence fields.
+- ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 - CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.

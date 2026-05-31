@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ActiveVerificationCommandSafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -864,7 +864,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ActiveVerificationCommandSafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -875,8 +875,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QaDocsCommandLocalPathSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through QaDocsCommandLocalPathSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through ActiveVerificationCommandSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -1003,6 +1003,168 @@ function Invoke-VerificationMemorySafetyGate {
     }
 
     Write-Host 'VerificationMemorySafety gate passed.'
+}
+
+function Get-QualityGateScopeNames {
+    $scriptPath = Join-Path $repoRoot 'scripts/quality-gate.ps1'
+    Assert-PathExists 'scripts/quality-gate.ps1'
+
+    $script = Get-Content -LiteralPath $scriptPath -Raw
+    $validateSetMatch = [regex]::Match($script, "\[ValidateSet\((?<values>[^\)]*)\)\]")
+    if (-not $validateSetMatch.Success) {
+        throw 'quality-gate.ps1 does not declare a ValidateSet for -Scope.'
+    }
+
+    return @([regex]::Matches($validateSetMatch.Groups['values'].Value, "'([^']+)'") |
+            ForEach-Object { $_.Groups[1].Value })
+}
+
+function Get-CommandBulletsFromSection {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string[]] $Lines,
+
+        [Parameter(Mandatory = $true)]
+        [string] $SectionPattern,
+
+        [Parameter(Mandatory = $true)]
+        [string] $SourceName
+    )
+
+    $inSection = $false
+    $startedCommands = $false
+    $commands = @()
+    for ($lineNumber = 0; $lineNumber -lt $Lines.Count; $lineNumber++) {
+        $line = [string]$Lines[$lineNumber]
+        if (-not $inSection) {
+            if ($line -match $SectionPattern) {
+                $inSection = $true
+            }
+            continue
+        }
+
+        if ($line.Trim() -eq '' -and -not $startedCommands) {
+            continue
+        }
+
+        $commandMatch = [regex]::Match($line, '^\s*-\s+`(?<command>[^`]+)`[.;]?\s*$')
+        if ($commandMatch.Success) {
+            $startedCommands = $true
+            $commands += [pscustomobject]@{
+                Command = $commandMatch.Groups['command'].Value
+                Line    = $lineNumber + 1
+                Source  = $SourceName
+            }
+            continue
+        }
+
+        if ($startedCommands -or $line.Trim() -ne '') {
+            break
+        }
+    }
+
+    if ($commands.Count -eq 0) {
+        throw "$SourceName must contain command bullet lines under the requested section."
+    }
+
+    return $commands
+}
+
+function Get-MostRecentVerificationMemoryCommandBullets {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string[]] $Lines
+    )
+
+    $entryStart = -1
+    for ($lineNumber = 0; $lineNumber -lt $Lines.Count; $lineNumber++) {
+        if ([string]$Lines[$lineNumber] -match '^## \d{4}-\d{2}-\d{2} - ') {
+            $entryStart = $lineNumber
+            break
+        }
+    }
+    if ($entryStart -lt 0) {
+        throw 'verification-memory.md must contain a dated top entry.'
+    }
+
+    $entryEnd = $Lines.Count
+    for ($lineNumber = $entryStart + 1; $lineNumber -lt $Lines.Count; $lineNumber++) {
+        if ([string]$Lines[$lineNumber] -match '^## \d{4}-\d{2}-\d{2} - ') {
+            $entryEnd = $lineNumber
+            break
+        }
+    }
+
+    $entryLines = @($Lines[$entryStart..($entryEnd - 1)])
+    return Get-CommandBulletsFromSection -Lines $entryLines -SectionPattern '^Commands:\s*$' -SourceName 'verification-memory.md top entry Commands'
+}
+
+function Assert-ActiveVerificationCommandIsSafe {
+    param(
+        [Parameter(Mandatory = $true)]
+        [pscustomobject] $CommandRecord,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $KnownScopes
+    )
+
+    $command = $CommandRecord.Command.Trim()
+    $location = "$($CommandRecord.Source):$($CommandRecord.Line)"
+
+    $forbiddenPatterns = @(
+        @{ Id = 'installed-client-path'; Pattern = '(?i)C:\\Program Files\\MTC Fog Play' },
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\' },
+        @{ Id = 'appdata'; Pattern = '(?i)AppData' },
+        @{ Id = 'runtime-data-path'; Pattern = '(?i)(cookies?|Local Storage|IndexedDB|\.db\b|\.sqlite\b|\.dmp\b|\.dump\b|\.log\b|\\logs?\\|/logs?/)' },
+        @{ Id = 'remote-url'; Pattern = '(?i)\bhttps?://' },
+        @{ Id = 'localhost'; Pattern = '(?i)\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0|::1)\b' },
+        @{ Id = 'webview-debug'; Pattern = '(?i)(remote-debugging|debug-port|webview-debug|devtools|chrome-devtools|\bcdp\b)' },
+        @{ Id = 'direct-runner'; Pattern = '(?i)(^|\s|\\|/)run-[A-Za-z0-9-]+\.ps1\b' },
+        @{ Id = 'auth-network-session-flags'; Pattern = '(?i)(-AllowAuth|-AllowNetwork|-AllowExecution|-AllowRollback|-AllowCredentials|-AllowClientLaunch|-AllowWebViewDebugPort|-AllowProdConditional|auth\s|login|session\s+start|start-session|game-session)' },
+        @{ Id = 'network-or-ci-command'; Pattern = '(?i)(Invoke-WebRequest|Invoke-RestMethod|\bcurl\b|\bwget\b|\bnpm\b|\byarn\b|\bpnpm\b|\bpip\s+install\b|\bdotnet\s+restore\b|\bgh\s+workflow\b|ci/cd|pipeline)' }
+    )
+    foreach ($pattern in $forbiddenPatterns) {
+        if ($command -match $pattern.Pattern) {
+            throw "$location contains forbidden active verification command token: $($pattern.Id)."
+        }
+    }
+
+    $qualityGateMatch = [regex]::Match($command, '^powershell -NoProfile -ExecutionPolicy Bypass -File \.\\scripts\\quality-gate\.ps1 -Scope (?<scope>[A-Za-z0-9]+)$')
+    if ($qualityGateMatch.Success) {
+        $scopeName = $qualityGateMatch.Groups['scope'].Value
+        if ($KnownScopes -notcontains $scopeName) {
+            throw "$location references unknown quality-gate scope: $scopeName"
+        }
+        return
+    }
+
+    if ($command -in @('git diff --check', 'git status --short --branch')) {
+        return
+    }
+
+    throw "$location has unsupported active verification command shape: $command"
+}
+
+function Invoke-ActiveVerificationCommandSafetyGate {
+    $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
+    $verificationPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
+    Assert-PathExists 'docs/context/handoff/active-run.md'
+    Assert-PathExists 'docs/context/engineering/verification-memory.md'
+
+    $knownScopes = Get-QualityGateScopeNames
+    $activeRunLines = @(Get-Content -LiteralPath $activeRunPath)
+    $verificationLines = @(Get-Content -LiteralPath $verificationPath)
+    $commandRecords = @()
+    $commandRecords += Get-CommandBulletsFromSection -Lines $activeRunLines -SectionPattern '^Last verification:\s*$' -SourceName 'active-run.md Last verification'
+    $commandRecords += Get-MostRecentVerificationMemoryCommandBullets -Lines $verificationLines
+
+    foreach ($commandRecord in $commandRecords) {
+        Assert-ActiveVerificationCommandIsSafe -CommandRecord $commandRecord -KnownScopes $knownScopes
+    }
+
+    Write-Host 'ActiveVerificationCommandSafety gate passed.'
 }
 
 function Invoke-ChecklistSafetyGate {
@@ -4262,6 +4424,10 @@ if ($Scope -in @('SessionLogSafety', 'Full')) {
 
 if ($Scope -in @('VerificationMemorySafety', 'Full')) {
     Invoke-VerificationMemorySafetyGate
+}
+
+if ($Scope -in @('ActiveVerificationCommandSafety', 'Full')) {
+    Invoke-ActiveVerificationCommandSafetyGate
 }
 
 if ($Scope -in @('ChecklistSafety', 'Full')) {

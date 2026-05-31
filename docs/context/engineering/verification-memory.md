@@ -1,5 +1,39 @@
 # Verification memory
 
+## 2026-05-31 - Active verification command safety gate
+
+Branch: `codex/active-verification-command-safety`
+Status: passed
+Production impact: none; local static active verification command validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ActiveVerificationCommandSafety gate passed.
+- ActiveRunSafety gate passed.
+- VerificationMemorySafety gate passed.
+- QualityGatesDocsScopeSafety gate passed.
+- PowerShellStructuredSyntaxSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including ActiveVerificationCommandSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates active command text only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - QA docs command local path safety gate
 
 Branch: `codex/qa-docs-command-local-path-safety`

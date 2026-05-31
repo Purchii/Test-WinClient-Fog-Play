@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active verification command safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after coordination confirmed implementation from clean discovery.
+
+Branch: `codex/active-verification-command-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This delegated local thread implemented the confirmed narrow local/static task on a dedicated branch.
+
+Scope:
+
+- Add local `ActiveVerificationCommandSafety` quality gate.
+- Statically validate active-run Last verification command bullets.
+- Statically validate only the most recent verification-memory Commands block, leaving historical entries untouched.
+- Keep active verification command evidence limited to local/static quality-gate or safe git checks.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QA docs command local path safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after coordination confirmed implementation from clean discovery.

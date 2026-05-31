@@ -549,6 +549,37 @@ Not implemented:
 - real game-session start/stop;
 - reading user AppData, logs, cookies, DBs or dumps.
 
+## Post-M6 - Active verification command safety gate
+
+Status: local static quality gate implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/quality-gates.md`
+
+Implemented checks:
+
+- new `ActiveVerificationCommandSafety` quality gate scope;
+- `docs/context/handoff/active-run.md` Last verification command bullets are scanned as active command evidence;
+- only the most recent dated `docs/context/engineering/verification-memory.md` entry's `Commands:` block is scanned, leaving historical entries untouched;
+- active command evidence is limited to local/static `quality-gate.ps1` scope commands and safe git checks;
+- installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency and CI commands are rejected;
+- `ActiveVerificationCommandSafety` is included in `Full` and visible in active/current state docs.
+
+Not implemented:
+
+- any new runtime runner;
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps.
+
 ## Post-M6 - QA docs command local path safety gate
 
 Status: local static quality gate implemented and verified locally.

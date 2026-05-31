@@ -24,6 +24,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope ContextDocsInventorySafety
 .\scripts\quality-gate.ps1 -Scope SessionLogSafety
 .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety
+.\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety
 .\scripts\quality-gate.ps1 -Scope ChecklistSafety
 .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety
 .\scripts\quality-gate.ps1 -Scope CodexPolicySafety
@@ -114,6 +115,8 @@ The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inv
 The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases.
 
 The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers or lose status, production-impact, command and result evidence.
+
+The `ActiveVerificationCommandSafety` scope statically checks only active/current command evidence in `docs/context/handoff/active-run.md` Last verification and the most recent `docs/context/engineering/verification-memory.md` Commands block so verification commands stay local/static quality-gate or git checks and do not include installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency or CI commands.
 
 The `ChecklistSafety` scope statically checks `docs/context/handoff/executor-checklist.md` and `docs/context/governance/context-integrity-checklist.md` so thread isolation, verification records, stop triggers, secrets and production-impact checklist items remain explicit.
 
