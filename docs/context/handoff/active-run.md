@@ -118,6 +118,7 @@ Post-M6 QaDocsSafety release/privacy hardening wording guard is complete.
 Post-M6 QaDocsSafety release/privacy M1.1 hardening wording guard is complete.
 Post-M6 Release/Privacy report-only local coverage hardening is complete.
 Post-M6 QaDocsSafety release/privacy report-only coverage wording guard is complete.
+Post-M6 Privacy pattern finding coverage hardening is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
 Post-M6 ActiveRunSafety current-state installed artifact wording sync is complete.
@@ -172,6 +173,8 @@ QaDocsSafety release/privacy M1.1 hardening wording guard fails if release/priva
 Release/Privacy report-only local coverage hardening asserts local negative fixtures preserve `-ReportOnly` explicit artifact discovery behavior without reading installed artifacts or runtime user data.
 
 QaDocsSafety release/privacy report-only coverage wording guard fails if release/privacy QA docs lose the Post-M6 report-only coverage notes for local finding-producing fixtures.
+
+Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
 QA docs installed artifact manual-boundary wording sync keeps release, privacy and App/WebView smoke docs explicit that installed artifact defaults require a separate approved plan and autonomous verification uses committed local fixtures only.
 
@@ -412,7 +415,9 @@ Stop-and-ask triggers:
 
 Last verification:
 
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;

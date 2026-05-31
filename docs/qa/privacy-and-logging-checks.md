@@ -48,7 +48,7 @@ Default behavior is fail-closed: the runner requires `-DryRun`, and fail-severit
 M1.1 hardening added:
 
 - negative and clean fixtures;
-- bearer token, generic token and unquoted password coverage;
+- access token, refresh token, bearer token, generic token, API key, private key, TURN credential and unquoted password coverage;
 - large text-like artifact fail findings instead of silent pass;
 - unreadable text-like artifact fail findings;
 - `quality-gate.ps1` assertions for concrete expected finding ids.

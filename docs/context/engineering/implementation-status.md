@@ -96,7 +96,7 @@ M1.1 hardening:
 - `-ExpectFindings` is reserved for negative fixtures; `-ReportOnly` is reserved for explicit artifact discovery.
 - Release fixture now exercises signature and version metadata code paths.
 - Clean fixtures were added for release and privacy gates.
-- Privacy patterns cover bearer tokens, generic token assignments and unquoted passwords.
+- Privacy patterns cover access tokens, refresh tokens, bearer tokens, generic token assignments, API keys, private keys, TURN credentials and unquoted passwords.
 - Large or unreadable text-like artifacts produce fail findings instead of silent pass.
 - Crashpad executable signing is covered by the default release policy.
 

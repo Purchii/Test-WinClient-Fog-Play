@@ -295,6 +295,7 @@ Current artifact status:
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
 - Release and privacy runners require `-DryRun` before reading artifact roots.
 - Release and privacy quality gates assert local negative fixtures both fail closed and keep `-ReportOnly` explicit artifact discovery reporting behavior.
+- Privacy quality gate negative fixture coverage directly asserts access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids.
 - ProdCanary, ProdSafeSmoke, Privacy, Release, GameSessionCanary, NonProdFoundation, TestabilityGaps, UpdateManifest, BackendSmoke, WebViewBridge and AppSmoke runners reject AppData/log/cookie/DB/dump-like input path overrides before reading or probing them.
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags, and BackendSmoke rejects `-AllowNetwork` and `-AllowAuth`.
 - UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.

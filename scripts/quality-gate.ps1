@@ -2213,7 +2213,7 @@ function Invoke-QaDocsSafetyGate {
     }
     $m11HardeningPhrasesByDoc = @{
         'release-gates.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'executable signature code-path coverage', 'version metadata code-path coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
-        'privacy-and-logging-checks.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'bearer token, generic token and unquoted password coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
+        'privacy-and-logging-checks.md' = @('M1.1 hardening added', 'negative and clean fixtures', 'access token, refresh token, bearer token, generic token, API key, private key, TURN credential and unquoted password coverage', 'large text-like artifact fail findings instead of silent pass', 'unreadable text-like artifact fail findings', '`quality-gate.ps1` assertions for concrete expected finding ids')
     }
     $reportOnlyCoveragePhrasesByDoc = @{
         'release-gates.md' = @('Post-M6 report-only coverage hardening added', 'local negative fixtures keep `-ReportOnly` explicit artifact discovery behavior', 'concrete finding ids without reading installed artifacts')
@@ -4317,6 +4317,11 @@ function Invoke-PrivacyGate {
     Assert-FindingId -Result $negative -Id 'bearer-token'
     Assert-FindingId -Result $negative -Id 'password'
     Assert-FindingId -Result $negative -Id 'generic-token'
+    Assert-FindingId -Result $negative -Id 'access-token'
+    Assert-FindingId -Result $negative -Id 'refresh-token'
+    Assert-FindingId -Result $negative -Id 'api-key'
+    Assert-FindingId -Result $negative -Id 'private-key'
+    Assert-FindingId -Result $negative -Id 'turn-credential'
 
     $reportOnly = Invoke-JsonGate {
         & $privacyGate `
@@ -4331,6 +4336,11 @@ function Invoke-PrivacyGate {
     Assert-FindingId -Result $reportOnly -Id 'bearer-token'
     Assert-FindingId -Result $reportOnly -Id 'password'
     Assert-FindingId -Result $reportOnly -Id 'generic-token'
+    Assert-FindingId -Result $reportOnly -Id 'access-token'
+    Assert-FindingId -Result $reportOnly -Id 'refresh-token'
+    Assert-FindingId -Result $reportOnly -Id 'api-key'
+    Assert-FindingId -Result $reportOnly -Id 'private-key'
+    Assert-FindingId -Result $reportOnly -Id 'turn-credential'
 
     $large = Invoke-JsonGate {
         & $privacyGate `
