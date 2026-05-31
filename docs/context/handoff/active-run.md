@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
-Current latest completed item: Post-M6 ActiveRunSafety implementation-status QualityGatesDocsScopeSafety summary sync.
+Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety RunnerSafety summary parity guard.
 
 Planning boundary:
 
@@ -169,6 +169,7 @@ Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard is complete.
 Post-M6 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety README self-summary parity guard is complete.
 Post-M6 ActiveRunSafety implementation-status QualityGatesDocsScopeSafety summary sync is complete.
+Post-M6 QualityGatesDocsScopeSafety RunnerSafety summary parity guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -262,6 +263,8 @@ QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard fails if qu
 QualityGatesDocsScopeSafety README self-summary parity guard fails if the QualityGatesDocsScopeSafety summaries drift on preferred command block, exact scope inventory, selected runner-scope and QA-doc safety summary parity with scripts README.
 
 ActiveRunSafety implementation-status QualityGatesDocsScopeSafety summary sync fails if implementation-status loses the current runner-scope and QA-doc safety summary parity coverage.
+
+QualityGatesDocsScopeSafety RunnerSafety summary parity guard fails if RunnerSafety quality-gates and scripts README summaries drift on dry-run, dangerous allow-switch, path-like input guard or forbidden runtime/network primitive coverage.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 

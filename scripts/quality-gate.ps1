@@ -718,6 +718,18 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'selected runner-scope and QA-doc safety summaries',
                 'scripts/README.md'
             )
+        },
+        @{
+            Scope             = 'RunnerSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                '`-DryRun`',
+                'dangerous `Allow*`',
+                'path-like',
+                'unsafe runtime input path guards',
+                'forbidden runtime/network primitives'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
