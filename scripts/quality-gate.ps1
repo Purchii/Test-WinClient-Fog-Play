@@ -1000,9 +1000,12 @@ function Invoke-ContextDocsInventorySafetyGate {
 
 function Invoke-SessionLogSafetyGate {
     $sessionLogPath = Join-Path $repoRoot 'docs/context/governance/session-log.md'
+    $verificationPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
     Assert-PathExists 'docs/context/governance/session-log.md'
+    Assert-PathExists 'docs/context/engineering/verification-memory.md'
 
     $sessionLog = Get-Content -LiteralPath $sessionLogPath -Raw
+    $verificationMemory = Get-Content -LiteralPath $verificationPath -Raw
     $entryMatches = @([regex]::Matches($sessionLog, '(?ms)^## \d{4}-\d{2}-\d{2} - .+?(?=^## \d{4}-\d{2}-\d{2} - |\z)'))
     if ($entryMatches.Count -eq 0) {
         throw 'session-log.md must contain dated session entries.'
@@ -1014,6 +1017,23 @@ function Invoke-SessionLogSafetyGate {
         })
     if ($branchEntries.Count -eq 0) {
         throw 'session-log.md must contain guarded codex branch entries.'
+    }
+
+    $latestVerificationBranchEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
+    $latestVerificationBranchMatch = [regex]::Match($latestVerificationBranchEntry, '^Branch:\s+`(?<branch>codex/[^`]+)`', 'Multiline')
+    if (-not $latestVerificationBranchMatch.Success) {
+        throw 'verification-memory.md latest codex branch entry must include a codex branch line.'
+    }
+    $latestSessionBranchEntries = @($entryMatches | Where-Object { $_.Value -match 'Branch:\s+`codex/' })
+    if ($latestSessionBranchEntries.Count -eq 0) {
+        throw 'session-log.md must contain codex branch entries.'
+    }
+    $latestSessionBranchMatch = [regex]::Match($latestSessionBranchEntries[0].Value, '^Branch:\s+`(?<branch>codex/[^`]+)`', 'Multiline')
+    if (-not $latestSessionBranchMatch.Success) {
+        throw 'session-log.md latest codex branch entry must include a codex branch line.'
+    }
+    if ($latestSessionBranchMatch.Groups['branch'].Value -ne $latestVerificationBranchMatch.Groups['branch'].Value) {
+        throw "session-log.md latest codex branch entry must match verification-memory.md latest codex branch: expected $($latestVerificationBranchMatch.Groups['branch'].Value)."
     }
 
     foreach ($entry in $branchEntries) {

@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
 
 Planning boundary:
 
@@ -143,7 +143,7 @@ SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataS
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
-SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording regardless of older mode wording.
+SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording and keeps the latest session-log codex branch synced with verification-memory.
 
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers and missing evidence fields fail closed.
 
@@ -224,6 +224,8 @@ Stop-and-ask triggers:
 
 Last verification:
 
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GovernanceHistoryScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
