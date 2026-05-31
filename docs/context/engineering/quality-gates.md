@@ -166,7 +166,7 @@ The `TestDataInventorySafety` scope statically checks `testdata/` file inventory
 
 The `UnsafeFixtureCoverageSafety` scope statically checks that every `testdata/*unsafe*.example.json` fixture is covered by a negative TestFramework or `quality-gate.ps1` assertion block with the fixture path and expected `Assert-FindingId` finding ids.
 
-The `SyntheticUsersSafety` scope statically checks `testdata/synthetic-users.example.json` and the synthetic users policy so allowlisted users remain alias-only, contain no credential-like fields or values, and reserve game-session permission for bounded canary aliases.
+The `SyntheticUsersSafety` scope statically checks `testdata/synthetic-users.example.json`, the resource budget fixture and the synthetic users policy so allowlisted users remain alias-only, contain no credential-like fields or values, reserve game-session permission for bounded canary aliases and keep canary user duration within the resource budget.
 
 The `AllowedGamesSafety` scope statically checks `testdata/allowed-games.example.json` and the game-session canary policy so production canary games remain alias-only QA entries with bounded `allowedFor` purposes.
 

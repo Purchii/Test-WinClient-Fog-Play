@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ProdMetadataSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through SyntheticUsersSafety.
 
 Planning boundary:
 
@@ -71,6 +71,7 @@ Post-M6 UnsafeFixtureCoverageSafety static gate is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 Post-M6 ProdMetadataSafety canary target allowlist hardening is complete.
 Post-M6 ProdMetadataSafety synthetic alias allowlist hardening is complete.
+Post-M6 SyntheticUsersSafety resource budget duration hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -85,6 +86,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+SyntheticUsersSafety resource budget duration hardening cross-checks canary synthetic user maxSessionDurationSeconds against prodResourceBudget.maxSessionDurationSeconds.
+
 ProdMetadataSafety synthetic alias allowlist hardening cross-checks prod-safe and prod-canary metadata aliases against the synthetic users fixture with expected purpose and game-session permission.
 
 ProdMetadataSafety canary target allowlist hardening cross-checks prod-canary metadata targetRegion and targetGame against resource budget and allowed-games fixtures.
@@ -159,7 +162,7 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
-SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, resource budgets, production metadata, synthetic alias allowlist links and canary target allowlist consistency.
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataSafety add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, production metadata, synthetic alias allowlist links and canary target allowlist consistency.
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
@@ -246,8 +249,9 @@ Stop-and-ask triggers:
 
 Last verification:
 
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SyntheticUsersSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ResourceBudgetSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;

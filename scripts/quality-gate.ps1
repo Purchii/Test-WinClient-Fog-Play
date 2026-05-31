@@ -3119,15 +3119,23 @@ function Get-JsonPropertyRecords {
 function Invoke-SyntheticUsersSafetyGate {
     $policyPath = Join-Path $repoRoot 'docs/qa/synthetic-users-policy.md'
     $fixturePath = Join-Path $repoRoot 'testdata/synthetic-users.example.json'
+    $budgetPath = Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml'
+    $prodSafetyModule = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
     Assert-PathExists 'docs/qa/synthetic-users-policy.md'
     Assert-PathExists 'testdata/synthetic-users.example.json'
+    Assert-PathExists 'testdata/prod-resource-budget.example.yaml'
+    Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
 
     $policy = Get-Content -LiteralPath $policyPath -Raw
-    foreach ($requiredPolicyPhrase in @('allowlisted synthetic accounts', 'hardcoded credentials', 'tokens/passwords')) {
+    foreach ($requiredPolicyPhrase in @('allowlisted synthetic accounts', 'hardcoded credentials', 'tokens/passwords', 'resource budget')) {
         if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
             throw "Synthetic users policy must document: $requiredPolicyPhrase"
         }
     }
+
+    Import-Module $prodSafetyModule -Force
+    $budget = Read-ProdResourceBudget -Path $budgetPath
+    $budgetMaxSessionDurationSeconds = [int]$budget.maxSessionDurationSeconds
 
     $text = Get-Content -LiteralPath $fixturePath -Raw
     $data = $text | ConvertFrom-Json
@@ -3224,6 +3232,9 @@ function Invoke-SyntheticUsersSafetyGate {
             $maxSessionDurationSeconds = [int]$user.maxSessionDurationSeconds
             if ($maxSessionDurationSeconds -lt 1 -or $maxSessionDurationSeconds -gt 120) {
                 throw "Synthetic user '$alias' game-session duration must be between 1 and 120 seconds."
+            }
+            if ($maxSessionDurationSeconds -gt $budgetMaxSessionDurationSeconds) {
+                throw "Synthetic user '$alias' game-session duration must not exceed prodResourceBudget.maxSessionDurationSeconds."
             }
         }
         elseif ($purpose -eq 'prod_safe_login_logout' -and $user.canStartGameSession -ne $false) {

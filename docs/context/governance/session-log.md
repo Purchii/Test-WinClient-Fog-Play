@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Synthetic users safety canary duration hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery/takeover confirmed SyntheticUsersSafety did not cross-check canary synthetic user duration against the resource budget.
+
+Branch: `codex/synthetic-users-duration-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bc8-502f-7051-8458-5bf831eb7bd4` was created for the narrow local/static gate-hardening discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add SyntheticUsersSafety cross-checks between canary synthetic user `maxSessionDurationSeconds` and `prodResourceBudget.maxSessionDurationSeconds`.
+- Update synthetic users policy and context summaries for resource-budget duration alignment.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Prod metadata safety synthetic alias summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only quality-gate summary sync after separate task-thread discovery/takeover found aggregate current-state and active-run summaries lagged the new ProdMetadataSafety synthetic alias allowlist checks.

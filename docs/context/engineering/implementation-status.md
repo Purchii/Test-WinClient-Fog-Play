@@ -1150,6 +1150,7 @@ Implemented outputs:
 - `scripts/quality-gate.ps1`
 - `scripts/README.md`
 - `docs/qa/synthetic-users-policy.md`
+- `testdata/prod-resource-budget.example.yaml`
 - `docs/context/engineering/quality-gates.md`
 
 Implemented checks:
@@ -1159,7 +1160,7 @@ Implemented checks:
 - synthetic users must stay alias-only and avoid credential-like properties or values;
 - aliases must use the non-secret `qa-*` format with numeric suffixes;
 - allowed environments and purposes must stay within the documented safe set;
-- game-session permission is limited to `qa-canary-*` aliases with `prod_conditional_stream_canary` purpose and a maximum duration of 120 seconds;
+- game-session permission is limited to `qa-canary-*` aliases with `prod_conditional_stream_canary` purpose, a maximum duration of 120 seconds and duration no higher than `prod-resource-budget.example.yaml`;
 - `SyntheticUsersSafety` is included in `Full`.
 
 Not implemented:

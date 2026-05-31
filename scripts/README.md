@@ -115,7 +115,7 @@ The `TestDataInventorySafety` quality gate fails if the `testdata/` fixture file
 
 The `UnsafeFixtureCoverageSafety` quality gate fails if any `testdata/*unsafe*.example.json` fixture is missing a static negative coverage contract with the fixture path and expected `Assert-FindingId` finding-id assertions in the corresponding TestFramework test or `quality-gate.ps1` scope.
 
-The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, or grants game-session permission outside bounded canary aliases.
+The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, grants game-session permission outside bounded canary aliases, or lets a canary synthetic user duration exceed the resource budget.
 
 The `AllowedGamesSafety` quality gate fails if the allowed-games fixture stops being alias-only, gains real game metadata, or allows purposes outside the production canary plan.
 
