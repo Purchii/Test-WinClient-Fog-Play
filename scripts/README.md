@@ -123,9 +123,9 @@ The `ResourceBudgetSafety` quality gate fails if the production resource budget 
 
 The `ProdMetadataSafety` quality gate fails if production test metadata suites drift away from their required classifications, synthetic-user allowlist aliases, canary alias duration budget, targets or session/cleanup flags, or if prod-canary target region/game metadata is not allowlisted by the resource budget and allowed-games fixtures.
 
-The `ProdMatrixSafety` quality gate fails if the production-safe test matrix drifts into unsafe classifications.
+The `ProdMatrixSafety` quality gate statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
-The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.
+The `BacklogSafety` quality gate statically checks `docs/qa/value-effort-backlog.md` so roadmap rows stay bounded to M0-M6, value/effort stay in the 1-5 range, and runtime/non-prod milestones remain lower priority until prerequisites are approved.
 
 The `ProdSafety` quality gate validates local production-safety guard metadata without launching the client, authenticating or starting sessions, and asserts prod-safe smoke and prod canary runners reject unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
 

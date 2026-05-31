@@ -725,6 +725,30 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'ProdMatrixSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'docs/qa/prod-safe-test-matrix.md',
+                'scenario classifications',
+                'session/stream scenarios',
+                '`PROD_SAFE`',
+                '`NON_PROD_ONLY` handling'
+            )
+        },
+        @{
+            Scope             = 'BacklogSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'docs/qa/value-effort-backlog.md',
+                'M0-M6',
+                'value/effort',
+                '1-5 range',
+                'runtime/non-prod milestones'
+            )
+        },
+        @{
             Scope             = 'QaDocsSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
