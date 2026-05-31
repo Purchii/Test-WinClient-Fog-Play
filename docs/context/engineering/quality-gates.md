@@ -185,7 +185,7 @@ The `Privacy` scope validates local privacy/logging fixtures without launching t
 
 The `AppSmoke` scope validates the local App/WebView smoke scaffold without launching the installed client, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
-The `BridgeContract` scope validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
+The `BridgeContract` scope validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts unsafe runtime input paths, unsafe bridge logging policies, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
 The `BackendSmoke` scope validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts unsafe runtime input paths, `-AllowNetwork` and `-AllowAuth` are rejected.
 

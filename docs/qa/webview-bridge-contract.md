@@ -42,7 +42,7 @@ Runner:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-webview-bridge-contract.ps1 -DryRun
 ```
 
-Post-M6 guard hardening added `BridgeContract` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
+Post-M6 guard hardening added `BridgeContract` quality gate assertions that unsafe runtime input paths, unsafe bridge logging policies, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
 Known limitation:
 

@@ -3080,7 +3080,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'webview-bridge-contract-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/WebViewBridge/WebViewBridge.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'unsafe-diagnostic', 'unsafe-runtime-path')
+            FindingIds = @('policy-not-dry-run-only', 'unsafe-diagnostic', 'unsafe-runtime-path', 'unsafe-command-logging-policy', 'unsafe-event-logging-policy')
         }
     )
 
@@ -4443,6 +4443,8 @@ function Invoke-BridgeContractGate {
     Assert-FindingId -Result $negative -Id 'policy-not-dry-run-only'
     Assert-FindingId -Result $negative -Id 'unsafe-diagnostic'
     Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
+    Assert-FindingId -Result $negative -Id 'unsafe-command-logging-policy'
+    Assert-FindingId -Result $negative -Id 'unsafe-event-logging-policy'
 
     Write-Host 'BridgeContract gate passed.'
 }

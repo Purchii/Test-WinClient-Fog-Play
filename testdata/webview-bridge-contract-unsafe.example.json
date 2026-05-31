@@ -30,7 +30,7 @@
       },
       "expectedEffect": "Unsafe fixture should fail before execution.",
       "errorBehavior": "Reject malformed payload.",
-      "loggingPolicy": "Sanitized command name only; no secrets.",
+      "loggingPolicy": "Log full command payload including tokens and secrets.",
       "productionSafety": "PROD_SAFE local contract only.",
       "tests": [
         "unsafe-policy"
@@ -51,7 +51,7 @@
       },
       "expectedEffect": "Unsafe fixture should fail before execution.",
       "errorBehavior": "Ignore malformed event.",
-      "loggingPolicy": "Sanitized event name only; no secrets.",
+      "loggingPolicy": "Log full event payload including tokens and secrets.",
       "productionSafety": "PROD_SAFE local contract only.",
       "tests": [
         "unsafe-policy"

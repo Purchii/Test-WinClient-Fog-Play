@@ -92,6 +92,7 @@ Post-M6 TestabilityGaps runner input path safety hardening is complete.
 Post-M6 UpdateManifest runner input path safety hardening is complete.
 Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
+Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
 Post-M6 Release runner input path safety hardening is complete.
 Post-M6 Privacy runner input path safety hardening is complete.
@@ -123,6 +124,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridge contract fixture, unit tests and quality gate to cover unsafe command/event logging policy findings.
+
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
 
 VerificationMemorySafety installed artifact historical command boundary requires old verification-memory entries with installed artifact commands to preserve 2026-05-30 historical evidence wording and a no-rerun-without-approved-plan boundary.

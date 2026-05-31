@@ -64,5 +64,7 @@ Assert-True (-not $result.passed) 'Unsafe WebView bridge contract policy should 
 Assert-FindingId -Result $result -Id 'policy-not-dry-run-only'
 Assert-FindingId -Result $result -Id 'unsafe-diagnostic'
 Assert-FindingId -Result $result -Id 'unsafe-runtime-path'
+Assert-FindingId -Result $result -Id 'unsafe-command-logging-policy'
+Assert-FindingId -Result $result -Id 'unsafe-event-logging-policy'
 
 Write-Host 'WebViewBridge.Tests.ps1 passed.'

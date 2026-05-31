@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-05-31 - Verification Memory Safety WebViewBridge unsafe logging policy coverage
+
+Branch: `codex/webview-bridge-unsafe-logging-coverage`
+Status: passed
+Production impact: none; local fixture/test coverage hardening only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- BridgeContract gate passed.
+- UnsafeFixtureCoverageSafety gate passed.
+- Context quality gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- ActiveRunSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads or game sessions because this task is local fixture/test coverage hardening only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local fixture/static checks.
+
 ## 2026-05-31 - Verification Memory Safety TestabilityGaps next-safe-step vocabulary hardening
 
 Branch: `codex/testability-gaps-evidence-vocabulary-safety`
