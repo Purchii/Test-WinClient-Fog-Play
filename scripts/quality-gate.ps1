@@ -820,18 +820,80 @@ function Invoke-QualityGateStructureSafetyGate {
     Write-Host 'QualityGateStructureSafety gate passed.'
 }
 
+function Get-LatestVerificationMemoryBranchEntryText {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string] $Text
+    )
+
+    $entryMatches = @([regex]::Matches($Text, '(?ms)^## \d{4}-\d{2}-\d{2} - .+?(?=^## \d{4}-\d{2}-\d{2} - |\z)'))
+    $branchEntries = @($entryMatches | Where-Object { $_.Value -match 'Branch:\s+`codex/' })
+    if ($branchEntries.Count -eq 0) {
+        throw 'verification-memory.md must contain codex branch verification entries.'
+    }
+
+    return [string]$branchEntries[0].Value
+}
+
+function Resolve-SafetyScopeFromVerificationMemoryEntry {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string] $EntryText,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $KnownSafetyScopes
+    )
+
+    $titleLine = ([regex]::Match($EntryText, '^## .+', 'Multiline')).Value
+    $branchLine = ([regex]::Match($EntryText, '^Branch:\s+`codex/[^`]+`', 'Multiline')).Value
+    $markerText = "$titleLine`n$branchLine"
+
+    $scopeMatches = @()
+    foreach ($scopeName in $KnownSafetyScopes) {
+        $scopeCore = $scopeName -replace 'Safety$', ''
+        $coreWords = @([regex]::Matches($scopeCore, '[A-Z][a-z0-9]*|[0-9]+') | ForEach-Object { $_.Value.ToLowerInvariant() })
+        if ($coreWords.Count -eq 0) {
+            continue
+        }
+
+        $corePattern = ($coreWords | ForEach-Object { [regex]::Escape($_) }) -join '[-\s]+'
+        if ($markerText -match "(?i)\b$corePattern(?:[-\s]+safety)?\b") {
+            $scopeMatches += [pscustomobject]@{
+                Scope      = $scopeName
+                CoreLength = $scopeCore.Length
+            }
+        }
+    }
+
+    if ($scopeMatches.Count -eq 0) {
+        throw 'verification-memory.md latest codex branch entry must identify a known Safety scope in its title or branch.'
+    }
+
+    $orderedMatches = @($scopeMatches | Sort-Object -Property CoreLength, Scope -Descending)
+    if ($orderedMatches.Count -gt 1 -and $orderedMatches[0].CoreLength -eq $orderedMatches[1].CoreLength) {
+        throw "verification-memory.md latest codex branch entry maps ambiguously to Safety scopes: $($orderedMatches[0].Scope), $($orderedMatches[1].Scope)"
+    }
+
+    return $orderedMatches[0].Scope
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
+    $verificationMemoryPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
     $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
     $executorPolicyPath = Join-Path $repoRoot 'docs/context/handoff/executor-policy.md'
     Assert-PathExists 'docs/context/handoff/active-run.md'
     Assert-PathExists 'docs/context/current-state.md'
+    Assert-PathExists 'docs/context/engineering/verification-memory.md'
     Assert-PathExists 'docs/context/handoff/context-protocol.md'
     Assert-PathExists 'docs/context/handoff/executor-policy.md'
 
     $activeRun = Get-Content -LiteralPath $activeRunPath -Raw
     $currentState = Get-Content -LiteralPath $currentStatePath -Raw
+    $verificationMemory = Get-Content -LiteralPath $verificationMemoryPath -Raw
     $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
     $executorPolicy = Get-Content -LiteralPath $executorPolicyPath -Raw
 
@@ -875,8 +937,15 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through ActiveVerificationCommandSafety.'
+    $latestVerificationEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
+    $knownSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' })
+    $expectedMilestoneScope = Resolve-SafetyScopeFromVerificationMemoryEntry -EntryText $latestVerificationEntry -KnownSafetyScopes $knownSafetyScopes
+    $milestoneMatch = [regex]::Match($activeRun, 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through (?<scope>[A-Za-z0-9]+Safety)\.')
+    if (-not $milestoneMatch.Success) {
+        throw 'active-run.md must keep a Current milestone marker ending in a Safety scope.'
+    }
+    if ($milestoneMatch.Groups['scope'].Value -ne $expectedMilestoneScope) {
+        throw "active-run.md Current milestone marker must sync with verification-memory.md latest codex branch entry: expected $expectedMilestoneScope."
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'

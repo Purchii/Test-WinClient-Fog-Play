@@ -194,7 +194,7 @@ Current artifact status:
 - TestDataInventorySafety statically checks the `testdata/` fixture file inventory.
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers and stale literal latest-commit markers.
-- ActiveRunSafety also checks that active-run's current milestone marker and last-verification notes stay synced with current static gate coverage.
+- ActiveRunSafety also checks that active-run's current milestone marker stays synced with the latest verification-memory codex branch entry and that last-verification notes include active-run coverage.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, and validates the latest codex branch entry for thread lifecycle wording regardless of older mode wording.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale and latest-entry core safety notes.
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency and CI commands.

@@ -1,5 +1,37 @@
 # Verification memory
 
+## 2026-05-31 - Active run latest hardening sync
+
+Branch: `codex/active-run-latest-hardening-sync`
+Status: passed
+Production impact: none; local static active-run validation only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ActiveRunSafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- VerificationMemorySafety gate passed.
+- PowerShellStructuredSyntaxSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed, including the strengthened ActiveRunSafety.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this gate validates active-run and verification-memory text only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - Verification memory latest entry safety strengthening
 
 Branch: `codex/verification-memory-latest-entry-safety`

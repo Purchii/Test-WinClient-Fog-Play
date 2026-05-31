@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
 
 Planning boundary:
 

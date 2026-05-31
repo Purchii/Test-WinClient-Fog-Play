@@ -108,7 +108,7 @@ The `TestDataStructuredSyntaxSafety` scope statically checks that JSON fixtures 
 
 The `QualityGateStructureSafety` scope statically checks `quality-gate.ps1` itself so every `ValidateSet` scope except `Full` has exactly one `Invoke-<Scope>Gate` function and exactly one `Full` dispatch to that function.
 
-The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest static gate.
+The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md`, `docs/context/engineering/verification-memory.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit markers are not recorded, current static safety gates remain visible in handoff context, and the active milestone marker stays synced with the latest verification-memory codex branch entry.
 
 The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inventory so handoff, governance and engineering context docs cannot be added, removed or renamed silently.
 
