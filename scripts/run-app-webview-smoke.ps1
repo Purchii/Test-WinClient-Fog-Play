@@ -25,6 +25,20 @@ if ([string]::IsNullOrWhiteSpace($PolicyPath)) {
     $PolicyPath = Join-Path $repoRoot 'testdata/app-webview-smoke.example.json'
 }
 
+function Assert-AppSmokeInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "App/WebView smoke runner must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-AppSmokeInputPathSafe -Name 'ArtifactRoot' -Path $ArtifactRoot
+Assert-AppSmokeInputPathSafe -Name 'PolicyPath' -Path $PolicyPath
+
 if ($AllowWebViewDebugPort) {
     throw 'WebView debug port is not allowed by default for production smoke. Use a separately approved diagnostic milestone.'
 }

@@ -24,6 +24,7 @@ Implemented checks:
 - asset manifests are parseable;
 - asset manifests include `main.css`, `main.js` and `index.html`;
 - policy is dry-run only;
+- runner artifact and policy path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading or probing;
 - policy does not request unsafe launch arguments such as WebView debug port;
 - policy does not request user runtime paths, logs, cookies or dumps;
 - policy test metadata passes ProdGuard as `PROD_SAFE`.
@@ -44,7 +45,7 @@ Local fixture command:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-smoke.ps1 -ArtifactRoot .\testdata\app-webview-smoke-fixture -DryRun -ReportOnly
 ```
 
-Post-M6 guard hardening added `AppSmoke` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
+Post-M6 guard hardening added `AppSmoke` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
 Known limitation:
 

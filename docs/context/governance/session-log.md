@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Runner safety app smoke input path hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-app-webview-smoke.ps1` accepted caller-provided artifact and policy paths before any unsafe runtime path rejection.
+
+Branch: `codex/runner-app-smoke-input-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c1a-fb2a-71f2-a014-dfe29d6edbf1` was created for the narrow local/static AppSmoke runner input path discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add a pre-read/probe guard for `ArtifactRoot` and `PolicyPath`.
+- Reject AppData/log/cookie/DB/dump-like input path overrides before any file read or artifact probing.
+- Add AppSmoke quality gate coverage for both pre-read/probe rejections.
+- Keep the task local/static with no runtime, WebView debug/CDP, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety webview bridge input path hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-webview-bridge-contract.ps1` accepted caller-provided contract paths before any unsafe runtime path rejection.

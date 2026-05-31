@@ -4186,6 +4186,20 @@ function Invoke-AppSmokeGate {
         throw 'App/WebView smoke runner must reject -AllowWebViewDebugPort.'
     }
 
+    Assert-CommandRejected -Message 'App/WebView smoke runner must reject unsafe runtime policy paths before reading them.' -Command {
+        & $appSmoke `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
+            -PolicyPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\app-smoke.json' `
+            -DryRun | Out-Null
+    }
+
+    Assert-CommandRejected -Message 'App/WebView smoke runner must reject unsafe runtime artifact roots before probing them.' -Command {
+        & $appSmoke `
+            -ArtifactRoot 'C:\Users\someone\AppData\Local\MTC Fog Play\logs' `
+            -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $appSmoke `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
