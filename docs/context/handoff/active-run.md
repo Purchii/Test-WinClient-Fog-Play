@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety summary parity guard.
 
 Planning boundary:
 
@@ -162,6 +162,7 @@ Post-M6 ActiveRunSafety archived verification dedupe is complete.
 Post-M6 ActiveRunSafety latest item marker guard is complete.
 Post-M6 SessionLogSafety thread lifecycle sync is complete.
 Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync is complete.
+Post-M6 QualityGatesDocsScopeSafety summary parity guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -228,6 +229,8 @@ SessionLogSafety thread lifecycle sync updates current session-log lifecycle wor
 
 QualityGatesDocsScopeSafety dry-run validator summary sync aligns quality-gates and implementation-status summaries with existing missing-`DryRun` rejection coverage for UpdateManifest, NonProdFoundation and TestabilityGaps.
 
+QualityGatesDocsScopeSafety summary parity guard fails closed if selected quality-gates runner-scope summaries drift from scripts README coverage for missing `-DryRun` and dangerous allow-flag rejection.
+
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
 QaDocsSafety finding coverage wording guard fails if active QA docs lose the Post-M6 finding coverage summaries for local/static direct assertions.
@@ -259,6 +262,8 @@ RunnerSafety implementation-status input path sync records the current path-like
 QualityGatesDocsScopeSafety input path summary sync updates quality-gates docs so RunnerSafety and runner scope descriptions reflect unsafe runtime input path guard coverage.
 
 QualityGatesDocsScopeSafety dry-run validator summary sync keeps quality-gates docs aligned with existing dry-run validator rejection summaries.
+
+QualityGatesDocsScopeSafety summary parity guard keeps selected runner-scope summaries aligned with scripts README for missing `-DryRun` and dangerous allow-flag rejection coverage.
 
 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup removes the stale duplicate quality gate description while preserving the current unsafe runtime input path wording.
 

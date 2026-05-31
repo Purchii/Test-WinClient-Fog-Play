@@ -601,11 +601,14 @@ function Invoke-QaDocsRunnerExampleCoverageSafetyGate {
 
 function Invoke-QualityGatesDocsScopeSafetyGate {
     $docsPath = Join-Path $repoRoot 'docs/context/engineering/quality-gates.md'
+    $readmePath = Join-Path $repoRoot 'scripts/README.md'
     $scriptPath = Join-Path $repoRoot 'scripts/quality-gate.ps1'
     Assert-PathExists 'docs/context/engineering/quality-gates.md'
+    Assert-PathExists 'scripts/README.md'
     Assert-PathExists 'scripts/quality-gate.ps1'
 
     $docs = Get-Content -LiteralPath $docsPath -Raw
+    $readme = Get-Content -LiteralPath $readmePath -Raw
     $script = Get-Content -LiteralPath $scriptPath -Raw
     $validateSetMatch = [regex]::Match($script, "\[ValidateSet\((?<values>[^\)]*)\)\]")
     if (-not $validateSetMatch.Success) {
@@ -652,6 +655,68 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
     foreach ($scopeName in $documentedScopes) {
         if ($validateScopes -notcontains $scopeName) {
             throw "quality-gates.md Preferred script block lists unknown scope: $scopeName"
+        }
+    }
+
+    $summaryContracts = @(
+        @{
+            Scope             = 'NonProdFoundation'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'unsafe runtime input paths',
+                'missing `-DryRun`',
+                '`-AllowExecution`',
+                '`-AllowNetwork`',
+                '`-AllowAuth`'
+            )
+        },
+        @{
+            Scope             = 'TestabilityGaps'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'unsafe runtime input paths',
+                'missing `-DryRun`',
+                'unsafe next-safe-step text',
+                '`-AllowProductionAction`',
+                '`-AllowCredentials`',
+                '`-AllowRuntimeUserData`'
+            )
+        },
+        @{
+            Scope             = 'UpdateManifest'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'unsafe runtime input paths',
+                'missing `-DryRun`',
+                '`-AllowNetwork`',
+                '`-AllowExecution`',
+                '`-AllowRollback`',
+                '`-AllowCredentials`'
+            )
+        }
+    )
+    foreach ($contract in $summaryContracts) {
+        $qualityGatesSummaryPattern = "(?m)^The ``$([regex]::Escape($contract.Scope))`` $($contract.QualityGatesLabel) .*$"
+        $readmeSummaryPattern = "(?m)^The ``$([regex]::Escape($contract.Scope))`` $($contract.ReadmeLabel) .*$"
+        $qualityGatesSummaryMatch = [regex]::Match($docs, $qualityGatesSummaryPattern)
+        if (-not $qualityGatesSummaryMatch.Success) {
+            throw "quality-gates.md must keep a summary for $($contract.Scope)."
+        }
+        $readmeSummaryMatch = [regex]::Match($readme, $readmeSummaryPattern)
+        if (-not $readmeSummaryMatch.Success) {
+            throw "scripts/README.md must keep a quality gate summary for $($contract.Scope)."
+        }
+
+        foreach ($requiredFragment in $contract.RequiredFragments) {
+            if ($readmeSummaryMatch.Value -notmatch [regex]::Escape($requiredFragment)) {
+                throw "scripts/README.md $($contract.Scope) summary must mention $requiredFragment."
+            }
+            if ($qualityGatesSummaryMatch.Value -notmatch [regex]::Escape($requiredFragment)) {
+                throw "quality-gates.md $($contract.Scope) summary must stay aligned with scripts/README.md and mention $requiredFragment."
+            }
         }
     }
 

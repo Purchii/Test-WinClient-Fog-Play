@@ -96,7 +96,7 @@ The `QaDocsPowerShellInvocationSafety` scope statically checks command-looking `
 
 The `QaDocsRunnerExampleCoverageSafety` scope statically checks active QA runner/doc contracts so each local runner owned by `FrameworkInventorySafety` has at least one command-looking dry-run example in its mapped QA doc.
 
-The `QualityGatesDocsScopeSafety` scope statically checks the `docs/context/engineering/quality-gates.md` preferred command block so every `quality-gate.ps1` `ValidateSet` scope is listed exactly once, unknown scopes are rejected and command syntax stays stable.
+The `QualityGatesDocsScopeSafety` scope statically checks the `docs/context/engineering/quality-gates.md` preferred command block so every `quality-gate.ps1` `ValidateSet` scope is listed exactly once, unknown scopes are rejected and command syntax stays stable. It also keeps selected runner-scope summaries aligned with `scripts/README.md` for missing `-DryRun` and dangerous allow-flag rejection coverage.
 
 The `ActiveSafetyScopeInventorySafety` scope statically checks `quality-gate.ps1` `*Safety` scopes against active/current state docs so new safety gates cannot disappear from handoff visibility.
 
