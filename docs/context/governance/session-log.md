@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Verification memory safety template ASCII cleanup
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only cleanup after separate task-thread discovery confirmed verification-memory template non-ASCII separator drift.
+
+Branch: `codex/verification-memory-template-ascii-cleanup`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for unrelated implementation.
+- Delegated task thread confirmed the narrow local/static documentation cleanup and completed it on a dedicated branch.
+
+Scope:
+
+- Replace the verification-memory template heading separator with ASCII `-`.
+- Keep verification memory and session log latest branch entries synchronized for the docs-only task.
+- Keep active-run milestone and last verification aligned with `VerificationMemorySafety`.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety scripts README dangerous allow-flag summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread creation for scripts README dangerous allow-flag summary drift.

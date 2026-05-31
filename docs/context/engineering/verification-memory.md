@@ -1,5 +1,37 @@
 # Verification memory
 
+## 2026-05-31 - Verification memory safety template ASCII cleanup
+
+Branch: `codex/verification-memory-template-ascii-cleanup`
+Status: passed
+Production impact: none; local static verification-memory documentation cleanup only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- VerificationMemorySafety gate passed.
+- ActiveRunSafety gate passed.
+- SessionLogSafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this task cleans up local static verification-memory documentation only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - Runner safety scripts README dangerous allow-flag summary sync
 
 Branch: `codex/runner-safety-scripts-dangerous-flag-summary-sync`
@@ -729,7 +761,7 @@ Safety notes:
 ## Template
 
 ```md
-## YYYY-MM-DD — [goal]
+## YYYY-MM-DD - [goal]
 
 Branch: [branch]
 Status: passed / failed / blocked
