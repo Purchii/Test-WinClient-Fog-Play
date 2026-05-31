@@ -52,6 +52,7 @@ Post-M6 ActiveVerificationCommandSafety static gate is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync is complete.
+Post-M6 current-state branch-history consistency sync is complete.
 Post-M6 ChecklistSafety static gate is complete.
 Post-M6 DecisionsLogSafety static gate is complete.
 Post-M6 CodexPolicySafety static gate is complete.
@@ -351,6 +352,8 @@ ActiveVerificationCommandSafety adds `Full` coverage for active/current verifica
 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync keeps implementation status aligned with the current active verification forbidden command token set.
 
 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync keeps current-state branch history aligned with the already-completed allow-flag hardening branch.
+
+Current-state branch-history consistency sync keeps top-level Post-M6 implemented statuses aligned with their branch-history entries.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

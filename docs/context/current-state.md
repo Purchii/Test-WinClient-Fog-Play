@@ -29,6 +29,7 @@ Post-M6: ScriptsReadmeScopeSafety static gate - implemented and verified locally
 Post-M6: ActiveSafetyScopeInventorySafety static gate - implemented and verified locally.
 Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
 Post-M6: QaDocsCommandSafety TestabilityGaps allow-flag hardening - implemented and verified locally.
+Post-M6: QaDocsCommandSafety TestabilityGaps allow-flag implementation-status sync - implemented and verified locally.
 Post-M6: QaDocsCommandLocalPathSafety static gate - implemented and verified locally.
 Post-M6: QaDocsPowerShellInvocationSafety static gate - implemented and verified locally.
 Post-M6: QaDocsRunnerExampleCoverageSafety static gate - implemented and verified locally.
@@ -61,6 +62,7 @@ Post-M6: ActiveVerificationCommandSafety static gate - implemented and verified 
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync - implemented and verified locally.
+Post-M6: Current-state branch-history consistency sync - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
 Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: CodexPolicySafety static gate - implemented and verified locally.
@@ -163,6 +165,7 @@ Repository bootstrap state:
 - Post-M6 ScriptsReadmeScopeSafety static gate was completed on `codex/scripts-readme-scope-safety-gate`.
 - Post-M6 ActiveSafetyScopeInventorySafety static gate was completed on `codex/active-safety-scope-inventory-gate`.
 - Post-M6 QaDocsCommandSafety static gate was completed on `codex/qa-docs-command-safety-gate`.
+- Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag hardening was completed on `codex/qa-docs-command-testability-allow-flags`.
 - Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-qa-command-allow-flags`.
 - Post-M6 QaDocsCommandLocalPathSafety static gate was completed on `codex/qa-docs-command-local-path-safety`.
 - Post-M6 QaDocsPowerShellInvocationSafety static gate was completed on `codex/qa-docs-powershell-invocation-safety-gate`.
@@ -175,7 +178,7 @@ Repository bootstrap state:
 - Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
 - Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
-- Post-M6 script inventory guard hardening was completed on `codex/scripts-inventory-guard`.
+- Post-M6 Script inventory guard was completed on `codex/scripts-inventory-guard`.
 - Post-M6 M1 dry-run fail-closed hardening was completed on `codex/m1-dryrun-fail-closed`.
 - Post-M6 runner/validator guard hardening was completed on `codex/app-bridge-runner-guard`.
 - Post-M6 dangerous flag negative coverage was completed on `codex/danger-flag-negative-coverage`.
@@ -195,6 +198,8 @@ Repository bootstrap state:
 - Post-M6 ActiveVerificationCommandSafety static gate was completed on `codex/active-verification-command-safety`.
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening was completed on `codex/active-verification-testability-allow-flags`.
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-active-verification-allow-flags`.
+- Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync was completed on `codex/current-state-active-verification-hardening-history`.
+- Post-M6 Current-state branch-history consistency sync was completed on `codex/current-state-branch-history-consistency`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
 - Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 CodexPolicySafety static gate was completed on `codex/codex-policy-safety-gate`.
@@ -236,27 +241,35 @@ Repository bootstrap state:
 - Post-M6 GameSessionCanary runtime path empty-list hardening was completed on `codex/prod-metadata-game-session-canary-runtime-path-empty-safety`.
 - Post-M6 GameSessionCanary suite metadata exact-set hardening was completed on `codex/prod-metadata-game-session-canary-suite-exact-safety`.
 - Post-M6 GameSessionCanary unsafe fixture finding coverage hardening was completed on `codex/unsafe-fixture-game-session-canary-finding-coverage-safety`.
+- Post-M6 GameSessionCanary conditional flag unsafe coverage hardening was completed on `codex/game-session-canary-conditional-flag-coverage`.
 - Post-M6 GameSessionCanary runner input path safety hardening was completed on `codex/runner-game-session-canary-input-path-safety`.
 - Post-M6 GameSessionCanary remaining finding coverage hardening was completed on `codex/game-session-canary-remaining-finding-coverage`.
 - Post-M6 GameSessionCanary/WebViewBridge QA docs finding coverage sync was completed on `codex/qa-docs-canary-bridge-finding-sync`.
 - Post-M6 NonProdFoundation runner input path safety hardening was completed on `codex/runner-nonprod-foundation-input-path-safety`.
+- Post-M6 NonProdFoundation structural finding coverage hardening was completed on `codex/nonprod-foundation-structural-finding-coverage`.
 - Post-M6 TestabilityGaps runner input path safety hardening was completed on `codex/runner-testability-gaps-input-path-safety`.
 - Post-M6 UpdateManifest runner input path safety hardening was completed on `codex/runner-update-manifest-input-path-safety`.
+- Post-M6 UpdateManifest structural package finding coverage hardening was completed on `codex/update-manifest-structural-finding-coverage`.
 - Post-M6 BackendSmoke runner input path safety hardening was completed on `codex/runner-backend-smoke-input-path-safety`.
 - Post-M6 BackendSmoke unsafe endpoint coverage hardening was completed on `codex/backend-smoke-unsafe-endpoint-coverage`.
+- Post-M6 BackendSmoke structural endpoint finding coverage hardening was completed on `codex/backend-smoke-structural-finding-coverage`.
 - Post-M6 WebViewBridge runner input path safety hardening was completed on `codex/runner-webview-bridge-input-path-safety`.
 - Post-M6 WebViewBridge unsafe logging policy coverage hardening was completed on `codex/webview-bridge-unsafe-logging-coverage`.
+- Post-M6 WebViewBridge structural finding coverage hardening was completed on `codex/webview-bridge-structural-finding-coverage`.
 - Post-M6 WebViewBridge remaining finding coverage hardening was completed on `codex/webview-bridge-remaining-finding-coverage`.
 - Post-M6 AppSmoke runner input path safety hardening was completed on `codex/runner-app-smoke-input-path-safety`.
+- Post-M6 AppSmoke static fixture finding coverage hardening was completed on `codex/app-smoke-static-finding-coverage`.
 - Post-M6 Release runner input path safety hardening was completed on `codex/runner-release-input-path-safety`.
 - Post-M6 Privacy runner input path safety hardening was completed on `codex/runner-privacy-input-path-safety`.
 - Post-M6 ProdSafeSmoke runner input path safety hardening was completed on `codex/runner-prod-safe-smoke-input-path-safety`.
 - Post-M6 ProdCanary runner input path safety hardening was completed on `codex/runner-prod-canary-input-path-safety`.
 - Post-M6 RunnerSafety input path coverage hardening was completed on `codex/runner-safety-input-path-coverage`.
 - Post-M6 TestabilityGaps next-safe-step vocabulary hardening was completed on `codex/testability-gaps-evidence-vocabulary-safety`.
+- Post-M6 TestabilityGaps local finding coverage hardening was completed on `codex/testability-gaps-local-finding-coverage`.
 - Post-M6 Structural finding QA docs coverage sync was completed on `codex/qa-docs-structural-finding-sync`.
 - Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup was completed on `codex/scripts-readme-testabilitygaps-duplicate-cleanup`.
 - Post-M6 QaDocsSafety finding coverage wording guard was completed on `codex/qa-docs-finding-coverage-safety`.
+- Post-M6 QaDocsSafety detailed finding coverage wording guard was completed on `codex/qa-docs-finding-detail-guard`.
 - Post-M6 QaDocsSafety release/privacy hardening wording guard was completed on `codex/qa-docs-release-privacy-hardening-safety`.
 - Post-M6 QualityGatesDocsScopeSafety input path summary sync was completed on `codex/quality-gates-docs-input-path-summary-sync`.
 - Post-M6 RunnerSafety implementation-status input path sync was completed on `codex/implementation-status-runner-input-path-sync`.
