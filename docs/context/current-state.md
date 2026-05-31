@@ -182,6 +182,7 @@ Post-M6: QualityGatesDocsScopeSafety RunnerSafety summary parity guard - impleme
 Post-M6: QualityGatesDocsScopeSafety Release summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety Privacy summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety AppSmoke summary parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety BridgeContract summary parity guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -358,6 +359,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety Release summary parity guard was completed on `codex/release-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety Privacy summary parity guard was completed on `codex/privacy-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety AppSmoke summary parity guard was completed on `codex/appsmoke-summary-parity-guard`.
+- Post-M6 QualityGatesDocsScopeSafety BridgeContract summary parity guard was completed on `codex/bridge-contract-summary-parity-guard`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -391,6 +393,7 @@ Current artifact status:
 - QualityGatesDocsScopeSafety Release summary parity guard keeps Release summaries aligned for local release fixtures, installed-client non-launch, fail-closed negative fixture, report-only and unsafe input-path coverage.
 - QualityGatesDocsScopeSafety Privacy summary parity guard keeps Privacy summaries aligned for local privacy/logging fixtures, installed-client non-launch, fail-closed negative fixture, report-only and unsafe input-path coverage.
 - QualityGatesDocsScopeSafety AppSmoke summary parity guard keeps AppSmoke summaries aligned for local App/WebView smoke scaffold, installed-client non-launch, static WebView bundle finding, unsafe input-path and dangerous launch/debug flag rejection coverage.
+- QualityGatesDocsScopeSafety BridgeContract summary parity guard keeps BridgeContract summaries aligned for local WebView/native bridge contract scaffold, no WebView debug/CDP or client launch, structural bridge finding, unsafe input-path, unsafe logging policy and dangerous launch/debug flag rejection coverage.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.

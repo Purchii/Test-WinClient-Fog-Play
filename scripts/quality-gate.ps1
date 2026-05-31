@@ -767,6 +767,20 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-AllowClientLaunch`',
                 '`-AllowWebViewDebugPort`'
             )
+        },
+        @{
+            Scope             = 'BridgeContract'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local WebView/native bridge contract scaffold',
+                'without WebView debug/CDP or client launch',
+                'structural bridge command/event/fake-host finding ids',
+                'unsafe runtime input paths',
+                'unsafe bridge logging policies',
+                '`-AllowClientLaunch`',
+                '`-AllowWebViewDebugPort`'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
