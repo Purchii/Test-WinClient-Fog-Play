@@ -53,6 +53,12 @@ $result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -Sy
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should fail closed without -DryRun.'
 Assert-FindingId -Result $result -Id 'dry-run-flag-required'
 
+$missingSuitePlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$missingSuitePlan.tests[0].suites = @('prod-canary')
+$result = Test-GameSessionCanaryPlan -Plan $missingSuitePlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject missing suite metadata.'
+Assert-FindingId -Result $result -Id 'missing-canary-suite-metadata'
+
 $nonProductionSyntheticUsers = @(
     [pscustomobject]@{
         alias = 'qa-canary-stream-001'

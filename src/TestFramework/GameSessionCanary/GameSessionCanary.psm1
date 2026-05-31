@@ -140,6 +140,7 @@ function Test-GameSessionCanaryPlan {
         $name = [string](Get-GameSessionCanaryValue -Object $test -Name 'name' -Default '<unnamed>')
         $path = "tests/$name"
         $classification = [string](Get-GameSessionCanaryValue -Object $test -Name 'classification' -Default '')
+        $suites = @(Get-GameSessionCanaryArray -Object $test -Name 'suites')
         $startsGameSession = (Get-GameSessionCanaryValue -Object $test -Name 'startsGameSession' -Default $false) -eq $true
         $mutatesState = (Get-GameSessionCanaryValue -Object $test -Name 'mutatesState' -Default $false) -eq $true
         $requiresCleanupVerification = (Get-GameSessionCanaryValue -Object $test -Name 'requiresCleanupVerification' -Default $false) -eq $true
@@ -175,6 +176,8 @@ function Test-GameSessionCanaryPlan {
             targetGame = $targetGame
             passed = (
                 $classification -eq 'PROD_CONDITIONAL' -and
+                $suites -contains 'prod-canary' -and
+                $suites -contains 'game-session-canary-readiness' -and
                 $startsGameSession -and
                 $mutatesState -and
                 $requiresCleanupVerification -and
@@ -201,6 +204,9 @@ function Test-GameSessionCanaryPlan {
 
         if ($classification -ne 'PROD_CONDITIONAL') {
             $findings += Add-GameSessionCanaryFinding -Id 'non-prod-conditional-canary' -Severity 'fail' -Path $path -Message 'M5 game-session canary must be classified as PROD_CONDITIONAL.'
+        }
+        if (-not ($suites -contains 'prod-canary') -or -not ($suites -contains 'game-session-canary-readiness')) {
+            $findings += Add-GameSessionCanaryFinding -Id 'missing-canary-suite-metadata' -Severity 'fail' -Path $path -Message 'M5 game-session canary must declare prod-canary and game-session-canary-readiness suites.'
         }
         if (-not $startsGameSession) {
             $findings += Add-GameSessionCanaryFinding -Id 'missing-game-session-intent' -Severity 'fail' -Path $path -Message 'M5 canary metadata must explicitly mark startsGameSession=true.'

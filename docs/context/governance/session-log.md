@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - GameSessionCanary suite metadata hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not check canary suite metadata.
+
+Branch: `codex/game-session-canary-suite-metadata-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bf6-db5c-79d0-ba45-06bf4e80bdec` was created for the narrow local/static GameSessionCanary suite metadata discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require `Test-GameSessionCanaryPlan` to verify the canary test declares the `prod-canary` suite.
+- Require `Test-GameSessionCanaryPlan` to verify the canary test declares the `game-session-canary-readiness` suite.
+- Add targeted negative coverage in GameSessionCanary tests without broadening runtime behavior.
+- Keep the task local/dry-run with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Resource budget safety game-session canary policy flags hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not check `prodResourceBudget.requireCleanupVerification` and `prodResourceBudget.requireExplicitConditionalFlag`.
