@@ -59,6 +59,12 @@ $result = Test-GameSessionCanaryPlan -Plan $missingSuitePlan -AllowedGames $allo
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject missing suite metadata.'
 Assert-FindingId -Result $result -Id 'missing-canary-suite-metadata'
 
+$extraSuitePlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$extraSuitePlan.tests[0].suites = @('prod-canary', 'game-session-canary-readiness', 'manual-runtime')
+$result = Test-GameSessionCanaryPlan -Plan $extraSuitePlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject extra canary suite metadata.'
+Assert-FindingId -Result $result -Id 'canary-suite-metadata-not-exact'
+
 $unsupportedSignalPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $unsupportedSignalPlan.tests[0].expectedReadinessSignals = @('stream-ready', 'first-frame', 'runtime-probe')
 $result = Test-GameSessionCanaryPlan -Plan $unsupportedSignalPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
