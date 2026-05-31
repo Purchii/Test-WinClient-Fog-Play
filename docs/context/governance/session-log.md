@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active Verification Command Safety duplicate command guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static verification-command guard hardening after separate task-thread discovery confirmed active-run Last verification repeated an `ActiveVerificationCommandSafety` command.
+
+Branch: `codex/active-verification-command-dedupe`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cf1-0a59-7ef0-9515-5de7df910590` was created for the narrow active-run verification command dedupe discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Remove the duplicated active-run Last verification command.
+- Add `ActiveVerificationCommandSafety` coverage so active verification command evidence cannot repeat a command within one source block.
+- Sync scripts README, quality gate docs, implementation status, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety Current-state QualityGateStructureSafety helper summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` local documentation/status synchronization after a separate task-thread attempt and local read-only inspection confirmed the lower current-state QualityGateStructureSafety summary lagged behind the rejection helper usage and definition guards.

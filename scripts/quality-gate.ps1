@@ -1382,6 +1382,16 @@ function Invoke-ActiveVerificationCommandSafetyGate {
     $commandRecords += Get-CommandBulletsFromSection -Lines $activeRunLines -SectionPattern '^Last verification:\s*$' -SourceName 'active-run.md Last verification'
     $commandRecords += Get-MostRecentVerificationMemoryCommandBullets -Lines $verificationLines
 
+    $duplicateCommands = @(
+        $commandRecords |
+            Group-Object -Property Source, Command |
+            Where-Object { $_.Count -gt 1 } |
+            ForEach-Object { "$($_.Group[0].Source): $($_.Group[0].Command)" }
+    )
+    if ($duplicateCommands.Count -gt 0) {
+        throw "Active verification command evidence must not contain duplicate commands within one source: $($duplicateCommands -join '; ')"
+    }
+
     foreach ($commandRecord in $commandRecords) {
         Assert-ActiveVerificationCommandIsSafe -CommandRecord $commandRecord -KnownScopes $knownScopes
     }

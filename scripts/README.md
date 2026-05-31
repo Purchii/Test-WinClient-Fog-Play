@@ -65,7 +65,7 @@ The `SessionLogSafety` quality gate fails if guarded session-log branch entries 
 
 The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers; lose status, production impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; lose installed artifact historical command boundaries; or if the latest codex branch entry loses core safety notes.
 
-The `ActiveVerificationCommandSafety` quality gate fails if active/current verification command evidence in `active-run.md` Last verification or the most recent `verification-memory.md` Commands block drifts beyond local/static `quality-gate.ps1` or safe git checks, or includes installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags or CI commands.
+The `ActiveVerificationCommandSafety` quality gate fails if active/current verification command evidence in `active-run.md` Last verification or the most recent `verification-memory.md` Commands block drifts beyond local/static `quality-gate.ps1` or safe git checks, repeats a command within one source block, or includes installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags or CI commands.
 
 The `ChecklistSafety` quality gate fails if executor or context integrity checklists lose required thread isolation, verification, stop-trigger, secrets or production-impact checklist items.
 

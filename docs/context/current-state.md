@@ -66,6 +66,7 @@ Post-M6: ActiveVerificationCommandSafety static gate - implemented and verified 
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync - implemented and verified locally.
+Post-M6: ActiveVerificationCommandSafety duplicate command guard - implemented and verified locally.
 Post-M6: Current-state branch-history consistency sync - implemented and verified locally.
 Post-M6: Active-run/current-state status consistency sync - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
@@ -225,6 +226,7 @@ Repository bootstrap state:
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening was completed on `codex/active-verification-testability-allow-flags`.
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-active-verification-allow-flags`.
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync was completed on `codex/current-state-active-verification-hardening-history`.
+- Post-M6 ActiveVerificationCommandSafety duplicate command guard was completed on `codex/active-verification-command-dedupe`.
 - Post-M6 Current-state branch-history consistency sync was completed on `codex/current-state-branch-history-consistency`.
 - Post-M6 Active-run/current-state status consistency sync was completed on `codex/active-run-current-state-status-consistency`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
@@ -378,7 +380,7 @@ Current artifact status:
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex branch synced with verification-memory.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale and latest-entry core safety notes.
-- ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
+- ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, push/merge authority and process-error rules.
 - CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.

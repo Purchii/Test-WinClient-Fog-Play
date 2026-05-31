@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety.
 
 Planning boundary:
 
@@ -55,6 +55,7 @@ Post-M6 ActiveVerificationCommandSafety static gate is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync is complete.
+Post-M6 ActiveVerificationCommandSafety duplicate command guard is complete.
 Post-M6 current-state branch-history consistency sync is complete.
 Post-M6 Active-run/current-state status consistency sync is complete.
 Post-M6 ChecklistSafety static gate is complete.
@@ -190,6 +191,8 @@ Quality gates docs rejection helper sync aligns `docs/context/engineering/qualit
 QualityGateStructureSafety rejection helper definition guard requires exactly one shared `Assert-CommandRejected` helper definition in `quality-gate.ps1`.
 
 Current-state QualityGateStructureSafety helper summary sync aligns the lower current-state summary with the latest rejection helper usage and definition guards.
+
+ActiveVerificationCommandSafety duplicate command guard removes the repeated active-run Last verification command and fails closed if active verification command evidence repeats a command within one source block.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 
@@ -393,7 +396,7 @@ SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, b
 
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale and missing latest-entry safety notes fail closed.
 
-ActiveVerificationCommandSafety adds `Full` coverage for active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and excludes installed-client paths, user runtime paths, endpoints, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
+ActiveVerificationCommandSafety adds `Full` coverage for active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and excludes installed-client paths, user runtime paths, endpoints, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 
 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync keeps implementation status aligned with the current active verification forbidden command token set.
 
@@ -489,7 +492,6 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
