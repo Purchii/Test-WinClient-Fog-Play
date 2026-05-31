@@ -695,6 +695,11 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
             RequiredFragments = @(
+                'local update manifest fixture',
+                'without network',
+                'updater execution',
+                'rollback or credentials',
+                'structural package finding ids',
                 'unsafe runtime input paths',
                 'missing `-DryRun`',
                 '`-AllowNetwork`',
