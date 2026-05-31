@@ -1231,6 +1231,13 @@ function Invoke-SessionLogSafetyGate {
     if ($latestSessionBranchEntries.Count -eq 0) {
         throw 'session-log.md must contain codex branch entries.'
     }
+    foreach ($entry in $latestSessionBranchEntries) {
+        $entryText = $entry.Value
+        $title = ([regex]::Match($entryText, '^## .+', 'Multiline')).Value
+        if ($entryText -match [regex]::Escape('remains active only as coordinator')) {
+            throw "session-log.md entry '$title' must not describe a previous source/coordinator thread as still active."
+        }
+    }
     $latestSessionBranchMatch = [regex]::Match($latestSessionBranchEntries[0].Value, '^Branch:\s+`(?<branch>codex/[^`]+)`', 'Multiline')
     if (-not $latestSessionBranchMatch.Success) {
         throw 'session-log.md latest codex branch entry must include a codex branch line.'

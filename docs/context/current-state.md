@@ -172,6 +172,7 @@ Post-M6: ActiveRunSafety latest item marker guard - implemented and verified loc
 Post-M6: SessionLogSafety thread lifecycle sync - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety dry-run validator summary sync - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety summary parity guard - implemented and verified locally.
+Post-M6: SessionLogSafety lifecycle history guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -338,6 +339,7 @@ Repository bootstrap state:
 - Post-M6 SessionLogSafety thread lifecycle sync was completed on `codex/session-log-thread-lifecycle-sync`.
 - Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync was completed on `codex/quality-gates-dryrun-summary-sync`.
 - Post-M6 QualityGatesDocsScopeSafety summary parity guard was completed on `codex/quality-gates-summary-parity-guard`.
+- Post-M6 SessionLogSafety lifecycle history guard was completed on `codex/session-log-lifecycle-history-guard`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -391,7 +393,7 @@ Current artifact status:
 - ActiveRunSafety uses `git status --short --branch` as the authoritative current branch/worktree source instead of a live literal active-run branch value.
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
-- SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, validates the latest codex branch entry for thread lifecycle wording without describing previous source/coordinator threads as still active, and keeps the latest session-log codex branch synced with verification-memory.
+- SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, rejects codex branch entries that describe previous source/coordinator threads as still active, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex branch synced with verification-memory.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.

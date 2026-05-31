@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Session Log Safety lifecycle history guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static session-log lifecycle history hardening after separate task-thread discovery confirmed old codex branch entries still described the previous source/coordinator thread as active while active/current context records old threads as inactive/history-only after handoff.
+
+Branch: `codex/session-log-lifecycle-history-guard`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7d17-9d76-7cb2-be90-1571b113e098` was created for the narrow session-log lifecycle history discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Clean up stale historical session-log lifecycle wording that described the previous source/coordinator thread as still active.
+- Add `SessionLogSafety` coverage so codex branch session-log entries cannot describe a previous source/coordinator thread as still active.
+- Sync scripts README, quality gate docs, implementation status, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Quality Gates Docs Scope Safety summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static quality-gates documentation guard hardening after separate task-thread discovery confirmed the synced dry-run validator summaries were a good fail-closed target.
@@ -123,7 +152,7 @@ Branch: `codex/active-run-archived-verification-dedupe`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cf9-f81e-7881-abbe-c3be4c0a5d61` was created for the narrow active-run archived verification dedupe discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -152,7 +181,7 @@ Branch: `codex/verification-memory-boundary-summary-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cf7-2e6b-76f2-b67f-f5a1c1c47070` was created for the narrow VerificationMemorySafety installed artifact summary sync discovery task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -180,7 +209,7 @@ Branch: `codex/active-verification-command-dedupe`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cf1-0a59-7ef0-9515-5de7df910590` was created for the narrow active-run verification command dedupe discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -209,7 +238,7 @@ Branch: `codex/current-state-quality-gate-helper-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ced-79b9-7822-8b7f-1ce68ece453c` was created for the narrow current-state QualityGateStructureSafety helper summary sync task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -237,7 +266,7 @@ Branch: `codex/quality-gate-helper-definition-guard`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cea-7b73-7250-9004-736f5d8f469c` was created for the narrow QualityGateStructureSafety rejection helper definition guard task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -265,7 +294,7 @@ Branch: `codex/quality-gates-docs-rejection-helper-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ce7-cbbc-76b1-b198-18efd1dee44d` was created for the narrow quality-gates docs rejection helper sync task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -293,7 +322,7 @@ Branch: `codex/quality-gate-rejection-helper-guard`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ce4-6e8e-7f01-99ba-cf5958f992db` was created for the narrow QualityGateStructureSafety rejection helper guard task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -321,7 +350,7 @@ Branch: `codex/app-bridge-allow-helper-cleanup`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ce1-6d5e-7600-9c70-10e6fb30d25e` was created for the narrow App/Bridge allow-flag helper cleanup task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -349,7 +378,7 @@ Branch: `codex/quality-gate-dryrun-helper-cleanup`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cde-b57f-7802-a4ba-49aeb795f492` was created for the narrow quality-gate DryRun helper cleanup task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -377,7 +406,7 @@ Branch: `codex/qa-docs-dryrun-guard-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cdc-466a-7872-af4b-913981b591a6` was created for the narrow QA docs DryRun guard documentation sync task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -405,7 +434,7 @@ Branch: `codex/nonprod-testability-dryrun-doc-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cda-25cc-7fb1-b073-b91f6925bd3b` was created for the narrow NonProdFoundation/TestabilityGaps DryRun documentation sync task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -433,7 +462,7 @@ Branch: `codex/backend-smoke-guard-doc-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cd7-be76-7700-91a0-0fe857829e16` was created for the narrow BackendSmoke guard documentation sync task; coordination takeover completed the implementation from local static evidence.
 
 Scope:
@@ -461,7 +490,7 @@ Branch: `codex/backend-smoke-missing-dryrun-guard`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cd3-39dd-77c1-a593-a6c876f307f5` was created for the narrow BackendSmoke missing-DryRun guard task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -489,7 +518,7 @@ Branch: `codex/game-session-canary-missing-dryrun-guard`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ccf-9c43-7e82-a92a-46668f873d2c` was created for the narrow GameSessionCanary missing-DryRun guard task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -517,7 +546,7 @@ Branch: `codex/implementation-status-quality-gate-stub-cleanup`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ccc-5819-7030-9d92-e2b5bfd233a1` was created for the narrow implementation-status QualityGateStructureSafety stub cleanup sync task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -546,7 +575,7 @@ Branch: `codex/quality-gate-stub-cleanup`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cc7-aa1f-78c3-aa56-d9056e1b81af` was created for the narrow `Invoke-StubGate` cleanup status task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -575,7 +604,7 @@ Branch: `codex/implementation-status-active-run-status-list-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cc4-e98e-7092-8d4a-7d68de4af82d` was created for the narrow implementation-status ActiveRunSafety status-list sync task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -604,7 +633,7 @@ Branch: `codex/active-run-status-list-consistency-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cc0-9ea3-7e22-859b-0c80187114e9` was created for the narrow ActiveRunSafety status-list consistency status task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -633,7 +662,7 @@ Branch: `codex/active-run-current-state-status-consistency`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cbb-8188-7380-9ed2-4ff44587d860` was created for the narrow active-run/current-state status consistency task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -663,7 +692,7 @@ Branch: `codex/current-state-branch-history-consistency`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cb8-15b4-7570-b3ed-f1b7b3e70826` was created for the narrow current-state branch-history consistency status task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -692,7 +721,7 @@ Branch: `codex/current-state-active-verification-hardening-history`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cb5-b98a-7670-8022-00e7f88f6eba` was created for the narrow current-state branch-history status task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
 
 Scope:
@@ -720,7 +749,7 @@ Branch: `codex/implementation-status-active-verification-allow-flags`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cb1-434c-7c50-a97f-734afd85432e` was created for the narrow ActiveVerificationCommandSafety implementation-status allow-flag sync status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -748,7 +777,7 @@ Branch: `codex/implementation-status-qa-command-allow-flags`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7cad-6d7a-7cf1-af91-d534b7fd926c` was created for the narrow QaDocsCommandSafety implementation-status allow-flag sync status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -776,7 +805,7 @@ Branch: `codex/active-verification-testability-allow-flags`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7caa-0671-7703-ac62-3d34f548e873` was created for the narrow ActiveVerificationCommandSafety TestabilityGaps allow-flag status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -805,7 +834,7 @@ Branch: `codex/qa-docs-command-testability-allow-flags`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ca6-8b08-7302-aae0-e781ceb28eb9` was created for the narrow QaDocsCommandSafety TestabilityGaps allow-flag status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -834,7 +863,7 @@ Branch: `codex/qa-docs-finding-detail-guard`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7ca2-f4de-70d3-971e-6311861dedec` was created for the narrow next static hardening discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -863,7 +892,7 @@ Branch: `codex/privacy-pattern-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c9f-0854-7f63-9204-0378bb76c7a7` was created for the narrow Privacy pattern finding coverage discovery/status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -892,7 +921,7 @@ Branch: `codex/qa-docs-reportonly-coverage-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c9c-4fe0-7d71-a9b3-8fa00f8c59af` was created for the narrow next static hardening discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -922,7 +951,7 @@ Branch: `codex/release-privacy-reportonly-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c98-6ee2-7110-9ac7-cffba2589c2e` was created for the narrow Release/Privacy report-only coverage discovery/status task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -951,7 +980,7 @@ Branch: `codex/qa-docs-m11-hardening-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c94-09e0-7ec1-8efa-5ffb038bc0c2` was created for the narrow QaDocsSafety release/privacy M1.1 hardening wording guard discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -981,7 +1010,7 @@ Branch: `codex/qa-docs-release-privacy-hardening-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c8f-ac2b-7e91-9eda-9eb2e273c4ad` was created for the narrow QaDocsSafety release/privacy hardening wording guard discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1011,7 +1040,7 @@ Branch: `codex/qa-docs-finding-coverage-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c87-15ab-7b62-a57c-9e4aeb5d06f5` was created for the narrow QaDocsSafety finding coverage wording guard discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1039,7 +1068,7 @@ Branch: `codex/qa-docs-structural-finding-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c82-8613-7a91-8e7c-e64ef5a02d41` was created for the narrow structural QA docs finding coverage sync discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1071,7 +1100,7 @@ Branch: `codex/qa-docs-canary-bridge-finding-sync`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c7f-8955-7023-853d-52b95e07336f` was created for the narrow QA docs canary/bridge finding coverage sync discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1100,7 +1129,7 @@ Branch: `codex/webview-bridge-remaining-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c7a-bc6c-7880-8e00-e5040a74efc2` was created for the narrow WebViewBridge remaining finding coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1131,7 +1160,7 @@ Branch: `codex/game-session-canary-remaining-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c75-8a8a-73c2-a9d6-6b15af579731` was created for the narrow GameSessionCanary remaining finding coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1162,7 +1191,7 @@ Branch: `codex/testability-gaps-local-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c71-6a5c-70b3-988a-c1c0cd4a7eb4` was created for the narrow TestabilityGaps local finding coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1192,7 +1221,7 @@ Branch: `codex/update-manifest-structural-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c6e-2c49-7ee2-a4cc-8a5cb5762283` was created for the narrow UpdateManifest structural package coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1223,7 +1252,7 @@ Branch: `codex/backend-smoke-structural-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c6b-2f96-7750-9b0e-4ddad185e9a4` was created for the narrow BackendSmoke structural endpoint coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1253,7 +1282,7 @@ Branch: `codex/webview-bridge-structural-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Worktree discovery creation returned only pending worktree id `local:a6ab6d5c-80a7-4d21-a639-7d93685ceeb3` and did not appear in thread listing, so delegated local discovery thread `019e7c68-23fb-7bc2-9e2a-d6524c490123` was created for the narrow WebViewBridge structural finding coverage task.
 
 Scope:
@@ -1284,7 +1313,7 @@ Branch: `codex/nonprod-foundation-structural-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c63-fb0c-7370-a316-e4aaacd93add` was created for the narrow NonProdFoundation structural finding coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1314,7 +1343,7 @@ Branch: `codex/app-smoke-static-finding-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c5e-4df0-7980-8212-cecc0cc13e64` was created for the narrow App/WebView smoke static finding coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1343,7 +1372,7 @@ Branch: `codex/game-session-canary-conditional-flag-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c59-d8f7-7123-b91f-2a6ad2860583` was created for the narrow GameSessionCanary conditional flag coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1373,7 +1402,7 @@ Branch: `codex/backend-smoke-unsafe-endpoint-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c55-5f35-7f73-9c2b-e29ea9baf882` was created for the narrow BackendSmoke unsafe endpoint/mock response coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1402,7 +1431,7 @@ Branch: `codex/webview-bridge-unsafe-logging-coverage`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c51-c1d9-78f1-ba72-b3f0d33f2096` was created for the narrow WebViewBridge unsafe logging policy coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1431,7 +1460,7 @@ Branch: `codex/testability-gaps-evidence-vocabulary-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c4d-1416-7213-bdac-4318cfebc842` was created for the narrow TestabilityGaps required evidence/next-safe-step vocabulary discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1460,7 +1489,7 @@ Branch: `codex/verification-memory-installed-artifact-history-boundary`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c49-7272-7991-8886-568c99290bf8` was created for the narrow historical verification-memory installed artifact command boundary discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1489,7 +1518,7 @@ Branch: `codex/qa-docs-installed-artifact-boundary-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c46-b80c-7732-a41d-62a7bff7a942` was created for the narrow QaDocsSafety installed artifact manual-boundary wording guard discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
@@ -1518,7 +1547,7 @@ Branch: `codex/qa-docs-installed-artifact-manual-boundary`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent docs sync.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent docs sync.
 - Delegated task thread `019e7c43-c34d-79e3-bdc2-906c9771ae11` was created for the narrow QA docs installed artifact manual-boundary wording discovery task; coordination takeover completed the docs sync without using old task threads for edits.
 
 Scope:
@@ -1548,7 +1577,7 @@ Branch: `codex/active-run-implementation-status-artifact-source-safety`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7c40-5bda-7813-8248-e8e45e249e70` was created for the narrow local/static ActiveRunSafety implementation-status installed artifact wording discovery task; coordination takeover completed the implementation without using old task threads for edits.
 
 Scope:
