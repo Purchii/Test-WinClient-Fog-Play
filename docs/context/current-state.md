@@ -175,6 +175,7 @@ Post-M6: QualityGatesDocsScopeSafety summary parity guard - implemented and veri
 Post-M6: SessionLogSafety lifecycle history guard - implemented and verified locally.
 Post-M6: SessionLogSafety lifecycle check cleanup - implemented and verified locally.
 Post-M6: QaDocsSafety AppSmoke report-only coverage wording guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -344,6 +345,7 @@ Repository bootstrap state:
 - Post-M6 SessionLogSafety lifecycle history guard was completed on `codex/session-log-lifecycle-history-guard`.
 - Post-M6 SessionLogSafety lifecycle check cleanup was completed on `codex/session-log-lifecycle-check-cleanup`.
 - Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard was completed on `codex/qa-docs-appsmoke-reportonly-safety`.
+- Post-M6 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard was completed on `codex/qadocs-readme-reportonly-summary-safety`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.

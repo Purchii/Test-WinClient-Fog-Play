@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Quality Gates Docs Scope Safety QaDocsSafety README summary parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after a separate discovery thread was created and local read-only inspection confirmed `scripts/README.md` still described `QaDocsSafety` report-only coverage as release/privacy only after the gate and quality-gates summary added AppSmoke.
+
+Branch: `codex/qadocs-readme-reportonly-summary-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated discovery thread `019e7d24-eafe-7162-b56d-5f36a4b75dbf` was created for this narrow discovery/status sync task; it did not complete a final candidate report before this local static documentation parity cleanup proceeded from direct repository evidence, and is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Sync `scripts/README.md` with the `QaDocsSafety` AppSmoke report-only coverage wording.
+- Extend `QualityGatesDocsScopeSafety` summary parity coverage to the `QaDocsSafety` report-only and installed-artifact manual-boundary summary fragments.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QaDocsSafety AppSmoke report-only coverage wording guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static QA-doc safety hardening after a separate discovery thread confirmed App/WebView smoke already documents a local `-ReportOnly` fixture command and installed-artifact manual boundary, while `QaDocsSafety` report-only wording coverage only guarded release/privacy docs.

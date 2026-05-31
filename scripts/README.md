@@ -93,7 +93,7 @@ The `TestFrameworkInventorySafety` quality gate fails if the `src/TestFramework`
 
 The `IncidentStopSafety` quality gate fails if stop triggers drift out of `docs/qa/incident-stop-policy.md`, active handoff, or testability gap fixtures.
 
-The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, if core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes or release/privacy report-only coverage notes are removed, or if installed artifact defaults in active QA docs lose the manual/explicit-plan and local-fixture autonomous verification boundary.
+The `QaDocsSafety` quality gate fails if the required `docs/qa/*.md` policy inventory changes without updating the gate, if core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes or release/privacy/AppSmoke report-only coverage notes are removed, or if installed artifact defaults in active QA docs lose the manual/explicit-plan and local-fixture autonomous verification boundary.
 
 The `ArtifactPolicySafety` quality gate fails if release/privacy policy fixtures lose required files, forbidden extensions, finding ids, privacy patterns or bounded scan limits.
 

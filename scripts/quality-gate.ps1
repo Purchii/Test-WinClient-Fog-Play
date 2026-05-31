@@ -696,6 +696,17 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-AllowRollback`',
                 '`-AllowCredentials`'
             )
+        },
+        @{
+            Scope             = 'QaDocsSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'release/privacy/AppSmoke report-only coverage notes',
+                'installed artifact defaults',
+                'manual/explicit-plan',
+                'local-fixture autonomous verification boundary'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
