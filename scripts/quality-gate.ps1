@@ -4225,6 +4225,18 @@ function Invoke-BackendSmokeGate {
     & (Join-Path $repoRoot 'src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1')
 
     $backendSmoke = Join-Path $repoRoot 'scripts/run-backend-smoke.ps1'
+    foreach ($flag in @('AllowNetwork', 'AllowAuth')) {
+        Assert-CommandRejected -Message "Backend smoke runner must reject -$flag." -Command {
+            $params = @{
+                PolicyPath = (Join-Path $repoRoot 'testdata/backend-smoke.example.json')
+                DryRun = $true
+            }
+            $params[$flag] = $true
+            & $backendSmoke `
+                @params | Out-Null
+        }
+    }
+
     $result = Invoke-JsonGate {
         & $backendSmoke `
             -PolicyPath (Join-Path $repoRoot 'testdata/backend-smoke.example.json') `

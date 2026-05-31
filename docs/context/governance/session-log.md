@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Backend smoke dangerous flag RunnerSafety coverage
+
+Mode: `BOUNDED_AUTONOMOUS` local dry-run quality gate hardening after separate task-thread discovery confirmed the BackendSmoke coverage gap.
+
+Branch: `codex/backend-smoke-dangerous-flag-runner-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This delegated task thread implemented the confirmed narrow local/dry-run coverage task on a dedicated branch.
+
+Scope:
+
+- Strengthen existing `BackendSmoke` quality gate coverage.
+- Assert that `run-backend-smoke.ps1 -DryRun -AllowNetwork` is rejected.
+- Assert that `run-backend-smoke.ps1 -DryRun -AllowAuth` is rejected.
+- Keep the task local/dry-run only without runtime backend, auth or client interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run thread lifecycle stale-id safety
 
 Mode: `BOUNDED_AUTONOMOUS` static documentation and gate hardening after separate task-thread discovery confirmed drift.

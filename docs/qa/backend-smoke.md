@@ -30,6 +30,7 @@ Safety defaults:
 
 - no real backend network call is attempted;
 - no authentication is attempted;
+- runner calls with `-AllowNetwork` or `-AllowAuth` are rejected even with `-DryRun`;
 - no game session is started;
 - no mutating request is attempted;
 - no user AppData, cookies, local DB, logs or crash dumps are read.

@@ -188,7 +188,7 @@ Current artifact status:
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
 - Release and privacy runners require `-DryRun` before reading artifact roots.
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags.
-- UpdateManifest, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.
+- UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.
 - RunnerSafety statically checks runner dry-run requirements, dangerous allow-switch guards and forbidden runtime/network primitives.
 - TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
 - TestDataInventorySafety statically checks the `testdata/` fixture file inventory.

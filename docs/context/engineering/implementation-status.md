@@ -1056,6 +1056,7 @@ Implemented outputs:
 Implemented checks:
 
 - `UpdateManifest` quality gate asserts `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` rejection;
+- `BackendSmoke` quality gate asserts `-AllowNetwork` and `-AllowAuth` rejection;
 - `GameSessionCanary` quality gate asserts `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `NonProdFoundation` quality gate asserts `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `TestabilityGaps` quality gate asserts `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` rejection.
