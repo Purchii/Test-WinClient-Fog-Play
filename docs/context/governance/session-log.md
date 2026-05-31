@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Quality Gates Docs Scope Safety README self-summary parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after a separate discovery thread was created and local read-only inspection confirmed `QualityGatesDocsScopeSafety` already enforced summary parity beyond the scope inventory while its `scripts/README.md` summary still described only command inventory drift.
+
+Branch: `codex/quality-gates-scope-readme-summary-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated discovery thread `019e7d29-40e9-7bf1-817c-fc8648ee0509` was created for this narrow discovery/status sync task; it did not complete a final candidate report before this local static documentation parity cleanup proceeded from direct repository evidence, and is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Sync `scripts/README.md` and quality-gates documentation with the current `QualityGatesDocsScopeSafety` summary parity behavior.
+- Extend `QualityGatesDocsScopeSafety` summary contracts to cover its own README/quality-gates summary fragments.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Quality Gates Docs Scope Safety QaDocsSafety README summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after a separate discovery thread was created and local read-only inspection confirmed `scripts/README.md` still described `QaDocsSafety` report-only coverage as release/privacy only after the gate and quality-gates summary added AppSmoke.

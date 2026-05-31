@@ -707,6 +707,17 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'manual/explicit-plan',
                 'local-fixture autonomous verification boundary'
             )
+        },
+        @{
+            Scope             = 'QualityGatesDocsScopeSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'preferred `docs/context/engineering/quality-gates.md` command block',
+                'exact `quality-gate.ps1 -Scope` inventory',
+                'selected runner-scope and QA-doc safety summaries',
+                'scripts/README.md'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {

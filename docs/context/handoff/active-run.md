@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety README self-summary parity guard.
 
 Planning boundary:
 
@@ -167,6 +167,7 @@ Post-M6 SessionLogSafety lifecycle history guard is complete.
 Post-M6 SessionLogSafety lifecycle check cleanup is complete.
 Post-M6 QaDocsSafety AppSmoke report-only coverage wording guard is complete.
 Post-M6 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety README self-summary parity guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -256,6 +257,8 @@ QaDocsSafety release/privacy report-only coverage wording guard fails if release
 QaDocsSafety AppSmoke report-only coverage wording guard fails if App/WebView smoke QA docs lose the Post-M6 report-only coverage note for local fixture artifact discovery without launching the client or reading installed artifacts.
 
 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard fails if quality-gates and scripts README summaries drift on release/privacy/AppSmoke report-only coverage notes or installed artifact manual-boundary wording.
+
+QualityGatesDocsScopeSafety README self-summary parity guard fails if the QualityGatesDocsScopeSafety summaries drift on preferred command block, exact scope inventory, selected runner-scope and QA-doc safety summary parity with scripts README.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
@@ -389,7 +392,7 @@ QaDocsPowerShellInvocationSafety adds `Full` coverage for command-looking `run-*
 
 QaDocsRunnerExampleCoverageSafety adds `Full` coverage for active QA runner/doc contracts so each local FrameworkInventorySafety runner has a command-looking dry-run example in its mapped QA doc.
 
-QualityGatesDocsScopeSafety adds `Full` coverage for the preferred `docs/context/engineering/quality-gates.md` command block so supported `quality-gate.ps1 -Scope` commands cannot drift, duplicate or list unknown scopes.
+QualityGatesDocsScopeSafety adds `Full` coverage for the preferred `docs/context/engineering/quality-gates.md` command block so supported `quality-gate.ps1 -Scope` commands cannot drift, duplicate or list unknown scopes, and selected runner-scope and QA-doc safety summaries stay aligned with scripts README.
 
 RepositoryRootInventorySafety adds `Full` coverage for the repository-root file and directory inventory.
 
