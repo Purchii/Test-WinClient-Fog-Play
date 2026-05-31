@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
 
 Planning boundary:
 
@@ -145,7 +145,7 @@ ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` hand
 
 SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording and keeps the latest session-log codex branch synced with verification-memory.
 
-VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers and missing evidence fields fail closed.
+VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale and missing latest-entry safety notes fail closed.
 
 ActiveVerificationCommandSafety adds `Full` coverage for active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static and excludes installed-client paths, user runtime paths, endpoints, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency and CI commands.
 

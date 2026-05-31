@@ -351,6 +351,7 @@ Implemented outputs:
 - `docs/context/handoff/active-run.md`
 - `docs/context/current-state.md`
 - `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
 
 Implemented checks:
 
@@ -1282,7 +1283,7 @@ Implemented checks:
 - `active-run.md` must keep the forbidden-action boundary and stop-and-ask triggers explicit;
 - `current-state.md` must mention current static safety gates;
 - active handoff must mention current static safety gates for synthetic users, allowed games, resource budgets and production metadata;
-- active handoff must keep the current milestone marker synced with the latest static safety gate;
+- active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;
 - active handoff must not record stale literal latest-pushed commit markers;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
@@ -1310,6 +1311,8 @@ Implemented outputs:
 - `docs/context/handoff/active-run.md`
 - `docs/context/current-state.md`
 - `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
 
 Implemented checks:
 
@@ -1346,6 +1349,7 @@ Implemented checks:
 - guarded `docs/context/governance/session-log.md` entries with `Branch: codex/*` must include mode, branch, scope and safety sections;
 - guarded branch entries must preserve core no-runtime/no-production safety phrases;
 - the most recent `docs/context/governance/session-log.md` entry with `Branch: codex/*` must include thread lifecycle wording regardless of older mode wording;
+- the latest session-log codex branch entry must match the latest verification-memory codex branch entry;
 - `SessionLogSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
@@ -1369,6 +1373,7 @@ Implemented outputs:
 - `docs/context/handoff/active-run.md`
 - `docs/context/current-state.md`
 - `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
 
 Implemented checks:
 
@@ -1376,6 +1381,7 @@ Implemented checks:
 - `docs/context/engineering/verification-memory.md` must not retain unresolved `verification pending` or `- pending` markers;
 - codex branch entries must include passed status, production impact, commands and results;
 - static branch entries must include a `Not run` rationale;
+- the latest codex branch entry must keep `Safety notes:` with no-real-credentials, no-production-game-session and no-unsafe-test notes;
 - `VerificationMemorySafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
