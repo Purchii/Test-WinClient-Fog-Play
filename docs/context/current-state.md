@@ -168,6 +168,7 @@ Post-M6: QaDocsSafety installed artifact manual-boundary wording guard - impleme
 Post-M6: VerificationMemorySafety installed artifact historical command boundary - implemented and verified locally.
 Post-M6: VerificationMemorySafety installed artifact summary sync - implemented and verified locally.
 Post-M6: ActiveRunSafety archived verification dedupe - implemented and verified locally.
+Post-M6: ActiveRunSafety latest item marker guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -330,6 +331,7 @@ Repository bootstrap state:
 - Post-M6 VerificationMemorySafety installed artifact historical command boundary was completed on `codex/verification-memory-installed-artifact-history-boundary`.
 - Post-M6 VerificationMemorySafety installed artifact summary sync was completed on `codex/verification-memory-boundary-summary-sync`.
 - Post-M6 ActiveRunSafety archived verification dedupe was completed on `codex/active-run-archived-verification-dedupe`.
+- Post-M6 ActiveRunSafety latest item marker guard was completed on `codex/active-run-latest-item-marker`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -376,7 +378,7 @@ Current artifact status:
 - TestDataInventorySafety statically checks the `testdata/` fixture file inventory.
 - Context gate checks that `docs/context/engineering/quality-gates.md` lists every supported `quality-gate.ps1 -Scope` value.
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers, stale literal latest-commit markers and stale literal historical thread ids declared as the active task thread.
-- ActiveRunSafety also checks that active-run's current milestone marker stays synced with the latest verification-memory codex branch entry, that last-verification notes include active-run coverage, and that active-run verification history blocks do not repeat commands within a block.
+- ActiveRunSafety also checks that active-run's current milestone marker and latest completed item marker stay synced with the latest verification-memory codex branch entry, that last-verification notes include active-run coverage, and that active-run verification history blocks do not repeat commands within a block.
 - ActiveRunSafety derives current static safety scope coverage from `quality-gate.ps1` so newly added `*Safety` scopes cannot drift out of active/current context checks.
 - ActiveRunSafety keeps current-state top statuses, current-state branch history and active-run planning-boundary statuses aligned.
 - ActiveRunSafety uses `git status --short --branch` as the authoritative current branch/worktree source instead of a live literal active-run branch value.

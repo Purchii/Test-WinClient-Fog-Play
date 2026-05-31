@@ -1315,6 +1315,7 @@ Implemented checks:
 - new `*Safety` scopes cannot silently drift out of active/current context checks;
 - current-state top statuses, current-state branch history and active-run planning-boundary statuses must stay aligned;
 - active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
+- active handoff must keep the current latest completed item marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;
 - active-run verification history blocks must not repeat commands within a block;
 - active handoff must not record stale literal latest-pushed commit markers;

@@ -5,6 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
+Current latest completed item: Post-M6 ActiveRunSafety latest item marker guard.
 
 Planning boundary:
 
@@ -158,6 +159,7 @@ Post-M6 QaDocsSafety installed artifact manual-boundary wording guard is complet
 Post-M6 VerificationMemorySafety installed artifact historical command boundary is complete.
 Post-M6 VerificationMemorySafety installed artifact summary sync is complete.
 Post-M6 ActiveRunSafety archived verification dedupe is complete.
+Post-M6 ActiveRunSafety latest item marker guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -217,6 +219,8 @@ VerificationMemorySafety installed artifact historical command boundary requires
 VerificationMemorySafety installed artifact summary sync keeps active/current lower summaries aligned with the installed artifact historical command boundary enforced by the gate.
 
 ActiveRunSafety archived verification dedupe removes the repeated archived verification command and fails closed if any active-run verification block repeats a command.
+
+ActiveRunSafety latest item marker guard adds an explicit active-run latest completed item marker and fails closed if it drifts from the latest verification-memory codex branch entry.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
@@ -417,6 +421,8 @@ ActiveRunSafety status-list consistency guard fails if current-state top statuse
 ActiveRunSafety implementation-status status-list sync keeps implementation status aligned with the current ActiveRunSafety status-list consistency guard.
 
 ActiveRunSafety archived verification dedupe adds `Full` coverage so active-run verification history blocks cannot repeat commands within a block.
+
+ActiveRunSafety latest item marker guard adds `Full` coverage so the active-run latest completed item marker stays synced with the latest verification-memory codex branch entry.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

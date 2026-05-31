@@ -890,6 +890,36 @@ function Resolve-SafetyScopeFromVerificationMemoryEntry {
     return $orderedMatches[0].Scope
 }
 
+function Resolve-StatusNameFromVerificationMemoryEntry {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string] $EntryText,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $KnownSafetyScopes
+    )
+
+    $titleMatch = [regex]::Match($EntryText, '^## \d{4}-\d{2}-\d{2} - (?<title>.+)$', 'Multiline')
+    if (-not $titleMatch.Success) {
+        throw 'verification-memory.md latest codex branch entry must have a dated title.'
+    }
+
+    $statusName = $titleMatch.Groups['title'].Value.Trim()
+    foreach ($scopeName in @($KnownSafetyScopes | Sort-Object Length -Descending)) {
+        $scopeCore = $scopeName -replace 'Safety$', ''
+        $coreWords = @([regex]::Matches($scopeCore, '[A-Z][a-z0-9]*|[0-9]+') | ForEach-Object { $_.Value.ToLowerInvariant() })
+        if ($coreWords.Count -eq 0) {
+            continue
+        }
+
+        $scopePattern = (($coreWords + @('safety')) | ForEach-Object { [regex]::Escape($_) }) -join '[-\s]+'
+        $statusName = [regex]::Replace($statusName, "(?i)\b$scopePattern\b", $scopeName, 1)
+    }
+
+    return $statusName
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -1032,6 +1062,14 @@ function Invoke-ActiveRunSafetyGate {
     }
     if ($milestoneMatch.Groups['scope'].Value -ne $expectedMilestoneScope) {
         throw "active-run.md Current milestone marker must sync with verification-memory.md latest codex branch entry: expected $expectedMilestoneScope."
+    }
+    $expectedLatestItem = Resolve-StatusNameFromVerificationMemoryEntry -EntryText $latestVerificationEntry -KnownSafetyScopes $knownSafetyScopes
+    $latestItemMatch = [regex]::Match($activeRun, 'Current latest completed item:\s+Post-M6 (?<name>.+?)\.')
+    if (-not $latestItemMatch.Success) {
+        throw 'active-run.md must keep a Current latest completed item marker.'
+    }
+    if ($latestItemMatch.Groups['name'].Value -ne $expectedLatestItem) {
+        throw "active-run.md Current latest completed item marker must sync with verification-memory.md latest codex branch entry: expected $expectedLatestItem."
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
