@@ -2996,7 +2996,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'game-session-canary-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'cleanup-not-required', 'synthetic-alias-not-canary', 'synthetic-alias-not-allowlisted', 'duration-exceeds-budget', 'duration-exceeds-synthetic-user-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'runtime-paths-not-empty', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'missing-canary-suite-metadata', 'canary-suite-metadata-not-exact', 'cleanup-not-required', 'synthetic-alias-not-canary', 'synthetic-alias-not-allowlisted', 'synthetic-alias-not-production-allowed', 'duration-exceeds-budget', 'duration-exceeds-synthetic-user-budget', 'game-not-in-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals', 'readiness-signals-not-exact')
         },
         @{
             Fixture = 'nonprod-foundation-unsafe.example.json'
@@ -4415,16 +4415,22 @@ function Invoke-GameSessionCanaryGate {
     Assert-FindingId -Result $negative -Id 'client-launch-not-disabled'
     Assert-FindingId -Result $negative -Id 'network-not-disabled'
     Assert-FindingId -Result $negative -Id 'auth-not-disabled'
+    Assert-FindingId -Result $negative -Id 'runtime-paths-not-empty'
     Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
     Assert-FindingId -Result $negative -Id 'non-prod-conditional-canary'
+    Assert-FindingId -Result $negative -Id 'missing-canary-suite-metadata'
+    Assert-FindingId -Result $negative -Id 'canary-suite-metadata-not-exact'
     Assert-FindingId -Result $negative -Id 'cleanup-not-required'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-canary'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-allowlisted'
+    Assert-FindingId -Result $negative -Id 'synthetic-alias-not-production-allowed'
     Assert-FindingId -Result $negative -Id 'duration-exceeds-budget'
     Assert-FindingId -Result $negative -Id 'duration-exceeds-synthetic-user-budget'
+    Assert-FindingId -Result $negative -Id 'game-not-in-budget'
     Assert-FindingId -Result $negative -Id 'game-not-allowlisted'
     Assert-FindingId -Result $negative -Id 'uncontrolled-retries'
     Assert-FindingId -Result $negative -Id 'missing-readiness-signals'
+    Assert-FindingId -Result $negative -Id 'readiness-signals-not-exact'
 
     Write-Host 'GameSessionCanary gate passed.'
 }
