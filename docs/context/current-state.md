@@ -24,6 +24,7 @@ M5: Minimal game-session canary readiness gate - dry-run plan validator implemen
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: QualityGateStructureSafety Invoke-StubGate cleanup - implemented and verified locally.
+Post-M6: QualityGateStructureSafety implementation-status stub cleanup sync - implemented and verified locally.
 Post-M6: TestDataStructuredSyntaxSafety static gate - implemented and verified locally.
 Post-M6: GovernanceHistoryScopeSafety static gate - implemented and verified locally.
 Post-M6: ScriptsReadmeScopeSafety static gate - implemented and verified locally.
@@ -171,6 +172,7 @@ Repository bootstrap state:
 - M6 implementation was completed on `codex/m6-nonprod-foundation` and merged to `main`.
 - Post-M6 QualityGateStructureSafety static gate was completed on `codex/quality-gate-structure-safety-gate`.
 - Post-M6 QualityGateStructureSafety Invoke-StubGate cleanup was completed on `codex/quality-gate-stub-cleanup`.
+- Post-M6 QualityGateStructureSafety implementation-status stub cleanup sync was completed on `codex/implementation-status-quality-gate-stub-cleanup`.
 - Post-M6 TestDataStructuredSyntaxSafety static gate was completed on `codex/testdata-structured-syntax-safety-gate`.
 - Post-M6 GovernanceHistoryScopeSafety static gate was completed on `codex/governance-history-scope-safety-gate`.
 - Post-M6 ScriptsReadmeScopeSafety static gate was completed on `codex/scripts-readme-scope-safety-gate`.

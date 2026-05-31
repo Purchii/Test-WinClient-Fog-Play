@@ -13,6 +13,7 @@ Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 QualityGateStructureSafety static gate is complete.
 Post-M6 QualityGateStructureSafety Invoke-StubGate cleanup is complete.
+Post-M6 QualityGateStructureSafety implementation-status stub cleanup sync is complete.
 Post-M6 TestDataStructuredSyntaxSafety static gate is complete.
 Post-M6 GovernanceHistoryScopeSafety static gate is complete.
 Post-M6 ScriptsReadmeScopeSafety static gate is complete.
@@ -296,6 +297,8 @@ TestDataStructuredSyntaxSafety adds `Full` coverage for JSON fixture parsing und
 QualityGateStructureSafety adds `Full` coverage for `quality-gate.ps1` structural wiring: every `ValidateSet` scope except `Full` must have exactly one matching `Invoke-<Scope>Gate` function and exactly one `Full` dispatch block.
 
 QualityGateStructureSafety Invoke-StubGate cleanup removes the stale unused placeholder that still described documented gates as not implemented.
+
+QualityGateStructureSafety implementation-status stub cleanup sync keeps implementation status aligned with the stale placeholder removal.
 
 Thread lifecycle reinforcement makes the separate-thread rule explicit for autonomous time extensions and follow-up gate selection.
 

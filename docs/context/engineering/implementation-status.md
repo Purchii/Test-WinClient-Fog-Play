@@ -853,6 +853,7 @@ Implemented checks:
 - new `QualityGateStructureSafety` quality gate scope;
 - every `quality-gate.ps1 -Scope` value except `Full` must have exactly one matching `Invoke-<Scope>Gate` function;
 - every `quality-gate.ps1 -Scope` value except `Full` must have exactly one matching `Full` dispatch block;
+- stale unused placeholder helpers such as `Invoke-StubGate` must not remain after all scopes are implemented;
 - `QualityGateStructureSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:
