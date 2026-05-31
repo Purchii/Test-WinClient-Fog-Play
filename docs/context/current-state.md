@@ -123,6 +123,7 @@ Post-M6: ProdCanary runner input path safety hardening - implemented and verifie
 Post-M6: RunnerSafety input path coverage hardening - implemented and verified locally.
 Post-M6: TestabilityGaps next-safe-step vocabulary hardening - implemented and verified locally.
 Post-M6: TestabilityGaps local finding coverage hardening - implemented and verified locally.
+Post-M6: Structural finding QA docs coverage sync - implemented and verified locally.
 Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
 Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
@@ -243,6 +244,7 @@ Repository bootstrap state:
 - Post-M6 ProdCanary runner input path safety hardening was completed on `codex/runner-prod-canary-input-path-safety`.
 - Post-M6 RunnerSafety input path coverage hardening was completed on `codex/runner-safety-input-path-coverage`.
 - Post-M6 TestabilityGaps next-safe-step vocabulary hardening was completed on `codex/testability-gaps-evidence-vocabulary-safety`.
+- Post-M6 Structural finding QA docs coverage sync was completed on `codex/qa-docs-structural-finding-sync`.
 - Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup was completed on `codex/scripts-readme-testabilitygaps-duplicate-cleanup`.
 - Post-M6 QualityGatesDocsScopeSafety input path summary sync was completed on `codex/quality-gates-docs-input-path-summary-sync`.
 - Post-M6 RunnerSafety implementation-status input path sync was completed on `codex/implementation-status-runner-input-path-sync`.

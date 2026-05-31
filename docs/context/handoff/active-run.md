@@ -111,6 +111,7 @@ Post-M6 ProdCanary runner input path safety hardening is complete.
 Post-M6 RunnerSafety input path coverage hardening is complete.
 Post-M6 TestabilityGaps next-safe-step vocabulary hardening is complete.
 Post-M6 TestabilityGaps local finding coverage hardening is complete.
+Post-M6 Structural finding QA docs coverage sync is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
@@ -146,6 +147,8 @@ WebViewBridge structural finding coverage hardening requires local tests to asse
 WebViewBridge remaining finding coverage hardening requires local tests to assert invalid command direction, missing command/event production-safety metadata, invalid/duplicate event names and fake native host case validation finding ids without launching the client or enabling WebView debug/CDP.
 
 GameSessionCanary/WebViewBridge QA docs finding coverage sync keeps active QA docs aligned with the latest local direct finding assertions without adding any runtime, auth, network, installed-client or game-session steps.
+
+Structural finding QA docs coverage sync keeps AppSmoke, BackendSmoke, UpdateManifest, NonProdFoundation and TestabilityGaps QA docs aligned with existing local direct finding assertions without adding any runtime, auth, network, installed-client or game-session steps.
 
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
 
@@ -405,7 +408,7 @@ Last verification:
 
 Previous verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
@@ -416,7 +419,7 @@ Previous verification:
 
 Earlier verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
@@ -426,6 +429,17 @@ Earlier verification:
 - `git diff --check`.
 
 Older verification:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Oldest verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
@@ -437,7 +451,7 @@ Older verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
 
-Oldest verification:
+Oldest retained verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;

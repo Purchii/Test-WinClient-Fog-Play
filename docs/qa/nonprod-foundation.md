@@ -44,3 +44,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-nonprod-founda
 ```
 
 Post-M6 guard hardening added `NonProdFoundation` quality gate assertions that unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected before any fake/replay execution, network call, authentication or runtime data read can occur.
+
+Post-M6 finding coverage hardening added direct schema assertions for invalid component names, invalid component types and missing component registries.

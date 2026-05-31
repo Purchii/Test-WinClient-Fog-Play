@@ -49,6 +49,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-app-webview-sm
 
 Post-M6 guard hardening added `AppSmoke` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
+Post-M6 finding coverage hardening added direct static fixture assertions for missing required files, missing WebView bundles, missing entrypoints, missing required asset-manifest keys and invalid asset manifests.
+
 Known limitation:
 
 - M2 proves static artifact readiness only. It does not prove that the main window opens or that WebView content renders at runtime.
