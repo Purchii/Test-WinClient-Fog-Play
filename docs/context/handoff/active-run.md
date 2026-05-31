@@ -83,6 +83,7 @@ Post-M6 GameSessionCanary resource-budget policy flag hardening is complete.
 Post-M6 GameSessionCanary suite metadata hardening is complete.
 Post-M6 GameSessionCanary readiness signal allowlist hardening is complete.
 Post-M6 GameSessionCanary readiness signal uniqueness hardening is complete.
+Post-M6 GameSessionCanary runtime path empty-list hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -97,6 +98,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+GameSessionCanary runtime path empty-list hardening requires M5 readiness plans to keep `runtimePaths` empty before the direct dry-run validator can pass.
+
 GameSessionCanary readiness signal uniqueness hardening requires M5 readiness plans to declare exactly `stream-ready` and `first-frame` once each before the direct dry-run validator can pass.
 
 GameSessionCanary readiness signal allowlist hardening requires M5 readiness plans to declare only `stream-ready` and `first-frame` readiness signals before the direct dry-run validator can pass.

@@ -71,6 +71,12 @@ $result = Test-GameSessionCanaryPlan -Plan $duplicateSignalPlan -AllowedGames $a
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject duplicate readiness signals.'
 Assert-FindingId -Result $result -Id 'readiness-signals-not-exact'
 
+$runtimePathPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$runtimePathPlan.runtimePaths = @('C:\Temp\canary.txt')
+$result = Test-GameSessionCanaryPlan -Plan $runtimePathPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject any requested runtime paths.'
+Assert-FindingId -Result $result -Id 'runtime-paths-not-empty'
+
 $nonProductionSyntheticUsers = @(
     [pscustomobject]@{
         alias = 'qa-canary-stream-001'

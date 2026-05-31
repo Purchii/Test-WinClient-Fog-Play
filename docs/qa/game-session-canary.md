@@ -25,6 +25,7 @@ Implemented checks:
 - retries are disabled;
 - expected readiness signals are exactly `stream-ready` and `first-frame`, once each;
 - policy is dry-run only;
+- policy runtime path requests are empty;
 - direct validator invocation requires the dry-run flag;
 - real execution, client launch, network calls and authentication are disabled;
 - policy does not request user runtime paths, logs, cookies, DBs or dumps;

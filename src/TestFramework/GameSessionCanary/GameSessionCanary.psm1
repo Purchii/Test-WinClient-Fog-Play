@@ -96,6 +96,7 @@ function Test-GameSessionCanaryPlan {
     $networkDisabled = (Get-GameSessionCanaryValue -Object $Plan -Name 'networkDisabled' -Default $false) -eq $true
     $authDisabled = (Get-GameSessionCanaryValue -Object $Plan -Name 'authDisabled' -Default $false) -eq $true
     $dryRunFlagProvided = [bool]$DryRun
+    $runtimePaths = @(Get-GameSessionCanaryArray -Object $Plan -Name 'runtimePaths')
 
     foreach ($policyCheck in @(
         @{ Name = 'dryRunFlag'; Passed = $dryRunFlagProvided; Id = 'dry-run-flag-required'; Message = 'M5 readiness gate must be invoked with the dry-run flag.' },
@@ -103,7 +104,8 @@ function Test-GameSessionCanaryPlan {
         @{ Name = 'executionDisabled'; Passed = $executionDisabled; Id = 'execution-not-disabled'; Message = 'M5 readiness gate must disable real game-session execution.' },
         @{ Name = 'clientLaunchDisabled'; Passed = $clientLaunchDisabled; Id = 'client-launch-not-disabled'; Message = 'M5 readiness gate must not launch the installed client.' },
         @{ Name = 'networkDisabled'; Passed = $networkDisabled; Id = 'network-not-disabled'; Message = 'M5 readiness gate must not call production backend or streaming services.' },
-        @{ Name = 'authDisabled'; Passed = $authDisabled; Id = 'auth-not-disabled'; Message = 'M5 readiness gate must not authenticate or use credentials.' }
+        @{ Name = 'authDisabled'; Passed = $authDisabled; Id = 'auth-not-disabled'; Message = 'M5 readiness gate must not authenticate or use credentials.' },
+        @{ Name = 'runtimePathsEmpty'; Passed = ($runtimePaths.Count -eq 0); Id = 'runtime-paths-not-empty'; Message = 'M5 readiness gate must not request runtime paths.' }
     )) {
         $checks += [pscustomobject]@{
             type = 'policy-safety'
@@ -115,7 +117,7 @@ function Test-GameSessionCanaryPlan {
         }
     }
 
-    foreach ($runtimePath in @(Get-GameSessionCanaryArray -Object $Plan -Name 'runtimePaths')) {
+    foreach ($runtimePath in $runtimePaths) {
         $runtimePathText = [string]$runtimePath
         if ($runtimePathText -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
             $findings += Add-GameSessionCanaryFinding -Id 'unsafe-runtime-path' -Severity 'fail' -Path '<policy>' -Message 'M5 readiness gate must not read user runtime paths, logs, cookies, DBs or dumps.'
