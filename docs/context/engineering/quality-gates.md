@@ -114,7 +114,7 @@ The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inv
 
 The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases. It also checks the most recent codex branch entry for thread lifecycle wording regardless of older mode wording.
 
-The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers or lose status, production-impact, command and result evidence.
+The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers; lose status, production-impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; or lose latest-entry core safety notes.
 
 The `ActiveVerificationCommandSafety` scope statically checks only active/current command evidence in `docs/context/handoff/active-run.md` Last verification and the most recent `docs/context/engineering/verification-memory.md` Commands block so verification commands stay local/static quality-gate or git checks and do not include installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency or CI commands.
 

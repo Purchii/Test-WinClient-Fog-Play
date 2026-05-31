@@ -1023,8 +1023,22 @@ function Invoke-VerificationMemorySafetyGate {
                 throw "verification-memory.md entry '$title' must include $requiredPhrase"
             }
         }
-        if ($entryText -match 'Production impact:\s+none; static' -and $entryText -notmatch 'Not run:') {
+        $productionImpactLine = ([regex]::Match($entryText, '^Production impact:\s*(.+)$', 'Multiline')).Value
+        if ($productionImpactLine -match 'Production impact:\s*none;' -and $productionImpactLine -match '\bstatic\b' -and $entryText -notmatch 'Not run:') {
             throw "verification-memory.md static entry '$title' must include Not run rationale."
+        }
+    }
+
+    $latestBranchEntryText = $branchEntries[0].Value
+    $latestBranchEntryTitle = ([regex]::Match($latestBranchEntryText, '^## .+', 'Multiline')).Value
+    foreach ($requiredPhrase in @(
+            'Safety notes:',
+            'No real credentials committed.',
+            'No production game session started.',
+            'No unsafe test enabled.'
+        )) {
+        if ($latestBranchEntryText -notmatch [regex]::Escape($requiredPhrase)) {
+            throw "verification-memory.md latest entry '$latestBranchEntryTitle' must preserve safety phrase: $requiredPhrase"
         }
     }
 
