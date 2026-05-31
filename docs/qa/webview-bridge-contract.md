@@ -24,6 +24,7 @@ Implemented checks:
 - fake native host cases target known commands/events;
 - malformed fake-host cases expect rejection, error or ignore behavior;
 - policy does not request WebView debug/CDP diagnostics;
+- runner contract path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
 - policy does not request user runtime paths, logs, cookies, DBs or dumps;
 - policy test metadata passes ProdGuard as `PROD_SAFE`.
 
@@ -41,7 +42,7 @@ Runner:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-webview-bridge-contract.ps1 -DryRun
 ```
 
-Post-M6 guard hardening added `BridgeContract` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch or debug action can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
+Post-M6 guard hardening added `BridgeContract` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected before any client launch, debug action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without `-DryRun`.
 
 Known limitation:
 

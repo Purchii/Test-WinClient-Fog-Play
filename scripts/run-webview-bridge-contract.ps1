@@ -23,6 +23,10 @@ if ([string]::IsNullOrWhiteSpace($ContractPath)) {
     $ContractPath = Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json'
 }
 
+if ($ContractPath -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+    throw 'WebView bridge contract runner must not read unsafe runtime input paths.'
+}
+
 if ($AllowWebViewDebugPort) {
     throw 'WebView debug/CDP is not allowed in M3 contract dry-run.'
 }

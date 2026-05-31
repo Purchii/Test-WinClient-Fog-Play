@@ -4271,6 +4271,12 @@ function Invoke-BridgeContractGate {
         throw 'WebView bridge contract runner must reject -AllowWebViewDebugPort.'
     }
 
+    Assert-CommandRejected -Message 'WebView bridge contract runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $bridgeContract `
+            -ContractPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\bridge.json' `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $bridgeContract `
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `

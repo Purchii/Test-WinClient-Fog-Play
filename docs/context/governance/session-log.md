@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Runner safety webview bridge input path hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-webview-bridge-contract.ps1` accepted caller-provided contract paths before any unsafe runtime path rejection.
+
+Branch: `codex/runner-webview-bridge-input-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c18-e9ad-7cf3-a994-6d908b41bd4b` was created for the narrow local/static WebViewBridge runner input path discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add a pre-read guard for `ContractPath`.
+- Reject AppData/log/cookie/DB/dump-like input path overrides before any file read.
+- Add BridgeContract quality gate coverage for the pre-read rejection.
+- Keep the task local/static with no runtime, WebView debug/CDP, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety backend smoke input path hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-backend-smoke.ps1` accepted caller-provided policy paths before any unsafe runtime path rejection.
