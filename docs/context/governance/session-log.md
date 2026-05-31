@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety ActiveVerificationCommandSafety TestabilityGaps allow flags
+
+Mode: `BOUNDED_AUTONOMOUS` local static verification-command guard hardening after separate task-thread status check confirmed the omitted TestabilityGaps allow flags; coordinator takeover updated only the local safety gate and context evidence.
+
+Branch: `codex/active-verification-testability-allow-flags`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7caa-0671-7703-ac62-3d34f548e873` was created for the narrow ActiveVerificationCommandSafety TestabilityGaps allow-flag status task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Add `-AllowProductionAction` and `-AllowRuntimeUserData` to ActiveVerificationCommandSafety forbidden active verification command tokens.
+- Keep active/current verification evidence from recording TestabilityGaps production-action or runtime-user-data allow flags.
+- Sync scripts README, quality-gates docs, active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety QaDocsCommandSafety TestabilityGaps allow flags
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation command guard hardening after a separate task-thread status check confirmed the omitted TestabilityGaps allow flags; coordinator takeover updated only the local safety gate and context evidence.

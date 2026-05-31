@@ -1292,7 +1292,7 @@ function Assert-ActiveVerificationCommandIsSafe {
         @{ Id = 'localhost'; Pattern = '(?i)\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0|::1)\b' },
         @{ Id = 'webview-debug'; Pattern = '(?i)(remote-debugging|debug-port|webview-debug|devtools|chrome-devtools|\bcdp\b)' },
         @{ Id = 'direct-runner'; Pattern = '(?i)(^|\s|\\|/)run-[A-Za-z0-9-]+\.ps1\b' },
-        @{ Id = 'auth-network-session-flags'; Pattern = '(?i)(-AllowAuth|-AllowNetwork|-AllowExecution|-AllowRollback|-AllowCredentials|-AllowClientLaunch|-AllowWebViewDebugPort|-AllowProdConditional|auth\s|login|session\s+start|start-session|game-session)' },
+        @{ Id = 'auth-network-session-flags'; Pattern = '(?i)(-AllowAuth|-AllowNetwork|-AllowExecution|-AllowRollback|-AllowCredentials|-AllowProductionAction|-AllowRuntimeUserData|-AllowClientLaunch|-AllowWebViewDebugPort|-AllowProdConditional|auth\s|login|session\s+start|start-session|game-session)' },
         @{ Id = 'network-or-ci-command'; Pattern = '(?i)(Invoke-WebRequest|Invoke-RestMethod|\bcurl\b|\bwget\b|\bnpm\b|\byarn\b|\bpnpm\b|\bpip\s+install\b|\bdotnet\s+restore\b|\bgh\s+workflow\b|ci/cd|pipeline)' }
     )
     foreach ($pattern in $forbiddenPatterns) {
