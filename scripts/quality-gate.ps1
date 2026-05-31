@@ -709,6 +709,22 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'ProdSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local production-safety guard metadata',
+                'without launching the client',
+                'authenticating or starting sessions',
+                'prod-safe smoke',
+                'prod canary',
+                'unsafe runtime metadata',
+                'synthetic-user',
+                'resource-budget input paths',
+                'before any read'
+            )
+        },
+        @{
             Scope             = 'QaDocsSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
