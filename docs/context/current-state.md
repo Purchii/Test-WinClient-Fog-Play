@@ -109,6 +109,7 @@ Post-M6: WebViewBridge runner input path safety hardening - implemented and veri
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
 Post-M6: AppSmoke runner input path safety hardening - implemented and verified locally.
 Post-M6: AppSmoke static fixture finding coverage hardening - implemented and verified locally.
+Post-M6: NonProdFoundation structural finding coverage hardening - implemented and verified locally.
 Post-M6: Release runner input path safety hardening - implemented and verified locally.
 Post-M6: Privacy runner input path safety hardening - implemented and verified locally.
 Post-M6: ProdSafeSmoke runner input path safety hardening - implemented and verified locally.
@@ -314,7 +315,7 @@ Current artifact status:
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
 - ContractFixtureSafety statically checks backend, update manifest and WebView bridge fixtures for dry-run, local-only and safety-vocabulary drift.
-- StaticSurfaceSafety and AppSmoke statically check App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory, schema-only non-runtime drift and local WebView bundle failure finding coverage.
+- StaticSurfaceSafety, AppSmoke and NonProdFoundation statically check App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory, schema-only non-runtime drift, local WebView bundle failure finding coverage and local non-prod component identity coverage.
 - WebViewBundleLocalReferenceSafety statically checks fixture WebView bundle entrypoints and manifests for remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths.
 - FixtureInventorySafety statically checks release, privacy and App/WebView smoke fixture directory trees for required positive, negative and clean local fixture files.
 - ScriptsInventorySafety statically checks the `scripts/` runner/support file inventory.

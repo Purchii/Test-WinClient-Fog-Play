@@ -59,6 +59,20 @@ Assert-FindingId -Result $result -Id 'non-nonprod-classification'
 Assert-FindingId -Result $result -Id 'component-execution-enabled'
 Assert-FindingId -Result $result -Id 'missing-contract-schema'
 
+$broken = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.components[0].name = 'Invalid Component Name'
+$broken.components[1].type = 'live-production-proxy'
+$result = Test-NonProdFoundationPlan -Plan $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid non-prod foundation component identity fields should fail.'
+Assert-FindingId -Result $result -Id 'invalid-component-name'
+Assert-FindingId -Result $result -Id 'invalid-component-type'
+
+$broken = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.components = @()
+$result = Test-NonProdFoundationPlan -Plan $broken -DryRun
+Assert-True (-not $result.passed) 'Non-prod foundation plan without components should fail.'
+Assert-FindingId -Result $result -Id 'missing-components'
+
 $unsafe = Read-NonProdFoundationPlan -Path (Join-Path $repoRoot 'testdata/nonprod-foundation-unsafe.example.json')
 $result = Test-NonProdFoundationPlan -Plan $unsafe -DryRun
 Assert-True (-not $result.passed) 'Unsafe non-prod foundation plan should fail.'

@@ -328,6 +328,7 @@ Implemented checks:
 - runtime user paths and production endpoints are rejected;
 - future components must be `NON_PROD_ONLY`;
 - future components must be schema/config placeholders only;
+- direct finding-id coverage for invalid component names, invalid component types and missing components;
 - fake/replay/network/hardware/update-rollback lab execution is disabled;
 - production use, credentials, state mutation and game-session start are rejected;
 - local contract schemas are required.

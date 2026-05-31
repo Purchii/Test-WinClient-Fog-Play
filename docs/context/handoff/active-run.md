@@ -97,6 +97,7 @@ Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
 Post-M6 AppSmoke static fixture finding coverage hardening is complete.
+Post-M6 NonProdFoundation structural finding coverage hardening is complete.
 Post-M6 Release runner input path safety hardening is complete.
 Post-M6 Privacy runner input path safety hardening is complete.
 Post-M6 ProdSafeSmoke runner input path safety hardening is complete.
@@ -176,6 +177,8 @@ UpdateManifest runner input path safety hardening rejects AppData/log/cookie/DB/
 TestabilityGaps runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PolicyPath overrides before the runner reads them.
 
 NonProdFoundation runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PlanPath overrides before the runner reads them.
+
+NonProdFoundation structural finding coverage hardening requires local tests to assert invalid component name, invalid component type and missing components finding ids without executing fake/replay/network/hardware systems.
 
 GameSessionCanary runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PlanPath, SyntheticUsersPath, ResourceBudgetPath and AllowedGamesPath overrides before the runner reads them.
 

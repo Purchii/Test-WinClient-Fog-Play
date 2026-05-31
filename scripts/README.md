@@ -143,7 +143,7 @@ The `BackendSmoke` quality gate validates the local backend smoke contract scaff
 
 The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session, requires exact non-duplicated canary readiness signals, exact non-duplicated canary suite metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, bounded run-frequency budget and cleanup/conditional budget flags in the direct plan validator, and asserts that unsafe runtime input paths, unsafe conditional-flag budget drift, `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, and asserts that unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts that unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `TestabilityGaps` quality gate validates the local testability gap registry without closing runtime gaps, and asserts that unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 

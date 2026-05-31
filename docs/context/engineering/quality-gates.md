@@ -191,7 +191,7 @@ The `BackendSmoke` scope validates the local backend smoke contract scaffold wit
 
 The `GameSessionCanary` scope validates the local dry-run canary readiness plan without starting or stopping a game session, requires exact non-duplicated canary readiness signals and canary suite metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, bounded run-frequency budget and cleanup/conditional budget flags in direct plan validation, and asserts unsafe runtime input paths, unsafe conditional-flag budget drift plus dangerous runtime allow flags are rejected.
 
-The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, and asserts unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, and asserts unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 
