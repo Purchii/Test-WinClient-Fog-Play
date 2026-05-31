@@ -96,6 +96,7 @@ Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
+Post-M6 AppSmoke static fixture finding coverage hardening is complete.
 Post-M6 Release runner input path safety hardening is complete.
 Post-M6 Privacy runner input path safety hardening is complete.
 Post-M6 ProdSafeSmoke runner input path safety hardening is complete.
@@ -163,6 +164,8 @@ Privacy runner input path safety hardening rejects AppData/log/cookie/DB/dump-li
 Release runner input path safety hardening rejects AppData/log/cookie/DB/dump-like ArtifactRoot and PolicyPath overrides before the runner reads or probes them.
 
 AppSmoke runner input path safety hardening rejects AppData/log/cookie/DB/dump-like ArtifactRoot and PolicyPath overrides before the runner reads or probes them.
+
+AppSmoke static fixture finding coverage hardening requires local tests to assert missing required files, missing WebView bundles, missing entrypoints, missing manifest keys and invalid asset manifest finding ids without launching the client or reading installed artifacts.
 
 WebViewBridge runner input path safety hardening rejects AppData/log/cookie/DB/dump-like ContractPath overrides before the runner reads them.
 

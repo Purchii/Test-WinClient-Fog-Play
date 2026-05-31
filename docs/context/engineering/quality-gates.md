@@ -183,7 +183,7 @@ The `Release` scope validates local release artifact fixtures without launching 
 
 The `Privacy` scope validates local privacy/logging fixtures without launching the installed client, and asserts unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.
 
-The `AppSmoke` scope validates the local App/WebView smoke scaffold without launching the installed client, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
+The `AppSmoke` scope validates the local App/WebView smoke scaffold without launching the installed client, asserts static WebView bundle failure finding ids, and asserts unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
 The `BridgeContract` scope validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts unsafe runtime input paths, unsafe bridge logging policies, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 

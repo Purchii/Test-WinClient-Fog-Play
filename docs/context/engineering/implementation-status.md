@@ -161,6 +161,7 @@ Implemented checks:
 - required client and CEF files;
 - WebView bundle entrypoints and asset manifests;
 - manifest keys for `main.css`, `main.js` and `index.html`;
+- direct finding-id coverage for missing required files, missing WebView bundles, missing entrypoints, missing manifest keys and invalid asset manifests;
 - dry-run-only policy;
 - unsafe launch argument and runtime path rejection;
 - ProdGuard validation of policy test metadata.
