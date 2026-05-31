@@ -1073,7 +1073,7 @@ Implemented outputs:
 
 Implemented checks:
 
-- `UpdateManifest` quality gate asserts `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` rejection;
+- `UpdateManifest` quality gate asserts missing `-DryRun`, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` rejection;
 - `BackendSmoke` quality gate asserts missing `-DryRun`, `-AllowNetwork`, `-AllowAuth`, unsafe endpoint path and missing mock response rejection;
 - `GameSessionCanary` quality gate asserts missing `-DryRun`, `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `NonProdFoundation` quality gate asserts missing `-DryRun`, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` rejection;

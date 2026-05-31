@@ -170,6 +170,7 @@ Post-M6: VerificationMemorySafety installed artifact summary sync - implemented 
 Post-M6: ActiveRunSafety archived verification dedupe - implemented and verified locally.
 Post-M6: ActiveRunSafety latest item marker guard - implemented and verified locally.
 Post-M6: SessionLogSafety thread lifecycle sync - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety dry-run validator summary sync - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -334,6 +335,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety archived verification dedupe was completed on `codex/active-run-archived-verification-dedupe`.
 - Post-M6 ActiveRunSafety latest item marker guard was completed on `codex/active-run-latest-item-marker`.
 - Post-M6 SessionLogSafety thread lifecycle sync was completed on `codex/session-log-thread-lifecycle-sync`.
+- Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync was completed on `codex/quality-gates-dryrun-summary-sync`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -361,6 +363,7 @@ Current artifact status:
 - QaDocsPowerShellInvocationSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
 - QaDocsRunnerExampleCoverageSafety statically checks active QA runner/doc contracts so each local FrameworkInventorySafety runner has a command-looking dry-run example in its mapped QA doc.
 - QualityGatesDocsScopeSafety statically checks the preferred `docs/context/engineering/quality-gates.md` command block so supported `quality-gate.ps1 -Scope` commands stay exact, unique and known.
+- QualityGatesDocsScopeSafety dry-run validator summary sync keeps quality-gates docs aligned with existing missing-`DryRun` rejection coverage for UpdateManifest, NonProdFoundation and TestabilityGaps.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.

@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Quality Gates Docs Scope Safety dry-run validator summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation/status synchronization after separate task-thread discovery confirmed quality-gates summaries omitted missing `-DryRun` rejection wording already present in scripts README, active QA docs and local test evidence.
+
+Branch: `codex/quality-gates-dryrun-summary-sync`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7d0e-bc6e-7f61-bba6-1e9f2b921c95` was created for the narrow dry-run validator summary discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Align `docs/context/engineering/quality-gates.md` dry-run validator summaries with existing missing-`DryRun` rejection coverage for UpdateManifest, NonProdFoundation and TestabilityGaps.
+- Align the matching implementation-status UpdateManifest summary with its missing-`DryRun` rejection coverage.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Session Log Safety thread lifecycle sync
 
 Mode: `BOUNDED_AUTONOMOUS` local static session-log lifecycle wording hardening after separate task-thread discovery confirmed the latest session-log entry still described the previous source/coordinator thread as active while active/current context records old threads as inactive/history-only after handoff.
