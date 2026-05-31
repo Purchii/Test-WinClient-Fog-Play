@@ -74,15 +74,17 @@ Each newly selected follow-up gate, hardening item, feature slice or backlog ite
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 ```
 
-Current branch:
+Current branch/status source:
 
 ```text
-codex/active-run-safety-scope-coverage-hardening
+Use `git status --short --branch` as the authoritative current branch/worktree source. Do not store a live literal branch name here; task branch history belongs in verification-memory and session-log entries.
 ```
 
 Current result:
 
 ```text
+ActiveRunSafety current branch/status policy replaces the live literal branch field with authoritative `git status --short --branch` guidance so active-run does not drift after task branches are fast-forwarded to `main`.
+
 ActiveRunSafety scope coverage hardening derives current static safety scope checks from `quality-gate.ps1` so RunnerSafety, TestDataSafety, ProdMatrixSafety, BacklogSafety and future `*Safety` scopes cannot silently drift out of active/current context checks.
 
 Active-run current branch sync records `main` after the verification-memory template cleanup was fast-forwarded and pushed.
@@ -233,6 +235,17 @@ Stop-and-ask triggers:
 Last verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Previous verification:
+
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;

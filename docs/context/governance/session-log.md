@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run safety current branch status policy
+
+Mode: `BOUNDED_AUTONOMOUS` docs/gate-only process hardening after separate task-thread discovery confirmed live active-run branch literals drift after fast-forward merges.
+
+Branch: `codex/active-run-current-branch-status-policy`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7ba8-ed15-7092-9248-39ac7f72879b` was created for the narrow local/static branch-status policy task; coordination takeover completed the docs/gate sync after requesting no further delegated edits.
+
+Scope:
+
+- Replace the live literal `active-run.md` current branch value with `git status --short --branch` as the authoritative current branch/worktree source.
+- Add ActiveRunSafety/HandoffProtocolSafety checks so future active-run/current-branch wording cannot drift back to a stale literal task branch.
+- Keep task branch history in verification-memory and session-log entries instead of a live active-run field.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run safety scope coverage hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ActiveRunSafety current static safety scope coverage drift.

@@ -914,6 +914,7 @@ function Invoke-ActiveRunSafetyGate {
             'dependency upgrades',
             'weakening ProdGuard/KillSwitch/ResourceBudget/CleanupVerifier',
             'scope expansion beyond local dry-run/schema validation',
+            'Use `git status --short --branch` as the authoritative current branch/worktree source',
             'became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`',
             'are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks'
         )) {
@@ -924,6 +925,9 @@ function Invoke-ActiveRunSafetyGate {
 
     if ($activeRun -match '(?i)latest pushed main commit|merged to origin/main at\s+[0-9a-f]{7,40}') {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
+    }
+    if ($activeRun -match '(?ms)^Current branch:\s*```text\s*(?:codex/|main\b)') {
+        throw 'active-run.md must not record a live literal current branch; use git status instead.'
     }
     if ($activeRun -match 'Thread\s+`[0-9a-f-]{36}`\s+is the active task thread') {
         throw 'active-run.md must not declare a literal historical thread id as the active task thread; document lifecycle rules instead.'
@@ -957,6 +961,9 @@ function Invoke-ActiveRunSafetyGate {
 
     if ($contextProtocol -notmatch 'git log --oneline --decorate -1') {
         throw 'context-protocol.md must identify git log as the authoritative latest commit source.'
+    }
+    if ($contextProtocol -notmatch 'git status --short --branch') {
+        throw 'context-protocol.md must identify git status as the authoritative current branch source.'
     }
     if ($executorPolicy -notmatch 'Do not merge to main without explicit user approval') {
         throw 'executor-policy.md must preserve the explicit main-merge approval rule.'
@@ -1826,6 +1833,7 @@ function Invoke-HandoffProtocolSafetyGate {
             'Old chat context is advisory only',
             'Repository docs and code are source of truth',
             'Use `git log --oneline --decorate -1` as the authoritative latest commit source',
+            'Use `git status --short --branch` as the authoritative current branch/worktree source',
             'Do not record a literal latest pushed commit in `active-run.md`',
             'A new independent task or milestone in autonomous work requires a separate Codex thread',
             'Long-running autonomous permission extends time, not task/thread scope',
