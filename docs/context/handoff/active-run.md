@@ -91,6 +91,7 @@ Post-M6 NonProdFoundation runner input path safety hardening is complete.
 Post-M6 TestabilityGaps runner input path safety hardening is complete.
 Post-M6 UpdateManifest runner input path safety hardening is complete.
 Post-M6 BackendSmoke runner input path safety hardening is complete.
+Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
@@ -124,6 +125,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
+
 WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridge contract fixture, unit tests and quality gate to cover unsafe command/event logging policy findings.
 
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.

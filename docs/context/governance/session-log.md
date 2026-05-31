@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety BackendSmoke unsafe endpoint coverage
+
+Mode: `BOUNDED_AUTONOMOUS` local fixture/test coverage hardening after separate task-thread discovery confirmed the BackendSmoke validator had unsafe endpoint path and missing mock response finding ids that were not required by the unsafe fixture, unit tests or unsafe fixture coverage gate.
+
+Branch: `codex/backend-smoke-unsafe-endpoint-coverage`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c55-5f35-7f73-9c2b-e29ea9baf882` was created for the narrow BackendSmoke unsafe endpoint/mock response coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Make `backend-smoke-unsafe.example.json` omit a mock response while keeping an unsafe endpoint path.
+- Require `unsafe-endpoint-path` and `missing-mock-response` in BackendSmoke tests and `UnsafeFixtureCoverageSafety`.
+- Sync QA/context summaries and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety WebViewBridge unsafe logging policy coverage
 
 Mode: `BOUNDED_AUTONOMOUS` local fixture/test coverage hardening after separate task-thread discovery confirmed the WebViewBridge validator had unsafe command/event logging policy finding ids that were not required by the unsafe fixture, unit tests or unsafe fixture coverage gate.

@@ -103,6 +103,7 @@ Post-M6: NonProdFoundation runner input path safety hardening - implemented and 
 Post-M6: TestabilityGaps runner input path safety hardening - implemented and verified locally.
 Post-M6: UpdateManifest runner input path safety hardening - implemented and verified locally.
 Post-M6: BackendSmoke runner input path safety hardening - implemented and verified locally.
+Post-M6: BackendSmoke unsafe endpoint coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge runner input path safety hardening - implemented and verified locally.
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
 Post-M6: AppSmoke runner input path safety hardening - implemented and verified locally.
@@ -219,6 +220,7 @@ Repository bootstrap state:
 - Post-M6 TestabilityGaps runner input path safety hardening was completed on `codex/runner-testability-gaps-input-path-safety`.
 - Post-M6 UpdateManifest runner input path safety hardening was completed on `codex/runner-update-manifest-input-path-safety`.
 - Post-M6 BackendSmoke runner input path safety hardening was completed on `codex/runner-backend-smoke-input-path-safety`.
+- Post-M6 BackendSmoke unsafe endpoint coverage hardening was completed on `codex/backend-smoke-unsafe-endpoint-coverage`.
 - Post-M6 WebViewBridge runner input path safety hardening was completed on `codex/runner-webview-bridge-input-path-safety`.
 - Post-M6 WebViewBridge unsafe logging policy coverage hardening was completed on `codex/webview-bridge-unsafe-logging-coverage`.
 - Post-M6 AppSmoke runner input path safety hardening was completed on `codex/runner-app-smoke-input-path-safety`.

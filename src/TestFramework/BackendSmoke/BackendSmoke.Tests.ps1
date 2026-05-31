@@ -64,5 +64,7 @@ Assert-FindingId -Result $result -Id 'network-not-disabled'
 Assert-FindingId -Result $result -Id 'unsafe-header'
 Assert-FindingId -Result $result -Id 'unsafe-runtime-path'
 Assert-FindingId -Result $result -Id 'state-mutating-endpoint'
+Assert-FindingId -Result $result -Id 'unsafe-endpoint-path'
+Assert-FindingId -Result $result -Id 'missing-mock-response'
 
 Write-Host 'BackendSmoke.Tests.ps1 passed.'

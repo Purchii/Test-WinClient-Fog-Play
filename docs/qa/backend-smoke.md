@@ -46,4 +46,4 @@ Known limitation:
 
 - M4 proves offline backend contract shape only. It does not prove real backend availability, auth, catalog freshness or release metadata correctness until a separately approved safe backend environment/config exists.
 
-Post-M6 guard hardening added `BackendSmoke` quality gate assertions that unsafe runtime input paths, missing `-DryRun`, `-AllowNetwork` and `-AllowAuth` are rejected before any backend network, auth action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without the dry-run flag.
+Post-M6 guard hardening added `BackendSmoke` quality gate assertions that unsafe runtime input paths, unsafe endpoint paths, missing mock responses, missing `-DryRun`, `-AllowNetwork` and `-AllowAuth` are rejected before any backend network, auth action or runtime data read can occur. The direct validator also returns a `dry-run-flag-required` fail finding without the dry-run flag.

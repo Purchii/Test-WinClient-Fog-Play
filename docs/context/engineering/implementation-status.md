@@ -1062,7 +1062,7 @@ Implemented outputs:
 Implemented checks:
 
 - `UpdateManifest` quality gate asserts `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` rejection;
-- `BackendSmoke` quality gate asserts `-AllowNetwork` and `-AllowAuth` rejection;
+- `BackendSmoke` quality gate asserts `-AllowNetwork`, `-AllowAuth`, unsafe endpoint path and missing mock response rejection;
 - `GameSessionCanary` quality gate asserts `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `NonProdFoundation` quality gate asserts `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `TestabilityGaps` quality gate asserts unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` rejection.
@@ -1108,7 +1108,7 @@ Implemented checks:
 - `BridgeContract` quality gate asserts `-AllowClientLaunch` rejection;
 - `BridgeContract` quality gate asserts `-AllowWebViewDebugPort` rejection;
 - `BridgeContract` quality gate asserts unsafe bridge logging policy rejection;
-- `BackendSmoke` quality gate asserts `-AllowNetwork` and `-AllowAuth` rejection.
+- `BackendSmoke` quality gate asserts `-AllowNetwork`, `-AllowAuth`, unsafe endpoint path and missing mock response rejection.
 
 Not implemented:
 

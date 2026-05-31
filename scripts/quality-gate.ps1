@@ -3055,7 +3055,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'backend-smoke-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'network-not-disabled', 'unsafe-header', 'unsafe-runtime-path', 'state-mutating-endpoint')
+            FindingIds = @('policy-not-dry-run-only', 'network-not-disabled', 'unsafe-header', 'unsafe-runtime-path', 'state-mutating-endpoint', 'unsafe-endpoint-path', 'missing-mock-response')
         },
         @{
             Fixture = 'game-session-canary-unsafe.example.json'
@@ -4508,6 +4508,8 @@ function Invoke-BackendSmokeGate {
     Assert-FindingId -Result $negative -Id 'unsafe-header'
     Assert-FindingId -Result $negative -Id 'unsafe-runtime-path'
     Assert-FindingId -Result $negative -Id 'state-mutating-endpoint'
+    Assert-FindingId -Result $negative -Id 'unsafe-endpoint-path'
+    Assert-FindingId -Result $negative -Id 'missing-mock-response'
 
     Write-Host 'BackendSmoke gate passed.'
 }
