@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Session Log Safety thread lifecycle sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static session-log lifecycle wording hardening after separate task-thread discovery confirmed the latest session-log entry still described the previous source/coordinator thread as active while active/current context records old threads as inactive/history-only after handoff.
+
+Branch: `codex/session-log-thread-lifecycle-sync`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7d07-2b92-73c0-8d9b-17c6a43230f8` was created for the narrow session-log lifecycle wording discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Align the current session-log lifecycle wording with active/current inactive-history-only thread rules.
+- Add `SessionLogSafety` coverage so the latest codex branch entry cannot describe a previous source/coordinator thread as still active.
+- Sync scripts README, quality gate docs, implementation status, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active Run Safety latest item marker guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static active-run status marker hardening after separate task-thread discovery confirmed the active-run current milestone marker named only the latest safety scope while the latest completed item was more specific.
@@ -8,7 +37,7 @@ Branch: `codex/active-run-latest-item-marker`
 
 Thread lifecycle:
 
-- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
 - Delegated task thread `019e7d03-9bfc-7542-845a-ab13810fe919` was created for the narrow active-run latest item marker discovery task; after reporting it became inactive/history-only and coordination takeover completed the implementation from local static evidence.
 
 Scope:

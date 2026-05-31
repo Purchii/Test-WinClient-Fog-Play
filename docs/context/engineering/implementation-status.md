@@ -1387,6 +1387,7 @@ Implemented checks:
 - guarded `docs/context/governance/session-log.md` entries with `Branch: codex/*` must include mode, branch, scope and safety sections;
 - guarded branch entries must preserve core no-runtime/no-production safety phrases;
 - the most recent `docs/context/governance/session-log.md` entry with `Branch: codex/*` must include thread lifecycle wording regardless of older mode wording;
+- the most recent session-log codex branch entry must not describe a previous source/coordinator thread as still active;
 - the latest session-log codex branch entry must match the latest verification-memory codex branch entry;
 - `SessionLogSafety` is included in `Full` and visible in active/current state docs.
 

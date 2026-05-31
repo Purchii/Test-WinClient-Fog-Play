@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
-Current latest completed item: Post-M6 ActiveRunSafety latest item marker guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
+Current latest completed item: Post-M6 SessionLogSafety thread lifecycle sync.
 
 Planning boundary:
 
@@ -160,6 +160,7 @@ Post-M6 VerificationMemorySafety installed artifact historical command boundary 
 Post-M6 VerificationMemorySafety installed artifact summary sync is complete.
 Post-M6 ActiveRunSafety archived verification dedupe is complete.
 Post-M6 ActiveRunSafety latest item marker guard is complete.
+Post-M6 SessionLogSafety thread lifecycle sync is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -221,6 +222,8 @@ VerificationMemorySafety installed artifact summary sync keeps active/current lo
 ActiveRunSafety archived verification dedupe removes the repeated archived verification command and fails closed if any active-run verification block repeats a command.
 
 ActiveRunSafety latest item marker guard adds an explicit active-run latest completed item marker and fails closed if it drifts from the latest verification-memory codex branch entry.
+
+SessionLogSafety thread lifecycle sync updates current session-log lifecycle wording so previous source/coordinator threads are recorded as inactive/history-only rather than still active, and fails closed if the latest session-log entry regresses.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
@@ -403,6 +406,8 @@ SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafe
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
 SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording and keeps the latest session-log codex branch synced with verification-memory.
+
+SessionLogSafety thread lifecycle sync adds `Full` coverage so the latest session-log entry cannot describe a previous source/coordinator thread as still active.
 
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale, missing installed artifact historical command boundaries and missing latest-entry safety notes fail closed.
 

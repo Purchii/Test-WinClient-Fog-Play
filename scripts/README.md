@@ -61,7 +61,7 @@ The `ActiveRunSafety` quality gate fails if the active handoff/current-state doc
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
 
-The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes, if the most recent codex branch entry loses thread lifecycle wording, or if the latest session-log codex branch stops matching the latest verification-memory codex branch.
+The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes, if the most recent codex branch entry loses thread lifecycle wording or describes a previous source/coordinator thread as still active, or if the latest session-log codex branch stops matching the latest verification-memory codex branch.
 
 The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers; lose status, production impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; lose installed artifact historical command boundaries; or if the latest codex branch entry loses core safety notes.
 
