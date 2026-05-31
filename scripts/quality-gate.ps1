@@ -679,6 +679,9 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
             RequiredFragments = @(
+                'local testability gap registry',
+                'without closing runtime gaps',
+                'local gap metadata finding ids',
                 'unsafe runtime input paths',
                 'missing `-DryRun`',
                 'unsafe next-safe-step text',
