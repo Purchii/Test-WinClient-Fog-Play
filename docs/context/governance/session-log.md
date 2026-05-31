@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - QaDocsSafety installed artifact manual-boundary wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after user allowed autonomous work and pushes to main; separate task-thread discovery confirmed QaDocsSafety did not yet enforce the installed artifact manual-boundary wording added to active QA docs.
+
+Branch: `codex/qa-docs-installed-artifact-boundary-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c46-b80c-7732-a41d-62a7bff7a942` was created for the narrow QaDocsSafety installed artifact manual-boundary wording guard discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Make `QaDocsSafety` require the manual/explicit-plan installed artifact boundary in release, privacy and App/WebView smoke docs.
+- Keep active QA docs explicit that autonomous verification uses committed local fixtures only.
+- Sync scripts/context summaries and verification evidence for the new guard.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QaDocsSafety QA docs installed artifact manual-boundary wording sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after user allowed autonomous work and pushes to main; separate task-thread discovery confirmed active QA docs still showed installed artifact defaults without the explicit current autonomous local-fixture-only boundary.

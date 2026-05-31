@@ -2190,6 +2190,9 @@ function Invoke-QaDocsSafetyGate {
         'prod-safe-test-matrix.md' = @('PROD_CONDITIONAL', 'PROD_FORBIDDEN')
         'game-session-canary.md' = @('This milestone does not execute a game session')
         'testability-gaps.md' = @('does not close gaps by launching the client')
+        'release-gates.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
+        'privacy-and-logging-checks.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
+        'app-webview-smoke.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
     }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {
