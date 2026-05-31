@@ -1345,6 +1345,7 @@ Implemented checks:
 - new `SessionLogSafety` quality gate scope;
 - guarded `docs/context/governance/session-log.md` entries with `Branch: codex/*` must include mode, branch, scope and safety sections;
 - guarded branch entries must preserve core no-runtime/no-production safety phrases;
+- the most recent `docs/context/governance/session-log.md` entry with `Branch: codex/*` must include thread lifecycle wording regardless of older mode wording;
 - `SessionLogSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

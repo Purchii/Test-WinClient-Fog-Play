@@ -112,7 +112,7 @@ The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.m
 
 The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inventory so handoff, governance and engineering context docs cannot be added, removed or renamed silently.
 
-The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases.
+The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases. It also checks the most recent codex branch entry for thread lifecycle wording regardless of older mode wording.
 
 The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers or lose status, production-impact, command and result evidence.
 

@@ -969,6 +969,32 @@ function Invoke-SessionLogSafetyGate {
         }
     }
 
+    $latestEntry = $entryMatches[0]
+    if ($latestEntry.Value -match 'Branch:\s+`codex/') {
+        $entryText = $latestEntry.Value
+        $title = ([regex]::Match($entryText, '^## .+', 'Multiline')).Value
+        foreach ($requiredHeading in @('Mode:', 'Branch:', 'Thread lifecycle:', 'Scope:', 'Safety:')) {
+            if ($entryText -notmatch [regex]::Escape($requiredHeading)) {
+                throw "session-log.md latest entry '$title' must include $requiredHeading"
+            }
+        }
+        if ($entryText -notmatch [regex]::Escape('inactive/history-only')) {
+            throw "session-log.md latest entry '$title' must preserve inactive/history-only lifecycle wording"
+        }
+        foreach ($requiredPhrase in @(
+                'No installed client launch',
+                'No WebView debug/CDP',
+                'No authentication',
+                'No production backend',
+                'No game session',
+                'No user AppData'
+            )) {
+            if ($entryText -notmatch [regex]::Escape($requiredPhrase)) {
+                throw "session-log.md latest entry '$title' must preserve safety phrase: $requiredPhrase"
+            }
+        }
+    }
+
     Write-Host 'SessionLogSafety gate passed.'
 }
 

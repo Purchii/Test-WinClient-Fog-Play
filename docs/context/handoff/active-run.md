@@ -143,7 +143,7 @@ SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety and ProdMetadataS
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
-SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present.
+SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, branch, scope and core safety notes stay present. It also validates the latest codex branch entry for thread lifecycle wording regardless of older mode wording.
 
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers and missing evidence fields fail closed.
 
