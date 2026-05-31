@@ -1153,6 +1153,10 @@ function Invoke-VerificationMemorySafetyGate {
         if ($productionImpactLine -match 'Production impact:\s*none;' -and $productionImpactLine -match '\bstatic\b' -and $entryText -notmatch 'Not run:') {
             throw "verification-memory.md static entry '$title' must include Not run rationale."
         }
+        if ($entryText -match 'C:\\Program Files\\MTC Fog Play' -and
+            $entryText -notmatch [regex]::Escape('Historical installed artifact command evidence from 2026-05-30; do not rerun in current autonomous mode without a separate approved plan.')) {
+            throw "verification-memory.md entry '$title' with installed artifact commands must preserve historical boundary wording."
+        }
     }
 
     $latestBranchEntryText = $branchEntries[0].Value

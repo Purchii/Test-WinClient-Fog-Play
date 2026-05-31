@@ -1403,6 +1403,7 @@ Implemented checks:
 - `docs/context/engineering/verification-memory.md` must not retain unresolved `verification pending` or `- pending` markers;
 - codex branch entries must include passed status, production impact, commands and results;
 - static branch entries must include a `Not run` rationale;
+- entries with installed artifact command evidence must preserve 2026-05-30 historical boundary wording and must not read as current autonomous commands;
 - the latest codex branch entry must keep `Safety notes:` with no-real-credentials, no-production-game-session and no-unsafe-test notes;
 - `VerificationMemorySafety` is included in `Full` and visible in active/current state docs.
 

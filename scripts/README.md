@@ -63,7 +63,7 @@ The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` h
 
 The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes, if the most recent codex branch entry loses thread lifecycle wording, or if the latest session-log codex branch stops matching the latest verification-memory codex branch.
 
-The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers; lose status, production impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; or if the latest codex branch entry loses core safety notes.
+The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers; lose status, production impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; lose installed artifact historical command boundaries; or if the latest codex branch entry loses core safety notes.
 
 The `ActiveVerificationCommandSafety` quality gate fails if active/current verification command evidence in `active-run.md` Last verification or the most recent `verification-memory.md` Commands block drifts beyond local/static `quality-gate.ps1` or safe git checks, or includes installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency or CI commands.
 

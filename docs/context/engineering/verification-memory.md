@@ -1,5 +1,41 @@
 # Verification memory
 
+## 2026-05-31 - VerificationMemorySafety installed artifact historical command boundary
+
+Branch: `codex/verification-memory-installed-artifact-history-boundary`
+Status: passed
+Production impact: none; local static safety gate hardening only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- VerificationMemorySafety gate passed.
+- Context quality gate passed.
+- SessionLogSafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- ActiveRunSafety gate passed.
+- QaDocsSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads or game sessions because this task is local static safety gate hardening only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local static docs/source checks.
+
 ## 2026-05-31 - QaDocsSafety installed artifact manual-boundary wording guard
 
 Branch: `codex/qa-docs-installed-artifact-boundary-safety`
@@ -3403,6 +3439,8 @@ Branch: `codex/release-privacy-gates`
 Status: passed for implementation; installed artifact has reported release/privacy findings
 Production impact: offline artifact scan only
 
+Historical installed artifact command evidence from 2026-05-30; do not rerun in current autonomous mode without a separate approved plan.
+
 Commands:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
@@ -3446,6 +3484,8 @@ Branch: `codex/release-privacy-gates`
 Status: passed
 Production impact: offline artifact scan only
 
+Historical installed artifact command evidence from 2026-05-30; do not rerun in current autonomous mode without a separate approved plan.
+
 Commands:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafety`
@@ -3481,6 +3521,8 @@ Safety notes:
 Branch: `codex/app-webview-smoke`
 Status: passed
 Production impact: dry-run/static artifact scan only
+
+Historical installed artifact command evidence from 2026-05-30; do not rerun in current autonomous mode without a separate approved plan.
 
 Commands:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\src\TestFramework\WindowsSmoke\WindowsSmoke.Tests.ps1`
