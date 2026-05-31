@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through RunnerSafety.
 
 Planning boundary:
 
@@ -100,6 +100,7 @@ Post-M6 ProdCanary runner input path safety hardening is complete.
 Post-M6 RunnerSafety input path coverage hardening is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
+Post-M6 RunnerSafety implementation-status input path sync is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -114,6 +115,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+RunnerSafety implementation-status input path sync records the current path-like runner input guard coverage in implementation-status.
+
 QualityGatesDocsScopeSafety input path summary sync updates quality-gates docs so RunnerSafety and runner scope descriptions reflect unsafe runtime input path guard coverage.
 
 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup removes the stale duplicate quality gate description while preserving the current unsafe runtime input path wording.
@@ -333,7 +336,7 @@ Stop-and-ask triggers:
 
 Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RunnerSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;

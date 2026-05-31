@@ -1036,6 +1036,7 @@ Implemented checks:
 - every `scripts/run-*.ps1` runner must expose `-DryRun`;
 - every `scripts/run-*.ps1` runner must reject missing `-DryRun`;
 - dangerous `Allow*` switches must be explicitly rejected unless allowlisted;
+- path-like runner inputs must preserve unsafe runtime input path guard vocabulary and explicit per-parameter guard coverage;
 - `scripts/*.ps1` and TestFramework files must not introduce forbidden runtime/network primitives such as `Start-Process`, `Invoke-WebRequest` or `Invoke-RestMethod`;
 - `RunnerSafety` is included in `Full`.
 

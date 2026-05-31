@@ -112,6 +112,7 @@ Post-M6: ProdCanary runner input path safety hardening - implemented and verifie
 Post-M6: RunnerSafety input path coverage hardening - implemented and verified locally.
 Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
+Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -218,6 +219,7 @@ Repository bootstrap state:
 - Post-M6 RunnerSafety input path coverage hardening was completed on `codex/runner-safety-input-path-coverage`.
 - Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup was completed on `codex/scripts-readme-testabilitygaps-duplicate-cleanup`.
 - Post-M6 QualityGatesDocsScopeSafety input path summary sync was completed on `codex/quality-gates-docs-input-path-summary-sync`.
+- Post-M6 RunnerSafety implementation-status input path sync was completed on `codex/implementation-status-runner-input-path-sync`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.

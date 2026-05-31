@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-05-31 - Runner Safety implementation-status input path sync
+
+Branch: `codex/implementation-status-runner-input-path-sync`
+Status: passed
+Production impact: none; documentation sync only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RunnerSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- RunnerSafety gate passed.
+- Context quality gate passed.
+- ActiveRunSafety gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- QaDocsSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this task is documentation sync only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local static docs checks.
+
 ## 2026-05-31 - Quality Gates Docs Scope Safety input path summary sync
 
 Branch: `codex/quality-gates-docs-input-path-summary-sync`
