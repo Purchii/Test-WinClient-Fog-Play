@@ -288,6 +288,7 @@ Implemented checks:
 - allowlisted synthetic user via ProdGuard;
 - allowlisted region and game via resource budget and allowed-games config;
 - max session duration within budget;
+- max run frequency within the resource budget policy range;
 - cleanup verification requirement;
 - retry rejection;
 - readiness signal requirements for `stream-ready` and `first-frame`.

@@ -130,6 +130,7 @@ function Test-GameSessionCanaryPlan {
     $maxSessionsPerRun = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxSessionsPerRun' -Default 0)
     $maxParallelSessions = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxParallelSessions' -Default 0)
     $maxSessionDurationSeconds = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxSessionDurationSeconds' -Default 0)
+    $maxRunsPerHour = [int](Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'maxRunsPerHour' -Default 0)
     $allowedRegions = @(Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'allowedRegions' -Default @())
     $allowedBudgetGames = @(Get-GameSessionCanaryValue -Object $ResourceBudget -Name 'allowedGames' -Default @())
 
@@ -183,6 +184,8 @@ function Test-GameSessionCanaryPlan {
                 $durationSeconds -le $syntheticUserMaxSessionDurationSeconds -and
                 $maxSessionsPerRun -eq 1 -and
                 $maxParallelSessions -eq 1 -and
+                $maxRunsPerHour -ge 1 -and
+                $maxRunsPerHour -le 3 -and
                 $allowedRegions -contains $targetRegion -and
                 $allowedBudgetGames -contains $targetGame -and
                 $allowedGameMatches.Count -eq 1 -and
@@ -221,6 +224,9 @@ function Test-GameSessionCanaryPlan {
         }
         if ($maxSessionsPerRun -ne 1 -or $maxParallelSessions -ne 1) {
             $findings += Add-GameSessionCanaryFinding -Id 'unsafe-session-concurrency-budget' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires exactly one session per run and one parallel session.'
+        }
+        if ($maxRunsPerHour -lt 1 -or $maxRunsPerHour -gt 3) {
+            $findings += Add-GameSessionCanaryFinding -Id 'unsafe-run-frequency-budget' -Severity 'fail' -Path '<resourceBudget>' -Message 'M5 canary requires prodResourceBudget.maxRunsPerHour to stay between 1 and 3.'
         }
         if (-not ($allowedRegions -contains $targetRegion)) {
             $findings += Add-GameSessionCanaryFinding -Id 'region-not-allowlisted' -Severity 'fail' -Path $path -Message 'M5 canary targetRegion must be allowlisted by resource budget.'
