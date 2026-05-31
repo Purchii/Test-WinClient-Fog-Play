@@ -11,6 +11,7 @@ Preferred script:
 .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety
 .\scripts\quality-gate.ps1 -Scope BinaryFixturePlaceholderSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety
+.\scripts\quality-gate.ps1 -Scope QaDocsCommandLocalPathSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsPowerShellInvocationSafety
 .\scripts\quality-gate.ps1 -Scope QaDocsRunnerExampleCoverageSafety
 .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety
@@ -87,6 +88,8 @@ The `PowerShellStructuredSyntaxSafety` scope statically checks PowerShell syntax
 The `BinaryFixturePlaceholderSafety` scope statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 
 The `QaDocsCommandSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
+
+The `QaDocsCommandLocalPathSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations stay fixture-local and do not include installed-client paths, user runtime paths, endpoints, localhost or WebView debug/CDP references.
 
 The `QaDocsPowerShellInvocationSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
 

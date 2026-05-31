@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - QA docs command local path safety gate
+
+Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after coordination confirmed implementation from clean discovery.
+
+Branch: `codex/qa-docs-command-local-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- This delegated local thread implemented the confirmed narrow local/static task on a dedicated branch.
+
+Scope:
+
+- Add local `QaDocsCommandLocalPathSafety` quality gate.
+- Statically validate command-looking active QA doc `run-*.ps1` examples for fixture-local path and endpoint safety.
+- Reject installed-client paths, user runtime paths, URLs, localhost/debug endpoints, WebView debug/CDP tokens and path arguments outside local `testdata` fixtures only inside command-looking lines.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - QA docs runner example coverage safety gate
 
 Mode: `BOUNDED_AUTONOMOUS` static quality gate hardening after the delegated task thread created the branch but did not leave a durable diff, so coordination fallback completed the local-only task.

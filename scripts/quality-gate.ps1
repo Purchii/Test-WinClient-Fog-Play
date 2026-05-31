@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
+    [ValidateSet('Context', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ActiveRunSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'RunnerSafety', 'TestDataSafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety', 'SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'ProdMatrixSafety', 'BacklogSafety', 'ProdSafety', 'Release', 'Privacy', 'AppSmoke', 'BridgeContract', 'BackendSmoke', 'GameSessionCanary', 'NonProdFoundation', 'UpdateManifest', 'TestabilityGaps', 'Full')]
     [string] $Scope = 'Full'
 )
 
@@ -474,6 +474,57 @@ function Invoke-QaDocsCommandSafetyGate {
     Write-Host 'QaDocsCommandSafety gate passed.'
 }
 
+function Invoke-QaDocsCommandLocalPathSafetyGate {
+    $qaDocsRoot = Join-Path $repoRoot 'docs/qa'
+    Assert-PathExists 'docs/qa'
+
+    $forbiddenReferencePatterns = @(
+        @{ Id = 'installed-client-path'; Pattern = '(?i)C:\\Program Files\\MTC Fog Play' },
+        @{ Id = 'absolute-user-path'; Pattern = '(?i)C:\\Users\\' },
+        @{ Id = 'appdata'; Pattern = '(?i)AppData' },
+        @{ Id = 'remote-url'; Pattern = '(?i)\bhttps?://' },
+        @{ Id = 'localhost'; Pattern = '(?i)\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0|::1)\b' },
+        @{ Id = 'webview-debug'; Pattern = '(?i)(remote-debugging|debug-port|webview-debug|devtools|chrome-devtools|\bcdp\b)' },
+        @{ Id = 'runtime-data-path'; Pattern = '(?i)(cookies?|Local Storage|IndexedDB|\.db\b|\.sqlite\b|\.dmp\b|\.dump\b|\.log\b|\\logs?\\|/logs?/)' },
+        @{ Id = 'absolute-windows-path'; Pattern = '(?i)(^|\s|["''])[A-Z]:\\' }
+    )
+    $localFixturePathPattern = '(?i)^(?:\.(?:\\|/))?testdata(?:\\|/|$)'
+    $pathArgumentPattern = '(?i)(?:^|\s)-(?<name>[A-Za-z]*(?:Path|Root))\s+(?<value>"[^"]+"|''[^'']+''|[^\s`]+)'
+
+    $qaDocs = @(Get-ChildItem -LiteralPath $qaDocsRoot -Filter '*.md' -File | Sort-Object Name)
+    foreach ($doc in $qaDocs) {
+        $lines = Get-Content -LiteralPath $doc.FullName
+        for ($lineNumber = 0; $lineNumber -lt $lines.Count; $lineNumber++) {
+            $line = [string]$lines[$lineNumber]
+            if ($line -notmatch 'run-[A-Za-z0-9-]+\.ps1') {
+                continue
+            }
+
+            $trimmed = $line.Trim()
+            $isCommandLine = $trimmed -match '^(powershell\b|\.\\scripts\\|scripts/)'
+            if (-not $isCommandLine) {
+                continue
+            }
+
+            foreach ($pattern in $forbiddenReferencePatterns) {
+                if ($line -match $pattern.Pattern) {
+                    throw "$($doc.Name):$($lineNumber + 1) documents a run-*.ps1 command with forbidden local path or endpoint token: $($pattern.Id)."
+                }
+            }
+
+            foreach ($match in [regex]::Matches($line, $pathArgumentPattern)) {
+                $argumentName = $match.Groups['name'].Value
+                $argumentValue = $match.Groups['value'].Value.Trim([char[]]@('"', "'"))
+                if ($argumentValue -notmatch $localFixturePathPattern) {
+                    throw "$($doc.Name):$($lineNumber + 1) documents $argumentName outside local testdata fixtures: $argumentValue"
+                }
+            }
+        }
+    }
+
+    Write-Host 'QaDocsCommandLocalPathSafety gate passed.'
+}
+
 function Invoke-QaDocsPowerShellInvocationSafetyGate {
     $qaDocsRoot = Join-Path $repoRoot 'docs/qa'
     Assert-PathExists 'docs/qa'
@@ -813,7 +864,7 @@ function Invoke-ActiveRunSafetyGate {
         throw 'active-run.md must not record stale literal latest-pushed commit markers; use git log instead.'
     }
 
-    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
+    foreach ($scopeName in @('SyntheticUsersSafety', 'AllowedGamesSafety', 'ResourceBudgetSafety', 'ProdMetadataSafety', 'RepositoryRootInventorySafety', 'RootPromptSafety', 'ProdSafetyFrameworkSafety', 'ScriptEncodingSafety', 'PowerShellStructuredSyntaxSafety', 'BinaryFixturePlaceholderSafety', 'QaDocsCommandSafety', 'QaDocsCommandLocalPathSafety', 'QaDocsPowerShellInvocationSafety', 'QaDocsRunnerExampleCoverageSafety', 'QualityGatesDocsScopeSafety', 'ActiveSafetyScopeInventorySafety', 'ScriptsReadmeScopeSafety', 'GovernanceHistoryScopeSafety', 'TestDataStructuredSyntaxSafety', 'QualityGateStructureSafety', 'ContextDocsInventorySafety', 'SessionLogSafety', 'VerificationMemorySafety', 'ChecklistSafety', 'DecisionsLogSafety', 'CodexPolicySafety', 'TaskRequestSafety', 'CodexTemplateSafety', 'CodexGoalTemplateSafety', 'CodexDocsInventorySafety', 'QaStrategySafety', 'HandoffProtocolSafety', 'IncomingReferenceSafety', 'FrameworkInventorySafety', 'TestFrameworkInventorySafety', 'IncidentStopSafety', 'QaDocsSafety', 'ArtifactPolicySafety', 'ContractFixtureSafety', 'StaticSurfaceSafety', 'WebViewBundleLocalReferenceSafety', 'FixtureInventorySafety', 'ScriptsInventorySafety', 'TestDataInventorySafety', 'UnsafeFixtureCoverageSafety')) {
         if ($activeRun -notmatch [regex]::Escape($scopeName)) {
             throw "active-run.md must mention current static safety gate: $scopeName"
         }
@@ -824,8 +875,8 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -notmatch [regex]::Escape('ActiveRunSafety')) {
         throw 'current-state.md must mention ActiveRunSafety.'
     }
-    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QaDocsRunnerExampleCoverageSafety\.') {
-        throw 'active-run.md must keep the Current milestone marker synced through QaDocsRunnerExampleCoverageSafety.'
+    if ($activeRun -notmatch 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through QaDocsCommandLocalPathSafety\.') {
+        throw 'active-run.md must keep the Current milestone marker synced through QaDocsCommandLocalPathSafety.'
     }
     if ($activeRun -notmatch '-Scope\s+ActiveRunSafety') {
         throw 'active-run.md Last verification must include ActiveRunSafety.'
@@ -4159,6 +4210,10 @@ if ($Scope -in @('BinaryFixturePlaceholderSafety', 'Full')) {
 
 if ($Scope -in @('QaDocsCommandSafety', 'Full')) {
     Invoke-QaDocsCommandSafetyGate
+}
+
+if ($Scope -in @('QaDocsCommandLocalPathSafety', 'Full')) {
+    Invoke-QaDocsCommandLocalPathSafetyGate
 }
 
 if ($Scope -in @('QaDocsPowerShellInvocationSafety', 'Full')) {

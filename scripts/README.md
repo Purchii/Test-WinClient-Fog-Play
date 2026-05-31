@@ -39,6 +39,8 @@ The `BinaryFixturePlaceholderSafety` quality gate fails if binary-like files und
 
 The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags.
 
+The `QaDocsCommandLocalPathSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs use installed-client paths, user runtime paths, URLs, localhost/debug endpoints, WebView debug/CDP tokens or path arguments outside local `testdata` fixtures.
+
 The `QaDocsPowerShellInvocationSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs do not use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` as the documented local PowerShell invocation shape.
 
 The `QaDocsRunnerExampleCoverageSafety` quality gate fails if an active FrameworkInventorySafety runner/doc contract lacks a command-looking dry-run example for its local runner.
