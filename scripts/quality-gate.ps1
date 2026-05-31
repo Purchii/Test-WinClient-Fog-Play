@@ -664,6 +664,9 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
             RequiredFragments = @(
+                'future fake/replay/network/hardware placeholder schemas',
+                'without executing those systems',
+                'structural component finding ids',
                 'unsafe runtime input paths',
                 'missing `-DryRun`',
                 '`-AllowExecution`',

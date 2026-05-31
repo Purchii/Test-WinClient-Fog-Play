@@ -185,6 +185,7 @@ Post-M6: QualityGatesDocsScopeSafety AppSmoke summary parity guard - implemented
 Post-M6: QualityGatesDocsScopeSafety BridgeContract summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety BackendSmoke summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety GameSessionCanary summary parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety NonProdFoundation summary parity guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -364,6 +365,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety BridgeContract summary parity guard was completed on `codex/bridge-contract-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety BackendSmoke summary parity guard was completed on `codex/backend-smoke-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety GameSessionCanary summary parity guard was completed on `codex/game-session-canary-summary-parity-guard`.
+- Post-M6 QualityGatesDocsScopeSafety NonProdFoundation summary parity guard was completed on `codex/nonprod-foundation-summary-parity-guard`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -400,6 +402,7 @@ Current artifact status:
 - QualityGatesDocsScopeSafety BridgeContract summary parity guard keeps BridgeContract summaries aligned for local WebView/native bridge contract scaffold, no WebView debug/CDP or client launch, structural bridge finding, unsafe input-path, unsafe logging policy and dangerous launch/debug flag rejection coverage.
 - QualityGatesDocsScopeSafety BackendSmoke summary parity guard keeps BackendSmoke summaries aligned for local backend smoke contract scaffold, network/auth/backend interaction bans, structural endpoint finding, unsafe input-path, unsafe endpoint, missing mock response and dangerous network/auth flag rejection coverage.
 - QualityGatesDocsScopeSafety GameSessionCanary summary parity guard keeps GameSessionCanary summaries aligned for local dry-run readiness-plan, no game-session start/stop, canary cardinality, readiness signal, suite metadata, intent metadata, runtime path, synthetic alias, duration, concurrency, run-frequency, target region and cleanup/conditional budget guard coverage.
+- QualityGatesDocsScopeSafety NonProdFoundation summary parity guard keeps NonProdFoundation summaries aligned for future fake/replay/network/hardware placeholder schemas, no system execution, structural component finding, unsafe input-path and dangerous execution/network/auth flag rejection coverage.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.
