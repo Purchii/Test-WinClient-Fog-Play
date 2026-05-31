@@ -137,7 +137,7 @@ The `Privacy` quality gate validates local privacy/logging fixtures without laun
 
 The `AppSmoke` quality gate validates the local App/WebView smoke scaffold without launching the installed client, asserts static WebView bundle failure finding ids, and asserts that unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
-The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, asserts structural bridge contract finding ids, and asserts that unsafe runtime input paths, unsafe bridge logging policies, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
+The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, asserts structural bridge command/event/fake-host finding ids, and asserts that unsafe runtime input paths, unsafe bridge logging policies, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
 The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, asserts structural endpoint finding ids, and asserts that unsafe runtime input paths, unsafe endpoint paths, missing mock responses, `-AllowNetwork` and `-AllowAuth` are rejected.
 

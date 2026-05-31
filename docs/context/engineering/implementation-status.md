@@ -215,12 +215,12 @@ Implemented outputs:
 Implemented checks:
 
 - command and event registry validation;
-- direct finding-id coverage for invalid/duplicate command names and missing command/event contract fields;
+- direct finding-id coverage for invalid/duplicate command names, invalid command direction, missing command production-safety metadata, invalid/duplicate event names, missing event production-safety metadata and missing command/event contract fields;
 - direction validation for `web -> native` commands and `native -> web` events;
 - payload schema presence;
 - expected effects and malformed-payload behavior;
 - sanitized logging policy and `PROD_SAFE` local contract classification;
-- fake native host case target validation;
+- fake native host case type, target, expected-result and malformed-case rejection validation;
 - malformed case rejection/error/ignore expectations;
 - dry-run-only policy;
 - WebView debug/CDP and runtime user path rejection.

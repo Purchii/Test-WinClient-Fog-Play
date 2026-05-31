@@ -99,6 +99,7 @@ Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 WebViewBridge structural finding coverage hardening is complete.
+Post-M6 WebViewBridge remaining finding coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
 Post-M6 AppSmoke static fixture finding coverage hardening is complete.
 Post-M6 NonProdFoundation structural finding coverage hardening is complete.
@@ -140,6 +141,8 @@ BackendSmoke structural endpoint finding coverage hardening requires local tests
 WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridge contract fixture, unit tests and quality gate to cover unsafe command/event logging policy findings.
 
 WebViewBridge structural finding coverage hardening requires local tests to assert invalid/duplicate command names, missing command effect/error behavior, missing event payload/error behavior and missing command/event registry finding ids without launching the client or enabling WebView debug/CDP.
+
+WebViewBridge remaining finding coverage hardening requires local tests to assert invalid command direction, missing command/event production-safety metadata, invalid/duplicate event names and fake native host case validation finding ids without launching the client or enabling WebView debug/CDP.
 
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
 
@@ -341,7 +344,7 @@ QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy invento
 
 ArtifactPolicySafety adds `Full` coverage for release/privacy policy fixture drift around required files, forbidden extensions, finding ids, privacy patterns and scan limits.
 
-ContractFixtureSafety adds `Full` coverage for backend, update manifest and WebView bridge fixture drift around dry-run flags, read-only/local-only constraints, package integrity metadata and bridge safety vocabulary.
+ContractFixtureSafety adds `Full` coverage for backend, update manifest and WebView bridge fixture drift around dry-run flags, read-only/local-only constraints, package integrity metadata, bridge structural/fake-host finding coverage and bridge safety vocabulary.
 
 StaticSurfaceSafety adds `Full` coverage for App/WebView smoke and non-prod foundation fixture drift around static layout, WebView bundle inventory and schema-only non-runtime placeholders.
 
@@ -388,7 +391,7 @@ Stop-and-ask triggers:
 
 Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
@@ -398,6 +401,17 @@ Last verification:
 - `git diff --check`.
 
 Previous verification:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Earlier verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
@@ -409,7 +423,7 @@ Previous verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
 
-Earlier verification:
+Older verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;

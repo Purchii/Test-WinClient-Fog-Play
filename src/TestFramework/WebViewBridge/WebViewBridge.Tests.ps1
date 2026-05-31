@@ -71,12 +71,40 @@ Assert-FindingId -Result $result -Id 'missing-command-effect'
 Assert-FindingId -Result $result -Id 'missing-command-error-behavior'
 
 $broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands[0].direction = 'native -> web'
+$broken.commands[0].productionSafety = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid WebView bridge command direction and production-safety metadata should fail.'
+Assert-FindingId -Result $result -Id 'invalid-command-direction'
+Assert-FindingId -Result $result -Id 'missing-command-production-safety'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $broken.events[0].payloadSchema = $null
 $broken.events[0].errorBehavior = ''
 $result = Test-WebViewBridgeContract -Contract $broken -DryRun
 Assert-True (-not $result.passed) 'Incomplete WebView bridge events should fail.'
 Assert-FindingId -Result $result -Id 'missing-event-payload-schema'
 Assert-FindingId -Result $result -Id 'missing-event-error-behavior'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.events[0].name = 'Invalid Event Name'
+$broken.events[1].name = $broken.events[0].name
+$broken.events[0].productionSafety = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid, duplicate and unsafe WebView bridge event metadata should fail.'
+Assert-FindingId -Result $result -Id 'invalid-event-name'
+Assert-FindingId -Result $result -Id 'duplicate-event-name'
+Assert-FindingId -Result $result -Id 'missing-event-production-safety'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.fakeNativeHostCases[0].type = 'runtime-probe'
+$broken.fakeNativeHostCases[0].expectedResult = ''
+$broken.fakeNativeHostCases[1].expectedResult = 'accept malformed command'
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid WebView bridge fake native host cases should fail.'
+Assert-FindingId -Result $result -Id 'invalid-fake-host-case-type'
+Assert-FindingId -Result $result -Id 'missing-fake-host-expected-result'
+Assert-FindingId -Result $result -Id 'malformed-case-not-rejected'
 
 $broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $broken.commands = @()
