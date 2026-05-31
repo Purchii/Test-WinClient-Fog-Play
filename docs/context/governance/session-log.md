@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety App/Bridge allow-flag helper cleanup
+
+Mode: `BOUNDED_AUTONOMOUS` local quality-gate cleanup after a separate task-thread attempt and local read-only inspection confirmed AppSmoke and BridgeContract allow/debug runner rejection assertions still used manual try/catch blocks instead of the shared helper.
+
+Branch: `codex/app-bridge-allow-helper-cleanup`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7ce1-6d5e-7600-9c70-10e6fb30d25e` was created for the narrow App/Bridge allow-flag helper cleanup task; coordination takeover completed the implementation from local static evidence.
+
+Scope:
+
+- Replace manual AppSmoke and BridgeContract `-AllowClientLaunch`/`-AllowWebViewDebugPort` rejection try/catch assertions in `scripts/quality-gate.ps1` with the existing `Assert-CommandRejected` helper.
+- Sync current/active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety Quality gate DryRun helper cleanup
 
 Mode: `BOUNDED_AUTONOMOUS` local quality-gate cleanup after a separate task-thread attempt and local read-only inspection confirmed several missing-`DryRun` runner rejection assertions still used manual try/catch blocks instead of the shared helper.

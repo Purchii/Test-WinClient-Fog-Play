@@ -4404,34 +4404,20 @@ function Invoke-AppSmokeGate {
             -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') | Out-Null
     }
 
-    $clientLaunchRejected = $false
-    try {
+    Assert-CommandRejected -Message 'App/WebView smoke runner must reject -AllowClientLaunch.' -Command {
         & $appSmoke `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
             -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
             -DryRun `
             -AllowClientLaunch | Out-Null
     }
-    catch {
-        $clientLaunchRejected = $true
-    }
-    if (-not $clientLaunchRejected) {
-        throw 'App/WebView smoke runner must reject -AllowClientLaunch.'
-    }
 
-    $debugPortRejected = $false
-    try {
+    Assert-CommandRejected -Message 'App/WebView smoke runner must reject -AllowWebViewDebugPort.' -Command {
         & $appSmoke `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/app-webview-smoke-fixture') `
             -PolicyPath (Join-Path $repoRoot 'testdata/app-webview-smoke.example.json') `
             -DryRun `
             -AllowWebViewDebugPort | Out-Null
-    }
-    catch {
-        $debugPortRejected = $true
-    }
-    if (-not $debugPortRejected) {
-        throw 'App/WebView smoke runner must reject -AllowWebViewDebugPort.'
     }
 
     Assert-CommandRejected -Message 'App/WebView smoke runner must reject unsafe runtime policy paths before reading them.' -Command {
@@ -4498,32 +4484,18 @@ function Invoke-BridgeContractGate {
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') | Out-Null
     }
 
-    $clientLaunchRejected = $false
-    try {
+    Assert-CommandRejected -Message 'WebView bridge contract runner must reject -AllowClientLaunch.' -Command {
         & $bridgeContract `
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `
             -DryRun `
             -AllowClientLaunch | Out-Null
     }
-    catch {
-        $clientLaunchRejected = $true
-    }
-    if (-not $clientLaunchRejected) {
-        throw 'WebView bridge contract runner must reject -AllowClientLaunch.'
-    }
 
-    $debugPortRejected = $false
-    try {
+    Assert-CommandRejected -Message 'WebView bridge contract runner must reject -AllowWebViewDebugPort.' -Command {
         & $bridgeContract `
             -ContractPath (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json') `
             -DryRun `
             -AllowWebViewDebugPort | Out-Null
-    }
-    catch {
-        $debugPortRejected = $true
-    }
-    if (-not $debugPortRejected) {
-        throw 'WebView bridge contract runner must reject -AllowWebViewDebugPort.'
     }
 
     Assert-CommandRejected -Message 'WebView bridge contract runner must reject unsafe runtime input paths before reading them.' -Command {

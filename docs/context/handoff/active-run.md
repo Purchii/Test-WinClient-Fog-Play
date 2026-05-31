@@ -117,6 +117,7 @@ Post-M6 BackendSmoke guard documentation sync is complete.
 Post-M6 NonProdFoundation/TestabilityGaps DryRun documentation sync is complete.
 Post-M6 QA docs DryRun guard documentation sync is complete.
 Post-M6 Quality gate DryRun helper cleanup is complete.
+Post-M6 App/Bridge allow-flag helper cleanup is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -175,6 +176,8 @@ NonProdFoundation/TestabilityGaps DryRun documentation sync aligns dangerous-fla
 QA docs DryRun guard documentation sync aligns active QA docs and scripts README guard summaries with UpdateManifest, NonProdFoundation and TestabilityGaps missing-`DryRun` runner rejection assertions.
 
 Quality gate DryRun helper cleanup replaces remaining manual missing-`DryRun` try/catch assertions with the shared `Assert-CommandRejected` helper without changing local runner commands.
+
+App/Bridge allow-flag helper cleanup replaces manual AppSmoke and BridgeContract `-AllowClientLaunch`/`-AllowWebViewDebugPort` rejection try/catch assertions with the shared `Assert-CommandRejected` helper without changing local runner commands.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 
