@@ -3940,6 +3940,19 @@ function Invoke-ReleaseGate {
         throw 'Release gate runner must reject calls without -DryRun.'
     }
 
+    Assert-CommandRejected -Message 'Release gate runner must reject unsafe runtime policy paths before reading them.' -Command {
+        & $releaseGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PolicyPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\release-policy.json' `
+            -DryRun | Out-Null
+    }
+    Assert-CommandRejected -Message 'Release gate runner must reject unsafe runtime artifact roots before probing them.' -Command {
+        & $releaseGate `
+            -ArtifactRoot 'C:\Users\someone\AppData\Local\MTC Fog Play\logs' `
+            -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') `
+            -DryRun | Out-Null
+    }
+
     $negative = Invoke-JsonGate {
         & $releaseGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `

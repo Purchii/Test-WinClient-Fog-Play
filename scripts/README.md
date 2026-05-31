@@ -127,6 +127,8 @@ The `ProdMatrixSafety` quality gate fails if the production-safe test matrix dri
 
 The `BacklogSafety` quality gate fails if the value/effort backlog drifts out of the approved M0-M6 roadmap shape.
 
+The `Release` quality gate validates local release artifact fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
+
 The `AppSmoke` quality gate validates the local App/WebView smoke scaffold without launching the installed client, and asserts that unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
 The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, and asserts that unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.

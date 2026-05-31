@@ -24,6 +24,20 @@ if (-not $DryRun) {
     throw 'Release gate runner is dry-run only. Pass -DryRun to perform local artifact validation.'
 }
 
+function Assert-ReleaseGateInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "Release gate runner must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-ReleaseGateInputPathSafe -Name 'ArtifactRoot' -Path $ArtifactRoot
+Assert-ReleaseGateInputPathSafe -Name 'PolicyPath' -Path $PolicyPath
+
 function ConvertTo-NormalizedRelativePath {
     param([Parameter(Mandatory = $true)][string] $Path)
     return ($Path -replace '/', [IO.Path]::DirectorySeparatorChar)
