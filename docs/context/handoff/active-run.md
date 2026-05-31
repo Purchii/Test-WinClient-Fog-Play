@@ -69,6 +69,7 @@ Post-M6 FrameworkInventorySafety static gate is complete.
 Post-M6 TestFrameworkInventorySafety static gate is complete.
 Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
+Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -364,6 +365,8 @@ Current-state branch-history consistency sync keeps top-level Post-M6 implemente
 Active-run/current-state status consistency sync keeps planning-boundary status names aligned with current-state implemented status names.
 
 ActiveRunSafety status-list consistency guard fails if current-state top statuses, current-state branch history and active-run planning-boundary statuses drift apart.
+
+ActiveRunSafety implementation-status status-list sync keeps implementation status aligned with the current ActiveRunSafety status-list consistency guard.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

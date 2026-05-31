@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - ActiveRunSafety implementation-status status-list sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation sync after a separate task-thread attempt and local read-only inspection confirmed implementation-status ActiveRunSafety wording lagged behind the current status-list consistency guard.
+
+Branch: `codex/implementation-status-active-run-status-list-sync`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cc4-e98e-7092-8d4a-7d68de4af82d` was created for the narrow implementation-status ActiveRunSafety status-list sync task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
+
+Scope:
+
+- Sync implementation-status ActiveRunSafety wording with the current status-list consistency guard.
+- Keep current-state and active-run Post-M6 status lists aligned under the new guard.
+- Sync active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - ActiveRunSafety status-list consistency guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static quality-gate hardening after a separate task-thread attempt and local read-only inspection confirmed ActiveRunSafety did not enforce the Post-M6 status-list equality that recent docs syncs restored.
