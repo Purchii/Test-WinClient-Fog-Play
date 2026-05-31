@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety active-run current-state status consistency
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation sync after a separate task-thread attempt and local read-only comparison found active-run planning-boundary status names out of sync with current-state top-level statuses.
+
+Branch: `codex/active-run-current-state-status-consistency`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cbb-8188-7380-9ed2-4ff44587d860` was created for the narrow active-run/current-state status consistency task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
+
+Scope:
+
+- Align active-run planning-boundary statuses with current-state top-level implemented statuses.
+- Add current-state top-level and branch-history entries for active-run-only completed hardening items.
+- Normalize the active current-state installed artifact wording sync under the ActiveRunSafety status name.
+- Sync active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety current-state branch history consistency
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation sync after a separate task-thread attempt and local read-only comparison found current-state top-level Post-M6 statuses without matching branch-history entries.

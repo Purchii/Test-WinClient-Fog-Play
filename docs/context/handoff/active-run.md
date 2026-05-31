@@ -26,12 +26,13 @@ Post-M6 QualityGatesDocsScopeSafety static gate is complete.
 Post-M6 BinaryFixturePlaceholderSafety static gate is complete.
 Post-M6 ScriptEncodingSafety static gate is complete.
 Post-M6 PowerShellStructuredSyntaxSafety static gate is complete.
+Post-M6 Thread inactive/history-only lifecycle wording is complete.
 Post-M6 ProdSafetyFrameworkSafety static gate is complete.
 Post-M6 RootPromptSafety static gate is complete.
 Post-M6 RepositoryRootInventorySafety static gate is complete.
 Post-M6 update manifest hardening is complete.
 Post-M6 testability gaps registry is complete.
-Post-M6 script inventory guard hardening is complete.
+Post-M6 Script inventory guard is complete.
 Post-M6 M1 dry-run fail-closed hardening is complete.
 Post-M6 runner/validator guard hardening is complete.
 Post-M6 dangerous flag negative coverage is complete.
@@ -53,6 +54,7 @@ Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening is 
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync is complete.
 Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync is complete.
 Post-M6 current-state branch-history consistency sync is complete.
+Post-M6 Active-run/current-state status consistency sync is complete.
 Post-M6 ChecklistSafety static gate is complete.
 Post-M6 DecisionsLogSafety static gate is complete.
 Post-M6 CodexPolicySafety static gate is complete.
@@ -65,6 +67,7 @@ Post-M6 HandoffProtocolSafety static gate is complete.
 Post-M6 IncomingReferenceSafety static gate is complete.
 Post-M6 FrameworkInventorySafety static gate is complete.
 Post-M6 TestFrameworkInventorySafety static gate is complete.
+Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -75,6 +78,8 @@ Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
 Post-M6 UnsafeFixtureCoverageSafety static gate is complete.
 Post-M6 GameSessionCanary conditional flag unsafe coverage hardening is complete.
+Post-M6 ActiveRunSafety scope coverage hardening is complete.
+Post-M6 ActiveRunSafety current branch/status policy is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 Post-M6 ProdMetadataSafety canary target allowlist hardening is complete.
 Post-M6 ProdMetadataSafety synthetic alias allowlist hardening is complete.
@@ -354,6 +359,8 @@ ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status
 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync keeps current-state branch history aligned with the already-completed allow-flag hardening branch.
 
 Current-state branch-history consistency sync keeps top-level Post-M6 implemented statuses aligned with their branch-history entries.
+
+Active-run/current-state status consistency sync keeps planning-boundary status names aligned with current-state implemented status names.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

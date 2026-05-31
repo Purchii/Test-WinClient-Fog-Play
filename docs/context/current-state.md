@@ -41,6 +41,8 @@ Post-M6: Thread inactive/history-only lifecycle wording - implemented and verifi
 Post-M6: ProdSafetyFrameworkSafety static gate - implemented and verified locally.
 Post-M6: RootPromptSafety static gate - implemented and verified locally.
 Post-M6: RepositoryRootInventorySafety static gate - implemented and verified locally.
+Post-M6: update manifest hardening - implemented and verified locally.
+Post-M6: testability gaps registry - implemented and verified locally.
 Post-M6: Script inventory guard - implemented and verified locally.
 Post-M6: M1 dry-run fail-closed hardening - implemented and verified locally.
 Post-M6: Runner/validator guard hardening - implemented and verified locally.
@@ -63,6 +65,7 @@ Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag hardening - 
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync - implemented and verified locally.
 Post-M6: ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync - implemented and verified locally.
 Post-M6: Current-state branch-history consistency sync - implemented and verified locally.
+Post-M6: Active-run/current-state status consistency sync - implemented and verified locally.
 Post-M6: ChecklistSafety static gate - implemented and verified locally.
 Post-M6: DecisionsLogSafety static gate - implemented and verified locally.
 Post-M6: CodexPolicySafety static gate - implemented and verified locally.
@@ -134,9 +137,13 @@ Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - impleme
 Post-M6: QaDocsSafety finding coverage wording guard - implemented and verified locally.
 Post-M6: QaDocsSafety detailed finding coverage wording guard - implemented and verified locally.
 Post-M6: QaDocsSafety release/privacy hardening wording guard - implemented and verified locally.
+Post-M6: QaDocsSafety release/privacy M1.1 hardening wording guard - implemented and verified locally.
+Post-M6: Release/Privacy report-only local coverage hardening - implemented and verified locally.
+Post-M6: QaDocsSafety release/privacy report-only coverage wording guard - implemented and verified locally.
+Post-M6: Privacy pattern finding coverage hardening - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
 Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
-Post-M6: Active current-state installed artifact wording sync - implemented and verified locally.
+Post-M6: ActiveRunSafety current-state installed artifact wording sync - implemented and verified locally.
 Post-M6: ActiveRunSafety installed artifact source wording guard - implemented and verified locally.
 Post-M6: Implementation-status M1 installed artifact history wording sync - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status installed artifact source wording guard - implemented and verified locally.
@@ -178,6 +185,8 @@ Repository bootstrap state:
 - Post-M6 ProdSafetyFrameworkSafety static gate was completed on `codex/prodsafety-framework-safety-gate`.
 - Post-M6 RepositoryRootInventorySafety static gate was completed on `codex/repository-root-inventory-safety-gate`.
 - Post-M6 RootPromptSafety static gate was completed on `codex/root-prompt-safety-gate`.
+- Post-M6 update manifest hardening was completed on `codex/update-manifest-gate`.
+- Post-M6 testability gaps registry was completed on `codex/testability-gaps-registry`.
 - Post-M6 Script inventory guard was completed on `codex/scripts-inventory-guard`.
 - Post-M6 M1 dry-run fail-closed hardening was completed on `codex/m1-dryrun-fail-closed`.
 - Post-M6 runner/validator guard hardening was completed on `codex/app-bridge-runner-guard`.
@@ -200,6 +209,7 @@ Repository bootstrap state:
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps allow-flag implementation-status sync was completed on `codex/implementation-status-active-verification-allow-flags`.
 - Post-M6 ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync was completed on `codex/current-state-active-verification-hardening-history`.
 - Post-M6 Current-state branch-history consistency sync was completed on `codex/current-state-branch-history-consistency`.
+- Post-M6 Active-run/current-state status consistency sync was completed on `codex/active-run-current-state-status-consistency`.
 - Post-M6 ChecklistSafety static gate was completed on `codex/checklist-safety-gate`.
 - Post-M6 DecisionsLogSafety static gate was completed on `codex/decisions-log-safety-gate`.
 - Post-M6 CodexPolicySafety static gate was completed on `codex/codex-policy-safety-gate`.
@@ -271,9 +281,13 @@ Repository bootstrap state:
 - Post-M6 QaDocsSafety finding coverage wording guard was completed on `codex/qa-docs-finding-coverage-safety`.
 - Post-M6 QaDocsSafety detailed finding coverage wording guard was completed on `codex/qa-docs-finding-detail-guard`.
 - Post-M6 QaDocsSafety release/privacy hardening wording guard was completed on `codex/qa-docs-release-privacy-hardening-safety`.
+- Post-M6 QaDocsSafety release/privacy M1.1 hardening wording guard was completed on `codex/qa-docs-m11-hardening-safety`.
+- Post-M6 Release/Privacy report-only local coverage hardening was completed on `codex/release-privacy-reportonly-coverage`.
+- Post-M6 QaDocsSafety release/privacy report-only coverage wording guard was completed on `codex/qa-docs-reportonly-coverage-safety`.
+- Post-M6 Privacy pattern finding coverage hardening was completed on `codex/privacy-pattern-finding-coverage`.
 - Post-M6 QualityGatesDocsScopeSafety input path summary sync was completed on `codex/quality-gates-docs-input-path-summary-sync`.
 - Post-M6 RunnerSafety implementation-status input path sync was completed on `codex/implementation-status-runner-input-path-sync`.
-- Post-M6 Active current-state installed artifact wording sync was completed on `codex/current-state-installed-artifact-active-wording`.
+- Post-M6 ActiveRunSafety current-state installed artifact wording sync was completed on `codex/current-state-installed-artifact-active-wording`.
 - Post-M6 ActiveRunSafety installed artifact source wording guard was completed on `codex/active-run-installed-artifact-source-safety`.
 - Post-M6 Implementation-status M1 installed artifact history wording sync was completed on `codex/implementation-status-m1-installed-artifact-history`.
 - Post-M6 ActiveRunSafety implementation-status installed artifact source wording guard was completed on `codex/active-run-implementation-status-artifact-source-safety`.
