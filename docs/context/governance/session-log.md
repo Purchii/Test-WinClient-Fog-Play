@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Prod metadata safety synthetic alias summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only quality-gate summary sync after separate task-thread discovery/takeover found aggregate current-state and active-run summaries lagged the new ProdMetadataSafety synthetic alias allowlist checks.
+
+Branch: `codex/prod-metadata-synthetic-alias-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bc5-48be-74d1-abdd-8e405653ff75` was created for the narrow local/static docs-sync discovery task; coordination takeover completed the docs-only update after requesting no further delegated edits.
+
+Scope:
+
+- Update active-run aggregate safety summary to include ProdMetadataSafety synthetic alias allowlist links.
+- Update current-state aggregate safety summary and branch history for the synthetic alias allowlist hardening.
+- Keep the task docs-only and local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Prod metadata safety synthetic alias allowlist hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ProdMetadataSafety did not cross-check metadata synthetic aliases against the synthetic users allowlist.

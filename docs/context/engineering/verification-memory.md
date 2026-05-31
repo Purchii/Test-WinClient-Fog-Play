@@ -1,5 +1,39 @@
 # Verification memory
 
+## 2026-05-31 - Prod metadata safety synthetic alias summary sync
+
+Branch: `codex/prod-metadata-synthetic-alias-summary-sync`
+Status: passed
+Production impact: none; local static documentation summary sync only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ActiveRunSafety gate passed.
+- ActiveSafetyScopeInventorySafety gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this task synchronizes local static documentation summaries only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - Prod metadata safety synthetic alias allowlist hardening
 
 Branch: `codex/prod-metadata-synthetic-alias-allowlist-safety`
