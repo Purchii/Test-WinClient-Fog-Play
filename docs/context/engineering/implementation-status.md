@@ -114,6 +114,7 @@ Implemented checks:
 - network, updater execution, rollback and credentials disabled;
 - endpoint and executable command rejection;
 - stable package ids and semantic-like versions;
+- direct finding-id coverage for missing package registries and invalid package ids;
 - local relative artifact paths only;
 - SHA-256 digest shape;
 - positive package size;

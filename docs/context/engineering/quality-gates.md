@@ -195,4 +195,4 @@ The `NonProdFoundation` scope validates future fake/replay/network/hardware plac
 
 The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, and asserts unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 
-The `UpdateManifest` scope validates the local update manifest fixture without network, updater execution, rollback or credentials, and asserts unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.
+The `UpdateManifest` scope validates the local update manifest fixture without network, updater execution, rollback or credentials, asserts structural package finding ids, and asserts unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.

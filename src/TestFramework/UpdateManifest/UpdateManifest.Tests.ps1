@@ -39,6 +39,18 @@ $result = Test-UpdateManifestPolicy -Policy $policy
 Assert-True (-not $result.passed) 'Update manifest validator should fail closed without -DryRun.'
 Assert-FindingId -Result $result -Id 'dry-run-flag-required'
 
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.packages[0].id = 'Invalid Package Id'
+$result = Test-UpdateManifestPolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid update manifest package ids should fail.'
+Assert-FindingId -Result $result -Id 'invalid-package-id'
+
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.packages = @()
+$result = Test-UpdateManifestPolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Update manifest policy without packages should fail.'
+Assert-FindingId -Result $result -Id 'missing-packages'
+
 $unsafe = Read-UpdateManifestPolicy -Path (Join-Path $repoRoot 'testdata/update-manifest-unsafe.example.json')
 $result = Test-UpdateManifestPolicy -Policy $unsafe -DryRun
 Assert-True (-not $result.passed) 'Unsafe update manifest fixture should fail.'

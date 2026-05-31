@@ -91,6 +91,7 @@ Post-M6 GameSessionCanary runner input path safety hardening is complete.
 Post-M6 NonProdFoundation runner input path safety hardening is complete.
 Post-M6 TestabilityGaps runner input path safety hardening is complete.
 Post-M6 UpdateManifest runner input path safety hardening is complete.
+Post-M6 UpdateManifest structural package finding coverage hardening is complete.
 Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
@@ -179,6 +180,8 @@ WebViewBridge runner input path safety hardening rejects AppData/log/cookie/DB/d
 BackendSmoke runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PolicyPath overrides before the runner reads them.
 
 UpdateManifest runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PolicyPath overrides before the runner reads them.
+
+UpdateManifest structural package finding coverage hardening requires local tests to assert missing package registry and invalid package id finding ids without network, updater execution, rollback or credentials.
 
 TestabilityGaps runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PolicyPath overrides before the runner reads them.
 
