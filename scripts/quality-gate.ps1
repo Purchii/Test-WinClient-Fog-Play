@@ -1529,6 +1529,15 @@ function Invoke-SessionLogSafetyGate {
         if ($entryText -notmatch [regex]::Escape('inactive/history-only')) {
             throw "session-log.md latest entry '$title' must preserve inactive/history-only lifecycle wording"
         }
+        foreach ($requiredLifecyclePhrase in @(
+                'Delegated discovery thread',
+                'preserved as inactive/history-only',
+                'rather than reused for implementation'
+            )) {
+            if ($entryText -notmatch [regex]::Escape($requiredLifecyclePhrase)) {
+                throw "session-log.md latest entry '$title' must preserve delegated discovery lifecycle phrase: $requiredLifecyclePhrase"
+            }
+        }
         foreach ($requiredPhrase in @(
                 'No installed client launch',
                 'No WebView debug/CDP',
