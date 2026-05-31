@@ -1280,9 +1280,6 @@ function Invoke-SessionLogSafetyGate {
         if ($entryText -notmatch [regex]::Escape('inactive/history-only')) {
             throw "session-log.md latest entry '$title' must preserve inactive/history-only lifecycle wording"
         }
-        if ($entryText -match [regex]::Escape('remains active only as coordinator')) {
-            throw "session-log.md latest entry '$title' must not describe a previous source/coordinator thread as still active."
-        }
         foreach ($requiredPhrase in @(
                 'No installed client launch',
                 'No WebView debug/CDP',

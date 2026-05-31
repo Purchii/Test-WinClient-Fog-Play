@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
-Current latest completed item: Post-M6 SessionLogSafety lifecycle history guard.
+Current latest completed item: Post-M6 SessionLogSafety lifecycle check cleanup.
 
 Planning boundary:
 
@@ -164,6 +164,7 @@ Post-M6 SessionLogSafety thread lifecycle sync is complete.
 Post-M6 QualityGatesDocsScopeSafety dry-run validator summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety summary parity guard is complete.
 Post-M6 SessionLogSafety lifecycle history guard is complete.
+Post-M6 SessionLogSafety lifecycle check cleanup is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
@@ -233,6 +234,8 @@ QualityGatesDocsScopeSafety dry-run validator summary sync aligns quality-gates 
 QualityGatesDocsScopeSafety summary parity guard fails closed if selected quality-gates runner-scope summaries drift from scripts README coverage for missing `-DryRun` and dangerous allow-flag rejection.
 
 SessionLogSafety lifecycle history guard cleans up stale historical session-log lifecycle wording and fails closed if any codex branch session-log entry describes a previous source/coordinator thread as still active.
+
+SessionLogSafety lifecycle check cleanup removes the redundant latest-entry still-active wording check after the same rejection became history-wide.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
@@ -423,6 +426,8 @@ SessionLogSafety adds `Full` coverage for guarded session-log entries so mode, b
 SessionLogSafety thread lifecycle sync adds `Full` coverage so the latest session-log entry cannot describe a previous source/coordinator thread as still active.
 
 SessionLogSafety lifecycle history guard extends that lifecycle wording rejection across all codex branch session-log entries.
+
+SessionLogSafety lifecycle check cleanup keeps the strengthened lifecycle guard single-sourced in the history-wide check.
 
 VerificationMemorySafety adds `Full` coverage for verification-memory branch entries so pending markers, missing evidence fields, missing static `Not run:` rationale, missing installed artifact historical command boundaries and missing latest-entry safety notes fail closed.
 

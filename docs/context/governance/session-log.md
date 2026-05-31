@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Session Log Safety lifecycle check cleanup
+
+Mode: `BOUNDED_AUTONOMOUS` local static session-log quality-gate cleanup after a separate discovery thread was created and local read-only inspection confirmed the latest-entry still-active wording check duplicated the newer history-wide `SessionLogSafety` rejection.
+
+Branch: `codex/session-log-lifecycle-check-cleanup`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7d1d-4565-78c1-aaea-a44a1f9691fa` was created for the next narrow discovery/status sync task; it did not complete a final candidate report before this local static cleanup proceeded from direct repository evidence, and is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Remove the redundant latest-entry still-active lifecycle wording check after the same rejection became history-wide for all codex branch session-log entries.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Session Log Safety lifecycle history guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static session-log lifecycle history hardening after separate task-thread discovery confirmed old codex branch entries still described the previous source/coordinator thread as active while active/current context records old threads as inactive/history-only after handoff.
