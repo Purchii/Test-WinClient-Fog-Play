@@ -749,6 +749,65 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'SyntheticUsersSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'testdata/synthetic-users.example.json',
+                'resource budget',
+                'synthetic users policy',
+                'alias-only',
+                'credential-like',
+                'game-session permission',
+                'bounded canary aliases',
+                'canary user duration'
+            )
+        },
+        @{
+            Scope             = 'AllowedGamesSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'testdata/allowed-games.example.json',
+                'game-session canary policy',
+                'production canary games',
+                'alias-only',
+                'QA entries',
+                'bounded `allowedFor` purposes'
+            )
+        },
+        @{
+            Scope             = 'ResourceBudgetSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'testdata/prod-resource-budget.example.yaml',
+                'testdata/allowed-games.example.json',
+                'resource budget policy',
+                'single-session',
+                'short-duration',
+                'cleanup-gated',
+                'allowlisted QA game aliases'
+            )
+        },
+        @{
+            Scope             = 'ProdMetadataSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'testdata/prod-safety-tests.example.json',
+                'testdata/synthetic-users.example.json',
+                'production guard allowlist fixtures',
+                'production testing policy',
+                'runner suites',
+                'expected classifications',
+                'allowlisted synthetic aliases',
+                'canary alias duration budget',
+                'target metadata',
+                'session/cleanup flags'
+            )
+        },
+        @{
             Scope             = 'QaDocsSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'

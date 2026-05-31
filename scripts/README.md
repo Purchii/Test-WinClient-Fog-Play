@@ -115,13 +115,13 @@ The `TestDataInventorySafety` quality gate fails if the `testdata/` fixture file
 
 The `UnsafeFixtureCoverageSafety` quality gate fails if any `testdata/*unsafe*.example.json` fixture is missing a static negative coverage contract with the fixture path and expected `Assert-FindingId` finding-id assertions in the corresponding TestFramework test or `quality-gate.ps1` scope.
 
-The `SyntheticUsersSafety` quality gate fails if the synthetic users fixture stops being alias-only, gains credential-like data, grants game-session permission outside bounded canary aliases, or lets a canary synthetic user duration exceed the resource budget.
+The `SyntheticUsersSafety` quality gate statically checks `testdata/synthetic-users.example.json`, the resource budget fixture and the synthetic users policy so allowlisted users remain alias-only, contain no credential-like fields or values, reserve game-session permission for bounded canary aliases and keep canary user duration within the resource budget.
 
-The `AllowedGamesSafety` quality gate fails if the allowed-games fixture stops being alias-only, gains real game metadata, or allows purposes outside the production canary plan.
+The `AllowedGamesSafety` quality gate statically checks `testdata/allowed-games.example.json` and the game-session canary policy so production canary games remain alias-only QA entries with bounded `allowedFor` purposes.
 
-The `ResourceBudgetSafety` quality gate fails if the production resource budget stops being single-session, short-duration, cleanup-gated, explicitly conditional, or tied to production canary game aliases.
+The `ResourceBudgetSafety` quality gate statically checks `testdata/prod-resource-budget.example.yaml`, `testdata/allowed-games.example.json` and the resource budget policy so production canary budgets stay single-session, short-duration, cleanup-gated and tied to allowlisted QA game aliases.
 
-The `ProdMetadataSafety` quality gate fails if production test metadata suites drift away from their required classifications, synthetic-user allowlist aliases, canary alias duration budget, targets or session/cleanup flags, or if prod-canary target region/game metadata is not allowlisted by the resource budget and allowed-games fixtures.
+The `ProdMetadataSafety` quality gate statically checks `testdata/prod-safety-tests.example.json`, `testdata/synthetic-users.example.json`, production guard allowlist fixtures and the production testing policy so runner suites keep the expected classifications, allowlisted synthetic aliases, canary alias duration budget, target metadata and session/cleanup flags.
 
 The `ProdMatrixSafety` quality gate statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
