@@ -44,6 +44,22 @@ if ([string]::IsNullOrWhiteSpace($AllowedGamesPath)) {
     $AllowedGamesPath = Join-Path $repoRoot 'testdata/allowed-games.example.json'
 }
 
+function Assert-GameSessionCanaryInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "M5 game-session canary readiness gate must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-GameSessionCanaryInputPathSafe -Name 'PlanPath' -Path $PlanPath
+Assert-GameSessionCanaryInputPathSafe -Name 'SyntheticUsersPath' -Path $SyntheticUsersPath
+Assert-GameSessionCanaryInputPathSafe -Name 'ResourceBudgetPath' -Path $ResourceBudgetPath
+Assert-GameSessionCanaryInputPathSafe -Name 'AllowedGamesPath' -Path $AllowedGamesPath
+
 if (-not $DryRun) {
     throw 'M5 game-session canary readiness gate is dry-run only. Real game-session execution requires a separately approved milestone.'
 }

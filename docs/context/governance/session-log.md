@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Runner safety game-session canary input path hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-game-session-canary.ps1` accepted caller-provided fixture/config paths before any unsafe runtime path rejection.
+
+Branch: `codex/runner-game-session-canary-input-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c0c-bf6c-7e53-abe4-07c492b45ea3` was created for the narrow local/static GameSessionCanary runner input path discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add a pre-read guard for `PlanPath`, `SyntheticUsersPath`, `ResourceBudgetPath` and `AllowedGamesPath`.
+- Reject AppData/log/cookie/DB/dump-like input path overrides before any file read.
+- Add GameSessionCanary quality gate coverage for the pre-read rejection.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Unsafe fixture coverage safety game-session canary finding coverage hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/static negative coverage hardening after separate task-thread discovery/takeover confirmed `game-session-canary-unsafe.example.json` emitted current fail findings that were not all required by the unsafe fixture coverage contract and runner negative assertions.

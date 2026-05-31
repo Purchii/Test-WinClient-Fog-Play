@@ -27,6 +27,7 @@ Implemented checks:
 - policy is dry-run only;
 - policy runtime path requests are empty;
 - direct validator invocation requires the dry-run flag;
+- runner input path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
 - real execution, client launch, network calls and authentication are disabled;
 - policy does not request user runtime paths, logs, cookies, DBs or dumps;
 - policy test metadata passes ProdGuard only with explicit `-AllowProdConditional` and `-CleanupVerified`.

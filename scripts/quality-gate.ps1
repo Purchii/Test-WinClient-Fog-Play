@@ -4387,6 +4387,14 @@ function Invoke-GameSessionCanaryGate {
         }
     }
 
+    Assert-CommandRejected -Message 'Game-session canary runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $gameSessionCanary `
+            -PlanPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\canary.json' `
+            -DryRun `
+            -AllowProdConditional `
+            -CleanupVerified | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $gameSessionCanary `
             -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `
