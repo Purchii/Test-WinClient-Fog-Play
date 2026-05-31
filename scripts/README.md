@@ -145,6 +145,6 @@ The `GameSessionCanary` quality gate validates the local dry-run canary readines
 
 The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts that unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `TestabilityGaps` quality gate validates the local testability gap registry without closing runtime gaps, and asserts that unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
+The `TestabilityGaps` quality gate validates the local testability gap registry without closing runtime gaps, asserts local gap metadata finding ids, and asserts that unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 
 The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials, asserts structural package finding ids, and asserts that unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.

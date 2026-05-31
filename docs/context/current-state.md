@@ -119,6 +119,7 @@ Post-M6: ProdSafeSmoke runner input path safety hardening - implemented and veri
 Post-M6: ProdCanary runner input path safety hardening - implemented and verified locally.
 Post-M6: RunnerSafety input path coverage hardening - implemented and verified locally.
 Post-M6: TestabilityGaps next-safe-step vocabulary hardening - implemented and verified locally.
+Post-M6: TestabilityGaps local finding coverage hardening - implemented and verified locally.
 Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
 Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
@@ -262,7 +263,7 @@ Current artifact status:
 - Backend smoke scaffold exists as local/dry-run only with structural endpoint finding coverage.
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
-- Testability gaps registry exists as local/dry-run validation only.
+- Testability gaps registry exists as local/dry-run validation only with local finding-id coverage for missing gap entries and runtime-gap guard metadata.
 - QualityGateStructureSafety statically checks `quality-gate.ps1` structural wiring so each supported scope except `Full` has one matching function and one `Full` dispatch.
 - TestDataStructuredSyntaxSafety statically checks JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
 - GovernanceHistoryScopeSafety statically checks `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.

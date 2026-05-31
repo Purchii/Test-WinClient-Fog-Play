@@ -38,6 +38,20 @@ $result = Test-TestabilityGapsPolicy -Policy $policy
 Assert-True (-not $result.passed) 'Testability gaps validator should fail closed without -DryRun.'
 Assert-FindingId -Result $result -Id 'dry-run-flag-required'
 
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.gaps = @()
+$result = Test-TestabilityGapsPolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Testability gaps policy without gap entries should fail.'
+Assert-FindingId -Result $result -Id 'missing-gaps'
+
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.gaps[0].nextSafeStep = ''
+$broken.gaps[0].stopTriggers = @()
+$result = Test-TestabilityGapsPolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Runtime testability gap without next safe step or stop trigger should fail.'
+Assert-FindingId -Result $result -Id 'missing-next-safe-step'
+Assert-FindingId -Result $result -Id 'runtime-gap-without-stop-trigger'
+
 $unsafe = Read-TestabilityGapsPolicy -Path (Join-Path $repoRoot 'testdata/testability-gaps-unsafe.example.json')
 $result = Test-TestabilityGapsPolicy -Policy $unsafe -DryRun
 Assert-True (-not $result.passed) 'Unsafe testability gaps fixture should fail.'

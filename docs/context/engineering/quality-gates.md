@@ -193,6 +193,6 @@ The `GameSessionCanary` scope validates the local dry-run canary readiness plan 
 
 The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts unsafe runtime input paths, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, and asserts unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
+The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, asserts local gap metadata finding ids, and asserts unsafe runtime input paths, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 
 The `UpdateManifest` scope validates the local update manifest fixture without network, updater execution, rollback or credentials, asserts structural package finding ids, and asserts unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.

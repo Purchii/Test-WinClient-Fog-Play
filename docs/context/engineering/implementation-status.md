@@ -140,6 +140,7 @@ Implemented checks:
 - gaps do not require credentials or user runtime data;
 - approved closure evidence is required;
 - stop-and-ask triggers are required;
+- direct finding-id coverage for missing gap registries, missing next safe steps and runtime gaps without stop triggers;
 - safe next steps are required and must not request runtime, credential, production backend, game-session or user data actions.
 
 ## M2 - App launch + WebView smoke

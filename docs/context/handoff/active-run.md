@@ -107,6 +107,7 @@ Post-M6 ProdSafeSmoke runner input path safety hardening is complete.
 Post-M6 ProdCanary runner input path safety hardening is complete.
 Post-M6 RunnerSafety input path coverage hardening is complete.
 Post-M6 TestabilityGaps next-safe-step vocabulary hardening is complete.
+Post-M6 TestabilityGaps local finding coverage hardening is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
@@ -140,6 +141,8 @@ WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridg
 WebViewBridge structural finding coverage hardening requires local tests to assert invalid/duplicate command names, missing command effect/error behavior, missing event payload/error behavior and missing command/event registry finding ids without launching the client or enabling WebView debug/CDP.
 
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
+
+TestabilityGaps local finding coverage hardening requires local tests to assert missing gap registry, missing next safe step and runtime gap without stop trigger finding ids without closing runtime gaps or performing production actions.
 
 VerificationMemorySafety installed artifact historical command boundary requires old verification-memory entries with installed artifact commands to preserve 2026-05-30 historical evidence wording and a no-rerun-without-approved-plan boundary.
 
