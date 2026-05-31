@@ -1083,10 +1083,11 @@ function Invoke-ActiveRunSafetyGate {
     foreach ($requiredImplementationStatusPhrase in @(
             'Historical artifact observation:',
             'installed signed client directory observed on 2026-05-30: `C:\Program Files\MTC Fog Play`',
-            'current autonomous verification uses committed local fixtures only; installed artifact reads require a separate explicit approved plan.'
+            'current autonomous verification uses committed local fixtures only; installed artifact reads require a separate explicit approved plan.',
+            'selected `docs/context/engineering/quality-gates.md` runner-scope and QA-doc safety summaries must stay aligned with `scripts/README.md` for missing `-DryRun`, dangerous allow-flag rejection and installed-artifact/report-only wording coverage'
         )) {
         if ($implementationStatus -notmatch [regex]::Escape($requiredImplementationStatusPhrase)) {
-            throw "implementation-status.md must preserve installed-artifact history phrase: $requiredImplementationStatusPhrase"
+            throw "implementation-status.md must preserve active implementation-status phrase: $requiredImplementationStatusPhrase"
         }
     }
 
