@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Active run safety docs summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only quality-gate summary sync after separate task-thread discovery confirmed scripts README and quality-gates descriptions lagged the current ActiveRunSafety checks.
+
+Branch: `codex/active-run-safety-docs-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bb2-0053-7a40-bf17-b859b845c589` was created for the narrow local/static docs summary sync; coordination takeover completed the docs-only update after requesting no further delegated edits.
+
+Scope:
+
+- Update `scripts/README.md` ActiveRunSafety summary for stale live current-branch marker checks and dynamic `*Safety` coverage.
+- Update `docs/context/engineering/quality-gates.md` ActiveRunSafety summary for `git status --short --branch` current branch/worktree source and dynamic `*Safety` coverage.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run safety implementation-status hardening summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only implementation-status sync after separate task-thread discovery confirmed ActiveRunSafety scope coverage and current branch/status policy checks were not reflected in implementation-status.

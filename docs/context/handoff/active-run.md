@@ -83,6 +83,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ActiveRunSafety docs summary sync updates scripts README and quality-gates summaries for dynamic `*Safety` coverage and git-status branch policy checks.
+
 ActiveRunSafety implementation-status hardening summary sync records scope coverage and branch/status policy checks in implementation-status.
 
 ActiveRunSafety current-state hardening summary sync records the completed scope coverage and branch/status policy hardening in current-state.

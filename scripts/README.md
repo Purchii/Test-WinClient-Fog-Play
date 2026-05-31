@@ -57,7 +57,7 @@ The `TestDataStructuredSyntaxSafety` quality gate fails if JSON fixtures under `
 
 The `QualityGateStructureSafety` quality gate fails if any `quality-gate.ps1 -Scope` value except `Full` is missing its matching `Invoke-<Scope>Gate` function or exact `Full` dispatch block.
 
-The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit markers, declare a literal historical thread id as the active task thread, omit current static safety gates, or let the active milestone marker drift from the latest verification-memory codex branch entry.
+The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit or live current-branch markers, declare a literal historical thread id as the active task thread, omit current static `*Safety` gates derived from `quality-gate.ps1`, or let the active milestone marker drift from the latest verification-memory codex branch entry.
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
 
