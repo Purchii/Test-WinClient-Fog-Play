@@ -120,6 +120,7 @@ Post-M6 Quality gate DryRun helper cleanup is complete.
 Post-M6 App/Bridge allow-flag helper cleanup is complete.
 Post-M6 QualityGateStructureSafety rejection helper guard is complete.
 Post-M6 Quality gates docs rejection helper sync is complete.
+Post-M6 QualityGateStructureSafety rejection helper definition guard is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -184,6 +185,8 @@ App/Bridge allow-flag helper cleanup replaces manual AppSmoke and BridgeContract
 QualityGateStructureSafety rejection helper guard prevents runner rejection assertions in `quality-gate.ps1` from regressing to manual `*Rejected` flag blocks instead of the shared `Assert-CommandRejected` helper.
 
 Quality gates docs rejection helper sync aligns `docs/context/engineering/quality-gates.md` with the `QualityGateStructureSafety` rejection helper guard.
+
+QualityGateStructureSafety rejection helper definition guard requires exactly one shared `Assert-CommandRejected` helper definition in `quality-gate.ps1`.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 
@@ -321,7 +324,7 @@ Local testability gap registry tracks runtime blockers and required evidence wit
 
 TestDataStructuredSyntaxSafety adds `Full` coverage for JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
 
-QualityGateStructureSafety adds `Full` coverage for `quality-gate.ps1` structural wiring: every `ValidateSet` scope except `Full` must have exactly one matching `Invoke-<Scope>Gate` function and exactly one `Full` dispatch block, and runner rejection assertions must use `Assert-CommandRejected` instead of manual `*Rejected` flag blocks.
+QualityGateStructureSafety adds `Full` coverage for `quality-gate.ps1` structural wiring: every `ValidateSet` scope except `Full` must have exactly one matching `Invoke-<Scope>Gate` function and exactly one `Full` dispatch block, runner rejection assertions must use `Assert-CommandRejected` instead of manual `*Rejected` flag blocks, and the shared rejection helper must be defined exactly once.
 
 QualityGateStructureSafety Invoke-StubGate cleanup removes the stale unused placeholder that still described documented gates as not implemented.
 

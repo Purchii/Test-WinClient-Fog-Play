@@ -855,6 +855,7 @@ Implemented checks:
 - every `quality-gate.ps1 -Scope` value except `Full` must have exactly one matching `Full` dispatch block;
 - stale unused placeholder helpers such as `Invoke-StubGate` must not remain after all scopes are implemented;
 - runner rejection assertions must use `Assert-CommandRejected` instead of manual `*Rejected` flag blocks;
+- `Assert-CommandRejected` must be defined exactly once;
 - `QualityGateStructureSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

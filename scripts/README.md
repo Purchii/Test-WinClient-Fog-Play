@@ -55,7 +55,7 @@ The `GovernanceHistoryScopeSafety` quality gate fails if any `*Safety` scope fro
 
 The `TestDataStructuredSyntaxSafety` quality gate fails if JSON fixtures under `testdata/` stop parsing or if the production resource budget YAML loses its required top-level shape.
 
-The `QualityGateStructureSafety` quality gate fails if any `quality-gate.ps1 -Scope` value except `Full` is missing its matching `Invoke-<Scope>Gate` function or exact `Full` dispatch block, or if runner rejection assertions regress to manual `*Rejected` flag blocks instead of `Assert-CommandRejected`.
+The `QualityGateStructureSafety` quality gate fails if any `quality-gate.ps1 -Scope` value except `Full` is missing its matching `Invoke-<Scope>Gate` function or exact `Full` dispatch block, if runner rejection assertions regress to manual `*Rejected` flag blocks instead of `Assert-CommandRejected`, or if the shared rejection helper is missing or duplicated.
 
 The `ActiveRunSafety` quality gate fails if the active handoff/current-state docs lose required stop-and-ask triggers, record stale literal latest-commit or live current-branch markers, declare a literal historical thread id as the active task thread, regress installed artifact observations into the current autonomous verification source in current-state or implementation-status, omit current static `*Safety` gates derived from `quality-gate.ps1`, let top-level/current branch-history/active-run Post-M6 status entries drift apart, or let the active milestone marker drift from the latest verification-memory codex branch entry.
 

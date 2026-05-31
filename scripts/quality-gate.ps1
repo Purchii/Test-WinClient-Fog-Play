@@ -823,6 +823,11 @@ function Invoke-QualityGateStructureSafetyGate {
         throw 'quality-gate.ps1 runner rejection assertions must use Assert-CommandRejected instead of manual *Rejected flags.'
     }
 
+    $rejectionHelperMatches = @([regex]::Matches($script, '(?m)^function\s+Assert-CommandRejected\s*\{'))
+    if ($rejectionHelperMatches.Count -ne 1) {
+        throw 'quality-gate.ps1 must define exactly one Assert-CommandRejected helper.'
+    }
+
     Write-Host 'QualityGateStructureSafety gate passed.'
 }
 
