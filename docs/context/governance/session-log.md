@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - ActiveRunSafety implementation-status installed artifact source wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after user allowed autonomous work and pushes to main; separate task-thread discovery/takeover confirmed ActiveRunSafety did not yet prevent implementation-status from regressing historical installed artifact observations into current autonomous verification source wording.
+
+Branch: `codex/active-run-implementation-status-artifact-source-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c40-5bda-7813-8248-e8e45e249e70` was created for the narrow local/static ActiveRunSafety implementation-status installed artifact wording discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Make ActiveRunSafety read `docs/context/engineering/implementation-status.md`.
+- Reject implementation-status wording that describes `C:\Program Files\MTC Fog Play` as the current autonomous verification source.
+- Require historical installed artifact observation wording and current local-fixture-only autonomous verification wording to stay visible.
+- Sync scripts/context summaries and verification evidence for the new guard.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active Run Safety implementation-status M1 installed artifact history wording sync
 
 Mode: `BOUNDED_AUTONOMOUS` local documentation wording sync after separate task-thread discovery/takeover confirmed implementation-status M1 wording still described installed artifact scans as current artifact source and verification status.

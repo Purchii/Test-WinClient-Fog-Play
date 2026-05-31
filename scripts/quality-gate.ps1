@@ -882,17 +882,20 @@ function Resolve-SafetyScopeFromVerificationMemoryEntry {
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
+    $implementationStatusPath = Join-Path $repoRoot 'docs/context/engineering/implementation-status.md'
     $verificationMemoryPath = Join-Path $repoRoot 'docs/context/engineering/verification-memory.md'
     $contextProtocolPath = Join-Path $repoRoot 'docs/context/handoff/context-protocol.md'
     $executorPolicyPath = Join-Path $repoRoot 'docs/context/handoff/executor-policy.md'
     Assert-PathExists 'docs/context/handoff/active-run.md'
     Assert-PathExists 'docs/context/current-state.md'
+    Assert-PathExists 'docs/context/engineering/implementation-status.md'
     Assert-PathExists 'docs/context/engineering/verification-memory.md'
     Assert-PathExists 'docs/context/handoff/context-protocol.md'
     Assert-PathExists 'docs/context/handoff/executor-policy.md'
 
     $activeRun = Get-Content -LiteralPath $activeRunPath -Raw
     $currentState = Get-Content -LiteralPath $currentStatePath -Raw
+    $implementationStatus = Get-Content -LiteralPath $implementationStatusPath -Raw
     $verificationMemory = Get-Content -LiteralPath $verificationMemoryPath -Raw
     $contextProtocol = Get-Content -LiteralPath $contextProtocolPath -Raw
     $executorPolicy = Get-Content -LiteralPath $executorPolicyPath -Raw
@@ -938,12 +941,24 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -match '(?i)Current installed artifact source') {
         throw 'current-state.md must not describe installed artifacts as the current autonomous verification source.'
     }
+    if ($implementationStatus -match '(?is)Current artifact source:\s*.*C:\\Program Files\\MTC Fog Play') {
+        throw 'implementation-status.md must not describe installed artifacts as the current autonomous verification source.'
+    }
     foreach ($requiredCurrentStatePhrase in @(
             'Current autonomous verification source: committed local fixtures only',
             'Installed artifact reads from `C:\Program Files\MTC Fog Play` require a separate explicit approved plan'
         )) {
         if ($currentState -notmatch [regex]::Escape($requiredCurrentStatePhrase)) {
             throw "current-state.md must preserve active installed-artifact safety phrase: $requiredCurrentStatePhrase"
+        }
+    }
+    foreach ($requiredImplementationStatusPhrase in @(
+            'Historical artifact observation:',
+            'installed signed client directory observed on 2026-05-30: `C:\Program Files\MTC Fog Play`',
+            'current autonomous verification uses committed local fixtures only; installed artifact reads require a separate explicit approved plan.'
+        )) {
+        if ($implementationStatus -notmatch [regex]::Escape($requiredImplementationStatusPhrase)) {
+            throw "implementation-status.md must preserve installed-artifact history phrase: $requiredImplementationStatusPhrase"
         }
     }
 

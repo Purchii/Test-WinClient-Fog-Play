@@ -1305,6 +1305,8 @@ Implemented checks:
 - active handoff must not record stale literal latest-pushed commit markers;
 - active handoff must use `git status --short --branch` as the authoritative current branch/worktree source instead of storing a live literal branch value;
 - active handoff/current-state must not declare a literal historical thread id as the active task thread;
+- current-state must preserve the current autonomous verification source as committed local fixtures only;
+- implementation-status must keep installed artifact observations historical and must not describe `C:\Program Files\MTC Fog Play` as the current autonomous verification source;
 - context protocol must keep `git log --oneline --decorate -1` as the authoritative latest commit source;
 - context protocol must keep `git status --short --branch` as the authoritative current branch/worktree source;
 - executor policy must preserve the explicit main-merge approval rule;
