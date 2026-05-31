@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active Run Safety implementation-status M1 installed artifact history wording sync
+
+Mode: `BOUNDED_AUTONOMOUS` local documentation wording sync after separate task-thread discovery/takeover confirmed implementation-status M1 wording still described installed artifact scans as current artifact source and verification status.
+
+Branch: `codex/implementation-status-m1-installed-artifact-history`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c3c-e59b-76d1-a3bf-26be6c342b2e` was created for the narrow local/static M1 installed artifact wording discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Reword M1 installed artifact source as a historical 2026-05-30 observation.
+- Reword installed artifact dry-run verification as historical observation.
+- Preserve current autonomous verification as committed local fixtures only.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active Run Safety installed artifact source wording guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after separate task-thread discovery/takeover confirmed ActiveRunSafety did not yet prevent active current-state wording from making installed artifacts the current autonomous verification source.

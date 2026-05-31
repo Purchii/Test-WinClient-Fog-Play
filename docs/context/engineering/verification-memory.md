@@ -1,5 +1,41 @@
 # Verification memory
 
+## 2026-05-31 - Active Run Safety implementation-status M1 installed artifact history wording sync
+
+Branch: `codex/implementation-status-m1-installed-artifact-history`
+Status: passed
+Production impact: none; documentation wording sync only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- ActiveRunSafety gate passed.
+- Context quality gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- QaDocsSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads or game sessions because this task is documentation wording sync only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local static docs checks.
+
 ## 2026-05-31 - Active Run Safety installed artifact source wording guard
 
 Branch: `codex/active-run-installed-artifact-source-safety`

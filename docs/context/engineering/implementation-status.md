@@ -51,7 +51,7 @@ M1.1 hardening:
 
 ## M1 - Release artifact + privacy/logging gates
 
-Status: implementation verified locally; installed artifact currently has release/privacy findings and is not release-clean by current policy.
+Status: implementation verified locally; historical installed artifact observations from 2026-05-30 have release/privacy findings and are not release-clean by current policy.
 
 Implemented outputs:
 
@@ -64,9 +64,10 @@ Implemented outputs:
 - `docs/qa/release-gates.md`
 - `docs/qa/privacy-and-logging-checks.md`
 
-Current artifact source:
+Historical artifact observation:
 
-- installed signed client directory: `C:\Program Files\MTC Fog Play`
+- installed signed client directory observed on 2026-05-30: `C:\Program Files\MTC Fog Play`
+- current autonomous verification uses committed local fixtures only; installed artifact reads require a separate explicit approved plan.
 
 Not implemented in M1:
 
@@ -84,8 +85,8 @@ Verification status:
 - `ProdSafety` regression gate passed.
 - `Release` quality gate passed against negative and clean fixtures.
 - `Privacy` quality gate passed against installed-like, negative, large-file and clean fixtures.
-- Release dry-run against installed artifact completed and reported fail findings.
-- Privacy dry-run against installed artifact completed and reported fail findings.
+- Historical release dry-run against installed artifact completed on 2026-05-30 and reported fail findings.
+- Historical privacy dry-run against installed artifact completed on 2026-05-30 and reported fail findings.
 - `git diff --check` passed.
 
 M1.1 hardening:
