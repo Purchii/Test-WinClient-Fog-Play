@@ -1117,7 +1117,7 @@ Implemented checks:
 - `BridgeContract` quality gate asserts `-AllowClientLaunch` rejection;
 - `BridgeContract` quality gate asserts `-AllowWebViewDebugPort` rejection;
 - `BridgeContract` quality gate asserts unsafe bridge logging policy rejection;
-- `BackendSmoke` quality gate asserts `-AllowNetwork`, `-AllowAuth`, unsafe endpoint path and missing mock response rejection.
+- `BackendSmoke` quality gate asserts missing `-DryRun`, `-AllowNetwork`, `-AllowAuth`, unsafe endpoint path and missing mock response rejection.
 
 Not implemented:
 

@@ -113,6 +113,7 @@ Post-M6 UpdateManifest structural package finding coverage hardening is complete
 Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 BackendSmoke missing DryRun guard hardening is complete.
+Post-M6 BackendSmoke guard documentation sync is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -163,6 +164,8 @@ Current result:
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
 
 BackendSmoke missing DryRun guard hardening adds direct local quality-gate coverage that the backend smoke runner rejects calls without `-DryRun`.
+
+BackendSmoke guard documentation sync aligns the older runner/validator guard hardening status text with the direct BackendSmoke missing-`DryRun` quality-gate assertion.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 
@@ -342,7 +345,7 @@ Script inventory guard hardening updates `scripts/README.md` and makes the `Cont
 
 M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
 
-Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`; BackendSmoke asserts rejection of `-AllowNetwork` and `-AllowAuth`.
+Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`; BackendSmoke asserts missing `-DryRun`, `-AllowNetwork` and `-AllowAuth` rejection.
 
 Dangerous flag negative coverage adds `Full` assertions for UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps allow-flags.
 
