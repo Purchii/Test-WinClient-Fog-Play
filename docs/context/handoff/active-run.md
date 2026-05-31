@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
 
 Planning boundary:
 
@@ -68,6 +68,7 @@ Post-M6 IncomingReferenceSafety static gate is complete.
 Post-M6 FrameworkInventorySafety static gate is complete.
 Post-M6 TestFrameworkInventorySafety static gate is complete.
 Post-M6 ActiveRunSafety static gate is complete.
+Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -361,6 +362,8 @@ ActiveVerificationCommandSafety TestabilityGaps hardening branch-history sync ke
 Current-state branch-history consistency sync keeps top-level Post-M6 implemented statuses aligned with their branch-history entries.
 
 Active-run/current-state status consistency sync keeps planning-boundary status names aligned with current-state implemented status names.
+
+ActiveRunSafety status-list consistency guard fails if current-state top statuses, current-state branch history and active-run planning-boundary statuses drift apart.
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 

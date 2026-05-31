@@ -971,6 +971,47 @@ function Invoke-ActiveRunSafetyGate {
             throw "current-state.md must mention current static safety gate: $scopeName"
         }
     }
+
+    $currentStateStatuses = @([regex]::Matches($currentState, '(?m)^Post-M6: (?<name>.+?) - implemented and verified locally\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
+    $currentStateBranchHistoryStatuses = @([regex]::Matches($currentState, '(?m)^- Post-M6 (?<name>.+?) was completed on `[^`]+`\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
+    $activeRunStatuses = @([regex]::Matches($activeRun, '(?m)^Post-M6 (?<name>.+?) is complete\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
+    foreach ($statusSet in @(
+            @{ Name = 'current-state top status list'; Values = $currentStateStatuses },
+            @{ Name = 'current-state branch history'; Values = $currentStateBranchHistoryStatuses },
+            @{ Name = 'active-run planning boundary'; Values = $activeRunStatuses }
+        )) {
+        if ($statusSet.Values.Count -eq 0) {
+            throw "$($statusSet.Name) must contain Post-M6 status entries."
+        }
+        $duplicateStatuses = @($statusSet.Values | Group-Object | Where-Object { $_.Count -gt 1 } | ForEach-Object { $_.Name })
+        if ($duplicateStatuses.Count -gt 0) {
+            throw "$($statusSet.Name) must not contain duplicate Post-M6 status entries: $($duplicateStatuses -join '; ')"
+        }
+    }
+    foreach ($comparison in @(
+            @{
+                ReferenceName = 'current-state top status list'
+                Reference     = $currentStateStatuses
+                CandidateName = 'current-state branch history'
+                Candidate     = $currentStateBranchHistoryStatuses
+            },
+            @{
+                ReferenceName = 'current-state top status list'
+                Reference     = $currentStateStatuses
+                CandidateName = 'active-run planning boundary'
+                Candidate     = $activeRunStatuses
+            }
+        )) {
+        $missingStatuses = @($comparison.Reference | Where-Object { $comparison.Candidate -notcontains $_ })
+        if ($missingStatuses.Count -gt 0) {
+            throw "$($comparison.CandidateName) is missing Post-M6 status entries from $($comparison.ReferenceName): $($missingStatuses -join '; ')"
+        }
+        $extraStatuses = @($comparison.Candidate | Where-Object { $comparison.Reference -notcontains $_ })
+        if ($extraStatuses.Count -gt 0) {
+            throw "$($comparison.CandidateName) has Post-M6 status entries missing from $($comparison.ReferenceName): $($extraStatuses -join '; ')"
+        }
+    }
+
     $latestVerificationEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
     $knownSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' })
     $expectedMilestoneScope = Resolve-SafetyScopeFromVerificationMemoryEntry -EntryText $latestVerificationEntry -KnownSafetyScopes $knownSafetyScopes

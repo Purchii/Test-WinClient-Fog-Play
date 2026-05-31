@@ -79,6 +79,7 @@ Post-M6: IncomingReferenceSafety static gate - implemented and verified locally.
 Post-M6: FrameworkInventorySafety static gate - implemented and verified locally.
 Post-M6: TestFrameworkInventorySafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
+Post-M6: ActiveRunSafety status-list consistency guard - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
 Post-M6: ArtifactPolicySafety static gate - implemented and verified locally.
@@ -223,6 +224,7 @@ Repository bootstrap state:
 - Post-M6 FrameworkInventorySafety static gate was completed on `codex/framework-inventory-safety-gate`.
 - Post-M6 TestFrameworkInventorySafety static gate was completed on `codex/testframework-inventory-safety-gate`.
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
+- Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
 - Post-M6 ArtifactPolicySafety static gate was completed on `codex/artifact-policy-safety-gate`.
@@ -342,6 +344,7 @@ Current artifact status:
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers, stale literal latest-commit markers and stale literal historical thread ids declared as the active task thread.
 - ActiveRunSafety also checks that active-run's current milestone marker stays synced with the latest verification-memory codex branch entry and that last-verification notes include active-run coverage.
 - ActiveRunSafety derives current static safety scope coverage from `quality-gate.ps1` so newly added `*Safety` scopes cannot drift out of active/current context checks.
+- ActiveRunSafety keeps current-state top statuses, current-state branch history and active-run planning-boundary statuses aligned.
 - ActiveRunSafety uses `git status --short --branch` as the authoritative current branch/worktree source instead of a live literal active-run branch value.
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.

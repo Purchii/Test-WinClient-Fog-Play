@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - ActiveRunSafety status-list consistency guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static quality-gate hardening after a separate task-thread attempt and local read-only inspection confirmed ActiveRunSafety did not enforce the Post-M6 status-list equality that recent docs syncs restored.
+
+Branch: `codex/active-run-status-list-consistency-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cc0-9ea3-7e22-859b-0c80187114e9` was created for the narrow ActiveRunSafety status-list consistency status task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
+
+Scope:
+
+- Add ActiveRunSafety checks that current-state top statuses, current-state branch history and active-run planning-boundary statuses are non-empty, duplicate-free and aligned.
+- Sync scripts and context documentation with the new guard.
+- Sync active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety active-run current-state status consistency
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation sync after a separate task-thread attempt and local read-only comparison found active-run planning-boundary status names out of sync with current-state top-level statuses.
