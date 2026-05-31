@@ -121,6 +121,7 @@ Post-M6 App/Bridge allow-flag helper cleanup is complete.
 Post-M6 QualityGateStructureSafety rejection helper guard is complete.
 Post-M6 Quality gates docs rejection helper sync is complete.
 Post-M6 QualityGateStructureSafety rejection helper definition guard is complete.
+Post-M6 Current-state QualityGateStructureSafety helper summary sync is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -187,6 +188,8 @@ QualityGateStructureSafety rejection helper guard prevents runner rejection asse
 Quality gates docs rejection helper sync aligns `docs/context/engineering/quality-gates.md` with the `QualityGateStructureSafety` rejection helper guard.
 
 QualityGateStructureSafety rejection helper definition guard requires exactly one shared `Assert-CommandRejected` helper definition in `quality-gate.ps1`.
+
+Current-state QualityGateStructureSafety helper summary sync aligns the lower current-state summary with the latest rejection helper usage and definition guards.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 

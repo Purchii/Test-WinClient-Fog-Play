@@ -131,6 +131,7 @@ Post-M6: App/Bridge allow-flag helper cleanup - implemented and verified locally
 Post-M6: QualityGateStructureSafety rejection helper guard - implemented and verified locally.
 Post-M6: Quality gates docs rejection helper sync - implemented and verified locally.
 Post-M6: QualityGateStructureSafety rejection helper definition guard - implemented and verified locally.
+Post-M6: Current-state QualityGateStructureSafety helper summary sync - implemented and verified locally.
 Post-M6: BackendSmoke structural endpoint finding coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge runner input path safety hardening - implemented and verified locally.
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
@@ -290,6 +291,7 @@ Repository bootstrap state:
 - Post-M6 QualityGateStructureSafety rejection helper guard was completed on `codex/quality-gate-rejection-helper-guard`.
 - Post-M6 Quality gates docs rejection helper sync was completed on `codex/quality-gates-docs-rejection-helper-sync`.
 - Post-M6 QualityGateStructureSafety rejection helper definition guard was completed on `codex/quality-gate-helper-definition-guard`.
+- Post-M6 Current-state QualityGateStructureSafety helper summary sync was completed on `codex/current-state-quality-gate-helper-sync`.
 - Post-M6 BackendSmoke structural endpoint finding coverage hardening was completed on `codex/backend-smoke-structural-finding-coverage`.
 - Post-M6 WebViewBridge runner input path safety hardening was completed on `codex/runner-webview-bridge-input-path-safety`.
 - Post-M6 WebViewBridge unsafe logging policy coverage hardening was completed on `codex/webview-bridge-unsafe-logging-coverage`.
@@ -339,7 +341,7 @@ Current artifact status:
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only with local finding-id coverage for missing gap entries and runtime-gap guard metadata.
-- QualityGateStructureSafety statically checks `quality-gate.ps1` structural wiring so each supported scope except `Full` has one matching function and one `Full` dispatch.
+- QualityGateStructureSafety statically checks `quality-gate.ps1` structural wiring so each supported scope except `Full` has one matching function and one `Full` dispatch, runner rejection assertions use `Assert-CommandRejected` instead of manual `*Rejected` flag blocks, and the shared rejection helper is defined exactly once.
 - TestDataStructuredSyntaxSafety statically checks JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
 - GovernanceHistoryScopeSafety statically checks `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.
 - ScriptsReadmeScopeSafety statically checks `scripts/README.md` so the local script command inventory mentions every supported `quality-gate.ps1 -Scope`.
