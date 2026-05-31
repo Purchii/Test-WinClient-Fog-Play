@@ -708,6 +708,7 @@ Implemented checks:
 - the preferred command block in `docs/context/engineering/quality-gates.md` must list every `quality-gate.ps1` `ValidateSet` scope exactly once;
 - duplicate scopes, unknown scopes and malformed preferred command lines fail closed;
 - selected `docs/context/engineering/quality-gates.md` runner-scope and QA-doc safety summaries must stay aligned with `scripts/README.md` for missing `-DryRun`, dangerous allow-flag rejection and installed-artifact/report-only wording coverage;
+- `GameSessionCanary` summary parity requires exact non-duplicated canary suite metadata wording alongside readiness signal, synthetic alias, budget and runtime-path guard coverage;
 - `QualityGatesDocsScopeSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

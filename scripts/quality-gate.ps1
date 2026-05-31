@@ -932,7 +932,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'without starting or stopping a game session',
                 'exactly one canary',
                 'exact non-duplicated canary readiness signals',
-                'canary suite metadata',
+                'exact non-duplicated canary suite metadata',
                 'explicit game-session/state-mutation intent metadata',
                 'empty runtime path requests',
                 'allowlisted production canary synthetic alias',

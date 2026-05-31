@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation parity hardening after separate discovery/status sync identified a `GameSessionCanary` summary drift: local checks already reject non-exact or duplicated canary suite metadata, while the quality-gates summary contract only required generic suite metadata wording.
+
+Branch: `codex/game-session-canary-suite-summary-parity`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` and older task threads were treated as inactive/history-only for this independent implementation.
+- Delegated discovery thread `019e7f4b-474b-7b63-8a74-a4530c1a8b30` was created for this narrow discovery/status sync task; implementation proceeded from direct local static repository evidence, and the discovery thread is preserved as inactive/history-only rather than reused for implementation.
+
+Scope:
+
+- Require `QualityGatesDocsScopeSafety` `GameSessionCanary` summary fragments to mention exact non-duplicated canary suite metadata.
+- Align `docs/context/engineering/quality-gates.md` `GameSessionCanary` summary with `scripts/README.md`.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - TaskRequestSafety thread lifecycle field guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static task-request lifecycle hardening after separate discovery/status sync confirmed task request template/log guidance did not require the separate-thread and inactive/history-only lifecycle fields.
