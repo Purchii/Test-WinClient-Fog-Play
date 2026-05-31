@@ -88,6 +88,7 @@ Post-M6 GameSessionCanary runtime path empty-list hardening is complete.
 Post-M6 GameSessionCanary suite metadata exact-set hardening is complete.
 Post-M6 GameSessionCanary unsafe fixture finding coverage hardening is complete.
 Post-M6 GameSessionCanary runner input path safety hardening is complete.
+Post-M6 GameSessionCanary remaining finding coverage hardening is complete.
 Post-M6 NonProdFoundation runner input path safety hardening is complete.
 Post-M6 TestabilityGaps runner input path safety hardening is complete.
 Post-M6 UpdateManifest runner input path safety hardening is complete.
@@ -194,6 +195,8 @@ NonProdFoundation structural finding coverage hardening requires local tests to 
 
 GameSessionCanary runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PlanPath, SyntheticUsersPath, ResourceBudgetPath and AllowedGamesPath overrides before the runner reads them.
 
+GameSessionCanary remaining finding coverage hardening requires local tests to assert invalid canary count, missing game-session intent, missing state-mutation intent, unsafe session concurrency budget and non-allowlisted region finding ids without launching the client, calling network or starting game sessions.
+
 GameSessionCanary unsafe fixture finding coverage hardening requires the unsafe canary fixture contract and runner negative assertions to cover all current local fail findings emitted by `game-session-canary-unsafe.example.json`, including `conditional-flag-budget-not-required`.
 
 GameSessionCanary suite metadata exact-set hardening requires M5 readiness plans to declare exactly `prod-canary` and `game-session-canary-readiness` suites once each before the direct dry-run validator can pass.
@@ -298,7 +301,7 @@ ProdMatrixSafety static gate adds `Full` coverage for production-safe test matri
 
 BacklogSafety static gate adds `Full` coverage for M0-M6 value/effort backlog drift.
 
-SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, canary suite metadata, readiness signal allowlists, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
+SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety and GameSessionCanary add `Full` coverage for local fixture drift around synthetic aliases, canary game aliases, canary duration budgets, session-concurrency budgets, run-frequency budgets, cleanup/conditional budget flags, canary suite metadata, readiness signal allowlists, production metadata, synthetic alias allowlist links, direct canary plan alias metadata, game-session/state-mutation intent metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording and canary target allowlist consistency.
 
 ContextDocsInventorySafety adds `Full` coverage for the `docs/context/*.md` handoff/governance/engineering inventory.
 
@@ -385,6 +388,17 @@ Stop-and-ask triggers:
 
 Last verification:
 
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Previous verification:
+
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
@@ -395,7 +409,7 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
 
-Previous verification:
+Earlier verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;

@@ -100,6 +100,7 @@ Post-M6: GameSessionCanary runtime path empty-list hardening - implemented and v
 Post-M6: GameSessionCanary suite metadata exact-set hardening - implemented and verified locally.
 Post-M6: GameSessionCanary unsafe fixture finding coverage hardening - implemented and verified locally.
 Post-M6: GameSessionCanary runner input path safety hardening - implemented and verified locally.
+Post-M6: GameSessionCanary remaining finding coverage hardening - implemented and verified locally.
 Post-M6: NonProdFoundation runner input path safety hardening - implemented and verified locally.
 Post-M6: TestabilityGaps runner input path safety hardening - implemented and verified locally.
 Post-M6: UpdateManifest runner input path safety hardening - implemented and verified locally.
@@ -223,6 +224,7 @@ Repository bootstrap state:
 - Post-M6 GameSessionCanary suite metadata exact-set hardening was completed on `codex/prod-metadata-game-session-canary-suite-exact-safety`.
 - Post-M6 GameSessionCanary unsafe fixture finding coverage hardening was completed on `codex/unsafe-fixture-game-session-canary-finding-coverage-safety`.
 - Post-M6 GameSessionCanary runner input path safety hardening was completed on `codex/runner-game-session-canary-input-path-safety`.
+- Post-M6 GameSessionCanary remaining finding coverage hardening was completed on `codex/game-session-canary-remaining-finding-coverage`.
 - Post-M6 NonProdFoundation runner input path safety hardening was completed on `codex/runner-nonprod-foundation-input-path-safety`.
 - Post-M6 TestabilityGaps runner input path safety hardening was completed on `codex/runner-testability-gaps-input-path-safety`.
 - Post-M6 UpdateManifest runner input path safety hardening was completed on `codex/runner-update-manifest-input-path-safety`.
@@ -313,7 +315,7 @@ Current artifact status:
 - TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
-- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, game allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage, including the conditional flag budget requirement.
+- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, session-concurrency budgets, run-frequency budgets, cleanup/conditional budget flags, game/region allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, game-session/state-mutation intent metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage, including the conditional flag budget requirement.
 - ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.

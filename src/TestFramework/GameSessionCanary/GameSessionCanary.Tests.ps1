@@ -83,6 +83,20 @@ $result = Test-GameSessionCanaryPlan -Plan $runtimePathPlan -AllowedGames $allow
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject any requested runtime paths.'
 Assert-FindingId -Result $result -Id 'runtime-paths-not-empty'
 
+$missingCanaryPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$missingCanaryPlan.tests = @()
+$result = Test-GameSessionCanaryPlan -Plan $missingCanaryPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject plans without exactly one canary.'
+Assert-FindingId -Result $result -Id 'invalid-canary-count'
+
+$missingIntentPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$missingIntentPlan.tests[0].startsGameSession = $false
+$missingIntentPlan.tests[0].mutatesState = $false
+$result = Test-GameSessionCanaryPlan -Plan $missingIntentPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject missing game-session and state-mutation intent metadata.'
+Assert-FindingId -Result $result -Id 'missing-game-session-intent'
+Assert-FindingId -Result $result -Id 'missing-state-mutation-intent'
+
 $nonProductionSyntheticUsers = @(
     [pscustomobject]@{
         alias = 'qa-canary-stream-001'
@@ -124,6 +138,26 @@ $result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -Sy
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject resource budgets without cleanup and explicit conditional flag requirements.'
 Assert-FindingId -Result $result -Id 'cleanup-budget-not-required'
 Assert-FindingId -Result $result -Id 'conditional-flag-budget-not-required'
+
+$unsafeConcurrencyBudget = [pscustomobject]@{
+    maxSessionsPerRun = 2
+    maxParallelSessions = 1
+    maxSessionDurationSeconds = 120
+    maxRunsPerHour = 3
+    allowedRegions = @('eu-west')
+    allowedGames = @('qa-allowlisted-game-1')
+    requireCleanupVerification = $true
+    requireExplicitConditionalFlag = $true
+}
+$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $unsafeConcurrencyBudget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject resource budgets with more than one session per run.'
+Assert-FindingId -Result $result -Id 'unsafe-session-concurrency-budget'
+
+$nonAllowlistedRegionPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$nonAllowlistedRegionPlan.tests[0].targetRegion = 'us-east'
+$result = Test-GameSessionCanaryPlan -Plan $nonAllowlistedRegionPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject target regions outside the resource budget allowlist.'
+Assert-FindingId -Result $result -Id 'region-not-allowlisted'
 
 $unsafe = Read-GameSessionCanaryPlan -Path (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json')
 $result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $weakenedPolicyBudget -DryRun
