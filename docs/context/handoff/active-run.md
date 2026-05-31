@@ -114,6 +114,7 @@ Post-M6 TestabilityGaps local finding coverage hardening is complete.
 Post-M6 Structural finding QA docs coverage sync is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QaDocsSafety finding coverage wording guard is complete.
+Post-M6 QaDocsSafety detailed finding coverage wording guard is complete.
 Post-M6 QaDocsSafety release/privacy hardening wording guard is complete.
 Post-M6 QaDocsSafety release/privacy M1.1 hardening wording guard is complete.
 Post-M6 Release/Privacy report-only local coverage hardening is complete.
@@ -165,6 +166,8 @@ VerificationMemorySafety installed artifact historical command boundary requires
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
 
 QaDocsSafety finding coverage wording guard fails if active QA docs lose the Post-M6 finding coverage summaries for local/static direct assertions.
+
+QaDocsSafety detailed finding coverage wording guard fails if AppSmoke docs lose missing required asset-manifest key wording or WebViewBridge docs lose malformed fake host case wording.
 
 QaDocsSafety release/privacy hardening wording guard fails if release/privacy QA docs lose the fail-closed `-DryRun`, unsafe runtime input path, `-ExpectFindings` or `-ReportOnly` boundaries.
 

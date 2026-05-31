@@ -126,6 +126,7 @@ Post-M6: TestabilityGaps local finding coverage hardening - implemented and veri
 Post-M6: Structural finding QA docs coverage sync - implemented and verified locally.
 Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - implemented and verified locally.
 Post-M6: QaDocsSafety finding coverage wording guard - implemented and verified locally.
+Post-M6: QaDocsSafety detailed finding coverage wording guard - implemented and verified locally.
 Post-M6: QaDocsSafety release/privacy hardening wording guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
 Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
@@ -330,7 +331,7 @@ Current artifact status:
 - SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, session-concurrency budgets, run-frequency budgets, cleanup/conditional budget flags, game/region allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, game-session/state-mutation intent metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage, including the conditional flag budget requirement.
 - ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
-- QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries, release/privacy runner hardening notes and release/privacy report-only coverage notes.
+- QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes and release/privacy report-only coverage notes.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
 - ContractFixtureSafety, UpdateManifest and BridgeContract statically check backend, update manifest and WebView bridge fixtures for dry-run, local-only, update package finding coverage, bridge structural/fake-host finding coverage and safety-vocabulary drift.
 - StaticSurfaceSafety, AppSmoke and NonProdFoundation statically check App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory, schema-only non-runtime drift, local WebView bundle failure finding coverage and local non-prod component identity coverage.

@@ -2199,13 +2199,13 @@ function Invoke-QaDocsSafetyGate {
         'app-webview-smoke.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
     }
     $findingCoveragePhrasesByDoc = @{
-        'app-webview-smoke.md' = @('Post-M6 finding coverage hardening added direct static fixture assertions', 'missing required files', 'missing WebView bundles', 'missing entrypoints', 'invalid asset manifests')
+        'app-webview-smoke.md' = @('Post-M6 finding coverage hardening added direct static fixture assertions', 'missing required files', 'missing WebView bundles', 'missing entrypoints', 'missing required asset-manifest keys', 'invalid asset manifests')
         'backend-smoke.md' = @('Post-M6 finding coverage hardening added direct offline contract assertions', 'invalid endpoint names', 'non-`PROD_SAFE` endpoint classification', 'missing endpoint registries')
         'game-session-canary.md' = @('Post-M6 finding coverage hardening added direct dry-run validator assertions', 'invalid canary counts', 'game-session and state-mutation intent metadata', 'unsafe session-concurrency budgets', 'target regions outside the resource budget allowlist')
         'nonprod-foundation.md' = @('Post-M6 finding coverage hardening added direct schema assertions', 'invalid component names', 'invalid component types', 'missing component registries')
         'testability-gaps.md' = @('Post-M6 finding coverage hardening added direct registry assertions', 'missing gap registries', 'missing next safe steps', 'runtime gaps without stop triggers')
         'update-manifest-gate.md' = @('Post-M6 finding coverage hardening added direct manifest assertions', 'invalid package ids', 'missing package registries')
-        'webview-bridge-contract.md' = @('Post-M6 finding coverage hardening added direct dry-run contract assertions', 'invalid command direction', 'command/event production-safety metadata', 'invalid or duplicate event names', 'invalid fake native host case types', 'missing fake host expected results')
+        'webview-bridge-contract.md' = @('Post-M6 finding coverage hardening added direct dry-run contract assertions', 'invalid command direction', 'command/event production-safety metadata', 'invalid or duplicate event names', 'invalid fake native host case types', 'missing fake host expected results', 'malformed fake host cases')
     }
     $runnerHardeningPhrasesByDoc = @{
         'release-gates.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PolicyPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')

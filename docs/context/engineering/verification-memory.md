@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-05-31 - Verification Memory Safety QaDocsSafety detailed finding coverage wording guard
+
+Branch: `codex/qa-docs-finding-detail-guard`
+Status: passed
+Production impact: none; local static documentation guard only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- QaDocsSafety gate passed.
+- PowerShellStructuredSyntaxSafety gate passed.
+- Context quality gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- ActiveRunSafety gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads or game sessions because this task is a local static documentation guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local documentation/static checks.
+
 ## 2026-05-31 - Verification Memory Safety Privacy pattern finding coverage
 
 Branch: `codex/privacy-pattern-finding-coverage`
