@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Prod metadata safety synthetic alias allowlist hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ProdMetadataSafety did not cross-check metadata synthetic aliases against the synthetic users allowlist.
+
+Branch: `codex/prod-metadata-synthetic-alias-allowlist-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bbf-cc2e-7f83-96b9-8c31e645e5a5` was created for the narrow local/static gate-hardening task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add ProdMetadataSafety cross-checks for metadata `requiresSyntheticUserAlias` values against `testdata/synthetic-users.example.json`.
+- Require optional `PROD_SAFE` aliases to resolve to `prod_safe_login_logout` synthetic users without game-session permission.
+- Require `prod-canary` aliases to resolve to `prod_conditional_stream_canary` synthetic users with game-session permission.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Prod metadata safety canary target allowlist hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ProdMetadataSafety did not cross-check prod-canary target metadata against budget and allowed-game allowlists.

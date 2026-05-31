@@ -82,6 +82,7 @@ Post-M6: UnsafeFixtureCoverageSafety static gate - implemented and verified loca
 Post-M6: ActiveRunSafety scope coverage hardening - implemented and verified locally.
 Post-M6: ActiveRunSafety current branch/status policy - implemented and verified locally.
 Post-M6: ProdMetadataSafety canary target allowlist hardening - implemented and verified locally.
+Post-M6: ProdMetadataSafety synthetic alias allowlist hardening - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.

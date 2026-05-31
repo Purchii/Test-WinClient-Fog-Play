@@ -3434,11 +3434,13 @@ function Invoke-ResourceBudgetSafetyGate {
 function Invoke-ProdMetadataSafetyGate {
     $policyPath = Join-Path $repoRoot 'docs/qa/prod-testing-policy.md'
     $metadataPath = Join-Path $repoRoot 'testdata/prod-safety-tests.example.json'
+    $syntheticUsersPath = Join-Path $repoRoot 'testdata/synthetic-users.example.json'
     $budgetPath = Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml'
     $allowedGamesPath = Join-Path $repoRoot 'testdata/allowed-games.example.json'
     $prodSafetyModule = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
     Assert-PathExists 'docs/qa/prod-testing-policy.md'
     Assert-PathExists 'testdata/prod-safety-tests.example.json'
+    Assert-PathExists 'testdata/synthetic-users.example.json'
     Assert-PathExists 'testdata/prod-resource-budget.example.yaml'
     Assert-PathExists 'testdata/allowed-games.example.json'
     Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
@@ -3481,6 +3483,20 @@ function Invoke-ProdMetadataSafetyGate {
     $budget = Read-ProdResourceBudget -Path $budgetPath
     $budgetRegions = @($budget.allowedRegions)
     $budgetGames = @($budget.allowedGames)
+    $syntheticUsersData = Get-Content -LiteralPath $syntheticUsersPath -Raw | ConvertFrom-Json
+    if ($null -eq $syntheticUsersData.syntheticUsers) {
+        throw "Synthetic users fixture must contain a top-level 'syntheticUsers' array."
+    }
+    $syntheticUsersByAlias = @{}
+    foreach ($user in @($syntheticUsersData.syntheticUsers)) {
+        $userAlias = [string]$user.alias
+        if (-not [string]::IsNullOrWhiteSpace($userAlias)) {
+            if ($syntheticUsersByAlias.ContainsKey($userAlias)) {
+                throw "Synthetic user alias is duplicated: $userAlias"
+            }
+            $syntheticUsersByAlias[$userAlias] = $user
+        }
+    }
     $allowedGamesData = Get-Content -LiteralPath $allowedGamesPath -Raw | ConvertFrom-Json
     if ($null -eq $allowedGamesData.allowedGames) {
         throw "Allowed games fixture must contain a top-level 'allowedGames' array."
@@ -3571,6 +3587,18 @@ function Invoke-ProdMetadataSafetyGate {
             if (-not [string]::IsNullOrWhiteSpace($alias) -and $alias -notmatch '^qa-smoke-\d{3}$') {
                 throw "PROD_SAFE metadata test '$name' must use a qa-smoke alias when an alias is required."
             }
+            if (-not [string]::IsNullOrWhiteSpace($alias)) {
+                if (-not $syntheticUsersByAlias.ContainsKey($alias)) {
+                    throw "PROD_SAFE metadata test '$name' requires synthetic alias '$alias' that is not allowlisted in synthetic-users.example.json."
+                }
+                $syntheticUser = $syntheticUsersByAlias[$alias]
+                if ([string]$syntheticUser.purpose -ne 'prod_safe_login_logout') {
+                    throw "PROD_SAFE metadata test '$name' synthetic alias '$alias' must have purpose prod_safe_login_logout."
+                }
+                if ($syntheticUser.canStartGameSession -ne $false) {
+                    throw "PROD_SAFE metadata test '$name' synthetic alias '$alias' must have canStartGameSession=false."
+                }
+            }
         }
 
         if ($testSuites -contains 'prod-safe-smoke' -and $classification -ne 'PROD_SAFE') {
@@ -3583,6 +3611,16 @@ function Invoke-ProdMetadataSafetyGate {
             }
             if ($alias -notmatch '^qa-canary-[a-z0-9-]+-\d{3}$') {
                 throw "prod-canary suite test '$name' must require a qa-canary synthetic alias."
+            }
+            if (-not $syntheticUsersByAlias.ContainsKey($alias)) {
+                throw "prod-canary suite test '$name' requires synthetic alias '$alias' that is not allowlisted in synthetic-users.example.json."
+            }
+            $syntheticUser = $syntheticUsersByAlias[$alias]
+            if ([string]$syntheticUser.purpose -ne 'prod_conditional_stream_canary') {
+                throw "prod-canary suite test '$name' synthetic alias '$alias' must have purpose prod_conditional_stream_canary."
+            }
+            if ($syntheticUser.canStartGameSession -ne $true) {
+                throw "prod-canary suite test '$name' synthetic alias '$alias' must have canStartGameSession=true."
             }
             if ([string]::IsNullOrWhiteSpace($targetRegion) -or [string]::IsNullOrWhiteSpace($targetGame)) {
                 throw "prod-canary suite test '$name' must declare targetRegion and targetGame."

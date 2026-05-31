@@ -1244,6 +1244,7 @@ Implemented outputs:
 - `scripts/quality-gate.ps1`
 - `scripts/README.md`
 - `testdata/prod-safety-tests.example.json`
+- `testdata/synthetic-users.example.json`
 - `testdata/prod-resource-budget.example.yaml`
 - `testdata/allowed-games.example.json`
 - `docs/qa/prod-testing-policy.md`
@@ -1256,7 +1257,9 @@ Implemented checks:
 - metadata entries must avoid credential-like properties, URLs and user runtime paths;
 - metadata names, classifications, suites and optional fields are constrained to the local contract;
 - `prod-safe-smoke` entries must remain `PROD_SAFE` and read-only;
+- optional `PROD_SAFE` synthetic aliases must resolve to `prod_safe_login_logout` users without game-session permission;
 - `prod-canary` must remain exactly one `PROD_CONDITIONAL` entry with canary alias, target region, target game, session start, state mutation and cleanup verification metadata;
+- `prod-canary` synthetic aliases must resolve to `prod_conditional_stream_canary` users with bounded game-session permission;
 - `prod-canary` target region and target game must be allowlisted by `prod-resource-budget.example.yaml`;
 - `prod-canary` target game must also be present as a production `prod_conditional_stream_canary` alias in `allowed-games.example.json`;
 - `PROD_FORBIDDEN` and `NON_PROD_ONLY` placeholders must not be assigned to production runner suites;

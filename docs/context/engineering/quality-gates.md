@@ -172,7 +172,7 @@ The `AllowedGamesSafety` scope statically checks `testdata/allowed-games.example
 
 The `ResourceBudgetSafety` scope statically checks `testdata/prod-resource-budget.example.yaml`, `testdata/allowed-games.example.json` and the resource budget policy so production canary budgets stay single-session, short-duration, cleanup-gated and tied to allowlisted QA game aliases.
 
-The `ProdMetadataSafety` scope statically checks `testdata/prod-safety-tests.example.json`, production guard allowlist fixtures and the production testing policy so runner suites keep the expected classifications, aliases, allowlisted target metadata and session/cleanup flags.
+The `ProdMetadataSafety` scope statically checks `testdata/prod-safety-tests.example.json`, `testdata/synthetic-users.example.json`, production guard allowlist fixtures and the production testing policy so runner suites keep the expected classifications, allowlisted synthetic aliases, target metadata and session/cleanup flags.
 
 The `ProdMatrixSafety` scope statically checks `docs/qa/prod-safe-test-matrix.md` so scenario classifications stay within allowed production-safety values, session/stream scenarios are not marked `PROD_SAFE`, and forbidden production scenarios document `NON_PROD_ONLY` handling.
 
