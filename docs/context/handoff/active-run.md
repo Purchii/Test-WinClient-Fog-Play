@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through QualityGateStructureSafety.
 
 Planning boundary:
 
@@ -12,6 +12,7 @@ Planning boundary:
 Whole project = high-level roadmap M0-M6.
 Current roadmap M0-M6 has local/dry-run foundations implemented through M6.
 Post-M6 QualityGateStructureSafety static gate is complete.
+Post-M6 QualityGateStructureSafety Invoke-StubGate cleanup is complete.
 Post-M6 TestDataStructuredSyntaxSafety static gate is complete.
 Post-M6 GovernanceHistoryScopeSafety static gate is complete.
 Post-M6 ScriptsReadmeScopeSafety static gate is complete.
@@ -293,6 +294,8 @@ Local testability gap registry tracks runtime blockers and required evidence wit
 TestDataStructuredSyntaxSafety adds `Full` coverage for JSON fixture parsing under `testdata/` and the required top-level production resource budget YAML shape.
 
 QualityGateStructureSafety adds `Full` coverage for `quality-gate.ps1` structural wiring: every `ValidateSet` scope except `Full` must have exactly one matching `Invoke-<Scope>Gate` function and exactly one `Full` dispatch block.
+
+QualityGateStructureSafety Invoke-StubGate cleanup removes the stale unused placeholder that still described documented gates as not implemented.
 
 Thread lifecycle reinforcement makes the separate-thread rule explicit for autonomous time extensions and follow-up gate selection.
 

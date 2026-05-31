@@ -4054,15 +4054,6 @@ function Invoke-ProdSafetyGate {
     Write-Host 'ProdSafety gate passed.'
 }
 
-function Invoke-StubGate {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string] $Name
-    )
-
-    Write-Host "$Name gate is documented but not implemented in M0."
-}
-
 function Invoke-JsonGate {
     param(
         [Parameter(Mandatory = $true)]
