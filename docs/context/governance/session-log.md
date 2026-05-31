@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Synthetic users safety game-session canary allowlist hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation required only a canary alias pattern, not a synthetic users allowlist match.
+
+Branch: `codex/synthetic-users-game-session-canary-allowlist-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7be2-c3c1-75a1-b453-1beca0a3d3b7` was created for the narrow local/static GameSessionCanary allowlist discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require `Test-GameSessionCanaryPlan` to cross-check `requiresSyntheticUserAlias` against `testdata/synthetic-users.example.json`.
+- Require the matched synthetic alias to use `prod_conditional_stream_canary` purpose and `canStartGameSession=true`.
+- Add negative coverage through the unsafe canary fixture, GameSessionCanary tests and quality gate finding assertions.
+- Keep the task local/dry-run with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Synthetic users safety game-session canary alias hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not require canary synthetic alias metadata.

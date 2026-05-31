@@ -83,7 +83,7 @@ if (-not $guard.passed) {
     }
 }
 
-$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -ResourceBudget $budget -DryRun:$DryRun
+$result = Test-GameSessionCanaryPlan -Plan $plan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun:$DryRun
 $result | ConvertTo-Json -Depth 12
 
 $failFindings = @($result.findings | Where-Object { $_.severity -eq 'fail' })

@@ -14,7 +14,7 @@ Implemented checks:
 
 - exactly one canary test is defined;
 - canary test is classified as `PROD_CONDITIONAL`;
-- canary requires a `qa-canary-*` synthetic user alias;
+- canary requires an allowlisted `qa-canary-*` synthetic user alias with `prod_conditional_stream_canary` purpose and game-session permission;
 - canary declares `startsGameSession=true`, `mutatesState=true` and `requiresCleanupVerification=true`;
 - target region and game are allowlisted by `prod-resource-budget.example.yaml`;
 - target game is allowlisted by `allowed-games.example.json`;

@@ -2996,7 +2996,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'game-session-canary-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'cleanup-not-required', 'synthetic-alias-not-canary', 'duration-exceeds-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'cleanup-not-required', 'synthetic-alias-not-canary', 'synthetic-alias-not-allowlisted', 'duration-exceeds-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals')
         },
         @{
             Fixture = 'nonprod-foundation-unsafe.example.json'
@@ -4419,6 +4419,7 @@ function Invoke-GameSessionCanaryGate {
     Assert-FindingId -Result $negative -Id 'non-prod-conditional-canary'
     Assert-FindingId -Result $negative -Id 'cleanup-not-required'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-canary'
+    Assert-FindingId -Result $negative -Id 'synthetic-alias-not-allowlisted'
     Assert-FindingId -Result $negative -Id 'duration-exceeds-budget'
     Assert-FindingId -Result $negative -Id 'game-not-allowlisted'
     Assert-FindingId -Result $negative -Id 'uncontrolled-retries'

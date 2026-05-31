@@ -79,6 +79,9 @@ function Test-GameSessionCanaryPlan {
         [object[]] $AllowedGames,
 
         [Parameter(Mandatory = $true)]
+        [object[]] $SyntheticUsers,
+
+        [Parameter(Mandatory = $true)]
         [object] $ResourceBudget,
 
         [switch] $DryRun
@@ -149,6 +152,11 @@ function Test-GameSessionCanaryPlan {
             $_.environment -eq 'production' -and
             @($_.allowedFor) -contains 'prod_conditional_stream_canary'
         })
+        $syntheticUserMatches = @($SyntheticUsers | Where-Object {
+            $_.alias -eq $syntheticAlias -and
+            $_.purpose -eq 'prod_conditional_stream_canary' -and
+            $_.canStartGameSession -eq $true
+        })
 
         $checks += [pscustomobject]@{
             type = 'game-session-canary-plan'
@@ -162,6 +170,7 @@ function Test-GameSessionCanaryPlan {
                 $mutatesState -and
                 $requiresCleanupVerification -and
                 $syntheticAlias -match '^qa-canary-[a-z0-9-]+-\d{3}$' -and
+                $syntheticUserMatches.Count -eq 1 -and
                 $durationSeconds -ge 1 -and
                 $durationSeconds -le $maxSessionDurationSeconds -and
                 $maxSessionsPerRun -eq 1 -and
@@ -189,6 +198,9 @@ function Test-GameSessionCanaryPlan {
         }
         if ($syntheticAlias -notmatch '^qa-canary-[a-z0-9-]+-\d{3}$') {
             $findings += Add-GameSessionCanaryFinding -Id 'synthetic-alias-not-canary' -Severity 'fail' -Path $path -Message 'M5 canary metadata must require a qa-canary synthetic alias.'
+        }
+        if ($syntheticUserMatches.Count -ne 1) {
+            $findings += Add-GameSessionCanaryFinding -Id 'synthetic-alias-not-allowlisted' -Severity 'fail' -Path $path -Message 'M5 canary metadata must use an allowlisted prod_conditional_stream_canary synthetic alias with game-session permission.'
         }
         if ($durationSeconds -lt 1 -or $durationSeconds -gt $maxSessionDurationSeconds) {
             $findings += Add-GameSessionCanaryFinding -Id 'duration-exceeds-budget' -Severity 'fail' -Path $path -Message 'M5 canary duration must fit within prodResourceBudget.maxSessionDurationSeconds.'
