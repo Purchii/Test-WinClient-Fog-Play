@@ -4619,6 +4619,11 @@ function Invoke-BackendSmokeGate {
     & (Join-Path $repoRoot 'src/TestFramework/BackendSmoke/BackendSmoke.Tests.ps1')
 
     $backendSmoke = Join-Path $repoRoot 'scripts/run-backend-smoke.ps1'
+    Assert-CommandRejected -Message 'Backend smoke runner must reject calls without -DryRun.' -Command {
+        & $backendSmoke `
+            -PolicyPath (Join-Path $repoRoot 'testdata/backend-smoke.example.json') | Out-Null
+    }
+
     foreach ($flag in @('AllowNetwork', 'AllowAuth')) {
         Assert-CommandRejected -Message "Backend smoke runner must reject -$flag." -Command {
             $params = @{

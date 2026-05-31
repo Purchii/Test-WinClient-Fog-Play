@@ -112,6 +112,7 @@ Post-M6 UpdateManifest runner input path safety hardening is complete.
 Post-M6 UpdateManifest structural package finding coverage hardening is complete.
 Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
+Post-M6 BackendSmoke missing DryRun guard hardening is complete.
 Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
@@ -160,6 +161,8 @@ Current result:
 
 ```text
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
+
+BackendSmoke missing DryRun guard hardening adds direct local quality-gate coverage that the backend smoke runner rejects calls without `-DryRun`.
 
 BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 

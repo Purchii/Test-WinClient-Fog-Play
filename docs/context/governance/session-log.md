@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety BackendSmoke missing DryRun guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static/dry-run runner guard hardening after a separate task-thread attempt and local read-only inspection confirmed the BackendSmoke scope lacked a direct missing-`-DryRun` runner rejection assertion.
+
+Branch: `codex/backend-smoke-missing-dryrun-guard`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7cd3-39dd-77c1-a593-a6c876f307f5` was created for the narrow BackendSmoke missing-DryRun guard task, but it returned `systemError` without an agent report; coordination takeover completed the implementation from local static evidence instead of reusing old task threads for edits.
+
+Scope:
+
+- Add direct `BackendSmoke` quality-gate coverage for runner calls without `-DryRun`.
+- Sync implementation status, active context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety GameSessionCanary missing DryRun guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static/dry-run runner guard hardening after a separate task-thread attempt and local read-only inspection confirmed the GameSessionCanary scope lacked a direct missing-`-DryRun` runner rejection assertion.

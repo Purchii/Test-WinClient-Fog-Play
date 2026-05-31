@@ -122,6 +122,7 @@ Post-M6: UpdateManifest runner input path safety hardening - implemented and ver
 Post-M6: UpdateManifest structural package finding coverage hardening - implemented and verified locally.
 Post-M6: BackendSmoke runner input path safety hardening - implemented and verified locally.
 Post-M6: BackendSmoke unsafe endpoint coverage hardening - implemented and verified locally.
+Post-M6: BackendSmoke missing DryRun guard hardening - implemented and verified locally.
 Post-M6: BackendSmoke structural endpoint finding coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge runner input path safety hardening - implemented and verified locally.
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
@@ -272,6 +273,7 @@ Repository bootstrap state:
 - Post-M6 UpdateManifest structural package finding coverage hardening was completed on `codex/update-manifest-structural-finding-coverage`.
 - Post-M6 BackendSmoke runner input path safety hardening was completed on `codex/runner-backend-smoke-input-path-safety`.
 - Post-M6 BackendSmoke unsafe endpoint coverage hardening was completed on `codex/backend-smoke-unsafe-endpoint-coverage`.
+- Post-M6 BackendSmoke missing DryRun guard hardening was completed on `codex/backend-smoke-missing-dryrun-guard`.
 - Post-M6 BackendSmoke structural endpoint finding coverage hardening was completed on `codex/backend-smoke-structural-finding-coverage`.
 - Post-M6 WebViewBridge runner input path safety hardening was completed on `codex/runner-webview-bridge-input-path-safety`.
 - Post-M6 WebViewBridge unsafe logging policy coverage hardening was completed on `codex/webview-bridge-unsafe-logging-coverage`.
