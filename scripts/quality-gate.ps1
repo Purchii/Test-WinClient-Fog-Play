@@ -754,6 +754,19 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-ReportOnly` explicit artifact discovery behavior',
                 'unsafe runtime `ArtifactRoot` and `PatternsPath` input paths'
             )
+        },
+        @{
+            Scope             = 'AppSmoke'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local App/WebView smoke scaffold',
+                'without launching the installed client',
+                'static WebView bundle failure finding ids',
+                'unsafe runtime input paths',
+                '`-AllowClientLaunch`',
+                '`-AllowWebViewDebugPort`'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
