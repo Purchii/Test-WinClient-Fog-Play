@@ -935,6 +935,17 @@ function Invoke-ActiveRunSafetyGate {
     if ($currentState -match 'Thread\s+`[0-9a-f-]{36}`\s+is the active task thread') {
         throw 'current-state.md must not declare a literal historical thread id as the active task thread; document lifecycle rules instead.'
     }
+    if ($currentState -match '(?i)Current installed artifact source') {
+        throw 'current-state.md must not describe installed artifacts as the current autonomous verification source.'
+    }
+    foreach ($requiredCurrentStatePhrase in @(
+            'Current autonomous verification source: committed local fixtures only',
+            'Installed artifact reads from `C:\Program Files\MTC Fog Play` require a separate explicit approved plan'
+        )) {
+        if ($currentState -notmatch [regex]::Escape($requiredCurrentStatePhrase)) {
+            throw "current-state.md must preserve active installed-artifact safety phrase: $requiredCurrentStatePhrase"
+        }
+    }
 
     $currentStaticSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' } | Sort-Object -Unique)
     foreach ($scopeName in $currentStaticSafetyScopes) {

@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active Run Safety installed artifact source wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after separate task-thread discovery/takeover confirmed ActiveRunSafety did not yet prevent active current-state wording from making installed artifacts the current autonomous verification source.
+
+Branch: `codex/active-run-installed-artifact-source-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c39-86f2-7cf2-a6d4-63c6701c855a` was created for the narrow local/static ActiveRunSafety installed artifact source wording discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Make ActiveRunSafety reject active current-state wording that names installed artifacts as the current autonomous verification source.
+- Require active current-state wording to preserve committed local fixtures as the current autonomous verification source.
+- Keep the task local/static with no installed artifact read.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active Run Safety current-state installed artifact wording sync
 
 Mode: `BOUNDED_AUTONOMOUS` local active context wording sync after separate task-thread discovery/takeover confirmed current-state active guidance still described `C:\Program Files\MTC Fog Play` as the current installed artifact source for offline checks.
