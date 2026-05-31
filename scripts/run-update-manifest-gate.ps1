@@ -25,6 +25,10 @@ if ([string]::IsNullOrWhiteSpace($PolicyPath)) {
     $PolicyPath = Join-Path $repoRoot 'testdata/update-manifest.example.json'
 }
 
+if ($PolicyPath -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+    throw 'Update manifest runner must not read unsafe runtime input paths.'
+}
+
 if (-not $DryRun) {
     throw 'Update manifest gate is dry-run only.'
 }

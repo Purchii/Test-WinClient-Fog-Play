@@ -4010,6 +4010,12 @@ function Invoke-UpdateManifestGate {
         }
     }
 
+    Assert-CommandRejected -Message 'Update manifest runner must reject unsafe runtime input paths before reading them.' -Command {
+        & $updateManifest `
+            -PolicyPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\update.json' `
+            -DryRun | Out-Null
+    }
+
     $result = Invoke-JsonGate {
         & $updateManifest `
             -PolicyPath (Join-Path $repoRoot 'testdata/update-manifest.example.json') `

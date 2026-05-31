@@ -11,6 +11,7 @@ testdata/update-manifest.example.json
 Implemented checks:
 
 - runner and direct validator invocation require `-DryRun`;
+- runner policy path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
 - network, updater execution, rollback and credentials are disabled;
 - real endpoints and executable commands are rejected;
 - packages must have stable ids;
@@ -39,4 +40,4 @@ Known limitation:
 
 - This gate proves local manifest shape only. It does not validate a real vendor manifest, package signature chain or updater runtime behavior until updater/package metadata is provided through an approved offline fixture.
 
-Post-M6 guard hardening added `UpdateManifest` quality gate assertions that `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected before any download, updater, rollback or credential action can occur.
+Post-M6 guard hardening added `UpdateManifest` quality gate assertions that unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected before any download, updater, rollback, credential action or runtime data read can occur.

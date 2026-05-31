@@ -139,6 +139,6 @@ The `NonProdFoundation` quality gate validates future fake/replay/network/hardwa
 
 The `TestabilityGaps` quality gate validates the local testability gap registry without closing runtime gaps, and asserts that unsafe runtime input paths, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 
-The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials, and asserts that `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.
+The `UpdateManifest` quality gate validates the local update manifest fixture without network, updater execution, rollback or credentials, and asserts that unsafe runtime input paths, `-AllowNetwork`, `-AllowExecution`, `-AllowRollback` and `-AllowCredentials` are rejected.
 
 The `TestabilityGaps` quality gate validates the local testability gap registry without closing gaps through runtime actions, and asserts that `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
