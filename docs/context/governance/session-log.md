@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Active Run Safety current-state installed artifact wording sync
+
+Mode: `BOUNDED_AUTONOMOUS` local active context wording sync after separate task-thread discovery/takeover confirmed current-state active guidance still described `C:\Program Files\MTC Fog Play` as the current installed artifact source for offline checks.
+
+Branch: `codex/current-state-installed-artifact-active-wording`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c37-1e27-7bd1-a236-fbf2ad1740ba` was created for the narrow local/static active current-state installed artifact wording discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Replace active current-state installed artifact source wording with committed local fixtures as the current autonomous verification source.
+- Preserve historical installed artifact findings as historical records.
+- Keep the task local/static documentation-only.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner Safety implementation-status input path sync
 
 Mode: `BOUNDED_AUTONOMOUS` local documentation sync after separate task-thread discovery/takeover confirmed `docs/context/engineering/implementation-status.md` lagged behind current RunnerSafety path-like input guard coverage.
