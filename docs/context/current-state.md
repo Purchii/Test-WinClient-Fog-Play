@@ -28,6 +28,7 @@ Post-M6: GovernanceHistoryScopeSafety static gate - implemented and verified loc
 Post-M6: ScriptsReadmeScopeSafety static gate - implemented and verified locally.
 Post-M6: ActiveSafetyScopeInventorySafety static gate - implemented and verified locally.
 Post-M6: QaDocsCommandSafety static gate - implemented and verified locally.
+Post-M6: QaDocsCommandSafety TestabilityGaps allow-flag hardening - implemented and verified locally.
 Post-M6: QaDocsCommandLocalPathSafety static gate - implemented and verified locally.
 Post-M6: QaDocsPowerShellInvocationSafety static gate - implemented and verified locally.
 Post-M6: QaDocsRunnerExampleCoverageSafety static gate - implemented and verified locally.
@@ -282,7 +283,7 @@ Current artifact status:
 - GovernanceHistoryScopeSafety statically checks `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.
 - ScriptsReadmeScopeSafety statically checks `scripts/README.md` so the local script command inventory mentions every supported `quality-gate.ps1 -Scope`.
 - ActiveSafetyScopeInventorySafety statically checks `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
-- QaDocsCommandSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
+- QaDocsCommandSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags, including TestabilityGaps production-action and runtime-user-data allow flags.
 - QaDocsCommandLocalPathSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations stay local fixture-oriented and do not include installed-client paths, user runtime paths, endpoints, localhost or WebView debug/CDP references.
 - QaDocsPowerShellInvocationSafety statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations use `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\...` while preserving dry-run guard flags.
 - QaDocsRunnerExampleCoverageSafety statically checks active QA runner/doc contracts so each local FrameworkInventorySafety runner has a command-looking dry-run example in its mapped QA doc.

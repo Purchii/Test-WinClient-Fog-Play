@@ -88,7 +88,7 @@ The `PowerShellStructuredSyntaxSafety` scope statically checks PowerShell syntax
 
 The `BinaryFixturePlaceholderSafety` scope statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 
-The `QaDocsCommandSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
+The `QaDocsCommandSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags, including TestabilityGaps production-action and runtime-user-data allow flags.
 
 The `QaDocsCommandLocalPathSafety` scope statically checks command-looking `run-*.ps1` examples in active QA docs so documented runner invocations stay fixture-local and do not include installed-client paths, user runtime paths, endpoints, localhost or WebView debug/CDP references.
 

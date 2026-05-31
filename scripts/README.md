@@ -37,7 +37,7 @@ The `PowerShellStructuredSyntaxSafety` quality gate fails if any local PowerShel
 
 The `BinaryFixturePlaceholderSafety` quality gate fails if binary-like files under `testdata/` stop being tiny placeholders, gain a real PE header, or introduce dump/database/debug extensions outside the approved fixture inventory.
 
-The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags.
+The `QaDocsCommandSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs lose `-DryRun` or show forbidden runtime allow flags, including TestabilityGaps production-action and runtime-user-data allow flags.
 
 The `QaDocsCommandLocalPathSafety` quality gate fails if command-looking `run-*.ps1` examples in active QA docs use installed-client paths, user runtime paths, URLs, localhost/debug endpoints, WebView debug/CDP tokens or path arguments outside local `testdata` fixtures.
 

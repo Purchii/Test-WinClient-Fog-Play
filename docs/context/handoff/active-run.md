@@ -17,6 +17,7 @@ Post-M6 GovernanceHistoryScopeSafety static gate is complete.
 Post-M6 ScriptsReadmeScopeSafety static gate is complete.
 Post-M6 ActiveSafetyScopeInventorySafety static gate is complete.
 Post-M6 QaDocsCommandSafety static gate is complete.
+Post-M6 QaDocsCommandSafety TestabilityGaps allow-flag hardening is complete.
 Post-M6 QaDocsCommandLocalPathSafety static gate is complete.
 Post-M6 QaDocsPowerShellInvocationSafety static gate is complete.
 Post-M6 QaDocsRunnerExampleCoverageSafety static gate is complete.
@@ -289,7 +290,7 @@ ScriptsReadmeScopeSafety adds `Full` coverage for `scripts/README.md` so the loc
 
 ActiveSafetyScopeInventorySafety adds `Full` coverage for `quality-gate.ps1` `*Safety` scope visibility in active/current state docs.
 
-QaDocsCommandSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags.
+QaDocsCommandSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations keep `-DryRun` and do not include forbidden runtime allow flags, including TestabilityGaps production-action and runtime-user-data allow flags.
 
 QaDocsCommandLocalPathSafety adds `Full` coverage for command-looking `run-*.ps1` examples in active QA docs so documented runner invocations stay local fixture-oriented and do not include installed-client paths, user runtime paths, endpoints, localhost or WebView debug/CDP references.
 
@@ -418,9 +419,7 @@ Stop-and-ask triggers:
 
 Last verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Privacy`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;

@@ -463,7 +463,7 @@ function Invoke-QaDocsCommandSafetyGate {
                 throw "$($doc.Name):$($lineNumber + 1) documents a run-*.ps1 command without -DryRun."
             }
 
-            foreach ($forbiddenToken in @('-AllowClientLaunch', '-AllowWebViewDebugPort', '-AllowNetwork', '-AllowAuth', '-AllowExecution', '-AllowRollback', '-AllowCredentials')) {
+            foreach ($forbiddenToken in @('-AllowClientLaunch', '-AllowWebViewDebugPort', '-AllowNetwork', '-AllowAuth', '-AllowExecution', '-AllowRollback', '-AllowCredentials', '-AllowProductionAction', '-AllowRuntimeUserData')) {
                 if ($line -match [regex]::Escape($forbiddenToken)) {
                     throw "$($doc.Name):$($lineNumber + 1) documents forbidden runtime flag $forbiddenToken."
                 }
