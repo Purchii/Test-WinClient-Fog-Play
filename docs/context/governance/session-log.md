@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Prod metadata safety game-session canary readiness signal uniqueness hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation rejected unsupported readiness signals but still accepted duplicate supported readiness signals.
+
+Branch: `codex/prod-metadata-game-session-canary-readiness-signal-unique-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c01-ad08-71f2-97a2-9616d2dd860b` was created for the narrow local/static GameSessionCanary readiness signal uniqueness discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Require `Test-GameSessionCanaryPlan` to verify the canary readiness signal list contains exactly two entries.
+- Require `Test-GameSessionCanaryPlan` to verify `stream-ready` and `first-frame` each appear once.
+- Reject duplicate readiness signals in the local dry-run plan validator.
+- Add targeted negative coverage in GameSessionCanary tests without broadening runtime behavior.
+- Keep the task local/dry-run with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Prod metadata safety game-session canary readiness signal hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local/dry-run validator hardening after separate task-thread discovery/takeover confirmed GameSessionCanary direct plan validation did not reject unsupported readiness signals.

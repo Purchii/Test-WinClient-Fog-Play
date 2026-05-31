@@ -23,7 +23,7 @@ Implemented checks:
 - run frequency keeps `prodResourceBudget.maxRunsPerHour` between 1 and 3;
 - resource budget requires cleanup verification and an explicit conditional flag;
 - retries are disabled;
-- expected readiness signals are exactly `stream-ready` and `first-frame`;
+- expected readiness signals are exactly `stream-ready` and `first-frame`, once each;
 - policy is dry-run only;
 - direct validator invocation requires the dry-run flag;
 - real execution, client launch, network calls and authentication are disabled;

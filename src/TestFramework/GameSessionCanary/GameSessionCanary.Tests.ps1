@@ -65,6 +65,12 @@ $result = Test-GameSessionCanaryPlan -Plan $unsupportedSignalPlan -AllowedGames 
 Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject unsupported readiness signals.'
 Assert-FindingId -Result $result -Id 'unsupported-readiness-signal'
 
+$duplicateSignalPlan = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$duplicateSignalPlan.tests[0].expectedReadinessSignals = @('stream-ready', 'stream-ready', 'first-frame')
+$result = Test-GameSessionCanaryPlan -Plan $duplicateSignalPlan -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+Assert-True (-not $result.passed) 'Game-session canary readiness validator should reject duplicate readiness signals.'
+Assert-FindingId -Result $result -Id 'readiness-signals-not-exact'
+
 $nonProductionSyntheticUsers = @(
     [pscustomobject]@{
         alias = 'qa-canary-stream-001'
