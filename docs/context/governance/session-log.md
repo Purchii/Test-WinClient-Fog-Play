@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - Scripts Readme Scope Safety TestabilityGaps duplicate cleanup
+
+Mode: `BOUNDED_AUTONOMOUS` local documentation cleanup after separate task-thread discovery/takeover confirmed `scripts/README.md` had duplicate TestabilityGaps quality gate descriptions.
+
+Branch: `codex/scripts-readme-testabilitygaps-duplicate-cleanup`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c2d-49bd-7132-bd70-2c44681c4d71` was created for the narrow local/static Scripts README duplicate cleanup discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Remove the stale duplicate TestabilityGaps quality gate sentence from `scripts/README.md`.
+- Preserve the current TestabilityGaps wording that includes unsafe runtime input path rejection.
+- Keep the task local/static documentation-only.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety input path coverage hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local static quality gate hardening after separate task-thread discovery/takeover confirmed `RunnerSafety` did not yet require unsafe runtime input-path guards for path-like runner parameters.
