@@ -742,6 +742,18 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-ReportOnly` explicit artifact discovery behavior',
                 'unsafe runtime `ArtifactRoot` and `PolicyPath` input paths'
             )
+        },
+        @{
+            Scope             = 'Privacy'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local privacy/logging fixtures',
+                'without launching the installed client',
+                'fail-closed negative fixture behavior',
+                '`-ReportOnly` explicit artifact discovery behavior',
+                'unsafe runtime `ArtifactRoot` and `PatternsPath` input paths'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
