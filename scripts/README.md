@@ -131,7 +131,7 @@ The `AppSmoke` quality gate validates the local App/WebView smoke scaffold and d
 
 The `BridgeContract` quality gate validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch.
 
-The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction.
+The `BackendSmoke` quality gate validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts that `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session.
 

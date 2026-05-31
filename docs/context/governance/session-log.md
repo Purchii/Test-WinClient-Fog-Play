@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - RunnerSafety backend smoke dangerous flag docs sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed description drift.
+
+Branch: `codex/backend-smoke-dangerous-flag-docs-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7b86-1916-7e60-b5d0-c8fbaf69fd6d` began discovery; coordination takeover completed the docs-only sync on a dedicated branch.
+
+Scope:
+
+- Update `scripts/README.md` BackendSmoke description to mention `-AllowNetwork` and `-AllowAuth` rejection.
+- Leave `quality-gates.md` unchanged because it only lists the `BackendSmoke` scope command and has no separate BackendSmoke behavior paragraph to sync.
+- Keep the task docs-only with no runtime or code behavior changes.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Backend smoke dangerous flag RunnerSafety coverage
 
 Mode: `BOUNDED_AUTONOMOUS` local dry-run quality gate hardening after separate task-thread discovery confirmed the BackendSmoke coverage gap.
