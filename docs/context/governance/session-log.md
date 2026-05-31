@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - Prod metadata safety canary target allowlist hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local/static quality-gate hardening after separate task-thread discovery confirmed ProdMetadataSafety did not cross-check prod-canary target metadata against budget and allowed-game allowlists.
+
+Branch: `codex/prod-metadata-canary-target-allowlist-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7bba-f025-7d03-ab4c-48c4f25b9fda` was created for the narrow local/static gate-hardening task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add ProdMetadataSafety cross-checks for prod-canary `targetRegion` against `prodResourceBudget.allowedRegions`.
+- Add ProdMetadataSafety cross-checks for prod-canary `targetGame` against `prodResourceBudget.allowedGames` and production canary aliases in `allowed-games.example.json`.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Active run safety docs summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only quality-gate summary sync after separate task-thread discovery confirmed scripts README and quality-gates descriptions lagged the current ActiveRunSafety checks.

@@ -3434,13 +3434,17 @@ function Invoke-ResourceBudgetSafetyGate {
 function Invoke-ProdMetadataSafetyGate {
     $policyPath = Join-Path $repoRoot 'docs/qa/prod-testing-policy.md'
     $metadataPath = Join-Path $repoRoot 'testdata/prod-safety-tests.example.json'
+    $budgetPath = Join-Path $repoRoot 'testdata/prod-resource-budget.example.yaml'
+    $allowedGamesPath = Join-Path $repoRoot 'testdata/allowed-games.example.json'
     $prodSafetyModule = Join-Path $repoRoot 'src/TestFramework/ProdSafety/ProdSafety.psm1'
     Assert-PathExists 'docs/qa/prod-testing-policy.md'
     Assert-PathExists 'testdata/prod-safety-tests.example.json'
+    Assert-PathExists 'testdata/prod-resource-budget.example.yaml'
+    Assert-PathExists 'testdata/allowed-games.example.json'
     Assert-PathExists 'src/TestFramework/ProdSafety/ProdSafety.psm1'
 
     $policy = Get-Content -LiteralPath $policyPath -Raw
-    foreach ($requiredPolicyPhrase in @('Every test must be classified', 'No classification = no prod run', 'No resource budget = no prod game session test')) {
+    foreach ($requiredPolicyPhrase in @('Every test must be classified', 'No classification = no prod run', 'No resource budget = no prod game session test', 'target region and target game metadata must stay allowlisted')) {
         if ($policy -notmatch [regex]::Escape($requiredPolicyPhrase)) {
             throw "Production testing policy must document: $requiredPolicyPhrase"
         }
@@ -3474,6 +3478,16 @@ function Invoke-ProdMetadataSafetyGate {
 
     Import-Module $prodSafetyModule -Force
     $allowedClassifications = @(Get-ProdSafetyClassificationValues)
+    $budget = Read-ProdResourceBudget -Path $budgetPath
+    $budgetRegions = @($budget.allowedRegions)
+    $budgetGames = @($budget.allowedGames)
+    $allowedGamesData = Get-Content -LiteralPath $allowedGamesPath -Raw | ConvertFrom-Json
+    if ($null -eq $allowedGamesData.allowedGames) {
+        throw "Allowed games fixture must contain a top-level 'allowedGames' array."
+    }
+    $productionCanaryGames = @($allowedGamesData.allowedGames | Where-Object {
+            $_.environment -eq 'production' -and @($_.allowedFor) -contains 'prod_conditional_stream_canary'
+        } | ForEach-Object { $_.alias })
     $allowedProperties = @(
         'name',
         'classification',
@@ -3572,6 +3586,15 @@ function Invoke-ProdMetadataSafetyGate {
             }
             if ([string]::IsNullOrWhiteSpace($targetRegion) -or [string]::IsNullOrWhiteSpace($targetGame)) {
                 throw "prod-canary suite test '$name' must declare targetRegion and targetGame."
+            }
+            if ($budgetRegions -notcontains $targetRegion) {
+                throw "prod-canary suite test '$name' targetRegion '$targetRegion' is not allowlisted in prodResourceBudget.allowedRegions."
+            }
+            if ($budgetGames -notcontains $targetGame) {
+                throw "prod-canary suite test '$name' targetGame '$targetGame' is not allowlisted in prodResourceBudget.allowedGames."
+            }
+            if ($productionCanaryGames -notcontains $targetGame) {
+                throw "prod-canary suite test '$name' targetGame '$targetGame' is not allowlisted as a production canary game."
             }
             if (-not ($startsGameSession -and $mutatesState -and $requiresCleanupVerification)) {
                 throw "prod-canary suite test '$name' must declare session start, state mutation and cleanup verification."

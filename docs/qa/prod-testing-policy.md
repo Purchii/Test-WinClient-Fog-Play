@@ -41,4 +41,4 @@ M0 scripts are dry-run capable and do not launch the client or start game sessio
 
 Post-M6 guard hardening made `run-prod-safe-smoke.ps1` and `run-prod-canary.ps1` reject calls without `-DryRun` before guard metadata execution.
 
-Committed production metadata fixtures must stay local, alias-only and suite-scoped. `prod-safe-smoke` entries must remain `PROD_SAFE`; `prod-canary` entries must remain `PROD_CONDITIONAL` and declare synthetic alias, target region, target game, session start, state mutation and cleanup verification metadata.
+Committed production metadata fixtures must stay local, alias-only and suite-scoped. `prod-safe-smoke` entries must remain `PROD_SAFE`; `prod-canary` entries must remain `PROD_CONDITIONAL` and declare synthetic alias, target region, target game, session start, state mutation and cleanup verification metadata. Prod-canary target region and target game metadata must stay allowlisted by the committed resource budget and allowed-games fixtures.
