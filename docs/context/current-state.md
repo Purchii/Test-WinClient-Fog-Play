@@ -105,6 +105,7 @@ Post-M6: TestabilityGaps runner input path safety hardening - implemented and ve
 Post-M6: UpdateManifest runner input path safety hardening - implemented and verified locally.
 Post-M6: BackendSmoke runner input path safety hardening - implemented and verified locally.
 Post-M6: BackendSmoke unsafe endpoint coverage hardening - implemented and verified locally.
+Post-M6: BackendSmoke structural endpoint finding coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge runner input path safety hardening - implemented and verified locally.
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge structural finding coverage hardening - implemented and verified locally.
@@ -257,7 +258,7 @@ Current artifact status:
 - Update manifest integrity gate exists as local fixture-based dry-run validation only.
 - App/WebView smoke scaffold exists as static/dry-run only.
 - WebView/native bridge contract scaffold exists as local/dry-run only.
-- Backend smoke scaffold exists as local/dry-run only.
+- Backend smoke scaffold exists as local/dry-run only with structural endpoint finding coverage.
 - Game-session canary readiness gate is local/dry-run only and does not execute sessions.
 - Non-prod foundation scaffold is local/dry-run only and does not execute fake, replay, network or hardware systems.
 - Testability gaps registry exists as local/dry-run validation only.

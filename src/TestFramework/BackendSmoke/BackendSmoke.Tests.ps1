@@ -56,6 +56,20 @@ Assert-FindingId -Result $result -Id 'unsafe-http-method'
 Assert-FindingId -Result $result -Id 'auth-required'
 Assert-FindingId -Result $result -Id 'missing-response-schema'
 
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.endpoints[0].name = 'Invalid Endpoint Name'
+$broken.endpoints[1].classification = 'PROD_CONDITIONAL'
+$result = Test-BackendSmokePolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid backend smoke endpoint identity and classification should fail.'
+Assert-FindingId -Result $result -Id 'invalid-endpoint-name'
+Assert-FindingId -Result $result -Id 'non-prod-safe-endpoint'
+
+$broken = $policy | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.endpoints = @()
+$result = Test-BackendSmokePolicy -Policy $broken -DryRun
+Assert-True (-not $result.passed) 'Backend smoke policy without endpoints should fail.'
+Assert-FindingId -Result $result -Id 'missing-endpoints'
+
 $unsafe = Read-BackendSmokePolicy -Path (Join-Path $repoRoot 'testdata/backend-smoke-unsafe.example.json')
 $result = Test-BackendSmokePolicy -Policy $unsafe -DryRun
 Assert-True (-not $result.passed) 'Unsafe backend smoke policy should fail.'

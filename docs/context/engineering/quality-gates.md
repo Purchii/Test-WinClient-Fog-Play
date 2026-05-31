@@ -187,7 +187,7 @@ The `AppSmoke` scope validates the local App/WebView smoke scaffold without laun
 
 The `BridgeContract` scope validates the local WebView/native bridge contract scaffold without WebView debug/CDP or client launch, asserts structural bridge contract finding ids, and asserts unsafe runtime input paths, unsafe bridge logging policies, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
-The `BackendSmoke` scope validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, and asserts unsafe runtime input paths, unsafe endpoint paths, missing mock responses, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `BackendSmoke` scope validates the local backend smoke contract scaffold without network calls, auth headers or production backend interaction, asserts structural endpoint finding ids, and asserts unsafe runtime input paths, unsafe endpoint paths, missing mock responses, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `GameSessionCanary` scope validates the local dry-run canary readiness plan without starting or stopping a game session, requires exact non-duplicated canary readiness signals and canary suite metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, bounded run-frequency budget and cleanup/conditional budget flags in direct plan validation, and asserts unsafe runtime input paths, unsafe conditional-flag budget drift plus dangerous runtime allow flags are rejected.
 

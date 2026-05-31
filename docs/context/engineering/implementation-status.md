@@ -248,6 +248,7 @@ Implemented outputs:
 Implemented checks:
 
 - endpoint registry validation;
+- direct finding-id coverage for invalid endpoint names, non-`PROD_SAFE` endpoint classification and missing endpoint registries;
 - read-only `GET` method enforcement;
 - `PROD_SAFE` classification enforcement;
 - no-auth and no-state-mutation enforcement;

@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Verification Memory Safety BackendSmoke structural endpoint coverage
+
+Mode: `BOUNDED_AUTONOMOUS` local contract/test coverage hardening after separate task-thread discovery was started for the BackendSmoke structural endpoint coverage gap; coordinator takeover added direct assertions while the task remained local/static only.
+
+Branch: `codex/backend-smoke-structural-finding-coverage`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c6b-2f96-7750-9b0e-4ddad185e9a4` was created for the narrow BackendSmoke structural endpoint coverage discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Add direct BackendSmoke test assertions for invalid endpoint names.
+- Add direct BackendSmoke test assertions for non-`PROD_SAFE` endpoint classification.
+- Add direct BackendSmoke test assertions for missing endpoint registries.
+- Sync QA/context summaries and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Verification Memory Safety WebViewBridge structural finding coverage
 
 Mode: `BOUNDED_AUTONOMOUS` local contract/test coverage hardening after separate task-thread discovery was started for the WebViewBridge structural finding coverage gap; coordinator takeover added direct assertions while the task remained local/static only.

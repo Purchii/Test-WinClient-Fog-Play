@@ -93,6 +93,7 @@ Post-M6 TestabilityGaps runner input path safety hardening is complete.
 Post-M6 UpdateManifest runner input path safety hardening is complete.
 Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
+Post-M6 BackendSmoke structural endpoint finding coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
 Post-M6 WebViewBridge structural finding coverage hardening is complete.
@@ -130,6 +131,8 @@ Current result:
 
 ```text
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
+
+BackendSmoke structural endpoint finding coverage hardening requires local tests to assert invalid endpoint name, non-`PROD_SAFE` endpoint classification and missing endpoint registry finding ids without making backend calls.
 
 WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridge contract fixture, unit tests and quality gate to cover unsafe command/event logging policy findings.
 
