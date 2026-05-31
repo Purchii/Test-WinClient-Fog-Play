@@ -14,7 +14,7 @@
       "suites": [
         "prod-canary"
       ],
-      "requiresSyntheticUserAlias": "qa-canary-stream-001",
+      "requiresSyntheticUserAlias": "manual-user-001",
       "targetRegion": "eu-west",
       "targetGame": "real-production-game",
       "startsGameSession": true,

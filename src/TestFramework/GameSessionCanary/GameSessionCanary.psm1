@@ -139,6 +139,7 @@ function Test-GameSessionCanaryPlan {
         $requiresCleanupVerification = (Get-GameSessionCanaryValue -Object $test -Name 'requiresCleanupVerification' -Default $false) -eq $true
         $targetRegion = [string](Get-GameSessionCanaryValue -Object $test -Name 'targetRegion' -Default '')
         $targetGame = [string](Get-GameSessionCanaryValue -Object $test -Name 'targetGame' -Default '')
+        $syntheticAlias = [string](Get-GameSessionCanaryValue -Object $test -Name 'requiresSyntheticUserAlias' -Default '')
         $durationSeconds = [int](Get-GameSessionCanaryValue -Object $test -Name 'maxSessionDurationSeconds' -Default 0)
         $retries = [int](Get-GameSessionCanaryValue -Object $test -Name 'maxRetries' -Default 0)
         $expectedSignals = @(Get-GameSessionCanaryArray -Object $test -Name 'expectedReadinessSignals')
@@ -160,6 +161,7 @@ function Test-GameSessionCanaryPlan {
                 $startsGameSession -and
                 $mutatesState -and
                 $requiresCleanupVerification -and
+                $syntheticAlias -match '^qa-canary-[a-z0-9-]+-\d{3}$' -and
                 $durationSeconds -ge 1 -and
                 $durationSeconds -le $maxSessionDurationSeconds -and
                 $maxSessionsPerRun -eq 1 -and
@@ -184,6 +186,9 @@ function Test-GameSessionCanaryPlan {
         }
         if (-not $requiresCleanupVerification) {
             $findings += Add-GameSessionCanaryFinding -Id 'cleanup-not-required' -Severity 'fail' -Path $path -Message 'M5 canary must require cleanup verification.'
+        }
+        if ($syntheticAlias -notmatch '^qa-canary-[a-z0-9-]+-\d{3}$') {
+            $findings += Add-GameSessionCanaryFinding -Id 'synthetic-alias-not-canary' -Severity 'fail' -Path $path -Message 'M5 canary metadata must require a qa-canary synthetic alias.'
         }
         if ($durationSeconds -lt 1 -or $durationSeconds -gt $maxSessionDurationSeconds) {
             $findings += Add-GameSessionCanaryFinding -Id 'duration-exceeds-budget' -Severity 'fail' -Path $path -Message 'M5 canary duration must fit within prodResourceBudget.maxSessionDurationSeconds.'

@@ -284,6 +284,7 @@ Implemented checks:
 - real execution, client launch, network and auth disablement;
 - runtime user path rejection;
 - exactly one `PROD_CONDITIONAL` canary test;
+- direct plan validation requires a `qa-canary-*` synthetic user alias;
 - allowlisted synthetic user via ProdGuard;
 - allowlisted region and game via resource budget and allowed-games config;
 - max session duration within budget;
