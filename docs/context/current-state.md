@@ -79,6 +79,7 @@ Post-M6: WebViewBundleLocalReferenceSafety static gate - implemented and verifie
 Post-M6: FixtureInventorySafety static gate - implemented and verified locally.
 Post-M6: ScriptsInventorySafety static gate - implemented and verified locally.
 Post-M6: UnsafeFixtureCoverageSafety static gate - implemented and verified locally.
+Post-M6: GameSessionCanary conditional flag unsafe coverage hardening - implemented and verified locally.
 Post-M6: ActiveRunSafety scope coverage hardening - implemented and verified locally.
 Post-M6: ActiveRunSafety current branch/status policy - implemented and verified locally.
 Post-M6: ProdMetadataSafety canary target allowlist hardening - implemented and verified locally.
@@ -306,7 +307,7 @@ Current artifact status:
 - TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.
 - ProdMatrixSafety statically checks the production-safe test matrix for safe scenario classifications.
 - BacklogSafety statically checks the M0-M6 value/effort backlog shape and priority bounds.
-- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, game allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage.
+- SyntheticUsersSafety, ResourceBudgetSafety, AllowedGamesSafety, ProdMetadataSafety, UnsafeFixtureCoverageSafety and GameSessionCanary statically check production guard fixture drift around aliases, canary duration budgets, run-frequency budgets, cleanup/conditional budget flags, game allowlists, production metadata, canary suite metadata, readiness signal allowlists, synthetic alias allowlist links, direct canary plan alias metadata, allowlisting, production environment permission and matched synthetic-user duration, metadata-scoped alias duration, policy wording, canary target allowlist consistency and unsafe canary finding-id coverage, including the conditional flag budget requirement.
 - ContextDocsInventorySafety statically checks the `docs/context/*.md` handoff/governance/engineering inventory.
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory and core safety phrases.

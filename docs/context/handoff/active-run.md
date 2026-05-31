@@ -68,6 +68,7 @@ Post-M6 WebViewBundleLocalReferenceSafety static gate is complete.
 Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
 Post-M6 UnsafeFixtureCoverageSafety static gate is complete.
+Post-M6 GameSessionCanary conditional flag unsafe coverage hardening is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
 Post-M6 ProdMetadataSafety canary target allowlist hardening is complete.
 Post-M6 ProdMetadataSafety synthetic alias allowlist hardening is complete.
@@ -175,7 +176,7 @@ NonProdFoundation runner input path safety hardening rejects AppData/log/cookie/
 
 GameSessionCanary runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PlanPath, SyntheticUsersPath, ResourceBudgetPath and AllowedGamesPath overrides before the runner reads them.
 
-GameSessionCanary unsafe fixture finding coverage hardening requires the unsafe canary fixture contract and runner negative assertions to cover all current local fail findings emitted by `game-session-canary-unsafe.example.json`.
+GameSessionCanary unsafe fixture finding coverage hardening requires the unsafe canary fixture contract and runner negative assertions to cover all current local fail findings emitted by `game-session-canary-unsafe.example.json`, including `conditional-flag-budget-not-required`.
 
 GameSessionCanary suite metadata exact-set hardening requires M5 readiness plans to declare exactly `prod-canary` and `game-session-canary-readiness` suites once each before the direct dry-run validator can pass.
 

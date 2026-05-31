@@ -2071,6 +2071,7 @@ Implemented checks:
 - every `testdata/*unsafe*.example.json` fixture must be present in the static coverage contract;
 - each unsafe fixture coverage contract requires the fixture path to appear in the corresponding TestFramework test or `quality-gate.ps1` scope;
 - expected negative coverage requires `Assert-FindingId` assertions for the finding ids tied to that unsafe fixture;
+- `game-session-canary-unsafe.example.json` coverage includes the conditional flag budget finding id emitted by the canary validator;
 - `UnsafeFixtureCoverageSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

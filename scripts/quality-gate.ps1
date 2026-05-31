@@ -2993,6 +2993,7 @@ function Invoke-TestDataInventorySafetyGate {
         'privacy-patterns.example.json',
         'privacy-patterns-small-limit.example.json',
         'prod-resource-budget.example.yaml',
+        'prod-resource-budget-unsafe.example.yaml',
         'prod-safety-tests.example.json',
         'release-clean-fixture/Uninstall.exe',
         'release-clean-fixture/bin/crashpad_handler.exe',
@@ -3060,7 +3061,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'game-session-canary-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'runtime-paths-not-empty', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'missing-canary-suite-metadata', 'canary-suite-metadata-not-exact', 'cleanup-not-required', 'synthetic-alias-not-canary', 'synthetic-alias-not-allowlisted', 'synthetic-alias-not-production-allowed', 'duration-exceeds-budget', 'duration-exceeds-synthetic-user-budget', 'game-not-in-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals', 'readiness-signals-not-exact')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'client-launch-not-disabled', 'network-not-disabled', 'auth-not-disabled', 'runtime-paths-not-empty', 'unsafe-runtime-path', 'non-prod-conditional-canary', 'missing-canary-suite-metadata', 'canary-suite-metadata-not-exact', 'cleanup-not-required', 'conditional-flag-budget-not-required', 'synthetic-alias-not-canary', 'synthetic-alias-not-allowlisted', 'synthetic-alias-not-production-allowed', 'duration-exceeds-budget', 'duration-exceeds-synthetic-user-budget', 'game-not-in-budget', 'game-not-allowlisted', 'uncontrolled-retries', 'missing-readiness-signals', 'readiness-signals-not-exact')
         },
         @{
             Fixture = 'nonprod-foundation-unsafe.example.json'
@@ -4579,6 +4580,7 @@ function Invoke-GameSessionCanaryGate {
     $negative = Invoke-JsonGate {
         & $gameSessionCanary `
             -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json') `
+            -ResourceBudgetPath (Join-Path $repoRoot 'testdata/prod-resource-budget-unsafe.example.yaml') `
             -DryRun `
             -AllowProdConditional `
             -CleanupVerified `
@@ -4595,6 +4597,7 @@ function Invoke-GameSessionCanaryGate {
     Assert-FindingId -Result $negative -Id 'missing-canary-suite-metadata'
     Assert-FindingId -Result $negative -Id 'canary-suite-metadata-not-exact'
     Assert-FindingId -Result $negative -Id 'cleanup-not-required'
+    Assert-FindingId -Result $negative -Id 'conditional-flag-budget-not-required'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-canary'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-allowlisted'
     Assert-FindingId -Result $negative -Id 'synthetic-alias-not-production-allowed'

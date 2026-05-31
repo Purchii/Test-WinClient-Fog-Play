@@ -126,7 +126,7 @@ Assert-FindingId -Result $result -Id 'cleanup-budget-not-required'
 Assert-FindingId -Result $result -Id 'conditional-flag-budget-not-required'
 
 $unsafe = Read-GameSessionCanaryPlan -Path (Join-Path $repoRoot 'testdata/game-session-canary-unsafe.example.json')
-$result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $budget -DryRun
+$result = Test-GameSessionCanaryPlan -Plan $unsafe -AllowedGames $allowedGames -SyntheticUsers $syntheticUsers -ResourceBudget $weakenedPolicyBudget -DryRun
 Assert-True (-not $result.passed) 'Unsafe game-session canary plan should fail.'
 Assert-FindingId -Result $result -Id 'policy-not-dry-run-only'
 Assert-FindingId -Result $result -Id 'execution-not-disabled'
@@ -139,6 +139,7 @@ Assert-FindingId -Result $result -Id 'non-prod-conditional-canary'
 Assert-FindingId -Result $result -Id 'missing-canary-suite-metadata'
 Assert-FindingId -Result $result -Id 'canary-suite-metadata-not-exact'
 Assert-FindingId -Result $result -Id 'cleanup-not-required'
+Assert-FindingId -Result $result -Id 'conditional-flag-budget-not-required'
 Assert-FindingId -Result $result -Id 'synthetic-alias-not-canary'
 Assert-FindingId -Result $result -Id 'synthetic-alias-not-allowlisted'
 Assert-FindingId -Result $result -Id 'synthetic-alias-not-production-allowed'
