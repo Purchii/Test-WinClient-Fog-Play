@@ -1,5 +1,45 @@
 # Verification memory
 
+## 2026-05-31 - RootPromptSafety root prompt markdown fence guard
+
+Branch: `codex/root-prompt-all-fence-safety`
+Status: passed
+Production impact: none; local static root prompt markdown guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected branch state.
+- `git diff --check` passed.
+- RootPromptSafety gate passed.
+- PowerShellStructuredSyntaxSafety gate passed.
+- Context quality gate passed.
+- ActiveRunSafety gate passed.
+- VerificationMemorySafety gate passed.
+- SessionLogSafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Full quality gate passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, updater execution, rollback, credential use, network shaping, hardware probing, installed artifact reads or game sessions because this task is a local static root prompt markdown guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local documentation/static checks.
+
 ## 2026-05-31 - RootPromptSafety README_CODEX_START markdown fence guard
 
 Branch: `codex/root-prompt-markdown-fence-safety`

@@ -190,5 +190,3 @@ Pause and ask only if:
 - you need to run anything production-impacting;
 - you need to commit/push and explicit permission was not granted.
 ```
-```
-

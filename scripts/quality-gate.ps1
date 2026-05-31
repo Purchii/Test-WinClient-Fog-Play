@@ -228,15 +228,17 @@ function Invoke-RootPromptSafetyGate {
         }
     }
 
-    $starterReadmePath = Join-Path $repoRoot 'README_CODEX_START.md'
-    $starterReadme = Get-Content -LiteralPath $starterReadmePath -Raw
-    $starterFenceCount = [regex]::Matches($starterReadme, '(?m)^```(?:text)?\s*$').Count
-    if ($starterFenceCount % 2 -ne 0) {
-        throw 'README_CODEX_START.md must keep balanced fenced code blocks.'
-    }
+    foreach ($requirement in $requirements) {
+        $promptPath = Join-Path $repoRoot $requirement.Path
+        $promptContent = Get-Content -LiteralPath $promptPath -Raw
+        $fenceCount = [regex]::Matches($promptContent, '(?m)^```(?:[A-Za-z0-9_-]+)?\s*$').Count
+        if ($fenceCount % 2 -ne 0) {
+            throw "$($requirement.Path) must keep balanced fenced code blocks."
+        }
 
-    if ($starterReadme -match "(?m)^```\s*\r?\n```text\s*$") {
-        throw 'README_CODEX_START.md must not contain adjacent empty fenced code blocks.'
+        if ($promptContent -match "(?m)^```\s*\r?\n```(?:[A-Za-z0-9_-]+)?\s*$") {
+            throw "$($requirement.Path) must not contain adjacent empty fenced code blocks."
+        }
     }
 
     Write-Host 'RootPromptSafety gate passed.'
