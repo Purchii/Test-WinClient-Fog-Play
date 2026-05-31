@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGateStructureSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through VerificationMemorySafety.
 
 Planning boundary:
 
@@ -82,6 +82,7 @@ Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
 Post-M6 UnsafeFixtureCoverageSafety static gate is complete.
 Post-M6 GameSessionCanary conditional flag unsafe coverage hardening is complete.
+Post-M6 GameSessionCanary missing DryRun guard hardening is complete.
 Post-M6 ActiveRunSafety scope coverage hardening is complete.
 Post-M6 ActiveRunSafety current branch/status policy is complete.
 Future execution milestones require their own NON_AUTONOMOUS planning step in a separate thread.
@@ -239,6 +240,8 @@ NonProdFoundation runner input path safety hardening rejects AppData/log/cookie/
 NonProdFoundation structural finding coverage hardening requires local tests to assert invalid component name, invalid component type and missing components finding ids without executing fake/replay/network/hardware systems.
 
 GameSessionCanary runner input path safety hardening rejects AppData/log/cookie/DB/dump-like PlanPath, SyntheticUsersPath, ResourceBudgetPath and AllowedGamesPath overrides before the runner reads them.
+
+GameSessionCanary missing DryRun guard hardening adds direct local quality-gate coverage that the canary runner rejects calls without `-DryRun`.
 
 GameSessionCanary remaining finding coverage hardening requires local tests to assert invalid canary count, missing game-session intent, missing state-mutation intent, unsafe session concurrency budget and non-allowlisted region finding ids without launching the client, calling network or starting game sessions.
 

@@ -4685,6 +4685,13 @@ function Invoke-GameSessionCanaryGate {
     & (Join-Path $repoRoot 'src/TestFramework/GameSessionCanary/GameSessionCanary.Tests.ps1')
 
     $gameSessionCanary = Join-Path $repoRoot 'scripts/run-game-session-canary.ps1'
+    Assert-CommandRejected -Message 'Game-session canary runner must reject calls without -DryRun.' -Command {
+        & $gameSessionCanary `
+            -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `
+            -AllowProdConditional `
+            -CleanupVerified | Out-Null
+    }
+
     Assert-CommandRejected -Message 'Game-session canary runner must reject PROD_CONDITIONAL runs without -AllowProdConditional.' -Command {
         & $gameSessionCanary `
             -PlanPath (Join-Path $repoRoot 'testdata/game-session-canary.example.json') `

@@ -93,6 +93,7 @@ Post-M6: FixtureInventorySafety static gate - implemented and verified locally.
 Post-M6: ScriptsInventorySafety static gate - implemented and verified locally.
 Post-M6: UnsafeFixtureCoverageSafety static gate - implemented and verified locally.
 Post-M6: GameSessionCanary conditional flag unsafe coverage hardening - implemented and verified locally.
+Post-M6: GameSessionCanary missing DryRun guard hardening - implemented and verified locally.
 Post-M6: ActiveRunSafety scope coverage hardening - implemented and verified locally.
 Post-M6: ActiveRunSafety current branch/status policy - implemented and verified locally.
 Post-M6: ProdMetadataSafety canary target allowlist hardening - implemented and verified locally.
@@ -240,6 +241,7 @@ Repository bootstrap state:
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
 - Post-M6 UnsafeFixtureCoverageSafety static gate was completed on `codex/unsafe-fixture-coverage-safety-gate`.
+- Post-M6 GameSessionCanary missing DryRun guard hardening was completed on `codex/game-session-canary-missing-dryrun-guard`.
 - Post-M6 ActiveRunSafety scope coverage hardening was completed on `codex/active-run-safety-scope-coverage-hardening`.
 - Post-M6 ActiveRunSafety current branch/status policy was completed on `codex/active-run-current-branch-status-policy`.
 - Post-M6 ProdMetadataSafety canary target allowlist hardening was completed on `codex/prod-metadata-canary-target-allowlist-safety`.
