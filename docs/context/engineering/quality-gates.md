@@ -106,7 +106,7 @@ The `GovernanceHistoryScopeSafety` scope statically checks all `quality-gate.ps1
 
 The `TestDataStructuredSyntaxSafety` scope statically checks that JSON fixtures under `testdata/` parse successfully and that the production resource budget YAML keeps its required top-level shape.
 
-The `QualityGateStructureSafety` scope statically checks `quality-gate.ps1` itself so every `ValidateSet` scope except `Full` has exactly one `Invoke-<Scope>Gate` function and exactly one `Full` dispatch to that function.
+The `QualityGateStructureSafety` scope statically checks `quality-gate.ps1` itself so every `ValidateSet` scope except `Full` has exactly one `Invoke-<Scope>Gate` function and exactly one `Full` dispatch to that function, and runner rejection assertions use `Assert-CommandRejected` instead of manual `*Rejected` flag blocks.
 
 The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.md`, `docs/context/current-state.md`, `docs/context/engineering/implementation-status.md`, `docs/context/engineering/verification-memory.md` and handoff policy docs so stop-and-ask triggers stay explicit, stale literal latest-commit or live current-branch markers are not recorded, literal historical thread ids are not declared as the active task thread, installed artifact observations stay historical instead of becoming the current autonomous verification source, current static `*Safety` gates derived from `quality-gate.ps1` remain visible in active/current context, top-level/current branch-history/active-run Post-M6 status entries stay aligned, `git status --short --branch` remains the authoritative current branch/worktree source, and the active milestone marker stays synced with the latest verification-memory codex branch entry.
 

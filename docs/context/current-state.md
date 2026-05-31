@@ -129,6 +129,7 @@ Post-M6: QA docs DryRun guard documentation sync - implemented and verified loca
 Post-M6: Quality gate DryRun helper cleanup - implemented and verified locally.
 Post-M6: App/Bridge allow-flag helper cleanup - implemented and verified locally.
 Post-M6: QualityGateStructureSafety rejection helper guard - implemented and verified locally.
+Post-M6: Quality gates docs rejection helper sync - implemented and verified locally.
 Post-M6: BackendSmoke structural endpoint finding coverage hardening - implemented and verified locally.
 Post-M6: WebViewBridge runner input path safety hardening - implemented and verified locally.
 Post-M6: WebViewBridge unsafe logging policy coverage hardening - implemented and verified locally.
@@ -286,6 +287,7 @@ Repository bootstrap state:
 - Post-M6 Quality gate DryRun helper cleanup was completed on `codex/quality-gate-dryrun-helper-cleanup`.
 - Post-M6 App/Bridge allow-flag helper cleanup was completed on `codex/app-bridge-allow-helper-cleanup`.
 - Post-M6 QualityGateStructureSafety rejection helper guard was completed on `codex/quality-gate-rejection-helper-guard`.
+- Post-M6 Quality gates docs rejection helper sync was completed on `codex/quality-gates-docs-rejection-helper-sync`.
 - Post-M6 BackendSmoke structural endpoint finding coverage hardening was completed on `codex/backend-smoke-structural-finding-coverage`.
 - Post-M6 WebViewBridge runner input path safety hardening was completed on `codex/runner-webview-bridge-input-path-safety`.
 - Post-M6 WebViewBridge unsafe logging policy coverage hardening was completed on `codex/webview-bridge-unsafe-logging-coverage`.
