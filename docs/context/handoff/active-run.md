@@ -95,6 +95,7 @@ Post-M6 BackendSmoke runner input path safety hardening is complete.
 Post-M6 BackendSmoke unsafe endpoint coverage hardening is complete.
 Post-M6 WebViewBridge runner input path safety hardening is complete.
 Post-M6 WebViewBridge unsafe logging policy coverage hardening is complete.
+Post-M6 WebViewBridge structural finding coverage hardening is complete.
 Post-M6 AppSmoke runner input path safety hardening is complete.
 Post-M6 AppSmoke static fixture finding coverage hardening is complete.
 Post-M6 NonProdFoundation structural finding coverage hardening is complete.
@@ -131,6 +132,8 @@ Current result:
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
 
 WebViewBridge unsafe logging policy coverage hardening requires the unsafe bridge contract fixture, unit tests and quality gate to cover unsafe command/event logging policy findings.
+
+WebViewBridge structural finding coverage hardening requires local tests to assert invalid/duplicate command names, missing command effect/error behavior, missing event payload/error behavior and missing command/event registry finding ids without launching the client or enabling WebView debug/CDP.
 
 TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
 

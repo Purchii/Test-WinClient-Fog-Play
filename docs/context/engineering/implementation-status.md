@@ -213,6 +213,7 @@ Implemented outputs:
 Implemented checks:
 
 - command and event registry validation;
+- direct finding-id coverage for invalid/duplicate command names and missing command/event contract fields;
 - direction validation for `web -> native` commands and `native -> web` events;
 - payload schema presence;
 - expected effects and malformed-payload behavior;

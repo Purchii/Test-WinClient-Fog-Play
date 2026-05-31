@@ -58,6 +58,35 @@ Assert-FindingId -Result $result -Id 'missing-command-payload-schema'
 Assert-FindingId -Result $result -Id 'invalid-event-direction'
 Assert-FindingId -Result $result -Id 'unknown-fake-host-target'
 
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands[0].name = 'Invalid Command Name'
+$broken.commands[1].name = $broken.commands[0].name
+$broken.commands[0].expectedEffect = ''
+$broken.commands[0].errorBehavior = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid and incomplete WebView bridge commands should fail.'
+Assert-FindingId -Result $result -Id 'invalid-command-name'
+Assert-FindingId -Result $result -Id 'duplicate-command-name'
+Assert-FindingId -Result $result -Id 'missing-command-effect'
+Assert-FindingId -Result $result -Id 'missing-command-error-behavior'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.events[0].payloadSchema = $null
+$broken.events[0].errorBehavior = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Incomplete WebView bridge events should fail.'
+Assert-FindingId -Result $result -Id 'missing-event-payload-schema'
+Assert-FindingId -Result $result -Id 'missing-event-error-behavior'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands = @()
+$broken.events = @()
+$broken.fakeNativeHostCases = @()
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'WebView bridge contract without commands or events should fail.'
+Assert-FindingId -Result $result -Id 'missing-commands'
+Assert-FindingId -Result $result -Id 'missing-events'
+
 $unsafe = Read-WebViewBridgeContract -Path (Join-Path $repoRoot 'testdata/webview-bridge-contract-unsafe.example.json')
 $result = Test-WebViewBridgeContract -Contract $unsafe -DryRun
 Assert-True (-not $result.passed) 'Unsafe WebView bridge contract policy should fail.'
