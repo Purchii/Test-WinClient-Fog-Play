@@ -113,6 +113,7 @@ Post-M6 TestabilityGaps next-safe-step vocabulary hardening is complete.
 Post-M6 TestabilityGaps local finding coverage hardening is complete.
 Post-M6 Structural finding QA docs coverage sync is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
+Post-M6 QaDocsSafety finding coverage wording guard is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
 Post-M6 ActiveRunSafety current-state installed artifact wording sync is complete.
@@ -157,6 +158,8 @@ TestabilityGaps local finding coverage hardening requires local tests to assert 
 VerificationMemorySafety installed artifact historical command boundary requires old verification-memory entries with installed artifact commands to preserve 2026-05-30 historical evidence wording and a no-rerun-without-approved-plan boundary.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
+
+QaDocsSafety finding coverage wording guard fails if active QA docs lose the Post-M6 finding coverage summaries for local/static direct assertions.
 
 QA docs installed artifact manual-boundary wording sync keeps release, privacy and App/WebView smoke docs explicit that installed artifact defaults require a separate approved plan and autonomous verification uses committed local fixtures only.
 
@@ -346,7 +349,7 @@ TestFrameworkInventorySafety adds `Full` coverage for the `src/TestFramework` fi
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
-QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory and core safety phrases.
+QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory, core safety phrases and Post-M6 finding coverage summaries.
 
 ArtifactPolicySafety adds `Full` coverage for release/privacy policy fixture drift around required files, forbidden extensions, finding ids, privacy patterns and scan limits.
 
@@ -419,7 +422,7 @@ Previous verification:
 
 Earlier verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
@@ -430,7 +433,7 @@ Earlier verification:
 
 Older verification:
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
@@ -440,6 +443,17 @@ Older verification:
 - `git diff --check`.
 
 Oldest verification:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Oldest retained verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
@@ -451,7 +465,7 @@ Oldest verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
 
-Oldest retained verification:
+Archived verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveSafetyScopeInventorySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGateStructureSafety`;

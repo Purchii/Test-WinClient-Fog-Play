@@ -2198,6 +2198,15 @@ function Invoke-QaDocsSafetyGate {
         'privacy-and-logging-checks.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
         'app-webview-smoke.md' = @('This default is for a separate manual/explicit-plan artifact read only', 'Current autonomous verification must use committed local fixtures')
     }
+    $findingCoveragePhrasesByDoc = @{
+        'app-webview-smoke.md' = @('Post-M6 finding coverage hardening added direct static fixture assertions', 'missing required files', 'missing WebView bundles', 'missing entrypoints', 'invalid asset manifests')
+        'backend-smoke.md' = @('Post-M6 finding coverage hardening added direct offline contract assertions', 'invalid endpoint names', 'non-`PROD_SAFE` endpoint classification', 'missing endpoint registries')
+        'game-session-canary.md' = @('Post-M6 finding coverage hardening added direct dry-run validator assertions', 'invalid canary counts', 'game-session and state-mutation intent metadata', 'unsafe session-concurrency budgets', 'target regions outside the resource budget allowlist')
+        'nonprod-foundation.md' = @('Post-M6 finding coverage hardening added direct schema assertions', 'invalid component names', 'invalid component types', 'missing component registries')
+        'testability-gaps.md' = @('Post-M6 finding coverage hardening added direct registry assertions', 'missing gap registries', 'missing next safe steps', 'runtime gaps without stop triggers')
+        'update-manifest-gate.md' = @('Post-M6 finding coverage hardening added direct manifest assertions', 'invalid package ids', 'missing package registries')
+        'webview-bridge-contract.md' = @('Post-M6 finding coverage hardening added direct dry-run contract assertions', 'invalid command direction', 'command/event production-safety metadata', 'invalid or duplicate event names', 'invalid fake native host case types', 'missing fake host expected results')
+    }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {
         $path = Join-Path $docsRoot $docName
@@ -2205,6 +2214,15 @@ function Invoke-QaDocsSafetyGate {
         foreach ($phrase in $safetyPhrasesByDoc[$docName]) {
             if ($content -notmatch [regex]::Escape($phrase)) {
                 throw "docs/qa/$docName must preserve safety phrase: $phrase"
+            }
+        }
+    }
+    foreach ($docName in $findingCoveragePhrasesByDoc.Keys) {
+        $path = Join-Path $docsRoot $docName
+        $content = Get-Content -LiteralPath $path -Raw
+        foreach ($phrase in $findingCoveragePhrasesByDoc[$docName]) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "docs/qa/$docName must preserve finding coverage phrase: $phrase"
             }
         }
     }
