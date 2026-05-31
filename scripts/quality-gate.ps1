@@ -3070,7 +3070,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'testability-gaps-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/TestabilityGaps/TestabilityGaps.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'production-execution-not-disabled', 'runtime-data-read-not-disabled', 'credentials-not-disabled', 'invalid-gap-id', 'invalid-area', 'invalid-status', 'gap-marked-production-safe', 'gap-requires-credentials', 'gap-requires-user-data', 'invalid-required-evidence', 'missing-stop-trigger', 'missing-next-safe-step')
+            FindingIds = @('policy-not-dry-run-only', 'production-execution-not-disabled', 'runtime-data-read-not-disabled', 'credentials-not-disabled', 'invalid-gap-id', 'invalid-area', 'invalid-status', 'gap-marked-production-safe', 'gap-requires-credentials', 'gap-requires-user-data', 'invalid-required-evidence', 'missing-stop-trigger', 'unsafe-next-safe-step')
         },
         @{
             Fixture = 'update-manifest-unsafe.example.json'
@@ -4758,7 +4758,7 @@ function Invoke-TestabilityGapsGate {
     Assert-FindingId -Result $negative -Id 'gap-requires-user-data'
     Assert-FindingId -Result $negative -Id 'invalid-required-evidence'
     Assert-FindingId -Result $negative -Id 'missing-stop-trigger'
-    Assert-FindingId -Result $negative -Id 'missing-next-safe-step'
+    Assert-FindingId -Result $negative -Id 'unsafe-next-safe-step'
 
     Write-Host 'TestabilityGaps gate passed.'
 }

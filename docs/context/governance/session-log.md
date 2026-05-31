@@ -1,5 +1,34 @@
 # Session log
 
+## 2026-05-31 - TestabilityGaps next-safe-step vocabulary hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local fixture/schema validation hardening after separate task-thread discovery confirmed TestabilityGaps required evidence vocabulary was guarded, but next-safe-step text was only checked for non-empty content.
+
+Branch: `codex/testability-gaps-evidence-vocabulary-safety`
+
+Thread lifecycle:
+
+- Previous source/coordinator thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` remains active only as coordinator for autonomous work; older completed task threads are inactive/history-only and were not reused for this independent implementation.
+- Delegated task thread `019e7c4d-1416-7213-bdac-4318cfebc842` was created for the narrow TestabilityGaps required evidence/next-safe-step vocabulary discovery task; coordination takeover completed the implementation without using old task threads for edits.
+
+Scope:
+
+- Reject unsafe next-safe-step text in the local TestabilityGaps validator.
+- Add unsafe fixture/test coverage for runtime, credential, production backend, game-session and user data wording.
+- Sync QA/context summaries and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - VerificationMemorySafety installed artifact historical command boundary
 
 Mode: `BOUNDED_AUTONOMOUS` local static safety gate hardening after user allowed autonomous work and pushes to main; separate task-thread discovery confirmed historical verification-memory entries with installed artifact commands were allowed as past evidence but did not have a guard requiring explicit historical/no-rerun boundary wording.

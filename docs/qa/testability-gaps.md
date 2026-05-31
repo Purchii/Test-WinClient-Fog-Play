@@ -21,7 +21,7 @@ Implemented checks:
 - gaps must not require credentials or user runtime data;
 - gaps must list approved evidence needed to close them;
 - gaps must list stop-and-ask triggers;
-- gaps must list a safe next step.
+- gaps must list a safe next step that does not request runtime, credential, production backend, game-session or user data actions.
 
 Runner:
 

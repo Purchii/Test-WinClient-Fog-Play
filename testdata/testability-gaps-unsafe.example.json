@@ -16,7 +16,7 @@
         "real-user-password"
       ],
       "stopTriggers": [],
-      "nextSafeStep": ""
+      "nextSafeStep": "Launch the client, authenticate, read AppData logs and start a game session against production backend."
     }
   ]
 }

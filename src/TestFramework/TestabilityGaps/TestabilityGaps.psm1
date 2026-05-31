@@ -68,6 +68,7 @@ function Test-TestabilityGapsPolicy {
     $allowedStatuses = @('open', 'blocked', 'needs-owner-input', 'deferred')
     $allowedAreas = @('client-launch', 'webview-runtime', 'auth', 'backend', 'game-session', 'update-runtime', 'fake-replay-lab', 'hardware-lab', 'release-artifact')
     $allowedRequiredEvidence = @('source-code', 'offline-fixture', 'sanitized-artifact-report', 'owner-approval', 'non-prod-environment', 'synthetic-user-config')
+    $unsafeNextStepPattern = '(?i)(launch\s+the\s+client|start\s+(a\s+)?game\s+session|authenticate|login|production\s+backend|streaming\s+network|read\s+(AppData|logs?|cookies?|DB|dumps?)|enable\s+WebView\s+debug|CDP|real\s+credentials)'
 
     $policyChecks = @(
         @{ Name = 'dryRunFlag'; Passed = [bool]$DryRun; Id = 'dry-run-flag-required'; Message = 'Testability gaps validator must be invoked with -DryRun.' },
@@ -108,6 +109,7 @@ function Test-TestabilityGapsPolicy {
 
         $evidenceAllowed = $requiredEvidence.Count -gt 0 -and @($requiredEvidence | Where-Object { -not ($allowedRequiredEvidence -contains [string]$_) }).Count -eq 0
         $hasStopTrigger = $stopTriggers.Count -gt 0
+        $nextSafeStepIsSafe = -not [string]::IsNullOrWhiteSpace($nextSafeStep) -and $nextSafeStep -notmatch $unsafeNextStepPattern
 
         $checks += [pscustomobject]@{
             type = 'testability-gap'
@@ -123,7 +125,7 @@ function Test-TestabilityGapsPolicy {
                 -not $requiresUserData -and
                 $evidenceAllowed -and
                 $hasStopTrigger -and
-                -not [string]::IsNullOrWhiteSpace($nextSafeStep)
+                $nextSafeStepIsSafe
             )
         }
 
@@ -153,6 +155,9 @@ function Test-TestabilityGapsPolicy {
         }
         if ([string]::IsNullOrWhiteSpace($nextSafeStep)) {
             $findings += Add-TestabilityGapFinding -Id 'missing-next-safe-step' -Severity 'fail' -Path $path -Message 'Gap must list a safe next step.'
+        }
+        elseif (-not $nextSafeStepIsSafe) {
+            $findings += Add-TestabilityGapFinding -Id 'unsafe-next-safe-step' -Severity 'fail' -Path $path -Message 'Gap next safe step must not request runtime, credential, production backend, game-session or user data actions.'
         }
         if ($requiresRuntime -and -not $hasStopTrigger) {
             $findings += Add-TestabilityGapFinding -Id 'runtime-gap-without-stop-trigger' -Severity 'fail' -Path $path -Message 'Runtime gaps must have explicit stop triggers.'

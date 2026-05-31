@@ -139,7 +139,7 @@ Implemented checks:
 - gaps do not require credentials or user runtime data;
 - approved closure evidence is required;
 - stop-and-ask triggers are required;
-- safe next steps are required.
+- safe next steps are required and must not request runtime, credential, production backend, game-session or user data actions.
 
 ## M2 - App launch + WebView smoke
 
@@ -1065,7 +1065,7 @@ Implemented checks:
 - `BackendSmoke` quality gate asserts `-AllowNetwork` and `-AllowAuth` rejection;
 - `GameSessionCanary` quality gate asserts `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection;
 - `NonProdFoundation` quality gate asserts `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` rejection;
-- `TestabilityGaps` quality gate asserts `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` rejection.
+- `TestabilityGaps` quality gate asserts unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` rejection.
 
 Not implemented:
 

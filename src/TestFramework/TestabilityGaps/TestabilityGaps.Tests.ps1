@@ -53,6 +53,6 @@ Assert-FindingId -Result $result -Id 'gap-requires-credentials'
 Assert-FindingId -Result $result -Id 'gap-requires-user-data'
 Assert-FindingId -Result $result -Id 'invalid-required-evidence'
 Assert-FindingId -Result $result -Id 'missing-stop-trigger'
-Assert-FindingId -Result $result -Id 'missing-next-safe-step'
+Assert-FindingId -Result $result -Id 'unsafe-next-safe-step'
 
 Write-Host 'TestabilityGaps.Tests.ps1 passed.'

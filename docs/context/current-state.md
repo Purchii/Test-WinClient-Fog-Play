@@ -110,6 +110,7 @@ Post-M6: Privacy runner input path safety hardening - implemented and verified l
 Post-M6: ProdSafeSmoke runner input path safety hardening - implemented and verified locally.
 Post-M6: ProdCanary runner input path safety hardening - implemented and verified locally.
 Post-M6: RunnerSafety input path coverage hardening - implemented and verified locally.
+Post-M6: TestabilityGaps next-safe-step vocabulary hardening - implemented and verified locally.
 Post-M6: Scripts Readme Scope Safety TestabilityGaps duplicate cleanup - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety input path summary sync - implemented and verified locally.
 Post-M6: RunnerSafety implementation-status input path sync - implemented and verified locally.
@@ -224,6 +225,7 @@ Repository bootstrap state:
 - Post-M6 ProdSafeSmoke runner input path safety hardening was completed on `codex/runner-prod-safe-smoke-input-path-safety`.
 - Post-M6 ProdCanary runner input path safety hardening was completed on `codex/runner-prod-canary-input-path-safety`.
 - Post-M6 RunnerSafety input path coverage hardening was completed on `codex/runner-safety-input-path-coverage`.
+- Post-M6 TestabilityGaps next-safe-step vocabulary hardening was completed on `codex/testability-gaps-evidence-vocabulary-safety`.
 - Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup was completed on `codex/scripts-readme-testabilitygaps-duplicate-cleanup`.
 - Post-M6 QualityGatesDocsScopeSafety input path summary sync was completed on `codex/quality-gates-docs-input-path-summary-sync`.
 - Post-M6 RunnerSafety implementation-status input path sync was completed on `codex/implementation-status-runner-input-path-sync`.
@@ -272,6 +274,7 @@ Current artifact status:
 - ProdCanary, ProdSafeSmoke, Privacy, Release, GameSessionCanary, NonProdFoundation, TestabilityGaps, UpdateManifest, BackendSmoke, WebViewBridge and AppSmoke runners reject AppData/log/cookie/DB/dump-like input path overrides before reading or probing them.
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags, and BackendSmoke rejects `-AllowNetwork` and `-AllowAuth`.
 - UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.
+- TestabilityGaps rejects next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
 - RunnerSafety statically checks runner dry-run requirements, dangerous allow-switch guards, path-like input guards and forbidden runtime/network primitives.
 - TestDataSafety statically checks risky test fixtures against an explicit unsafe/negative allowlist.
 - TestDataInventorySafety statically checks the `testdata/` fixture file inventory.

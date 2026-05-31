@@ -98,6 +98,7 @@ Post-M6 Privacy runner input path safety hardening is complete.
 Post-M6 ProdSafeSmoke runner input path safety hardening is complete.
 Post-M6 ProdCanary runner input path safety hardening is complete.
 Post-M6 RunnerSafety input path coverage hardening is complete.
+Post-M6 TestabilityGaps next-safe-step vocabulary hardening is complete.
 Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complete.
 Post-M6 QualityGatesDocsScopeSafety input path summary sync is complete.
 Post-M6 RunnerSafety implementation-status input path sync is complete.
@@ -122,6 +123,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+TestabilityGaps next-safe-step vocabulary hardening rejects gap next-safe-step text that requests runtime, credential, production backend, game-session or user data actions.
+
 VerificationMemorySafety installed artifact historical command boundary requires old verification-memory entries with installed artifact commands to preserve 2026-05-30 historical evidence wording and a no-rerun-without-approved-plan boundary.
 
 QaDocsSafety installed artifact manual-boundary wording guard fails if active release, privacy or App/WebView smoke docs lose the manual/explicit-plan and local-fixture autonomous verification boundary for installed artifact defaults.
