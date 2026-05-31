@@ -1,5 +1,33 @@
 # Session log
 
+## 2026-05-31 - ActiveRunSafety backend smoke flag summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed active-run summary drift.
+
+Branch: `codex/active-run-backend-smoke-flag-summary-sync`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7b8b-079e-7dc0-b4dc-ee61941ae26c` confirmed the narrow local/static documentation drift; coordination takeover completed the docs-only sync on a dedicated branch.
+
+Scope:
+
+- Update `active-run.md` runner/validator guard hardening summary to mention BackendSmoke `-AllowNetwork` and `-AllowAuth` rejection coverage.
+- Keep verification memory and session log latest branch entries synchronized for the docs-only task.
+- Keep the task local/static with no runtime, backend, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - RunnerSafety backend smoke dangerous flag docs sync
 
 Mode: `BOUNDED_AUTONOMOUS` docs-only sync after separate task-thread discovery confirmed description drift.

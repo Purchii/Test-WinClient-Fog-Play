@@ -4,7 +4,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through RunnerSafety.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
 
 Planning boundary:
 
@@ -123,7 +123,7 @@ Script inventory guard hardening updates `scripts/README.md` and makes the `Cont
 
 M1 dry-run fail-closed hardening makes release and privacy runners reject calls without `-DryRun` before reading artifact roots.
 
-Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`.
+Runner/validator guard hardening makes ProdSafety, AppSmoke, BridgeContract and BackendSmoke fail closed on missing `-DryRun`. AppSmoke and BridgeContract also assert rejection of `-AllowClientLaunch` and `-AllowWebViewDebugPort`; BackendSmoke asserts rejection of `-AllowNetwork` and `-AllowAuth`.
 
 Dangerous flag negative coverage adds `Full` assertions for UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps allow-flags.
 

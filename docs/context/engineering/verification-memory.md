@@ -1,5 +1,39 @@
 # Verification memory
 
+## 2026-05-31 - ActiveRunSafety backend smoke flag summary sync
+
+Branch: `codex/active-run-backend-smoke-flag-summary-sync`
+Status: passed
+Production impact: none; local static active-run documentation sync only
+
+Commands:
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RunnerSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+- `git diff --check`
+
+Results:
+- RunnerSafety gate passed.
+- ActiveRunSafety gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Context quality gate passed.
+- Full quality gate passed.
+- `git diff --check` passed.
+
+Not run:
+- Client launch, WebView runtime/debug, authentication, backend calls, fake/replay runtime, network shaping, hardware probing or game sessions because this task synchronizes local static active-run documentation only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+
 ## 2026-05-31 - Runner safety backend smoke dangerous flag docs sync
 
 Branch: `codex/backend-smoke-dangerous-flag-docs-sync`
