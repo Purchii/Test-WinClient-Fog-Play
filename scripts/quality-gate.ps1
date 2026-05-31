@@ -4124,6 +4124,21 @@ function Invoke-ReleaseGate {
     Assert-FindingId -Result $negative -Id 'forbidden-extension'
     Assert-FindingId -Result $negative -Id 'local-user-path'
 
+    $reportOnly = Invoke-JsonGate {
+        & $releaseGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PolicyPath (Join-Path $repoRoot 'testdata/release-gate-policy.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    if ($reportOnly.passed -ne $false) {
+        throw 'Release report-only negative fixture should report passed=false.'
+    }
+    Assert-FindingId -Result $reportOnly -Id 'invalid-signature'
+    Assert-FindingId -Result $reportOnly -Id 'missing-version-metadata'
+    Assert-FindingId -Result $reportOnly -Id 'forbidden-extension'
+    Assert-FindingId -Result $reportOnly -Id 'local-user-path'
+
     $clean = Invoke-JsonGate {
         & $releaseGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-clean-fixture') `
@@ -4267,6 +4282,18 @@ function Invoke-PrivacyGate {
     }
     Assert-FindingId -Result $installedLike -Id 'local-user-path'
 
+    $installedLikeReportOnly = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    if ($installedLikeReportOnly.passed -ne $false) {
+        throw 'Privacy report-only installed-like fixture should report passed=false.'
+    }
+    Assert-FindingId -Result $installedLikeReportOnly -Id 'local-user-path'
+
     $negative = Invoke-JsonGate {
         & $privacyGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
@@ -4278,6 +4305,20 @@ function Invoke-PrivacyGate {
     Assert-FindingId -Result $negative -Id 'password'
     Assert-FindingId -Result $negative -Id 'generic-token'
 
+    $reportOnly = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    if ($reportOnly.passed -ne $false) {
+        throw 'Privacy report-only negative fixture should report passed=false.'
+    }
+    Assert-FindingId -Result $reportOnly -Id 'bearer-token'
+    Assert-FindingId -Result $reportOnly -Id 'password'
+    Assert-FindingId -Result $reportOnly -Id 'generic-token'
+
     $large = Invoke-JsonGate {
         & $privacyGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-large-fixture') `
@@ -4286,6 +4327,18 @@ function Invoke-PrivacyGate {
             -ExpectFindings
     }
     Assert-FindingId -Result $large -Id 'text-file-too-large'
+
+    $largeReportOnly = Invoke-JsonGate {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-large-fixture') `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns-small-limit.example.json') `
+            -DryRun `
+            -ReportOnly
+    }
+    if ($largeReportOnly.passed -ne $false) {
+        throw 'Privacy report-only large fixture should report passed=false.'
+    }
+    Assert-FindingId -Result $largeReportOnly -Id 'text-file-too-large'
 
     $clean = Invoke-JsonGate {
         & $privacyGate `

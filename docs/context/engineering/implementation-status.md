@@ -85,6 +85,7 @@ Verification status:
 - `ProdSafety` regression gate passed.
 - `Release` quality gate passed against negative and clean fixtures.
 - `Privacy` quality gate passed against installed-like, negative, large-file and clean fixtures.
+- `Release` and `Privacy` quality gates assert local `-ReportOnly` explicit artifact discovery behavior against finding-producing fixtures.
 - Historical release dry-run against installed artifact completed on 2026-05-30 and reported fail findings.
 - Historical privacy dry-run against installed artifact completed on 2026-05-30 and reported fail findings.
 - `git diff --check` passed.

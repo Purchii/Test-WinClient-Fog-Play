@@ -294,6 +294,7 @@ Current artifact status:
 - RootPromptSafety statically checks top-level Codex prompt/TZ safety wording around repository source-of-truth, autonomy boundaries, production-impact stops and game-session/credential prerequisites.
 - Script runner inventory is documented in `scripts/README.md` and checked by the `Context` quality gate.
 - Release and privacy runners require `-DryRun` before reading artifact roots.
+- Release and privacy quality gates assert local negative fixtures both fail closed and keep `-ReportOnly` explicit artifact discovery reporting behavior.
 - ProdCanary, ProdSafeSmoke, Privacy, Release, GameSessionCanary, NonProdFoundation, TestabilityGaps, UpdateManifest, BackendSmoke, WebViewBridge and AppSmoke runners reject AppData/log/cookie/DB/dump-like input path overrides before reading or probing them.
 - ProdSafety, App/WebView, WebView bridge and BackendSmoke runners/validators fail closed on missing `-DryRun`; App/WebView and WebView bridge runners also reject client launch and WebView debug/CDP flags, and BackendSmoke rejects `-AllowNetwork` and `-AllowAuth`.
 - UpdateManifest, BackendSmoke, GameSessionCanary, NonProdFoundation and TestabilityGaps quality gates assert rejection of dangerous allow flags.

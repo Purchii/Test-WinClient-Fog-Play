@@ -131,9 +131,9 @@ The `ProdSafety` quality gate validates local production-safety guard metadata w
 
 The `ProdSafety` quality gate also asserts that the prod canary runner rejects unsafe runtime metadata, synthetic-user and resource-budget input paths before any read.
 
-The `Release` quality gate validates local release artifact fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
+The `Release` quality gate validates local release artifact fixtures without launching the installed client, asserts fail-closed negative fixture behavior, asserts `-ReportOnly` explicit artifact discovery behavior, and asserts that unsafe runtime `ArtifactRoot` and `PolicyPath` input paths are rejected before any read or probe.
 
-The `Privacy` quality gate validates local privacy/logging fixtures without launching the installed client, and asserts that unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.
+The `Privacy` quality gate validates local privacy/logging fixtures without launching the installed client, asserts fail-closed negative fixture behavior, asserts `-ReportOnly` explicit artifact discovery behavior, and asserts that unsafe runtime `ArtifactRoot` and `PatternsPath` input paths are rejected before any read or probe.
 
 The `AppSmoke` quality gate validates the local App/WebView smoke scaffold without launching the installed client, asserts static WebView bundle failure finding ids, and asserts that unsafe runtime input paths, `-AllowClientLaunch` and `-AllowWebViewDebugPort` are rejected.
 
