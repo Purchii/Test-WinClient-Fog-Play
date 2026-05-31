@@ -2207,6 +2207,10 @@ function Invoke-QaDocsSafetyGate {
         'update-manifest-gate.md' = @('Post-M6 finding coverage hardening added direct manifest assertions', 'invalid package ids', 'missing package registries')
         'webview-bridge-contract.md' = @('Post-M6 finding coverage hardening added direct dry-run contract assertions', 'invalid command direction', 'command/event production-safety metadata', 'invalid or duplicate event names', 'invalid fake native host case types', 'missing fake host expected results')
     }
+    $runnerHardeningPhrasesByDoc = @{
+        'release-gates.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PolicyPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
+        'privacy-and-logging-checks.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PatternsPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
+    }
 
     foreach ($docName in $safetyPhrasesByDoc.Keys) {
         $path = Join-Path $docsRoot $docName
@@ -2223,6 +2227,15 @@ function Invoke-QaDocsSafetyGate {
         foreach ($phrase in $findingCoveragePhrasesByDoc[$docName]) {
             if ($content -notmatch [regex]::Escape($phrase)) {
                 throw "docs/qa/$docName must preserve finding coverage phrase: $phrase"
+            }
+        }
+    }
+    foreach ($docName in $runnerHardeningPhrasesByDoc.Keys) {
+        $path = Join-Path $docsRoot $docName
+        $content = Get-Content -LiteralPath $path -Raw
+        foreach ($phrase in $runnerHardeningPhrasesByDoc[$docName]) {
+            if ($content -notmatch [regex]::Escape($phrase)) {
+                throw "docs/qa/$docName must preserve runner hardening phrase: $phrase"
             }
         }
     }
