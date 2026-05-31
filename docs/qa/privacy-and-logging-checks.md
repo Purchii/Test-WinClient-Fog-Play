@@ -56,6 +56,11 @@ Post-M6 dry-run hardening added:
 - `scripts/run-privacy-gate.ps1` now rejects calls without `-DryRun` before reading the artifact root;
 - `quality-gate.ps1 -Scope Privacy` asserts that missing `-DryRun` is rejected.
 
+Post-M6 runner input path hardening added:
+
+- `scripts/run-privacy-gate.ps1` rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PatternsPath` overrides before reading or probing them;
+- `quality-gate.ps1 -Scope Privacy` asserts that unsafe runtime artifact roots and pattern config paths are rejected without touching those paths.
+
 Known finding from the installed artifact observed on 2026-05-30:
 
 - `bin/installer_info.txt` contained a local user path.

@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-05-31 - Runner safety privacy input path hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-privacy-gate.ps1` accepted caller-provided artifact and pattern config paths before any unsafe runtime path rejection.
+
+Branch: `codex/runner-privacy-input-path-safety`
+
+Thread lifecycle:
+
+- Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` is inactive/history-only and was not used for implementation.
+- Delegated task thread `019e7c22-ac59-7400-b58d-641a0a36dfb2` was created for the narrow local/static Privacy runner input path discovery task; coordination takeover completed the implementation after requesting no further delegated edits.
+
+Scope:
+
+- Add a pre-read/probe guard for `ArtifactRoot` and `PatternsPath`.
+- Reject AppData/log/cookie/DB/dump-like input path overrides before any file read or artifact probing.
+- Add Privacy quality gate coverage for both pre-read/probe rejections.
+- Keep the task local/static with no runtime, WebView debug/CDP, auth, client or game-session interaction.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - Runner safety release input path hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local runner input guard hardening after separate task-thread discovery/takeover confirmed `run-release-gate.ps1` accepted caller-provided artifact and policy paths before any unsafe runtime path rejection.

@@ -24,6 +24,20 @@ if (-not $DryRun) {
     throw 'Privacy gate runner is dry-run only. Pass -DryRun to perform local artifact validation.'
 }
 
+function Assert-PrivacyGateInputPathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string] $Name,
+        [Parameter(Mandatory = $true)][string] $Path
+    )
+
+    if ($Path -match '(?i)AppData|Cookies|cookie|\.log|logs|crash|dump|Local Storage|IndexedDB|\.db') {
+        throw "Privacy gate runner must not read unsafe runtime input path '$Name'."
+    }
+}
+
+Assert-PrivacyGateInputPathSafe -Name 'ArtifactRoot' -Path $ArtifactRoot
+Assert-PrivacyGateInputPathSafe -Name 'PatternsPath' -Path $PatternsPath
+
 function Add-Finding {
     param(
         [Parameter(Mandatory = $true)][string] $Id,

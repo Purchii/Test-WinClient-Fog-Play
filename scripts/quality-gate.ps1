@@ -4096,6 +4096,19 @@ function Invoke-PrivacyGate {
         throw 'Privacy gate runner must reject calls without -DryRun.'
     }
 
+    Assert-CommandRejected -Message 'Privacy gate runner must reject unsafe runtime patterns paths before reading them.' -Command {
+        & $privacyGate `
+            -ArtifactRoot (Join-Path $repoRoot 'testdata/privacy-negative-fixture') `
+            -PatternsPath 'C:\Users\someone\AppData\Local\MTC Fog Play\logs\privacy-patterns.json' `
+            -DryRun | Out-Null
+    }
+    Assert-CommandRejected -Message 'Privacy gate runner must reject unsafe runtime artifact roots before probing them.' -Command {
+        & $privacyGate `
+            -ArtifactRoot 'C:\Users\someone\AppData\Local\MTC Fog Play\logs' `
+            -PatternsPath (Join-Path $repoRoot 'testdata/privacy-patterns.example.json') `
+            -DryRun | Out-Null
+    }
+
     $installedLike = Invoke-JsonGate {
         & $privacyGate `
             -ArtifactRoot (Join-Path $repoRoot 'testdata/release-fixture') `
