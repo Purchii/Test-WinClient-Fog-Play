@@ -781,6 +781,23 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 '`-AllowClientLaunch`',
                 '`-AllowWebViewDebugPort`'
             )
+        },
+        @{
+            Scope             = 'BackendSmoke'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'local backend smoke contract scaffold',
+                'without network calls',
+                'auth headers',
+                'production backend interaction',
+                'structural endpoint finding ids',
+                'unsafe runtime input paths',
+                'unsafe endpoint paths',
+                'missing mock responses',
+                '`-AllowNetwork`',
+                '`-AllowAuth`'
+            )
         }
     )
     foreach ($contract in $summaryContracts) {
