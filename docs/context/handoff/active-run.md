@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through CodexPolicySafety.
-Current latest completed item: Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through ArtifactPolicySafety.
+Current latest completed item: Post-M6 ArtifactPolicySafety privacy pattern severity hardening.
 
 Planning boundary:
 
@@ -192,6 +192,7 @@ Post-M6 TaskRequestSafety thread lifecycle field guard is complete.
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard is complete.
 Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard is complete.
 Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard is complete.
+Post-M6 ArtifactPolicySafety privacy pattern severity hardening is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 In `BOUNDED_AUTONOMOUS`, a verified, committed/pushed/integrated task must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task while the autonomous window remains open and no stop condition applies.
 Autonomous continuation stops instead when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
@@ -208,6 +209,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ArtifactPolicySafety privacy pattern severity hardening makes `ArtifactPolicySafety` fail closed if committed privacy secret pattern ids are downgraded from `fail` severity or if `turn-credential` loses its expected `warn` severity.
+
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
 
 BackendSmoke missing DryRun guard hardening adds direct local quality-gate coverage that the backend smoke runner rejects calls without `-DryRun`.

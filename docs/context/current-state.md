@@ -201,6 +201,7 @@ Post-M6: TaskRequestSafety thread lifecycle field guard - implemented and verifi
 Post-M6: QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard - implemented and verified locally.
 Post-M6: HandoffProtocolSafety AGENTS source-of-truth guard - implemented and verified locally.
 Post-M6: CodexPolicySafety bounded autonomous continuation handoff policy guard - implemented and verified locally.
+Post-M6: ArtifactPolicySafety privacy pattern severity hardening - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -396,6 +397,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard was completed on `codex/game-session-canary-suite-summary-parity`.
 - Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard was completed on `codex/handoff-protocol-agents-guard`.
 - Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard was completed on `codex/autonomous-thread-continuation-policy-doc-fix`.
+- Post-M6 ArtifactPolicySafety privacy pattern severity hardening was completed on `codex/autonomous-next-task-discovery-after-policy-doc-fix`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -493,6 +495,7 @@ Current artifact status:
 - IncidentStopSafety statically checks the incident stop trigger vocabulary against active handoff and testability gap fixtures.
 - QaDocsSafety statically checks the required `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/BackendSmoke/WebViewBridge finding coverage wording, AppSmoke/BackendSmoke/release/privacy runner hardening notes and release/privacy/AppSmoke report-only coverage notes.
 - ArtifactPolicySafety statically checks release/privacy policy fixtures for required file, forbidden extension, finding id, privacy pattern and scan-limit drift.
+- ArtifactPolicySafety privacy pattern severity hardening keeps committed privacy secret patterns at expected fail severity while preserving `turn-credential` as the expected warn severity.
 - ContractFixtureSafety, UpdateManifest and BridgeContract statically check backend, update manifest and WebView bridge fixtures for dry-run, local-only, update package finding coverage, bridge structural/fake-host finding coverage and safety-vocabulary drift.
 - StaticSurfaceSafety, AppSmoke and NonProdFoundation statically check App/WebView smoke and non-prod foundation fixtures for static layout, WebView bundle inventory, schema-only non-runtime drift, local WebView bundle failure finding coverage and local non-prod component identity coverage.
 - WebViewBundleLocalReferenceSafety statically checks fixture WebView bundle entrypoints and manifests for remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths.

@@ -1,5 +1,36 @@
 # Session log
 
+## 2026-06-04 - Artifact Policy Safety privacy pattern severity hardening
+
+Mode: `BOUNDED_AUTONOMOUS` local static fixture/policy guard hardening after Planner/Explorer confirmed `ArtifactPolicySafety` required privacy pattern ids but did not lock expected severities.
+
+Branch: `codex/autonomous-next-task-discovery-after-policy-doc-fix`
+
+Thread lifecycle:
+
+- Source thread `019e9251-169c-7613-b9ac-84932e3a6f21` was treated as inactive/history-only after handoff to this dedicated task thread.
+- This thread was renamed to `autonomous-next-task-discovery-after-policy-doc-fix` and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent, Builder/Worker subagent and QA/Reviewer subagent were used for role separation and are preserved as inactive/history-only rather than reused for implementation; Orchestrator performed final verification and Git integration.
+
+Scope:
+
+- Extend `ArtifactPolicySafety` so committed privacy pattern severities cannot drift silently.
+- Keep secret-like privacy ids and `local-user-path` at `fail` severity while preserving `turn-credential` at expected `warn` severity.
+- Sync quality-gates, scripts README, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Codex Policy Safety bounded autonomous continuation handoff policy guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static policy/documentation guard hardening after user requested durable documentation for repeated autonomous continuation stops after one completed task.

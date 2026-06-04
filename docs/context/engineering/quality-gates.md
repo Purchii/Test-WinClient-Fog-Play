@@ -146,7 +146,7 @@ The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.m
 
 The `QaDocsSafety` scope statically checks the `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/BackendSmoke/WebViewBridge finding coverage wording, AppSmoke/BackendSmoke/release/privacy runner hardening notes and release/privacy/AppSmoke report-only coverage notes so QA policy docs cannot be added, removed or weakened silently. It also keeps installed artifact defaults in active QA docs bounded to manual/explicit-plan reads and the local-fixture autonomous verification boundary.
 
-The `ArtifactPolicySafety` scope statically checks release and privacy policy fixtures so required files, forbidden extensions, sanitized finding ids, privacy patterns and bounded scan limits cannot drift silently.
+The `ArtifactPolicySafety` scope statically checks release and privacy policy fixtures so required files, forbidden extensions, sanitized finding ids, privacy patterns, expected privacy pattern severities and bounded scan limits cannot drift silently.
 
 The `ContractFixtureSafety` scope statically checks backend, update manifest and WebView bridge fixtures so dry-run flags, local paths, read-only endpoint contracts, package integrity metadata and bridge safety vocabulary cannot drift silently.
 

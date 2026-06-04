@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - ArtifactPolicySafety privacy pattern severity hardening
+
+Status: local static quality gate hardening implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `ArtifactPolicySafety` now requires expected severities for `privacy-patterns.example.json`;
+- `access-token`, `refresh-token`, `password`, `bearer-token`, `generic-token`, `api-key`, `private-key` and `local-user-path` must remain `fail`;
+- `turn-credential` must remain `warn`;
+- `privacy-patterns-small-limit.example.json` keeps `access-token` severity at `fail`;
+- scripts README, quality-gates docs and active/current context describe the severity contract.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - Codex Policy Safety bounded autonomous continuation handoff policy guard
 
 Status: local static policy guard implemented and verified locally.

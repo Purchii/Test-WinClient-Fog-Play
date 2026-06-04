@@ -2797,6 +2797,35 @@ function Assert-JsonPatternIds {
     }
 }
 
+function Assert-JsonPatternSeverities {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]] $Patterns,
+
+        [Parameter(Mandatory = $true)]
+        [hashtable] $ExpectedSeverities,
+
+        [Parameter(Mandatory = $true)]
+        [string] $PolicyName
+    )
+
+    foreach ($id in $ExpectedSeverities.Keys) {
+        $matches = @($Patterns | Where-Object { [string]$_.id -eq [string]$id })
+        if ($matches.Count -eq 0) {
+            throw "$PolicyName must contain pattern id: $id"
+        }
+        if ($matches.Count -gt 1) {
+            throw "$PolicyName must not contain duplicate pattern id: $id"
+        }
+
+        $actualSeverity = [string]$matches[0].severity
+        $expectedSeverity = [string]$ExpectedSeverities[$id]
+        if ($actualSeverity -ne $expectedSeverity) {
+            throw "$PolicyName pattern '$id' must keep severity '$expectedSeverity', found '$actualSeverity'."
+        }
+    }
+}
+
 function Invoke-ArtifactPolicySafetyGate {
     $releasePolicyPath = Join-Path $repoRoot 'testdata/release-gate-policy.example.json'
     $releaseCleanPolicyPath = Join-Path $repoRoot 'testdata/release-gate-policy.clean-fixture.json'
@@ -2862,6 +2891,19 @@ function Invoke-ArtifactPolicySafetyGate {
         'turn-credential'
     ) -PolicyName 'privacy-patterns.example.json'
 
+    $expectedPrivacyPatternSeverities = @{
+        'access-token' = 'fail'
+        'refresh-token' = 'fail'
+        'password' = 'fail'
+        'bearer-token' = 'fail'
+        'generic-token' = 'fail'
+        'api-key' = 'fail'
+        'private-key' = 'fail'
+        'local-user-path' = 'fail'
+        'turn-credential' = 'warn'
+    }
+    Assert-JsonPatternSeverities -Patterns @($privacyPolicy.patterns) -ExpectedSeverities $expectedPrivacyPatternSeverities -PolicyName 'privacy-patterns.example.json'
+
     foreach ($extension in @('.txt', '.log', '.json', '.yaml', '.yml', '.ini', '.cfg', '.conf', '.xml', '.js', '.css', '.html', '.map')) {
         if (@($privacyPolicy.textFileExtensions) -notcontains $extension) {
             throw "privacy-patterns.example.json must scan extension: $extension"
@@ -2873,6 +2915,7 @@ function Invoke-ArtifactPolicySafetyGate {
     if (@($privacySmallLimitPolicy.patterns | ForEach-Object { [string]$_.id }) -notcontains 'access-token') {
         throw 'privacy-patterns-small-limit.example.json must keep access-token coverage.'
     }
+    Assert-JsonPatternSeverities -Patterns @($privacySmallLimitPolicy.patterns) -ExpectedSeverities @{ 'access-token' = 'fail' } -PolicyName 'privacy-patterns-small-limit.example.json'
     if ([int64]$privacySmallLimitPolicy.maxTextFileBytes -ge [int64]$privacyPolicy.maxTextFileBytes) {
         throw 'privacy-patterns-small-limit.example.json must keep a smaller scan limit than the default policy.'
     }
