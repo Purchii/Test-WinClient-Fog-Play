@@ -4,7 +4,7 @@ This repository uses the following operating rules for Codex work.
 
 ## Active Autonomous Window
 
-- Autonomous work is allowed from 2026-06-04 08:14:39 +03:00 until 2026-06-05 00:14:39 +03:00 Europe/Moscow.
+- Autonomous work is allowed from 2026-06-04 08:18:10 +03:00 until 2026-06-05 00:18:10 Europe/Moscow.
 - During this window, Codex may continue without additional approval when a task is safe, bounded, and verifiable.
 - During this window, Codex may push verified work to `master` without asking for separate approval.
 
