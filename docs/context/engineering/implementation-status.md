@@ -1,5 +1,39 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard
+
+Status: local static QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the `PowerShellStructuredSyntaxSafety` summaries in quality-gates docs and scripts README to preserve PowerShell parser coverage;
+- the guarded summary contract keeps `scripts/*.ps1`, `src/TestFramework/**/*.ps1`, `src/TestFramework/**/*.psm1`, `[System.Management.Automation.Language.Parser]::ParseFile(...)` and no-import/no-execute wording visible across both docs;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency, fake/replay execution, hardware probing or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- installed client artifact read;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard
 
 Status: local static QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard implemented and verified locally.

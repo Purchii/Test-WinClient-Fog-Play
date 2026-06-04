@@ -1,5 +1,41 @@
 # Verification memory
 
+## 2026-06-04 - Quality Gates Docs Scope Safety PowerShellStructuredSyntaxSafety summary parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-binary-fixture-summary-parity`
+Status: passed
+Production impact: none; local static QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `QualityGatesDocsScopeSafety` PowerShellStructuredSyntaxSafety summary parity guard as a safe bounded task.
+- Builder/Worker added the `PowerShellStructuredSyntaxSafety` summary contract to `QualityGatesDocsScopeSafety`.
+- Builder/Worker synced scripts README wording so parser API and no-import/no-execute boundaries remain aligned with quality-gates docs.
+- PowerShellStructuredSyntaxSafety and QualityGatesDocsScopeSafety passed.
+- ActiveRunSafety, ActiveVerificationCommandSafety, VerificationMemorySafety, SessionLogSafety, Context and Full quality gates passed after handoff sync.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static PowerShell syntax summary parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency, fake/replay runtime, hardware probe or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety BinaryFixturePlaceholderSafety summary parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-script-encoding-summary-parity`

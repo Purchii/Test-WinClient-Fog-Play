@@ -687,6 +687,19 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'PowerShellStructuredSyntaxSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'PowerShell syntax',
+                '`scripts/*.ps1`',
+                '`src/TestFramework/**/*.ps1`',
+                '`src/TestFramework/**/*.psm1`',
+                '[System.Management.Automation.Language.Parser]::ParseFile(...)',
+                'without importing modules or executing scripts'
+            )
+        },
+        @{
             Scope                = 'BinaryFixturePlaceholderSafety'
             QualityGatesLabel    = 'scope'
             ReadmeLabel          = 'quality gate'
