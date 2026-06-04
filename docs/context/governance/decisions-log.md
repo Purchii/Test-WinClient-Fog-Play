@@ -67,9 +67,11 @@ Status: accepted.
 
 Decision: every new independent task or milestone in autonomous work uses a separate Codex thread. After a new task thread is created, the previous task thread becomes inactive/history-only after handoff. The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 
+Decision: Codex thread titles should match git task branch names, including the `codex/` prefix unless the user explicitly requests another branch name.
+
 Decision: extended autonomous time, permission to push, or permission to merge changes execution authority only; it does not permit batching multiple independent tasks in one Codex thread.
 
-Decision: each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task unless it only repairs verification for the current task.
+Decision: a bounded autonomous continuation thread may start with source-of-truth discovery. Planner may select one safe bounded follow-up quality gate, hardening item, feature slice, backlog item or milestone, and Builder/QA may complete that selected task in the same thread. Selecting that task does not require creating another thread.
 
 Decision: `create_thread` is the priority mechanism for new independent tasks. If a normal thread creation attempt is unusable, invisible or unmanageable, Codex records it as inactive/orphan and retries `create_thread` once. A Codex worktree is used after the second normal `create_thread` failure, or earlier when a follow-on task flows from prior work and needs isolated branch/workspace state.
 
@@ -79,6 +81,6 @@ Decision: continuing implementation for a new independent task in the previous t
 
 Status: accepted.
 
-Decision: in `BOUNDED_AUTONOMOUS` mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+Decision: in `BOUNDED_AUTONOMOUS` mode, after the selected task in the current continuation thread is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle instead of stopping after the first completed task.
 
 Decision: autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.

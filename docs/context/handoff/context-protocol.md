@@ -29,14 +29,15 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Thread lifecycle:
 
 - A new independent task or milestone in autonomous work requires a separate Codex thread.
+- The Codex thread title should match the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name.
 - Long-running autonomous permission extends time, not task/thread scope.
 - Push or merge permission does not waive the separate-thread requirement.
-- Choosing the next autonomous follow-up gate, hardening item or backlog item starts a new independent task unless the work is only fixing verification for the current task.
+- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may select one safe, bounded follow-up gate, hardening item or backlog item and Builder/QA may implement and verify that selected task in the same thread; selecting that task does not require creating another thread.
 - `create_thread` is the priority mechanism for starting a new independent task.
 - If `create_thread` creates an unusable, invisible or unmanageable thread, record that attempt as inactive/orphan and retry `create_thread` once.
 - After the second normal `create_thread` failure, create the task thread with a Codex worktree.
 - Use a Codex worktree earlier when the new task flows from a previous task and needs isolated branch/workspace state.
-- In `BOUNDED_AUTONOMOUS` mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+- In `BOUNDED_AUTONOMOUS` mode, after the selected task in the current continuation thread is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle instead of stopping after the first completed task.
 - Autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
 - After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
 - The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.

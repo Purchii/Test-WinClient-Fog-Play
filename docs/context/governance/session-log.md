@@ -1,5 +1,39 @@
 # Session log
 
+## 2026-06-04 - Codex Policy Safety discovery-thread task selection policy guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static policy/documentation guard hardening after the user clarified that task discovery may start a continuation thread and the selected bounded task should be completed in that same thread instead of creating a second thread at selection time.
+
+Branch: `codex/discovery-thread-policy-doc-fix`
+
+Thread lifecycle:
+
+- The user requested this narrow governance correction in the current source thread after the previous continuation handoff; this is recorded as a thread-lifecycle correction, not as permission to reuse previous task threads for new autonomous implementation.
+- The current Codex thread title was updated to `codex/discovery-thread-policy-doc-fix` to match the git task branch name.
+- The correction resolves the policy ambiguity before the next autonomous discovery cycle: a dedicated continuation thread may discover, select and complete one bounded task in the same thread, while completed previous task threads remain inactive/history-only.
+- Delegated discovery thread/Planner-Explorer subagent and QA/Reviewer subagent were used for role separation and are preserved as inactive/history-only; Orchestrator performed final verification and Git integration.
+
+Scope:
+
+- Document that a bounded autonomous continuation thread may start with discovery.
+- Document that Planner may select one safe bounded follow-up task and Builder/QA may complete it in the same thread.
+- Document that the next separate Codex continuation thread is created after the selected task is verified and integrated, when the autonomous window remains open and no stop condition applies.
+- Document that Codex thread titles should match git task branch names, including the `codex/` prefix unless the user explicitly requests another branch name.
+- Update static policy guard phrases in DecisionsLogSafety, CodexPolicySafety, TaskRequestSafety and HandoffProtocolSafety.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Artifact Policy Safety privacy pattern severity hardening
 
 Mode: `BOUNDED_AUTONOMOUS` local static fixture/policy guard hardening after Planner/Explorer confirmed `ArtifactPolicySafety` required privacy pattern ids but did not lock expected severities.

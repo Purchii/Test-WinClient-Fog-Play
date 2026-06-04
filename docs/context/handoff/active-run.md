@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ArtifactPolicySafety.
-Current latest completed item: Post-M6 ArtifactPolicySafety privacy pattern severity hardening.
+Current milestone: Post-M6 local/static safety gate hardening complete through CodexPolicySafety.
+Current latest completed item: Post-M6 CodexPolicySafety discovery-thread task selection policy guard.
 
 Planning boundary:
 
@@ -193,10 +193,12 @@ Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary par
 Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard is complete.
 Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard is complete.
 Post-M6 ArtifactPolicySafety privacy pattern severity hardening is complete.
+Post-M6 CodexPolicySafety discovery-thread task selection policy guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
-In `BOUNDED_AUTONOMOUS`, a verified, committed/pushed/integrated task must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task while the autonomous window remains open and no stop condition applies.
+In `BOUNDED_AUTONOMOUS`, a continuation thread may start with source-of-truth discovery, select one safe bounded follow-up task, and complete that selected task in the same thread.
+In `BOUNDED_AUTONOMOUS`, after the selected task in the current continuation thread is verified, committed/pushed/integrated, the current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle while the autonomous window remains open and no stop condition applies.
 Autonomous continuation stops instead when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
-Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
+Selecting one follow-up gate, hardening item, feature slice or backlog item inside a continuation thread does not require creating another Codex thread.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 ```
 
@@ -210,6 +212,8 @@ Current result:
 
 ```text
 ArtifactPolicySafety privacy pattern severity hardening makes `ArtifactPolicySafety` fail closed if committed privacy secret pattern ids are downgraded from `fail` severity or if `turn-credential` loses its expected `warn` severity.
+
+CodexPolicySafety discovery-thread task selection policy guard keeps source-of-truth docs explicit that a continuation thread may perform discovery, select one bounded task and complete it in the same thread before handing off the next discovery cycle, and that Codex thread titles should match git task branch names.
 
 BackendSmoke unsafe endpoint coverage hardening requires the unsafe backend smoke fixture, unit tests and quality gate to cover unsafe endpoint path and missing mock response findings.
 
@@ -327,7 +331,7 @@ RootPromptSafety root prompt markdown fence guard fails if any RootPromptSafety 
 
 QualityGatesDocsScopeSafety ProdSafety dry-run summary guard fails if ProdSafety quality-gates or scripts README summaries lose missing `-DryRun` rejection coverage for prod-safe smoke and prod canary runners.
 
-SessionLogSafety delegated discovery lifecycle guard fails if the latest session-log codex branch entry loses explicit delegated discovery thread preservation as inactive/history-only rather than reused for implementation.
+SessionLogSafety delegated discovery lifecycle guard fails if the latest session-log codex branch entry loses discovery-thread lifecycle wording for same-thread selected-task delivery or inactive delegated discovery.
 
 TaskRequestSafety thread lifecycle field guard fails if task request templates or log guidance lose the separate Codex thread rule or the inactive/history-only lifecycle for previous task threads after handoff, completion or takeover.
 
@@ -335,7 +339,7 @@ QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guar
 
 HandoffProtocolSafety AGENTS source-of-truth guard fails if `AGENTS.md` loses source-of-truth, incoming-reference, separate-thread, `create_thread`, inactive/history-only previous-thread or process-error handoff rules.
 
-Bounded autonomous continuation handoff policy guard fails if source-of-truth policy docs lose the rule that a verified and integrated bounded autonomous task must create the next separate Codex task thread via `create_thread` and hand off while the autonomous window remains open and no stop condition applies.
+Bounded autonomous continuation handoff policy guard fails if source-of-truth policy docs lose the rule that a continuation thread may discover, select and complete one bounded task, then create the next separate Codex continuation thread via `create_thread` after verification/integration while the autonomous window remains open and no stop condition applies, or if Codex thread-title-to-task-branch naming is no longer required.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
@@ -451,7 +455,7 @@ QualityGateStructureSafety Invoke-StubGate cleanup removes the stale unused plac
 
 QualityGateStructureSafety implementation-status stub cleanup sync keeps implementation status aligned with the stale placeholder removal.
 
-Thread lifecycle reinforcement makes the separate-thread rule explicit for autonomous time extensions and follow-up gate selection.
+Thread lifecycle reinforcement makes the separate-thread rule explicit for autonomous time extensions while allowing one selected follow-up gate to be completed inside the current continuation thread.
 
 GovernanceHistoryScopeSafety adds `Full` coverage for `quality-gate.ps1` `*Safety` scope visibility in verification-memory and session-log history.
 

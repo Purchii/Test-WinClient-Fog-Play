@@ -58,12 +58,13 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - verification commands are specified or can be safely discovered;
 - a dedicated task branch is used;
 - a separate Codex thread is used for the current independent task or milestone;
+- the Codex thread title matches the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name;
 - extended autonomous time, push permission or merge permission does not permit batching multiple independent tasks in one thread;
-- each newly selected follow-up gate, hardening item, feature slice or backlog item starts a new independent task unless it only repairs the current task's failing verification;
+- a bounded autonomous continuation thread may start with source-of-truth discovery, select one safe bounded follow-up gate, hardening item, feature slice or backlog item, and complete that selected task in the same thread;
 - `create_thread` was used or attempted first for the new independent task;
 - unusable, invisible or unmanageable thread attempts are recorded inactive/orphan and retried once with normal `create_thread`;
 - a Codex worktree is used after the second normal `create_thread` failure or when the task flows from prior work and needs isolated branch/workspace state;
-- after a verified, committed/pushed/integrated task, if the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread creates the next separate Codex task thread via `create_thread` and hands off continuation instead of stopping after the first task;
+- after the selected task in the current continuation thread is verified, committed/pushed/integrated, if the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread creates the next separate Codex continuation thread via `create_thread` and hands off the next discovery cycle instead of stopping after the first completed task;
 - autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails;
 - after a new task thread is created, the previous task thread becomes inactive/history-only after handoff;
 - the previous task thread is preserved for history: it is not deleted and is not archived automatically unless the user explicitly asks;
@@ -110,7 +111,7 @@ For MTC Fog Play QA Automation, use this default:
 ```text
 New independent task or milestone: separate Codex thread.
 Autonomous time extension: extends time only; it does not expand the current thread to multiple independent tasks.
-Follow-up gate/backlog item: new independent task, new Codex thread.
+Continuation follow-up gate/backlog item: discover, select and complete one bounded item in the same Codex thread.
 Thread creation priority: use create_thread first.
 Thread creation retry: mark unusable attempts inactive/orphan, retry normal create_thread once, then use worktree fallback.
 Follow-on task isolation: use Codex worktree when needed.
@@ -173,7 +174,7 @@ Every goal prompt should include:
 Thread:
 - New independent task/milestone uses a separate Codex thread.
 - Extended autonomous time or push/merge permission does not waive thread-per-task.
-- Next follow-up gate/backlog item starts in a new Codex thread unless it repairs current-task verification.
+- A continuation thread may discover, select and complete one bounded follow-up gate/backlog item in the same Codex thread.
 - Previous task thread becomes inactive/history-only after handoff, is preserved for history, is not deleted, and is not archived automatically unless the user explicitly asks.
 
 Execution mode:

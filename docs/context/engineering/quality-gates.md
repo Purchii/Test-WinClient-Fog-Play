@@ -112,7 +112,7 @@ The `ActiveRunSafety` scope statically checks `docs/context/handoff/active-run.m
 
 The `ContextDocsInventorySafety` scope statically checks `docs/context/*.md` inventory so handoff, governance and engineering context docs cannot be added, removed or renamed silently.
 
-The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases. It also checks the most recent codex branch entry for delegated discovery thread lifecycle wording, rejects codex branch entries that describe a previous source/coordinator thread as still active, and keeps the latest session-log codex branch synced with the latest verification-memory codex branch.
+The `SessionLogSafety` scope statically checks guarded `docs/context/governance/session-log.md` branch entries so post-M6 work records mode, branch, scope and the core no-runtime/no-production safety phrases. It also checks the most recent codex branch entry for discovery-thread lifecycle wording covering same-thread selected-task delivery or inactive delegated discovery, rejects codex branch entries that describe a previous source/coordinator thread as still active, and keeps the latest session-log codex branch synced with the latest verification-memory codex branch.
 
 The `VerificationMemorySafety` scope statically checks `docs/context/engineering/verification-memory.md` so codex branch entries cannot retain pending markers; lose status, production-impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; lose installed artifact historical command boundaries; or lose latest-entry core safety notes.
 
@@ -120,11 +120,11 @@ The `ActiveVerificationCommandSafety` scope statically checks only active/curren
 
 The `ChecklistSafety` scope statically checks `docs/context/handoff/executor-checklist.md` and `docs/context/governance/context-integrity-checklist.md` so thread isolation, verification records, stop triggers, secrets and production-impact checklist items remain explicit.
 
-The `DecisionsLogSafety` scope statically checks `docs/context/governance/decisions-log.md` so accepted decisions around production safety, autonomy, thread isolation, bounded autonomous continuation handoff, push/merge authority and process errors remain explicit.
+The `DecisionsLogSafety` scope statically checks `docs/context/governance/decisions-log.md` so accepted decisions around production safety, autonomy, thread isolation, discovery-thread selected-task delivery, bounded autonomous continuation handoff, push/merge authority and process errors remain explicit.
 
-The `CodexPolicySafety` scope statically checks Codex and executor policy docs so autonomy, thread isolation, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge and game-session boundaries remain explicit.
+The `CodexPolicySafety` scope statically checks Codex and executor policy docs so autonomy, thread isolation, thread-title-to-task-branch naming, discovery-thread selected-task delivery, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge and game-session boundaries remain explicit.
 
-The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, thread lifecycle, bounded autonomous continuation handoff, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
+The `TaskRequestSafety` scope statically checks task request template/log docs so new requests keep context, objective, thread lifecycle, thread-title-to-task-branch naming, bounded autonomous continuation handoff, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.
 
 The `CodexTemplateSafety` scope statically checks Codex review/task/communication/agent-role docs so Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules remain explicit.
 
@@ -134,7 +134,7 @@ The `CodexDocsInventorySafety` scope statically checks `docs/codex/*.md` so Code
 
 The `QaStrategySafety` scope statically checks QA strategy, testability contract and flakiness policy docs so layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking and retry/session-budget rules remain explicit.
 
-The `HandoffProtocolSafety` scope statically checks `AGENTS.md`, context protocol and Git workflow docs so source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules remain explicit.
+The `HandoffProtocolSafety` scope statically checks `AGENTS.md`, context protocol and Git workflow docs so source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules remain explicit.
 
 The `IncomingReferenceSafety` scope statically checks `docs/_incoming_reference` inventory and source-of-truth wording so historical incoming references cannot silently become active scope.
 

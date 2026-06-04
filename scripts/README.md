@@ -61,7 +61,7 @@ The `ActiveRunSafety` quality gate fails if the active handoff/current-state doc
 
 The `ContextDocsInventorySafety` quality gate fails if the `docs/context/*.md` handoff/governance/engineering inventory changes without updating the gate.
 
-The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes, if codex branch entries describe a previous source/coordinator thread as still active, if the most recent codex branch entry loses delegated discovery thread lifecycle wording, or if the latest session-log codex branch stops matching the latest verification-memory codex branch.
+The `SessionLogSafety` quality gate fails if guarded session-log branch entries lose their mode, branch, scope or core no-runtime/no-production safety notes, if codex branch entries describe a previous source/coordinator thread as still active, if the most recent codex branch entry loses discovery-thread lifecycle wording for same-thread selected-task delivery or inactive delegated discovery, or if the latest session-log codex branch stops matching the latest verification-memory codex branch.
 
 The `VerificationMemorySafety` quality gate fails if verification-memory entries for codex branches keep pending markers; lose status, production impact, command or result evidence; omit `Not run:` for no-impact static/local-static entries; lose installed artifact historical command boundaries; or if the latest codex branch entry loses core safety notes.
 
@@ -69,11 +69,11 @@ The `ActiveVerificationCommandSafety` quality gate fails if active/current verif
 
 The `ChecklistSafety` quality gate fails if executor or context integrity checklists lose required thread isolation, verification, stop-trigger, secrets or production-impact checklist items.
 
-The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted status or core production-safety, autonomy, thread isolation, bounded autonomous continuation handoff, push/merge authority and process-error rules.
+The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted status or core production-safety, autonomy, thread isolation, discovery-thread selected-task delivery, bounded autonomous continuation handoff, push/merge authority and process-error rules.
 
-The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge or game-session boundaries.
+The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, thread-title-to-task-branch naming, discovery-thread selected-task delivery, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge or game-session boundaries.
 
-The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, thread lifecycle, bounded autonomous continuation handoff, production classification, verification or stop-condition requirements.
+The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, thread lifecycle, thread-title-to-task-branch naming, bounded autonomous continuation handoff, production classification, verification or stop-condition requirements.
 
 The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/agent-role docs lose reporting, role separation, verification, production classification, stop-trigger, secret or no-main-merge requirements.
 
@@ -83,7 +83,7 @@ The `CodexDocsInventorySafety` quality gate fails if the `docs/codex/*.md` polic
 
 The `QaStrategySafety` quality gate fails if QA strategy, testability contract or flakiness policy docs lose layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking or retry/session-budget rules.
 
-The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification or main-merge approval rules.
+The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification or main-merge approval rules.
 
 The `IncomingReferenceSafety` quality gate fails if `docs/_incoming_reference` inventory changes silently or if incoming reference docs are no longer marked reference-only rather than active scope.
 

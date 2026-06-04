@@ -202,6 +202,7 @@ Post-M6: QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary pa
 Post-M6: HandoffProtocolSafety AGENTS source-of-truth guard - implemented and verified locally.
 Post-M6: CodexPolicySafety bounded autonomous continuation handoff policy guard - implemented and verified locally.
 Post-M6: ArtifactPolicySafety privacy pattern severity hardening - implemented and verified locally.
+Post-M6: CodexPolicySafety discovery-thread task selection policy guard - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -398,10 +399,11 @@ Repository bootstrap state:
 - Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard was completed on `codex/handoff-protocol-agents-guard`.
 - Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard was completed on `codex/autonomous-thread-continuation-policy-doc-fix`.
 - Post-M6 ArtifactPolicySafety privacy pattern severity hardening was completed on `codex/autonomous-next-task-discovery-after-policy-doc-fix`.
+- Post-M6 CodexPolicySafety discovery-thread task selection policy guard was completed on `codex/discovery-thread-policy-doc-fix`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
-- Each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task unless it only repairs verification for the current task.
+- A bounded autonomous continuation thread may start with source-of-truth discovery, select one safe bounded follow-up task and complete that selected task in the same thread.
 - Current autonomous verification source: committed local fixtures only. Installed artifact reads from `C:\Program Files\MTC Fog Play` require a separate explicit approved plan.
 - Windows client source, WebView/CEF/WebView2 frontend, native bridge handlers, updater/package scripts, existing tests/CI and telemetry/crash code are not present yet.
 
@@ -443,11 +445,12 @@ Current artifact status:
 - RootPromptSafety README_CODEX_START markdown fence guard keeps the starter README code fences balanced and rejects adjacent empty fenced blocks while preserving root prompt safety phrases.
 - RootPromptSafety root prompt markdown fence guard keeps all RootPromptSafety prompt/TZ documents on balanced fenced code blocks and rejects adjacent empty fenced blocks.
 - QualityGatesDocsScopeSafety ProdSafety dry-run summary guard keeps ProdSafety quality-gates and scripts README summaries aligned with missing `-DryRun` rejection coverage for prod-safe smoke and prod canary runners.
-- SessionLogSafety delegated discovery lifecycle guard keeps the latest session-log codex branch entry explicit that delegated discovery threads are preserved as inactive/history-only rather than reused for implementation.
+- SessionLogSafety delegated discovery lifecycle guard keeps the latest session-log codex branch entry explicit about discovery-thread lifecycle: same-thread selected-task delivery or inactive delegated discovery.
 - TaskRequestSafety thread lifecycle field guard keeps future task request templates and log guidance explicit that independent tasks require separate Codex threads and previous task threads become inactive/history-only after handoff, completion or takeover.
 - QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard keeps GameSessionCanary summaries explicit that canary suite metadata must be exact and non-duplicated.
 - HandoffProtocolSafety AGENTS source-of-truth guard keeps `AGENTS.md` handoff rules aligned with context protocol and Git workflow checks.
-- CodexPolicySafety bounded autonomous continuation handoff policy guard keeps source-of-truth policy docs explicit that a verified and integrated bounded autonomous task must create the next separate Codex task thread via `create_thread` and hand off while the autonomous window remains open and no stop condition applies.
+- CodexPolicySafety bounded autonomous continuation handoff policy guard keeps source-of-truth policy docs explicit that a continuation thread may discover, select and complete one bounded task, then create the next separate Codex continuation thread via `create_thread` after verification/integration while the autonomous window remains open and no stop condition applies.
+- CodexPolicySafety discovery-thread task selection policy guard keeps source-of-truth policy docs explicit that Planner may select one bounded task during continuation-thread discovery and Builder/QA may complete it in the same thread before the next discovery-cycle handoff, and that Codex thread titles should match git task branch names.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.
@@ -478,13 +481,13 @@ Current artifact status:
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
 - DecisionsLogSafety statically checks durable decisions for production safety, autonomy, thread isolation, bounded autonomous continuation handoff, push/merge authority and process-error rules.
-- CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge and game-session boundaries.
-- TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, thread lifecycle, bounded autonomous continuation handoff, production classification, verification and stop conditions.
+- CodexPolicySafety statically checks Codex and executor policies for autonomy, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge and game-session boundaries.
+- TaskRequestSafety statically checks task request template/log docs for bounded-goal fields, thread lifecycle, thread-title-to-task-branch naming, bounded autonomous continuation handoff, production classification, verification and stop conditions.
 - CodexTemplateSafety statically checks Codex review/task/communication/agent-role docs for reporting, role separation, verification, production classification, stop-trigger, secret and no-main-merge requirements.
 - CodexGoalTemplateSafety statically checks the Codex goal template for execution mode, scope, forbidden actions, acceptance criteria, verification and stop conditions.
 - CodexDocsInventorySafety statically checks the `docs/codex/*.md` policy/template inventory.
 - QaStrategySafety statically checks QA strategy, testability contract and flakiness policy docs for layered order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
-- HandoffProtocolSafety statically checks `AGENTS.md`, context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
+- HandoffProtocolSafety statically checks `AGENTS.md`, context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
 - IncomingReferenceSafety statically checks incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 - FrameworkInventorySafety statically checks TestFramework modules for matching tests, local runners, QA docs and example/unsafe fixtures.
 - TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.

@@ -1,5 +1,46 @@
 # Implementation status
 
+## Post-M6 - Codex Policy Safety discovery-thread task selection policy guard
+
+Status: local static policy/documentation guard implemented and verified locally.
+
+Implemented outputs:
+
+- `AGENTS.md`
+- `docs/codex/autonomy-modes.md`
+- `docs/codex/codex-workflow.md`
+- `docs/context/handoff/context-protocol.md`
+- `docs/context/handoff/executor-policy.md`
+- `docs/context/engineering/git-workflow.md`
+- `docs/context/handoff/task-request-template.md`
+- `docs/context/handoff/task-request-log.md`
+- `docs/context/governance/decisions-log.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+- `scripts/quality-gate.ps1`
+
+Implemented checks:
+
+- source-of-truth policy docs now state that a bounded autonomous continuation thread may start with discovery;
+- Planner may select one safe bounded follow-up task inside that continuation thread;
+- Builder/QA may complete the selected task in the same thread without creating a second thread solely because the task was selected;
+- after that selected task is verified and integrated, the current thread creates the next separate Codex continuation thread for the next discovery cycle when the autonomous window remains open and no stop condition applies;
+- Codex thread titles should match git task branch names, including the `codex/` prefix unless the user explicitly requests another branch name;
+- CodexPolicySafety, TaskRequestSafety, HandoffProtocolSafety and DecisionsLogSafety static guards preserve the corrected lifecycle and thread-title wording.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - ArtifactPolicySafety privacy pattern severity hardening
 
 Status: local static quality gate hardening implemented and verified locally.
@@ -262,7 +303,7 @@ Implemented outputs:
 - Previous task thread lifecycle further clarified: after a new task thread is created, the previous thread is inactive/history-only, preserved for history, not deleted and not archived automatically unless the user explicitly asks.
 - `PROCESS_ERROR_THREAD_REUSE` defined for continuing a new independent task in the previous thread.
 - Extended autonomous time, push permission and merge permission now explicitly do not waive thread-per-task.
-- Follow-up gates, hardening items, feature slices, backlog items and milestones are explicitly new independent tasks unless they only repair current-task verification.
+- A bounded autonomous continuation thread may select one follow-up gate, hardening item, feature slice, backlog item or milestone during discovery and complete that selected task in the same thread.
 
 Current process error:
 

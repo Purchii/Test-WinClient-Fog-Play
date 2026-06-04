@@ -1,5 +1,52 @@
 # Verification memory
 
+## 2026-06-04 - Codex Policy Safety discovery-thread task selection policy guard
+
+Branch: `codex/discovery-thread-policy-doc-fix`
+Status: passed
+Production impact: none; local static policy/documentation guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TaskRequestSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch state.
+- `git diff --check` passed.
+- Current Codex thread title was updated to `codex/discovery-thread-policy-doc-fix` to match the git task branch name.
+- DecisionsLogSafety gate passed, including the thread-title-to-task-branch decision.
+- CodexPolicySafety gate passed, including the thread-title-to-task-branch policy wording.
+- TaskRequestSafety gate passed, including the thread-title-to-task-branch request wording.
+- HandoffProtocolSafety gate passed, including the thread-title-to-task-branch source-of-truth wording.
+- PowerShellStructuredSyntaxSafety gate passed.
+- Context quality gate passed.
+- SessionLogSafety gate passed.
+- VerificationMemorySafety gate passed.
+- ActiveRunSafety gate passed.
+- ActiveVerificationCommandSafety gate passed.
+- Full quality gate passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, updater execution, rollback, credential use, network shaping, hardware probing, installed artifact reads or game sessions because this task is a local static policy/documentation guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No AppData, logs, cookies, DBs or dumps read.
+- No installed client artifact read or launched; verification used only local documentation/static checks.
+
 ## 2026-06-04 - Artifact Policy Safety privacy pattern severity hardening
 
 Branch: `codex/autonomous-next-task-discovery-after-policy-doc-fix`

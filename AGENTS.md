@@ -11,7 +11,7 @@ This repository is production-sensitive. The target application is a Windows clo
 ## Task Isolation
 
 - Every new task must run in its own Codex thread.
-- The thread name must match the task name.
+- The Codex thread title should match the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name.
 - Creating a new task thread does not delete the previous thread; the previous thread simply becomes inactive.
 - Every new task must use a separate git branch created from the current, up-to-date default branch.
 - The default branch for this project is `main`.
@@ -77,7 +77,8 @@ Cloud gaming session tests must:
 - Use `create_thread` as the priority mechanism for starting each new independent task.
 - If `create_thread` returns an unusable, invisible or unmanageable thread, mark that attempt inactive/orphan in handoff context and retry `create_thread` once.
 - Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state.
-- In `BOUNDED_AUTONOMOUS` mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may select one safe, bounded follow-up gate, hardening item, feature slice or backlog item and Builder/QA may implement and verify that selected task in the same thread; selecting that task does not require creating another thread.
+- In `BOUNDED_AUTONOMOUS` mode, after the selected task in the current continuation thread is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle instead of stopping after the first completed task.
 - Autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
 - After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
 - The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
