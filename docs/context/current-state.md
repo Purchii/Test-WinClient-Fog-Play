@@ -85,6 +85,7 @@ Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety status-list consistency guard - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status status-list sync - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status Post-M6 parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety SessionLogSafety summary parity guard - implemented and verified locally.
 Post-M6: SessionLogSafety all codex branch metadata guard - implemented and verified locally.
 Post-M6: SessionLogSafety latest title parity guard - implemented and verified locally.
@@ -290,6 +291,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-metadata-guard`.
 - Post-M6 SessionLogSafety all codex branch metadata guard was completed on `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard`.
 - Post-M6 SessionLogSafety latest title parity guard was completed on `codex/autonomous-next-task-discovery-after-active-run-parity-guard`.
@@ -500,6 +502,7 @@ Current artifact status:
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, rejects codex branch entries that describe previous source/coordinator threads as still active, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex title and branch synced with verification-memory.
+- QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard keeps quality-gates docs and scripts README aligned on verification-memory codex branch evidence, no-impact `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.

@@ -864,6 +864,24 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'VerificationMemorySafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'docs/context/engineering/verification-memory.md',
+                'codex branch entries',
+                'pending markers',
+                'status',
+                'production impact',
+                'command or result evidence',
+                '`Not run:`',
+                'no-impact static/local-static entries',
+                'installed artifact historical command boundaries',
+                'latest codex branch entry',
+                'core safety notes'
+            )
+        },
+        @{
             Scope             = 'RunnerSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
