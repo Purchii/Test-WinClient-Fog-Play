@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard.
 
 Planning boundary:
 
@@ -81,6 +81,7 @@ Post-M6 HandoffProtocolSafety source-of-truth read list parity guard is complete
 Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard is complete.
@@ -362,7 +363,9 @@ QualityGatesDocsScopeSafety BackendSmoke summary parity guard fails if BackendSm
 
 QualityGatesDocsScopeSafety GameSessionCanary summary parity guard fails if GameSessionCanary quality-gates and scripts README summaries drift on local dry-run readiness-plan, no game-session start/stop, canary cardinality, readiness signal, suite metadata, intent metadata, runtime path, synthetic alias, duration, concurrency, run-frequency, target region or cleanup/conditional budget guard coverage.
 
-QualityGatesDocsScopeSafety NonProdFoundation summary parity guard fails if NonProdFoundation quality-gates and scripts README summaries drift on future fake/replay/network/hardware placeholder schemas, no system execution, structural component finding, unsafe input-path or dangerous execution/network/auth flag rejection coverage.
+QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard keeps the NonProdFoundation summary contract explicit about missing required contract properties, so that coverage cannot drift back into only generic structural component finding wording.
+
+QualityGatesDocsScopeSafety NonProdFoundation summary parity guard fails if NonProdFoundation quality-gates and scripts README summaries drift on future fake/replay/network/hardware placeholder schemas, no system execution, structural component and missing required contract-property findings, unsafe input-path or dangerous execution/network/auth flag rejection coverage.
 
 QualityGatesDocsScopeSafety TestabilityGaps summary parity guard fails if TestabilityGaps quality-gates and scripts README summaries drift on the local testability gap registry, runtime gap non-closure, local metadata finding, unsafe input-path, unsafe next-step or dangerous production-action/credential/runtime-data flag rejection coverage.
 
@@ -670,7 +673,9 @@ Last verification:
 - `git status --short --branch`;
 - `git diff --check`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;

@@ -680,6 +680,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'future fake/replay/network/hardware placeholder schemas',
                 'without executing those systems',
                 'structural component finding ids',
+                'missing required contract properties',
                 'unsafe runtime input paths',
                 'missing `-DryRun`',
                 '`-AllowExecution`',
