@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Quality Gates Docs Scope Safety active/current safety-summary self-summary sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation self-summary hardening after Planner/Explorer confirmed the active/current summary sync was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-active-verification-command-summary-parity-guard`
+
+Thread lifecycle:
+
+- Source thread `019e9320-4676-7b93-80db-084e83fd67d7` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-active-verification-command-summary-parity-guard` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker implemented the narrow QualityGatesDocsScopeSafety active/current safety-summary self-summary sync; Orchestrator performed handoff sync and final verification.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Extend `QualityGatesDocsScopeSafety` self-summary wording so quality-gates docs and scripts README preserve active/current history and verification safety summary coverage.
+- Add static `QualityGatesDocsScopeSafety` contract fragments for that self-summary wording and an `ActiveRunSafety` summary contract.
+- Sync implementation status, active/current context and verification evidence.
+- Preserve existing active-run, session-log, verification-memory and active verification command parsing semantics beyond documentation summary parity.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety Active Verification Command Safety summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation summary parity hardening after Planner/Explorer confirmed the ActiveVerificationCommandSafety summary drift guard was safe and bounded.

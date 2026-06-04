@@ -45,7 +45,7 @@ The `QaDocsPowerShellInvocationSafety` quality gate fails if command-looking `ru
 
 The `QaDocsRunnerExampleCoverageSafety` quality gate fails if an active FrameworkInventorySafety runner/doc contract lacks a command-looking dry-run example for its local runner.
 
-The `QualityGatesDocsScopeSafety` quality gate fails if the preferred `docs/context/engineering/quality-gates.md` command block drifts away from the exact `quality-gate.ps1 -Scope` inventory, gains duplicate scopes, lists unknown scopes, or if selected runner-scope and QA-doc safety summaries drift from `scripts/README.md`.
+The `QualityGatesDocsScopeSafety` quality gate fails if the preferred `docs/context/engineering/quality-gates.md` command block drifts away from the exact `quality-gate.ps1 -Scope` inventory, gains duplicate scopes, lists unknown scopes, or if selected runner-scope and QA-doc safety summaries plus active/current history and verification safety summaries drift from `scripts/README.md`.
 
 The `ActiveSafetyScopeInventorySafety` quality gate fails if any `*Safety` scope from `quality-gate.ps1` is missing from active handoff/current-state visibility.
 

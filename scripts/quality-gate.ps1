@@ -840,7 +840,29 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'preferred `docs/context/engineering/quality-gates.md` command block',
                 'exact `quality-gate.ps1 -Scope` inventory',
                 'selected runner-scope and QA-doc safety summaries',
+                'active/current history and verification safety summaries',
                 'scripts/README.md'
+            )
+        },
+        @{
+            Scope             = 'ActiveRunSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'stop-and-ask triggers',
+                'stale literal latest-commit',
+                'live current-branch markers',
+                'active task thread',
+                'installed artifact observations',
+                'current autonomous verification source',
+                'current static `*Safety` gates',
+                '`quality-gate.ps1`',
+                'top-level/current branch-history/active-run Post-M6 status entries',
+                'implementation-status Post-M6 headings',
+                'active-run verification history blocks',
+                'repeat commands within a block',
+                'active milestone/latest-item markers',
+                'latest verification-memory codex branch entry'
             )
         },
         @{
