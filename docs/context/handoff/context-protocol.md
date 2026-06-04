@@ -32,7 +32,7 @@ Thread lifecycle:
 - The Codex thread title should match the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name.
 - Long-running autonomous permission extends time, not task/thread scope.
 - Push or merge permission does not waive the separate-thread requirement.
-- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may select one safe, bounded follow-up gate, hardening item or backlog item and Builder/QA may implement and verify that selected task in the same thread; selecting that task does not require creating another thread.
+- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may select one safe, bounded follow-up gate, hardening item, feature slice or backlog item and Builder/QA may implement and verify that selected task in the same thread; selecting that task does not require creating another thread.
 - `create_thread` is the priority mechanism for starting a new independent task.
 - If `create_thread` creates an unusable, invisible or unmanageable thread, record that attempt as inactive/orphan and retry `create_thread` once.
 - After the second normal `create_thread` failure, create the task thread with a Codex worktree.

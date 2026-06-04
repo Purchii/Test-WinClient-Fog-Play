@@ -1,5 +1,37 @@
 # Session log
 
+## 2026-06-04 - Handoff Protocol Safety continuation feature-slice wording sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static handoff protocol wording guard hardening after Planner/Explorer confirmed that context-protocol omitted `feature slice` from the continuation-thread selected-task wording.
+
+Branch: `codex/autonomous-next-task-discovery-after-discovery-thread-policy-doc-fix`
+
+Thread lifecycle:
+
+- Source thread `019e9268-7774-75c2-a56c-274b67ddb173` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-discovery-thread-policy-doc-fix` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker subagent applied the narrow wording diff and was closed after the diff was present; Orchestrator performed final verification and Git integration.
+- Discovery selected-task delivery stayed in the same continuation thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Add `feature slice` to the context-protocol bounded autonomous continuation selected-task wording.
+- Update `HandoffProtocolSafety` so the static gate preserves the full follow-up gate, hardening item, feature slice or backlog item phrase.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Codex Policy Safety discovery-thread task selection policy guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static policy/documentation guard hardening after the user clarified that task discovery may start a continuation thread and the selected bounded task should be completed in that same thread instead of creating a second thread at selection time.
