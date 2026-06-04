@@ -1,5 +1,39 @@
 # Implementation status
 
+## Post-M6 - HandoffProtocolSafety QA read-first summary parity guard
+
+Status: local static HandoffProtocolSafety QA read-first summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now includes a `HandoffProtocolSafety` summary contract so quality-gates docs and scripts README must keep the full mandatory read-first required-source summary aligned;
+- the guarded `HandoffProtocolSafety` summaries now explicitly include `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md`;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - HandoffProtocolSafety full read-list required-source parity guard
 
 Status: local static HandoffProtocolSafety full read-list required-source parity guard implemented and verified locally.

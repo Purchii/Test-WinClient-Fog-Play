@@ -134,7 +134,7 @@ The `CodexDocsInventorySafety` scope statically checks `docs/codex/*.md` so Code
 
 The `QaStrategySafety` scope statically checks QA strategy, testability contract and flakiness policy docs so layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking and retry/session-budget rules remain explicit.
 
-The `HandoffProtocolSafety` scope statically checks `AGENTS.md`, context protocol and Git workflow docs so the full mandatory read-first required-source list, including Codex workflow, autonomy, milestone planning and communication policy docs, source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules remain explicit.
+The `HandoffProtocolSafety` scope statically checks `AGENTS.md`, context protocol and Git workflow docs so the full mandatory read-first required-source list, including Codex workflow, autonomy, milestone planning, communication policy docs, `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md`, source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules remain explicit.
 
 The `IncomingReferenceSafety` scope statically checks `docs/_incoming_reference` inventory and source-of-truth wording so historical incoming references cannot silently become active scope.
 

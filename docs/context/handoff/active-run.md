@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety.
-Current latest completed item: Post-M6 HandoffProtocolSafety full read-list required-source parity guard.
+Current latest completed item: Post-M6 HandoffProtocolSafety QA read-first summary parity guard.
 
 Planning boundary:
 
@@ -75,6 +75,7 @@ Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
+Post-M6 HandoffProtocolSafety QA read-first summary parity guard is complete.
 Post-M6 HandoffProtocolSafety full read-list required-source parity guard is complete.
 Post-M6 HandoffProtocolSafety source-of-truth read list parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
@@ -225,6 +226,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+HandoffProtocolSafety QA read-first summary parity guard keeps the `HandoffProtocolSafety` summaries in quality-gates docs and scripts README aligned on the full mandatory read-first required-source list, including `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md`.
+
 HandoffProtocolSafety full read-list required-source parity guard keeps context-protocol's mandatory read-first source list protected through Codex workflow, autonomy, milestone planning and communication policy docs, so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the guarded list.
 
 HandoffProtocolSafety source-of-truth read list parity guard keeps context-protocol aligned with AGENTS.md by requiring `docs/codex/codex-workflow.md` in the mandatory read-first list before executor-policy, and makes HandoffProtocolSafety fail closed if that source-of-truth entry or order drifts.

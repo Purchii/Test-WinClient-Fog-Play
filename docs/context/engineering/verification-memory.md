@@ -1,5 +1,42 @@
 # Verification memory
 
+## 2026-06-04 - Handoff Protocol Safety QA read-first summary parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-full-read-list-required-source-parity`
+Status: passed
+Production impact: none; local static HandoffProtocolSafety QA read-first summary parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `HandoffProtocolSafety` QA read-first summary parity guard as a safe bounded task.
+- Builder/Worker added `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md` to the HandoffProtocolSafety summaries in scripts README and quality-gates docs.
+- Builder/Worker added a `QualityGatesDocsScopeSafety` summary contract for `HandoffProtocolSafety` so the QA policy/matrix read-first summary tail cannot silently drift.
+- HandoffProtocolSafety and QualityGatesDocsScopeSafety passed.
+- ActiveRunSafety, ActiveVerificationCommandSafety, VerificationMemorySafety, SessionLogSafety, PowerShellStructuredSyntaxSafety, Context and Full quality gates passed after handoff sync.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static source-of-truth docs/gate summary parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Handoff Protocol Safety full read-list required-source parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity`

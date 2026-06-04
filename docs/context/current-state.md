@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: HandoffProtocolSafety QA read-first summary parity guard - implemented and verified locally.
 Post-M6: HandoffProtocolSafety full read-list required-source parity guard - implemented and verified locally.
 Post-M6: HandoffProtocolSafety source-of-truth read list parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - implemented and verified locally.
@@ -296,6 +297,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 HandoffProtocolSafety QA read-first summary parity guard was completed on `codex/autonomous-next-task-discovery-after-full-read-list-required-source-parity`.
 - Post-M6 HandoffProtocolSafety full read-list required-source parity guard was completed on `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity`.
 - Post-M6 HandoffProtocolSafety source-of-truth read list parity guard was completed on `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`.
 - Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard was completed on `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`.
@@ -437,6 +439,7 @@ Repository bootstrap state:
 
 Current artifact status:
 
+- HandoffProtocolSafety QA read-first summary parity guard keeps the `HandoffProtocolSafety` summaries in quality-gates docs and scripts README aligned on the full mandatory read-first required-source list, including `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md`.
 - HandoffProtocolSafety full read-list required-source parity guard keeps context-protocol's mandatory read-first source list protected through Codex workflow, autonomy, milestone planning and communication policy docs, so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the guarded list.
 - QualityGatesDocsScopeSafety SessionLogSafety summary parity guard keeps the `SessionLogSafety` summaries in quality-gates docs and scripts README aligned on session-log metadata, lifecycle and latest verification-memory title/branch parity coverage.
 - SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.

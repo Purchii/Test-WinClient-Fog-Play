@@ -833,6 +833,28 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'HandoffProtocolSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'full mandatory read-first required-source list',
+                'Codex workflow',
+                'autonomy',
+                'milestone planning',
+                'communication policy docs',
+                'docs/qa/prod-testing-policy.md',
+                'docs/qa/prod-safe-test-matrix.md',
+                'source-of-truth ordering',
+                'latest-commit handling',
+                'thread isolation',
+                'thread-title-to-task-branch naming',
+                'bounded autonomous continuation handoff',
+                'worktree fallback',
+                'local verification',
+                'main-merge approval rules'
+            )
+        },
+        @{
             Scope             = 'QualityGatesDocsScopeSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
