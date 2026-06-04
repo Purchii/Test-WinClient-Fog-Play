@@ -1,8 +1,37 @@
-# AGENTS.md
-
 # Codex operating rules for MTC Fog Play QA Automation
 
 This repository is production-sensitive. The target application is a Windows cloud-gaming client with an embedded WebView/CEF/WebView-like layer.
+
+## Active Autonomous Window
+
+- Autonomous work is allowed from 2026-06-04 08:18:10 +03:00 until 2026-06-05 00:18:10 Europe/Moscow.
+- During this window, Codex may continue without additional approval when a task is safe, bounded, and verifiable.
+- During this window, Codex may push verified work to the default branch (`main`) without asking for separate approval.
+
+## Task Isolation
+
+- Every new task must run in its own Codex thread.
+- The thread name must match the task name.
+- Creating a new task thread does not delete the previous thread; the previous thread simply becomes inactive.
+- Every new task must use a separate git branch created from the current, up-to-date default branch.
+- The default branch for this project is `main`.
+- Use the `codex/` branch prefix unless the user explicitly requests another branch name.
+
+## Multi-Agent Requirement
+
+- After creating a new task thread, work must proceed in strict multi-agent mode.
+- Use explicit role separation for each bounded task:
+  - planner or explorer for scope and source-of-truth review;
+  - worker or builder for implementation;
+  - QA or reviewer for independent verification.
+- If multi-agent tooling is unavailable or blocked, do not continue the task locally; record the blocker in the task handoff and wait until multi-agent work is possible.
+
+## Git rules
+
+- Fetch and verify the latest default branch (`main`) before branching for a new task when a remote exists.
+- Never force-push.
+- Do not merge or push to the default branch (`main`) until the task has passed relevant verification.
+- Keep unrelated user changes intact.
 
 ## Non-negotiable production rules
 
@@ -39,18 +68,6 @@ Cloud gaming session tests must:
 - avoid parallel execution unless explicitly approved;
 - require explicit `-AllowProdConditional` or equivalent flag.
 
-## Git rules
-
-- Do not work directly on `main` for backlog tasks.
-- Every bounded goal must use a dedicated task branch.
-- Start from clean, up-to-date `main`.
-- Work with remote Git by default when it does not reduce quality or safety: pull/rebase from remote before starting, push verified task branches after orchestrator approval or accepted project policy.
-- Keep changes scoped to the active task.
-- Do not mix unrelated documentation, framework and scenario changes unless the goal explicitly allows it.
-- Push task branches only after verification.
-- Do not merge to `main` unless the user explicitly allows it.
-- Never force-push to `main`.
-
 ## Source of truth rules
 
 - Old chat context is advisory only.
@@ -73,7 +90,6 @@ Cloud gaming session tests must:
   7. task-specific docs and code.
 
 If a durable decision exists only in chat, record it in `docs/context/governance/decisions-log.md` before relying on it.
-
 
 ## Communication and reasoning rules
 
@@ -106,16 +122,14 @@ Use `NON_AUTONOMOUS` for:
 - credentials/secrets/auth configuration;
 - dependency upgrades;
 - changes to ProdGuard, KillSwitch, ResourceBudget or CleanupVerifier;
-- commit/push if not explicitly allowed;
-- any merge to `main`.
+- commit/push if not explicitly allowed by the active autonomous window, user approval, or accepted project policy;
+- any merge to `main` unless explicitly allowed by the active autonomous window, user approval, or accepted project policy.
 
 Use `BOUNDED_AUTONOMOUS` only after the user accepts a bounded plan with scope, forbidden actions, acceptance criteria and verification commands.
 
-In bounded autonomous mode, Codex may implement and verify only inside the approved scope. It must stop and ask before production impact, scope expansion, credential use, CI/CD enablement, commit/push if not explicitly allowed, or merge to `main`.
+In bounded autonomous mode, Codex may implement and verify only inside the approved scope. It must stop and ask before production impact, scope expansion, credential use, CI/CD enablement, commit/push if not explicitly allowed by the active autonomous window, user approval, or accepted project policy, or merge to `main` unless explicitly allowed by the active autonomous window, user approval, or accepted project policy.
 
 Read the full policy in `docs/codex/autonomy-modes.md`.
-
-
 
 ## Milestone planning rules
 
@@ -164,8 +178,8 @@ Full policy: `docs/codex/milestone-planning-policy.md`.
 - Builder may change files inside scope but does not commit/push.
 - Prod Safety Agent reviews any production-impacting behavior.
 - QA Reviewer independently reviews the diff and gates.
-- Orchestrator performs final verification. It commits and pushes only when explicit user approval or an accepted project policy allows it.
-- Orchestrator does not merge to main without explicit user approval.
+- Orchestrator performs final verification. It commits and pushes only when explicit user approval, the active autonomous window, or an accepted project policy allows it.
+- Orchestrator does not merge to `main` without explicit user approval, the active autonomous window, or an accepted project policy.
 
 ## First milestone rule
 
@@ -182,3 +196,8 @@ Do not add real game-session tests until the following exist:
 - log sanitization;
 - synthetic user allowlist;
 - explicit `PROD_CONDITIONAL` run flag.
+
+## Reporting
+
+- User-facing updates and final reports should be in Russian unless the user asks otherwise.
+- Final reports should include the branch, commit or push status, verification performed, and any blockers.
