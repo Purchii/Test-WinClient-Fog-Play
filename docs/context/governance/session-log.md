@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-06-04 - Qa Docs Safety AppSmoke guard hardening wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static QA docs wording guard hardening after Planner/Explorer confirmed `docs/qa/app-webview-smoke.md` already documents AppSmoke guard hardening while `QaDocsSafety` only guarded BackendSmoke/release/privacy runner hardening wording.
+
+Branch: `codex/autonomous-next-task-discovery-12h-continuation`
+
+Thread lifecycle:
+
+- Source thread `019e918b-1a87-7b93-aa40-29600efea036` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `autonomous-next-task-discovery-12h-continuation` and used only for this bounded discovery plus implementation task.
+- Delegated discovery thread/Planner-Explorer subagent and Builder/Worker subagent were used for role separation and are preserved as inactive/history-only rather than reused for implementation; Orchestrator performed final verification and Git integration.
+
+Scope:
+
+- Extend `QaDocsSafety` so App/WebView smoke QA docs must preserve guard-hardening wording for unsafe runtime input paths, missing `-DryRun`, `-AllowClientLaunch` and `-AllowWebViewDebugPort`.
+- Sync quality-gates, scripts README, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - QaDocsSafety BackendSmoke guard hardening wording guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static QA docs wording guard hardening after Planner/Explorer confirmed `docs/qa/backend-smoke.md` already documents unsafe endpoint path and missing mock response guard hardening while `QaDocsSafety` only guarded BackendSmoke finding coverage wording.

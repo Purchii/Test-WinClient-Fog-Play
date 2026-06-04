@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QaDocsSafety.
-Current latest completed item: Post-M6 QaDocsSafety BackendSmoke guard hardening wording guard.
+Current latest completed item: Post-M6 QaDocsSafety AppSmoke guard hardening wording guard.
 
 Planning boundary:
 
@@ -144,6 +144,7 @@ Post-M6 Scripts Readme Scope Safety TestabilityGaps duplicate cleanup is complet
 Post-M6 QaDocsSafety finding coverage wording guard is complete.
 Post-M6 QaDocsSafety detailed finding coverage wording guard is complete.
 Post-M6 QaDocsSafety BackendSmoke guard hardening wording guard is complete.
+Post-M6 QaDocsSafety AppSmoke guard hardening wording guard is complete.
 Post-M6 QaDocsSafety release/privacy hardening wording guard is complete.
 Post-M6 QaDocsSafety release/privacy M1.1 hardening wording guard is complete.
 Post-M6 Release/Privacy report-only local coverage hardening is complete.
@@ -269,6 +270,8 @@ QaDocsSafety finding coverage wording guard fails if active QA docs lose the Pos
 QaDocsSafety detailed finding coverage wording guard fails if AppSmoke docs lose missing required asset-manifest key wording or WebViewBridge docs lose malformed fake host case wording.
 
 QaDocsSafety BackendSmoke guard hardening wording guard fails if BackendSmoke QA docs lose unsafe runtime input path, unsafe endpoint path, missing mock response, missing `-DryRun`, `-AllowNetwork` or `-AllowAuth` rejection wording.
+
+QaDocsSafety AppSmoke guard hardening wording guard fails if App/WebView smoke QA docs lose unsafe runtime input path, missing `-DryRun`, `-AllowClientLaunch` or `-AllowWebViewDebugPort` rejection wording.
 
 QaDocsSafety release/privacy hardening wording guard fails if release/privacy QA docs lose the fail-closed `-DryRun`, unsafe runtime input path, `-ExpectFindings` or `-ReportOnly` boundaries.
 
@@ -550,7 +553,7 @@ TestFrameworkInventorySafety adds `Full` coverage for the `src/TestFramework` fi
 
 IncidentStopSafety adds `Full` coverage for the centralized incident stop trigger vocabulary and testability gap stop-trigger drift.
 
-QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory, core safety phrases, Post-M6 finding coverage summaries including BackendSmoke guard hardening wording, release/privacy runner hardening notes, release/privacy/AppSmoke report-only coverage notes and installed artifact manual-boundary wording.
+QaDocsSafety adds `Full` coverage for the required `docs/qa/*.md` policy inventory, core safety phrases, Post-M6 finding coverage summaries including AppSmoke/BackendSmoke guard hardening wording, release/privacy runner hardening notes, release/privacy/AppSmoke report-only coverage notes and installed artifact manual-boundary wording.
 
 ArtifactPolicySafety adds `Full` coverage for release/privacy policy fixture drift around required files, forbidden extensions, finding ids, privacy patterns and scan limits.
 
