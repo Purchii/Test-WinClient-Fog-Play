@@ -1,0 +1,107 @@
+{
+  "dryRunOnly": true,
+  "networkDisabled": true,
+  "headers": [],
+  "runtimePaths": [],
+  "tests": [
+    {
+      "name": "backend-config-check-contract",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "backend-release-info-contract",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "backend-catalog-readonly-contract",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "endpoints": [
+    {
+      "name": "config-check",
+      "method": "GET",
+      "path": "/orchestration/config/check?app=rds-client",
+      "classification": "PROD_SAFE",
+      "requiresAuth": false,
+      "mutatesState": false,
+      "responseSchema": {
+        "type": "object",
+        "required": [
+          "status",
+          "app"
+        ],
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "app": {
+            "type": "string"
+          }
+        }
+      },
+      "mockResponse": {
+        "status": "ok",
+        "app": "rds-client"
+      }
+    },
+    {
+      "name": "release-info",
+      "method": "GET",
+      "path": "/release/info?app=rds-client",
+      "classification": "PROD_SAFE",
+      "requiresAuth": false,
+      "mutatesState": false,
+      "responseSchema": {
+        "type": "object",
+        "required": [
+          "channel",
+          "version"
+        ],
+        "properties": {
+          "channel": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "mockResponse": {
+        "channel": "stable",
+        "version": "0.0.0-fixture"
+      }
+    },
+    {
+      "name": "catalog-readonly",
+      "method": "GET",
+      "path": "/catalog/read-only?platform=windows",
+      "classification": "PROD_SAFE",
+      "requiresAuth": false,
+      "mutatesState": false,
+      "responseSchema": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array"
+          }
+        }
+      },
+      "mockResponse": {
+        "items": []
+      }
+    }
+  ]
+}

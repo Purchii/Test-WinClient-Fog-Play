@@ -1,0 +1,127 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$modulePath = Join-Path $PSScriptRoot 'WebViewBridge.psm1'
+Import-Module $modulePath -Force
+
+function Assert-True {
+    param(
+        [Parameter(Mandatory = $true)]
+        [bool] $Condition,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Message
+    )
+
+    if (-not $Condition) {
+        throw $Message
+    }
+}
+
+function Assert-FindingId {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object] $Result,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Id
+    )
+
+    $matches = @($Result.findings | Where-Object { $_.id -eq $Id })
+    Assert-True ($matches.Count -gt 0) "Expected finding id was not produced: $Id"
+}
+
+$repoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
+$contract = Read-WebViewBridgeContract -Path (Join-Path $repoRoot 'testdata/webview-bridge-contract.example.json')
+
+$result = Test-WebViewBridgeContract -Contract $contract -DryRun
+Assert-True $result.passed 'WebView bridge contract fixture should pass.'
+Assert-True (-not $result.launchedClient) 'M3 dry-run must not launch the client.'
+Assert-True (-not $result.enabledWebViewDebugPort) 'M3 dry-run must not enable WebView debug port.'
+Assert-True (-not $result.processStarted) 'M3 dry-run must report processStarted=false.'
+Assert-True (-not $result.debugPortUsed) 'M3 dry-run must report debugPortUsed=false.'
+Assert-True (-not $result.authAttempted) 'M3 dry-run must report authAttempted=false.'
+Assert-True (-not $result.gameSessionStarted) 'M3 dry-run must report gameSessionStarted=false.'
+Assert-True (-not $result.readRuntimeUserData) 'M3 dry-run must not read runtime user data.'
+
+$result = Test-WebViewBridgeContract -Contract $contract
+Assert-True (-not $result.passed) 'WebView bridge contract validator should fail closed without -DryRun.'
+Assert-FindingId -Result $result -Id 'dry-run-flag-required'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands[0].payloadSchema = $null
+$broken.events[0].direction = 'web -> native'
+$broken.fakeNativeHostCases[0].target = 'unknown.command'
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Broken WebView bridge contract should fail.'
+Assert-FindingId -Result $result -Id 'missing-command-payload-schema'
+Assert-FindingId -Result $result -Id 'invalid-event-direction'
+Assert-FindingId -Result $result -Id 'unknown-fake-host-target'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands[0].name = 'Invalid Command Name'
+$broken.commands[1].name = $broken.commands[0].name
+$broken.commands[0].expectedEffect = ''
+$broken.commands[0].errorBehavior = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid and incomplete WebView bridge commands should fail.'
+Assert-FindingId -Result $result -Id 'invalid-command-name'
+Assert-FindingId -Result $result -Id 'duplicate-command-name'
+Assert-FindingId -Result $result -Id 'missing-command-effect'
+Assert-FindingId -Result $result -Id 'missing-command-error-behavior'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands[0].direction = 'native -> web'
+$broken.commands[0].productionSafety = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid WebView bridge command direction and production-safety metadata should fail.'
+Assert-FindingId -Result $result -Id 'invalid-command-direction'
+Assert-FindingId -Result $result -Id 'missing-command-production-safety'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.events[0].payloadSchema = $null
+$broken.events[0].errorBehavior = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Incomplete WebView bridge events should fail.'
+Assert-FindingId -Result $result -Id 'missing-event-payload-schema'
+Assert-FindingId -Result $result -Id 'missing-event-error-behavior'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.events[0].name = 'Invalid Event Name'
+$broken.events[1].name = $broken.events[0].name
+$broken.events[0].productionSafety = ''
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid, duplicate and unsafe WebView bridge event metadata should fail.'
+Assert-FindingId -Result $result -Id 'invalid-event-name'
+Assert-FindingId -Result $result -Id 'duplicate-event-name'
+Assert-FindingId -Result $result -Id 'missing-event-production-safety'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.fakeNativeHostCases[0].type = 'runtime-probe'
+$broken.fakeNativeHostCases[0].expectedResult = ''
+$broken.fakeNativeHostCases[1].expectedResult = 'accept malformed command'
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'Invalid WebView bridge fake native host cases should fail.'
+Assert-FindingId -Result $result -Id 'invalid-fake-host-case-type'
+Assert-FindingId -Result $result -Id 'missing-fake-host-expected-result'
+Assert-FindingId -Result $result -Id 'malformed-case-not-rejected'
+
+$broken = $contract | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.commands = @()
+$broken.events = @()
+$broken.fakeNativeHostCases = @()
+$result = Test-WebViewBridgeContract -Contract $broken -DryRun
+Assert-True (-not $result.passed) 'WebView bridge contract without commands or events should fail.'
+Assert-FindingId -Result $result -Id 'missing-commands'
+Assert-FindingId -Result $result -Id 'missing-events'
+
+$unsafe = Read-WebViewBridgeContract -Path (Join-Path $repoRoot 'testdata/webview-bridge-contract-unsafe.example.json')
+$result = Test-WebViewBridgeContract -Contract $unsafe -DryRun
+Assert-True (-not $result.passed) 'Unsafe WebView bridge contract policy should fail.'
+Assert-FindingId -Result $result -Id 'policy-not-dry-run-only'
+Assert-FindingId -Result $result -Id 'unsafe-diagnostic'
+Assert-FindingId -Result $result -Id 'unsafe-runtime-path'
+Assert-FindingId -Result $result -Id 'unsafe-command-logging-policy'
+Assert-FindingId -Result $result -Id 'unsafe-event-logging-policy'
+
+Write-Host 'WebViewBridge.Tests.ps1 passed.'

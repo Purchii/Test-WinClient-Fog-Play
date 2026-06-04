@@ -1,0 +1,52 @@
+{
+  "tests": [
+    {
+      "name": "app-launch",
+      "classification": "PROD_SAFE",
+      "suites": [
+        "prod-safe-smoke"
+      ],
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "catalog-read-only",
+      "classification": "PROD_SAFE",
+      "suites": [
+        "prod-safe-smoke"
+      ],
+      "requiresSyntheticUserAlias": "qa-smoke-001",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    },
+    {
+      "name": "short-game-session-canary",
+      "classification": "PROD_CONDITIONAL",
+      "suites": [
+        "prod-canary"
+      ],
+      "requiresSyntheticUserAlias": "qa-canary-stream-001",
+      "targetRegion": "eu-west",
+      "targetGame": "qa-allowlisted-game-1",
+      "startsGameSession": true,
+      "mutatesState": true,
+      "requiresCleanupVerification": true
+    },
+    {
+      "name": "load-test-placeholder",
+      "classification": "PROD_FORBIDDEN",
+      "startsGameSession": true,
+      "mutatesState": true,
+      "requiresCleanupVerification": true
+    },
+    {
+      "name": "update-rollback-placeholder",
+      "classification": "NON_PROD_ONLY",
+      "startsGameSession": false,
+      "mutatesState": true,
+      "requiresCleanupVerification": true
+    }
+  ]
+}

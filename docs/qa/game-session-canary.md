@@ -1,0 +1,59 @@
+# Game-session canary readiness
+
+M5 implements a local, dry-run readiness gate for a future minimal game-session canary.
+
+This milestone does not execute a game session. It validates that the canary plan is safe enough to be reviewed before any separately approved real execution milestone.
+
+Default plan:
+
+```text
+testdata/game-session-canary.example.json
+```
+
+Implemented checks:
+
+- exactly one canary test is defined;
+- canary test is classified as `PROD_CONDITIONAL`;
+- canary test declares exactly `prod-canary` and `game-session-canary-readiness` suites, once each;
+- canary requires an allowlisted `qa-canary-*` synthetic user alias with `prod_conditional_stream_canary` purpose, production environment permission, game-session permission and a matching duration ceiling;
+- canary declares `startsGameSession=true`, `mutatesState=true` and `requiresCleanupVerification=true`;
+- target region and game are allowlisted by `prod-resource-budget.example.yaml`;
+- target game is allowlisted by `allowed-games.example.json`;
+- max duration is within the resource budget;
+- run frequency keeps `prodResourceBudget.maxRunsPerHour` between 1 and 3;
+- resource budget requires cleanup verification and an explicit conditional flag;
+- retries are disabled;
+- expected readiness signals are exactly `stream-ready` and `first-frame`, once each;
+- policy is dry-run only;
+- policy runtime path requests are empty;
+- direct validator invocation requires the dry-run flag;
+- runner input path overrides reject AppData/log/cookie/DB/dump-like runtime paths before reading;
+- real execution, client launch, network calls and authentication are disabled;
+- policy does not request user runtime paths, logs, cookies, DBs or dumps;
+- policy test metadata passes ProdGuard only with explicit `-AllowProdConditional` and `-CleanupVerified`.
+
+The allowed-games fixture is intentionally alias-only. It must not contain real game titles, production endpoints, credentials or user runtime paths.
+
+Safety defaults:
+
+- no installed client process is launched;
+- no WebView debug/CDP port is used;
+- no authentication is attempted;
+- no production backend or streaming service call is attempted;
+- no game session is started;
+- no real cleanup is attempted;
+- no user AppData, cookies, local DB, logs or crash dumps are read.
+
+Runner:
+
+```text
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-game-session-canary.ps1 -DryRun -AllowProdConditional -CleanupVerified
+```
+
+Known limitation:
+
+- M5 proves local readiness metadata and guard behavior only. It does not prove real login, catalog state, stream startup, first-frame rendering, session stop or cleanup until a separately approved production-conditional execution plan exists.
+
+Post-M6 guard hardening added `GameSessionCanary` quality gate assertions that missing `-DryRun`, `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected before any client launch, backend call, authentication or game-session action can occur.
+
+Post-M6 finding coverage hardening added direct dry-run validator assertions for invalid canary counts, missing game-session and state-mutation intent metadata, unsafe session-concurrency budgets and target regions outside the resource budget allowlist.

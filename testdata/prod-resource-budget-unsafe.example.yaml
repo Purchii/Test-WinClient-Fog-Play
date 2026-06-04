@@ -1,0 +1,11 @@
+prodResourceBudget:
+  maxSessionsPerRun: 1
+  maxParallelSessions: 1
+  maxSessionDurationSeconds: 120
+  maxRunsPerHour: 3
+  allowedRegions:
+    - eu-west
+  allowedGames:
+    - qa-allowlisted-game-1
+  requireCleanupVerification: false
+  requireExplicitConditionalFlag: false

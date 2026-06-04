@@ -1,0 +1,25 @@
+{
+  "dryRunOnly": false,
+  "networkDisabled": false,
+  "executionDisabled": false,
+  "rollbackDisabled": false,
+  "credentialsDisabled": false,
+  "endpoints": [
+    "https://prod.example.invalid/update/manifest.json"
+  ],
+  "commands": [
+    "rds-updater.exe /apply"
+  ],
+  "packages": [
+    {
+      "id": "rds-client",
+      "version": "latest",
+      "artifactPath": "https://prod.example.invalid/packages/rds-client.zip",
+      "sha256": "not-a-sha",
+      "sizeBytes": 0,
+      "signatureRequired": false,
+      "rollbackAllowed": true,
+      "postInstallCommand": "rds-updater.exe /rollback"
+    }
+  ]
+}

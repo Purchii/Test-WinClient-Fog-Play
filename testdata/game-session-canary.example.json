@@ -1,0 +1,30 @@
+{
+  "dryRunOnly": true,
+  "executionDisabled": true,
+  "clientLaunchDisabled": true,
+  "networkDisabled": true,
+  "authDisabled": true,
+  "runtimePaths": [],
+  "tests": [
+    {
+      "name": "short-game-session-canary-readiness",
+      "classification": "PROD_CONDITIONAL",
+      "suites": [
+        "prod-canary",
+        "game-session-canary-readiness"
+      ],
+      "requiresSyntheticUserAlias": "qa-canary-stream-001",
+      "targetRegion": "eu-west",
+      "targetGame": "qa-allowlisted-game-1",
+      "startsGameSession": true,
+      "mutatesState": true,
+      "requiresCleanupVerification": true,
+      "maxSessionDurationSeconds": 120,
+      "maxRetries": 0,
+      "expectedReadinessSignals": [
+        "stream-ready",
+        "first-frame"
+      ]
+    }
+  ]
+}

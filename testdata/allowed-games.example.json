@@ -1,0 +1,11 @@
+{
+  "allowedGames": [
+    {
+      "alias": "qa-allowlisted-game-1",
+      "environment": "production",
+      "allowedFor": [
+        "prod_conditional_stream_canary"
+      ]
+    }
+  ]
+}

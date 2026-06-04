@@ -1,0 +1,72 @@
+{
+  "dryRunOnly": false,
+  "diagnostics": [
+    "CDP remote-debugging-port"
+  ],
+  "runtimePaths": [
+    "AppData/Local/MTC Fog Play/Cookies",
+    "logs/app.log"
+  ],
+  "tests": [
+    {
+      "name": "unsafe-webview-bridge-contract",
+      "classification": "PROD_SAFE",
+      "startsGameSession": false,
+      "mutatesState": false,
+      "requiresCleanupVerification": false
+    }
+  ],
+  "commands": [
+    {
+      "name": "settings.get",
+      "direction": "web -> native",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          }
+        }
+      },
+      "expectedEffect": "Unsafe fixture should fail before execution.",
+      "errorBehavior": "Reject malformed payload.",
+      "loggingPolicy": "Log full command payload including tokens and secrets.",
+      "productionSafety": "PROD_SAFE local contract only.",
+      "tests": [
+        "unsafe-policy"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "settings.changed",
+      "direction": "native -> web",
+      "payloadSchema": {
+        "type": "object",
+        "properties": {
+          "requestId": {
+            "type": "string"
+          }
+        }
+      },
+      "expectedEffect": "Unsafe fixture should fail before execution.",
+      "errorBehavior": "Ignore malformed event.",
+      "loggingPolicy": "Log full event payload including tokens and secrets.",
+      "productionSafety": "PROD_SAFE local contract only.",
+      "tests": [
+        "unsafe-policy"
+      ]
+    }
+  ],
+  "fakeNativeHostCases": [
+    {
+      "name": "unsafe-case",
+      "type": "command",
+      "target": "settings.get",
+      "payload": {
+        "requestId": "req-unsafe"
+      },
+      "expectedResult": "return settings.changed event"
+    }
+  ]
+}

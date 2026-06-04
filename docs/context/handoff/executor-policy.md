@@ -1,0 +1,24 @@
+# Executor policy
+
+- One run = one bounded goal.
+- Every run must declare autonomy mode: NON_AUTONOMOUS or BOUNDED_AUTONOMOUS.
+- Default to NON_AUTONOMOUS until the user accepts the plan.
+- Every new independent task or milestone in autonomous work must use a separate Codex thread.
+- User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread.
+- Each newly chosen follow-up hardening gate, milestone, feature slice, or backlog item is a new independent task unless it is required to repair the current task's verification failure.
+- Start new independent tasks with `create_thread` first.
+- If a normal `create_thread` attempt is unusable, invisible or unmanageable, mark it inactive/orphan and retry `create_thread` once.
+- Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state from the previous task.
+- After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
+- The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
+- If work for a new independent task continues in the previous thread, mark it as `PROCESS_ERROR_THREAD_REUSE`, update context docs, and stop before implementation until the task is handed off to a new thread.
+- Do not expand scope without user approval.
+- Do not work directly on main.
+- Do not merge to main without explicit user approval.
+- Keep docs synchronized with implementation.
+- If verification fails, repair within the same task unless external blocker.
+- If verification cannot run, document blocker.
+- Do not commit secrets, logs, crash dumps or release binaries unless explicitly approved as fixtures.
+- If a task may affect production, classify it before implementation.
+- If safety cannot be proven, treat production run as forbidden.
+- In BOUNDED_AUTONOMOUS mode, stop and ask before scope expansion, production impact, credential use, CI/CD enablement, commit/push if not explicitly allowed, or merge to main.

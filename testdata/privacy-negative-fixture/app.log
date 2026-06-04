@@ -1,0 +1,8 @@
+Authorization: Bearer eyJhbGciOiJmaXh0dXJlIn0.fixture
+password=SuperSecret123
+token=abcdefghijklmnop
+access_token=fixture-access-value
+refresh_token=fixture-refresh-value
+api_key=fixture-api-key-value
+-----BEGIN TEST PRIVATE KEY-----
+turn diagnostic credential fixture-only

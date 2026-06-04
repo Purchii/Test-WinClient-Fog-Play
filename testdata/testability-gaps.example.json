@@ -1,0 +1,99 @@
+{
+  "dryRunOnly": true,
+  "productionExecutionDisabled": true,
+  "runtimeDataReadsDisabled": true,
+  "credentialsDisabled": true,
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "area": "client-launch",
+      "status": "open",
+      "productionSafeNow": false,
+      "requiresRuntime": true,
+      "requiresCredentials": false,
+      "requiresUserData": false,
+      "requiredEvidence": [
+        "source-code",
+        "offline-fixture"
+      ],
+      "stopTriggers": [
+        "installed-client-launch",
+        "runtime-user-data"
+      ],
+      "nextSafeStep": "Add source-level launch harness contracts when Windows client source is available."
+    },
+    {
+      "id": "GAP-002",
+      "area": "webview-runtime",
+      "status": "open",
+      "productionSafeNow": false,
+      "requiresRuntime": true,
+      "requiresCredentials": false,
+      "requiresUserData": false,
+      "requiredEvidence": [
+        "source-code",
+        "offline-fixture"
+      ],
+      "stopTriggers": [
+        "webview-debug-cdp",
+        "installed-client-launch"
+      ],
+      "nextSafeStep": "Add non-production WebView diagnostics contract fixtures before any runtime rendering check."
+    },
+    {
+      "id": "GAP-003",
+      "area": "auth",
+      "status": "needs-owner-input",
+      "productionSafeNow": false,
+      "requiresRuntime": true,
+      "requiresCredentials": false,
+      "requiresUserData": false,
+      "requiredEvidence": [
+        "synthetic-user-config",
+        "owner-approval"
+      ],
+      "stopTriggers": [
+        "credentials",
+        "synthetic-login"
+      ],
+      "nextSafeStep": "Request sanitized synthetic-user contract and owner-approved non-secret auth fixture."
+    },
+    {
+      "id": "GAP-004",
+      "area": "game-session",
+      "status": "blocked",
+      "productionSafeNow": false,
+      "requiresRuntime": true,
+      "requiresCredentials": false,
+      "requiresUserData": false,
+      "requiredEvidence": [
+        "owner-approval",
+        "synthetic-user-config",
+        "non-prod-environment"
+      ],
+      "stopTriggers": [
+        "game-session-execution",
+        "production-impact"
+      ],
+      "nextSafeStep": "Keep M5 readiness validator dry-run until an explicit production-conditional execution plan exists."
+    },
+    {
+      "id": "GAP-005",
+      "area": "fake-replay-lab",
+      "status": "open",
+      "productionSafeNow": false,
+      "requiresRuntime": false,
+      "requiresCredentials": false,
+      "requiresUserData": false,
+      "requiredEvidence": [
+        "offline-fixture",
+        "non-prod-environment"
+      ],
+      "stopTriggers": [
+        "replay-server-runtime",
+        "network-call"
+      ],
+      "nextSafeStep": "Expand M6 schema placeholders into offline replay fixtures before any server runtime."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "requiredFiles": [
+    "bin/rds-client.exe",
+    "bin/rds-updater.exe",
+    "Uninstall.exe",
+    "bin/libcef.dll",
+    "bin/crashpad_handler.exe",
+    "bin/sentry.dll"
+  ],
+  "signatureChecks": [
+    {
+      "path": "bin/rds-client.exe",
+      "required": true
+    },
+    {
+      "path": "bin/rds-updater.exe",
+      "required": true
+    },
+    {
+      "path": "Uninstall.exe",
+      "required": true
+    },
+    {
+      "path": "bin/crashpad_handler.exe",
+      "required": true
+    }
+  ],
+  "versionMetadata": [
+    {
+      "path": "bin/rds-client.exe",
+      "requireProductVersion": true,
+      "requireFileVersion": true,
+      "requireCompanyName": true,
+      "requireProductName": true
+    }
+  ],
+  "forbiddenExtensions": [
+    ".pdb",
+    ".map"
+  ],
+  "forbiddenTextPatterns": [
+    {
+      "id": "local-user-path",
+      "pattern": "C:\\\\Users\\\\[^\\\\\\s]+",
+      "severity": "fail"
+    },
+    {
+      "id": "source-map-reference",
+      "pattern": "sourceMappingURL=",
+      "severity": "fail"
+    },
+    {
+      "id": "unsafe-debug-flag",
+      "pattern": "--remote-debugging-port|--auto-open-devtools-for-tabs|--enable-logging",
+      "severity": "fail"
+    }
+  ],
+  "textFileExtensions": [
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".ini",
+    ".cfg",
+    ".conf",
+    ".xml",
+    ".js",
+    ".css",
+    ".html"
+  ],
+  "maxTextFileBytes": 5242880
+}

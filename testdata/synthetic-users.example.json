@@ -1,0 +1,21 @@
+{
+  "syntheticUsers": [
+    {
+      "alias": "qa-smoke-001",
+      "purpose": "prod_safe_login_logout",
+      "allowedEnvironments": [
+        "production"
+      ],
+      "canStartGameSession": false
+    },
+    {
+      "alias": "qa-canary-stream-001",
+      "purpose": "prod_conditional_stream_canary",
+      "allowedEnvironments": [
+        "production"
+      ],
+      "canStartGameSession": true,
+      "maxSessionDurationSeconds": 120
+    }
+  ]
+}

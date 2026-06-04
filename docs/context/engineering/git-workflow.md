@@ -1,0 +1,59 @@
+# Git workflow
+
+## Rules
+
+- `main` is protected trunk.
+- Do not work directly on `main` for backlog tasks.
+- Every bounded goal uses a dedicated task branch.
+- Every new independent autonomous task or milestone uses a separate Codex thread.
+- Extended autonomous time, push permission or merge permission does not waive thread-per-task.
+- A newly selected follow-up gate, hardening item, feature slice or backlog item is a new independent task unless it only repairs current-task verification.
+- Use `create_thread` first for new independent tasks.
+- If normal thread creation is unusable, mark it inactive/orphan, retry `create_thread` once, then use Codex worktree fallback after the second failure.
+- Use Codex worktrees earlier when follow-on tasks need isolated branch/workspace state.
+- After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
+- The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
+- If a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE` before doing more implementation.
+- Branch must be atomic but useful: one rollback-sized backlog slice.
+- Work with remote Git by default when it does not reduce quality or safety.
+- Fetch/pull before starting a task branch.
+- Push verified task branches when allowed by explicit user instruction or accepted project policy.
+- Do not let remote workflow replace local verification.
+- Do not mix unrelated changes.
+- Do not force-push to main.
+- Do not merge to main without explicit user approval.
+- Commit/push task branch only when the prompt or accepted project policy allows it.
+- Merge to main always requires NON_AUTONOMOUS explicit user approval.
+
+## Start task
+
+```powershell
+git status --short
+git checkout main
+git pull --ff-only
+git checkout -b codex/<task-name>
+```
+
+## Finish task
+
+```powershell
+git status --short
+git diff --check
+# run relevant project gates
+```
+
+Then update:
+
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/engineering/implementation-status.md`
+
+## Commit rules
+
+- Planner does not write code.
+- Builder does not commit/push.
+- QA Reviewer does not commit/push.
+- Orchestrator commits after verification only when explicit user approval or an accepted project policy allows it.
+- Orchestrator pushes verified task branches to remote only when allowed.
+- Merge to main requires explicit user approval.
