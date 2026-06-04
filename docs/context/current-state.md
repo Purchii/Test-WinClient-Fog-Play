@@ -85,6 +85,7 @@ Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety status-list consistency guard - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status status-list sync - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status Post-M6 parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety SessionLogSafety summary parity guard - implemented and verified locally.
 Post-M6: SessionLogSafety all codex branch metadata guard - implemented and verified locally.
 Post-M6: SessionLogSafety latest title parity guard - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
@@ -289,6 +290,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-metadata-guard`.
 - Post-M6 SessionLogSafety all codex branch metadata guard was completed on `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard`.
 - Post-M6 SessionLogSafety latest title parity guard was completed on `codex/autonomous-next-task-discovery-after-active-run-parity-guard`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
@@ -423,6 +425,7 @@ Repository bootstrap state:
 
 Current artifact status:
 
+- QualityGatesDocsScopeSafety SessionLogSafety summary parity guard keeps the `SessionLogSafety` summaries in quality-gates docs and scripts README aligned on session-log metadata, lifecycle and latest verification-memory title/branch parity coverage.
 - SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.
 - SessionLogSafety latest title parity guard keeps the latest session-log codex entry title and branch synced with the latest verification-memory codex entry title and branch, while preserving the existing branch parity, lifecycle wording and no-runtime/no-production safety checks.
 - ActiveRunSafety implementation-status Post-M6 parity guard keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses, including the previously missing Full scope dispatch guard status.

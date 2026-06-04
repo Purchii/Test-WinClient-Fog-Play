@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through SessionLogSafety.
-Current latest completed item: Post-M6 SessionLogSafety all codex branch metadata guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard.
 
 Planning boundary:
 
@@ -75,6 +75,7 @@ Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard is complete.
 Post-M6 SessionLogSafety all codex branch metadata guard is complete.
 Post-M6 SessionLogSafety latest title parity guard is complete.
 Post-M6 IncidentStopSafety static gate is complete.
@@ -218,6 +219,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+QualityGatesDocsScopeSafety SessionLogSafety summary parity guard keeps the `SessionLogSafety` summaries in quality-gates docs and scripts README aligned on session-log metadata, lifecycle and latest verification-memory title/branch parity coverage.
+
 SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.
 
 SessionLogSafety latest title parity guard keeps the latest session-log codex entry title and branch synced with the latest verification-memory codex entry title and branch, while preserving the existing branch parity, lifecycle wording and no-runtime/no-production safety checks.
@@ -639,6 +642,7 @@ Last verification:
 
 - `git status --short --branch`;
 - `git diff --check`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;

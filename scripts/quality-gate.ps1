@@ -844,6 +844,26 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'SessionLogSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'docs/context/governance/session-log.md',
+                'codex branch entries',
+                '`Mode:`',
+                '`Branch:`',
+                '`Scope:`',
+                '`Safety:`',
+                'core no-runtime/no-production safety notes',
+                'previous source/coordinator thread',
+                'discovery-thread lifecycle wording',
+                'same-thread selected-task delivery',
+                'inactive delegated discovery',
+                'latest session-log codex entry title or branch',
+                'latest `docs/context/engineering/verification-memory.md` codex entry title or branch'
+            )
+        },
+        @{
             Scope             = 'RunnerSafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
