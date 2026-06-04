@@ -1538,6 +1538,10 @@ function Invoke-SessionLogSafetyGate {
     }
 
     $latestVerificationBranchEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
+    $latestVerificationTitleMatch = [regex]::Match($latestVerificationBranchEntry, '^## .+', 'Multiline')
+    if (-not $latestVerificationTitleMatch.Success) {
+        throw 'verification-memory.md latest codex branch entry must include a title.'
+    }
     $latestVerificationBranchMatch = [regex]::Match($latestVerificationBranchEntry, '^Branch:\s+`(?<branch>codex/[^`]+)`', 'Multiline')
     if (-not $latestVerificationBranchMatch.Success) {
         throw 'verification-memory.md latest codex branch entry must include a codex branch line.'
@@ -1556,6 +1560,13 @@ function Invoke-SessionLogSafetyGate {
     $latestSessionBranchMatch = [regex]::Match($latestSessionBranchEntries[0].Value, '^Branch:\s+`(?<branch>codex/[^`]+)`', 'Multiline')
     if (-not $latestSessionBranchMatch.Success) {
         throw 'session-log.md latest codex branch entry must include a codex branch line.'
+    }
+    $latestSessionTitleMatch = [regex]::Match($latestSessionBranchEntries[0].Value, '^## .+', 'Multiline')
+    if (-not $latestSessionTitleMatch.Success) {
+        throw 'session-log.md latest codex branch entry must include a title.'
+    }
+    if ($latestSessionTitleMatch.Value -ne $latestVerificationTitleMatch.Value) {
+        throw "session-log.md latest codex branch entry title must match verification-memory.md latest codex branch entry title: expected $($latestVerificationTitleMatch.Value)."
     }
     if ($latestSessionBranchMatch.Groups['branch'].Value -ne $latestVerificationBranchMatch.Groups['branch'].Value) {
         throw "session-log.md latest codex branch entry must match verification-memory.md latest codex branch: expected $($latestVerificationBranchMatch.Groups['branch'].Value)."

@@ -1,5 +1,42 @@
 # Verification memory
 
+## 2026-06-04 - Session Log Safety latest title parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-active-run-parity-guard`
+Status: passed
+Production impact: none; local static SessionLogSafety title parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with only scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `SessionLogSafety` latest title parity guard as a safe bounded task.
+- Builder/Worker added the latest session-log versus verification-memory title check while preserving existing branch parity behavior.
+- SessionLogSafety passed with latest title and branch parity enforced.
+- PowerShellStructuredSyntaxSafety and QualityGatesDocsScopeSafety passed.
+- Context, VerificationMemorySafety, ActiveRunSafety and ActiveVerificationCommandSafety passed after handoff sync.
+- Full quality gate passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static session/verification history guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Active Run Safety implementation-status Post-M6 parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`

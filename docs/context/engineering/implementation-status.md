@@ -1,5 +1,40 @@
 # Implementation status
 
+## Post-M6 - SessionLogSafety latest title parity guard
+
+Status: local static SessionLogSafety title parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `SessionLogSafety` now requires the latest session-log codex branch entry title to match the latest verification-memory codex branch entry title;
+- the existing latest branch parity, discovery-thread lifecycle wording, inactive/history-only lifecycle and no-runtime/no-production safety phrase checks remain in place;
+- scripts README, quality-gates docs and active/current context describe the title-and-branch parity contract;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - ActiveRunSafety implementation-status Post-M6 parity guard
 
 Status: local static ActiveRunSafety status parity guard implemented and verified locally.
@@ -1634,7 +1669,7 @@ Implemented checks:
 - guarded branch entries must preserve core no-runtime/no-production safety phrases;
 - the most recent `docs/context/governance/session-log.md` entry with `Branch: codex/*` must include thread lifecycle wording regardless of older mode wording;
 - session-log codex branch entries must not describe a previous source/coordinator thread as still active;
-- the latest session-log codex branch entry must match the latest verification-memory codex branch entry;
+- the latest session-log codex branch entry title and branch must match the latest verification-memory codex branch entry title and branch;
 - `SessionLogSafety` is included in `Full` and visible in active/current state docs.
 
 Not implemented:

@@ -85,6 +85,7 @@ Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety status-list consistency guard - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status status-list sync - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status Post-M6 parity guard - implemented and verified locally.
+Post-M6: SessionLogSafety latest title parity guard - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
 Post-M6: ArtifactPolicySafety static gate - implemented and verified locally.
@@ -287,6 +288,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 SessionLogSafety latest title parity guard was completed on `codex/autonomous-next-task-discovery-after-active-run-parity-guard`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
 - Post-M6 ArtifactPolicySafety static gate was completed on `codex/artifact-policy-safety-gate`.
@@ -419,6 +421,7 @@ Repository bootstrap state:
 
 Current artifact status:
 
+- SessionLogSafety latest title parity guard keeps the latest session-log codex entry title and branch synced with the latest verification-memory codex entry title and branch, while preserving the existing branch parity, lifecycle wording and no-runtime/no-production safety checks.
 - ActiveRunSafety implementation-status Post-M6 parity guard keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses, including the previously missing Full scope dispatch guard status.
 - Release/privacy gate implementation exists.
 - Update manifest integrity gate exists as local fixture-based dry-run validation only with structural package finding coverage.
@@ -490,7 +493,7 @@ Current artifact status:
 - ActiveRunSafety uses `git status --short --branch` as the authoritative current branch/worktree source instead of a live literal active-run branch value.
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
-- SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, rejects codex branch entries that describe previous source/coordinator threads as still active, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex branch synced with verification-memory.
+- SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, rejects codex branch entries that describe previous source/coordinator threads as still active, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex title and branch synced with verification-memory.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - ActiveVerificationCommandSafety statically checks active/current verification command evidence in active-run Last verification and the newest verification-memory Commands block so command evidence stays local/static, does not repeat commands within one source block, and rejects installed-client paths, user runtime paths, URLs, localhost/debug/CDP references, direct runners, auth/network/session/update/dependency, TestabilityGaps production-action/runtime-user-data allow flags and CI commands.
 - ChecklistSafety statically checks executor and context integrity checklists for required thread isolation, verification, stop-trigger, secrets and production-impact items.
