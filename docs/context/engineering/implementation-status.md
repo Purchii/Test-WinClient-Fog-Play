@@ -1,5 +1,40 @@
 # Implementation status
 
+## Post-M6 - HandoffProtocolSafety full read-list required-source parity guard
+
+Status: local static HandoffProtocolSafety full read-list required-source parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `HandoffProtocolSafety` now requires the context-protocol mandatory source-of-truth list to keep `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md`;
+- the guard already required `docs/codex/codex-workflow.md` and `docs/codex/autonomy-modes.md`, so the protected read-first policy tail now covers workflow, autonomy, milestone planning and communication policy docs;
+- scripts README and quality-gates docs now describe the full mandatory read-first required-source parity contract;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - HandoffProtocolSafety source-of-truth read list parity guard
 
 Status: local static HandoffProtocolSafety source-of-truth read list parity guard implemented and verified locally.

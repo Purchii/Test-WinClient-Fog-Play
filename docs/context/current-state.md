@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: HandoffProtocolSafety full read-list required-source parity guard - implemented and verified locally.
 Post-M6: HandoffProtocolSafety source-of-truth read list parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
@@ -295,6 +296,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 HandoffProtocolSafety full read-list required-source parity guard was completed on `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity`.
 - Post-M6 HandoffProtocolSafety source-of-truth read list parity guard was completed on `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`.
 - Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard was completed on `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`.
 - Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync was completed on `codex/autonomous-next-task-discovery-after-active-verification-command-summary-parity-guard`.
@@ -435,6 +437,7 @@ Repository bootstrap state:
 
 Current artifact status:
 
+- HandoffProtocolSafety full read-list required-source parity guard keeps context-protocol's mandatory read-first source list protected through Codex workflow, autonomy, milestone planning and communication policy docs, so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the guarded list.
 - QualityGatesDocsScopeSafety SessionLogSafety summary parity guard keeps the `SessionLogSafety` summaries in quality-gates docs and scripts README aligned on session-log metadata, lifecycle and latest verification-memory title/branch parity coverage.
 - SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.
 - SessionLogSafety latest title parity guard keeps the latest session-log codex entry title and branch synced with the latest verification-memory codex entry title and branch, while preserving the existing branch parity, lifecycle wording and no-runtime/no-production safety checks.
@@ -525,7 +528,7 @@ Current artifact status:
 - CodexGoalTemplateSafety statically checks the Codex goal template for execution mode, scope, forbidden actions, acceptance criteria, verification and stop conditions.
 - CodexDocsInventorySafety statically checks the `docs/codex/*.md` policy/template inventory.
 - QaStrategySafety statically checks QA strategy, testability contract and flakiness policy docs for layered order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
-- HandoffProtocolSafety statically checks `AGENTS.md`, context protocol and Git workflow docs for source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
+- HandoffProtocolSafety statically checks `AGENTS.md`, context protocol and Git workflow docs for the full mandatory read-first required-source list, including Codex workflow, autonomy, milestone planning and communication policy docs, source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
 - IncomingReferenceSafety statically checks incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 - FrameworkInventorySafety statically checks TestFramework modules for matching tests, local runners, QA docs and example/unsafe fixtures.
 - TestFrameworkInventorySafety statically checks the `src/TestFramework` file inventory.

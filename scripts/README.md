@@ -83,7 +83,7 @@ The `CodexDocsInventorySafety` quality gate fails if the `docs/codex/*.md` polic
 
 The `QaStrategySafety` quality gate fails if QA strategy, testability contract or flakiness policy docs lose layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking or retry/session-budget rules.
 
-The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification or main-merge approval rules.
+The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose the full mandatory read-first required-source list, including Codex workflow, autonomy, milestone planning and communication policy docs, source-of-truth ordering, latest-commit handling, thread isolation, thread-title-to-task-branch naming, bounded autonomous continuation handoff, worktree fallback, local verification or main-merge approval rules.
 
 The `IncomingReferenceSafety` quality gate fails if `docs/_incoming_reference` inventory changes silently or if incoming reference docs are no longer marked reference-only rather than active scope.
 

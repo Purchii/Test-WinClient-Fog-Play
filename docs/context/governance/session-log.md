@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Handoff Protocol Safety full read-list required-source parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static source-of-truth docs/gate consistency hardening after Planner/Explorer confirmed the full read-list required-source parity gap was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity`
+
+Thread lifecycle:
+
+- Source thread `019e9346-0449-75c3-8bf0-f3b995290b2a` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer selected the same-thread bounded task; Builder/Worker confirmed the narrow HandoffProtocolSafety full read-list required-source parity gap; Orchestrator implemented the scoped static diff after Worker interruption left the working tree clean.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Strengthen `HandoffProtocolSafety` so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the context-protocol mandatory source-of-truth list.
+- Keep `docs/context/handoff/context-protocol.md` unchanged because the required source entries already exist there.
+- Sync scripts README, quality-gates docs, implementation status, active/current context and verification evidence.
+- Preserve existing runtime, client, WebView, auth, network, CI/CD, dependency and game-session behavior.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Handoff Protocol Safety source-of-truth read list parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static source-of-truth docs/gate consistency hardening after Planner/Explorer confirmed the context-protocol read-list parity gap was safe and bounded.

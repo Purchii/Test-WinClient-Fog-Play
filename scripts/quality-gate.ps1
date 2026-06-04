@@ -2510,6 +2510,8 @@ function Invoke-HandoffProtocolSafetyGate {
             'docs/context/governance/decisions-log.md',
             'docs/context/governance/session-log.md',
             'docs/codex/autonomy-modes.md',
+            'docs/codex/milestone-planning-policy.md',
+            'docs/codex/communication-policy.md',
             'docs/qa/prod-testing-policy.md',
             'docs/qa/prod-safe-test-matrix.md'
         )) {

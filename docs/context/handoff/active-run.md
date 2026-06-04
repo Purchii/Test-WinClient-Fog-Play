@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety.
-Current latest completed item: Post-M6 HandoffProtocolSafety source-of-truth read list parity guard.
+Current latest completed item: Post-M6 HandoffProtocolSafety full read-list required-source parity guard.
 
 Planning boundary:
 
@@ -75,6 +75,7 @@ Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
+Post-M6 HandoffProtocolSafety full read-list required-source parity guard is complete.
 Post-M6 HandoffProtocolSafety source-of-truth read list parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
@@ -224,6 +225,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+HandoffProtocolSafety full read-list required-source parity guard keeps context-protocol's mandatory read-first source list protected through Codex workflow, autonomy, milestone planning and communication policy docs, so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the guarded list.
+
 HandoffProtocolSafety source-of-truth read list parity guard keeps context-protocol aligned with AGENTS.md by requiring `docs/codex/codex-workflow.md` in the mandatory read-first list before executor-policy, and makes HandoffProtocolSafety fail closed if that source-of-truth entry or order drifts.
 
 QualityGatesDocsScopeSafety README self-summary detail parity guard keeps scripts README aligned with quality-gates self-summary detail for unknown scope rejection, stable command syntax, missing `-DryRun`, dangerous allow-flag rejection, installed-artifact/report-only wording and active/current handoff/session-log/verification-memory/command-evidence summary parity coverage.
@@ -592,7 +595,7 @@ CodexDocsInventorySafety adds `Full` coverage for the `docs/codex/*.md` policy/t
 
 QaStrategySafety adds `Full` coverage for QA strategy/testability/flakiness drift around layered test order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 
-HandoffProtocolSafety adds `Full` coverage for `AGENTS.md`, context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
+HandoffProtocolSafety adds `Full` coverage for `AGENTS.md`, context protocol and Git workflow drift around the full mandatory read-first required-source list, including Codex workflow, autonomy, milestone planning and communication policy docs, source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
 
 IncomingReferenceSafety adds `Full` coverage for incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 

@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-06-04 - Handoff Protocol Safety full read-list required-source parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-handoff-source-read-list-parity`
+Status: passed
+Production impact: none; local static HandoffProtocolSafety full read-list required-source parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `HandoffProtocolSafety` full read-list required-source parity guard as a safe bounded task.
+- Builder/Worker confirmed the gap and Orchestrator implemented the narrow static patch after Worker interruption left the working tree clean.
+- `HandoffProtocolSafety` now requires `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` to remain in the context-protocol mandatory source-of-truth list.
+- Quality-gates docs and scripts README now describe the full mandatory read-first required-source parity contract.
+- HandoffProtocolSafety, CodexPolicySafety, QualityGatesDocsScopeSafety, ActiveRunSafety, ActiveVerificationCommandSafety, VerificationMemorySafety, SessionLogSafety, PowerShellStructuredSyntaxSafety, Context and Full quality gates passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static source-of-truth docs/gate parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Handoff Protocol Safety source-of-truth read list parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`
