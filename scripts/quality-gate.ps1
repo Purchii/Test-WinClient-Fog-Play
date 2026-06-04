@@ -1233,6 +1233,43 @@ function Resolve-StatusNameFromVerificationMemoryEntry {
     return $statusName
 }
 
+function ConvertTo-PostM6StatusName {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $StatusName,
+
+        [Parameter(Mandatory = $true)]
+        [string[]] $KnownSafetyScopes
+    )
+
+    $normalizedStatusName = $StatusName.Trim()
+    foreach ($scopeName in @($KnownSafetyScopes | Sort-Object Length -Descending)) {
+        $scopeCore = $scopeName -replace 'Safety$', ''
+        $coreWords = @([regex]::Matches($scopeCore, '[A-Z][a-z0-9]*|[0-9]+') | ForEach-Object { $_.Value.ToLowerInvariant() })
+        if ($coreWords.Count -eq 0) {
+            continue
+        }
+
+        $corePatterns = @($coreWords | ForEach-Object {
+                if ($_ -eq 'prod') {
+                    '(?:prod|production)'
+                } else {
+                    [regex]::Escape($_)
+                }
+            })
+        $corePattern = $corePatterns -join '[-\s]*'
+        if ($scopeCore -match 'Safety') {
+            $scopePattern = "$corePattern(?:[-\s]+fixture)?(?:[-\s]+safety)?"
+        } else {
+            $scopePattern = "$corePattern(?:[-\s]+fixture)?[-\s]+safety"
+        }
+        $normalizedStatusName = [regex]::Replace($normalizedStatusName, "(?i)\b$scopePattern\b", $scopeName, 1)
+    }
+    $normalizedStatusName = [regex]::Replace($normalizedStatusName, '(?i)\b([A-Za-z0-9]+Safety) gate$', '$1 static gate')
+
+    return $normalizedStatusName
+}
+
 function Invoke-ActiveRunSafetyGate {
     $activeRunPath = Join-Path $repoRoot 'docs/context/handoff/active-run.md'
     $currentStatePath = Join-Path $repoRoot 'docs/context/current-state.md'
@@ -1327,13 +1364,19 @@ function Invoke-ActiveRunSafetyGate {
         }
     }
 
+    $knownSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' })
     $currentStateStatuses = @([regex]::Matches($currentState, '(?m)^Post-M6: (?<name>.+?) - implemented and verified locally\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
     $currentStateBranchHistoryStatuses = @([regex]::Matches($currentState, '(?m)^- Post-M6 (?<name>.+?) was completed on `[^`]+`\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
     $activeRunStatuses = @([regex]::Matches($activeRun, '(?m)^Post-M6 (?<name>.+?) is complete\.\r?$') | ForEach-Object { $_.Groups['name'].Value })
+    $implementationStatusStatuses = @(
+        [regex]::Matches($implementationStatus, '(?m)^## Post-M6 - (?<name>.+?)\r?$') |
+            ForEach-Object { ConvertTo-PostM6StatusName -StatusName $_.Groups['name'].Value -KnownSafetyScopes $knownSafetyScopes }
+    )
     foreach ($statusSet in @(
             @{ Name = 'current-state top status list'; Values = $currentStateStatuses },
             @{ Name = 'current-state branch history'; Values = $currentStateBranchHistoryStatuses },
-            @{ Name = 'active-run planning boundary'; Values = $activeRunStatuses }
+            @{ Name = 'active-run planning boundary'; Values = $activeRunStatuses },
+            @{ Name = 'implementation-status Post-M6 headings'; Values = $implementationStatusStatuses }
         )) {
         if ($statusSet.Values.Count -eq 0) {
             throw "$($statusSet.Name) must contain Post-M6 status entries."
@@ -1355,20 +1398,43 @@ function Invoke-ActiveRunSafetyGate {
                 Reference     = $currentStateStatuses
                 CandidateName = 'active-run planning boundary'
                 Candidate     = $activeRunStatuses
+            },
+            @{
+                ReferenceName = 'implementation-status Post-M6 headings'
+                Reference     = $implementationStatusStatuses
+                CandidateName = 'current-state top status list'
+                Candidate     = $currentStateStatuses
+                AllowExtra    = $true
+            },
+            @{
+                ReferenceName = 'implementation-status Post-M6 headings'
+                Reference     = $implementationStatusStatuses
+                CandidateName = 'current-state branch history'
+                Candidate     = $currentStateBranchHistoryStatuses
+                AllowExtra    = $true
+            },
+            @{
+                ReferenceName = 'implementation-status Post-M6 headings'
+                Reference     = $implementationStatusStatuses
+                CandidateName = 'active-run planning boundary'
+                Candidate     = $activeRunStatuses
+                AllowExtra    = $true
             }
         )) {
         $missingStatuses = @($comparison.Reference | Where-Object { $comparison.Candidate -notcontains $_ })
         if ($missingStatuses.Count -gt 0) {
             throw "$($comparison.CandidateName) is missing Post-M6 status entries from $($comparison.ReferenceName): $($missingStatuses -join '; ')"
         }
-        $extraStatuses = @($comparison.Candidate | Where-Object { $comparison.Reference -notcontains $_ })
-        if ($extraStatuses.Count -gt 0) {
-            throw "$($comparison.CandidateName) has Post-M6 status entries missing from $($comparison.ReferenceName): $($extraStatuses -join '; ')"
+        $allowExtraStatuses = $comparison.ContainsKey('AllowExtra') -and $comparison.AllowExtra
+        if (-not $allowExtraStatuses) {
+            $extraStatuses = @($comparison.Candidate | Where-Object { $comparison.Reference -notcontains $_ })
+            if ($extraStatuses.Count -gt 0) {
+                throw "$($comparison.CandidateName) has Post-M6 status entries missing from $($comparison.ReferenceName): $($extraStatuses -join '; ')"
+            }
         }
     }
 
     $latestVerificationEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory
-    $knownSafetyScopes = @(Get-QualityGateScopeNames | Where-Object { $_ -match 'Safety$' })
     $expectedMilestoneScope = Resolve-SafetyScopeFromVerificationMemoryEntry -EntryText $latestVerificationEntry -KnownSafetyScopes $knownSafetyScopes
     $milestoneMatch = [regex]::Match($activeRun, 'Current milestone:\s+Post-M6 local/static safety gate hardening complete through (?<scope>[A-Za-z0-9]+Safety)\.')
     if (-not $milestoneMatch.Success) {

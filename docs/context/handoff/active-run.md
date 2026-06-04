@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through StaticSurfaceSafety.
-Current latest completed item: Post-M6 StaticSurfaceSafety NonProdFoundation offline replay schema contract.
+Current milestone: Post-M6 local/static safety gate hardening complete through ActiveRunSafety.
+Current latest completed item: Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard.
 
 Planning boundary:
 
@@ -74,6 +74,7 @@ Post-M6 TestFrameworkInventorySafety static gate is complete.
 Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
+Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
 Post-M6 IncidentStopSafety static gate is complete.
 Post-M6 QaDocsSafety static gate is complete.
 Post-M6 ArtifactPolicySafety static gate is complete.
@@ -82,6 +83,7 @@ Post-M6 StaticSurfaceSafety static gate is complete.
 Post-M6 WebViewBundleLocalReferenceSafety static gate is complete.
 Post-M6 FixtureInventorySafety static gate is complete.
 Post-M6 ScriptsInventorySafety static gate is complete.
+Post-M6 Full scope dispatch guard is complete.
 Post-M6 UnsafeFixtureCoverageSafety static gate is complete.
 Post-M6 GameSessionCanary conditional flag unsafe coverage hardening is complete.
 Post-M6 GameSessionCanary missing DryRun guard hardening is complete.
@@ -214,6 +216,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+ActiveRunSafety implementation-status Post-M6 parity guard keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses, including the previously missing Full scope dispatch guard status.
+
 StaticSurfaceSafety NonProdFoundation offline replay schema contract makes future fake/replay/network/hardware placeholder schemas fail closed if `contractSchema.required[]` names are not present in `contractSchema.properties`, while keeping NonProdFoundation fixtures schema-only, non-runnable and offline-only.
 
 CodexPolicySafety executor-policy feature-slice wording sync keeps executor-policy aligned with AGENTS.md, context-protocol and git-workflow wording so continuation-thread discovery can select a follow-up gate, hardening item, feature slice or backlog item in the same task thread, and the static CodexPolicySafety gate now preserves that executor-policy wording.
@@ -542,7 +546,7 @@ Active-run/current-state status consistency sync keeps planning-boundary status 
 
 ActiveRunSafety status-list consistency guard fails if current-state top statuses, current-state branch history and active-run planning-boundary statuses drift apart.
 
-ActiveRunSafety implementation-status status-list sync keeps implementation status aligned with the current ActiveRunSafety status-list consistency guard.
+ActiveRunSafety implementation-status status-list sync keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses.
 
 ActiveRunSafety archived verification dedupe adds `Full` coverage so active-run verification history blocks cannot repeat commands within a block.
 
@@ -588,6 +592,8 @@ FixtureInventorySafety adds `Full` coverage for release, privacy and App/WebView
 
 ScriptsInventorySafety adds `Full` coverage for the `scripts/` runner/support file inventory.
 
+Full scope dispatch guard keeps every `quality-gate.ps1 -Scope` value except `Full` wired into exactly one `Full` dispatch block.
+
 UnsafeFixtureCoverageSafety adds `Full` coverage for `testdata/*unsafe*.example.json` fixtures so each unsafe fixture keeps a negative coverage block with the fixture path and expected `Assert-FindingId` assertions.
 
 ActiveRunSafety rejects active-run/current-state wording that declares a literal historical thread id as the active task thread, while preserving historical inactive/history-only thread references.
@@ -627,16 +633,11 @@ Last verification:
 
 - `git status --short --branch`;
 - `git diff --check`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataStructuredSyntaxSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`.
 

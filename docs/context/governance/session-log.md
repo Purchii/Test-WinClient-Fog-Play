@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Active Run Safety implementation-status Post-M6 parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static status parity hardening after Planner/Explorer confirmed the implementation-status Post-M6 heading drift was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`
+
+Thread lifecycle:
+
+- Source thread `019e92ab-3fda-7f30-be1a-7c4983ad3b50` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-nonprod-schema-contract` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker implemented the narrow status parity diff; QA Reviewer identified a final-sync blocker that Orchestrator fixed before final verification.
+- Discovery selected-task delivery stayed in the same continuation thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Extend `ActiveRunSafety` so implementation-status Post-M6 headings must be represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses.
+- Normalize older human-readable implementation-status safety gate headings into canonical status names while allowing active/current history lists to keep additional completed statuses.
+- Add the missing `Full scope dispatch guard` status to active-run/current-state status history.
+- Sync implementation status, quality-gate docs, scripts README and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Static Surface Safety NonProdFoundation offline replay schema contract
 
 Mode: `BOUNDED_AUTONOMOUS` local static schema contract hardening after Planner/Explorer confirmed the M6/GAP-005 offline replay schema contract slice was safe and bounded.

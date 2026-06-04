@@ -84,6 +84,7 @@ Post-M6: TestFrameworkInventorySafety static gate - implemented and verified loc
 Post-M6: ActiveRunSafety static gate - implemented and verified locally.
 Post-M6: ActiveRunSafety status-list consistency guard - implemented and verified locally.
 Post-M6: ActiveRunSafety implementation-status status-list sync - implemented and verified locally.
+Post-M6: ActiveRunSafety implementation-status Post-M6 parity guard - implemented and verified locally.
 Post-M6: IncidentStopSafety static gate - implemented and verified locally.
 Post-M6: QaDocsSafety static gate - implemented and verified locally.
 Post-M6: ArtifactPolicySafety static gate - implemented and verified locally.
@@ -92,6 +93,7 @@ Post-M6: StaticSurfaceSafety static gate - implemented and verified locally.
 Post-M6: WebViewBundleLocalReferenceSafety static gate - implemented and verified locally.
 Post-M6: FixtureInventorySafety static gate - implemented and verified locally.
 Post-M6: ScriptsInventorySafety static gate - implemented and verified locally.
+Post-M6: Full scope dispatch guard - implemented and verified locally.
 Post-M6: UnsafeFixtureCoverageSafety static gate - implemented and verified locally.
 Post-M6: GameSessionCanary conditional flag unsafe coverage hardening - implemented and verified locally.
 Post-M6: GameSessionCanary missing DryRun guard hardening - implemented and verified locally.
@@ -284,6 +286,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety static gate was completed on `codex/active-run-safety-gate`.
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
+- Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
 - Post-M6 QaDocsSafety static gate was completed on `codex/qa-docs-safety-gate`.
 - Post-M6 ArtifactPolicySafety static gate was completed on `codex/artifact-policy-safety-gate`.
@@ -292,6 +295,7 @@ Repository bootstrap state:
 - Post-M6 WebViewBundleLocalReferenceSafety static gate was completed on `codex/webview-bundle-local-reference-safety-gate`.
 - Post-M6 FixtureInventorySafety static gate was completed on `codex/fixture-inventory-safety-gate`.
 - Post-M6 ScriptsInventorySafety static gate was completed on `codex/scripts-inventory-safety-gate`.
+- Post-M6 Full scope dispatch guard was completed on `codex/full-scope-dispatch-guard`.
 - Post-M6 UnsafeFixtureCoverageSafety static gate was completed on `codex/unsafe-fixture-coverage-safety-gate`.
 - Post-M6 GameSessionCanary missing DryRun guard hardening was completed on `codex/game-session-canary-missing-dryrun-guard`.
 - Post-M6 ActiveRunSafety scope coverage hardening was completed on `codex/active-run-safety-scope-coverage-hardening`.
@@ -415,6 +419,7 @@ Repository bootstrap state:
 
 Current artifact status:
 
+- ActiveRunSafety implementation-status Post-M6 parity guard keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses, including the previously missing Full scope dispatch guard status.
 - Release/privacy gate implementation exists.
 - Update manifest integrity gate exists as local fixture-based dry-run validation only with structural package finding coverage.
 - App/WebView smoke scaffold exists as static/dry-run only.
@@ -481,7 +486,7 @@ Current artifact status:
 - ActiveRunSafety statically checks active handoff/current-state safety boundaries, stop triggers, stale literal latest-commit markers and stale literal historical thread ids declared as the active task thread.
 - ActiveRunSafety also checks that active-run's current milestone marker and latest completed item marker stay synced with the latest verification-memory codex branch entry, that last-verification notes include active-run coverage, and that active-run verification history blocks do not repeat commands within a block.
 - ActiveRunSafety derives current static safety scope coverage from `quality-gate.ps1` so newly added `*Safety` scopes cannot drift out of active/current context checks.
-- ActiveRunSafety keeps current-state top statuses, current-state branch history and active-run planning-boundary statuses aligned.
+- ActiveRunSafety keeps current-state top statuses, current-state branch history and active-run planning-boundary statuses aligned, and keeps implementation-status Post-M6 headings represented in those status entries.
 - ActiveRunSafety uses `git status --short --branch` as the authoritative current branch/worktree source instead of a live literal active-run branch value.
 - ActiveRunSafety rejects active current-state wording that makes installed artifacts the current autonomous verification source.
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
@@ -513,5 +518,6 @@ Current artifact status:
 - WebViewBundleLocalReferenceSafety statically checks fixture WebView bundle entrypoints and manifests for remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths.
 - FixtureInventorySafety statically checks release, privacy and App/WebView smoke fixture directory trees for required positive, negative and clean local fixture files.
 - ScriptsInventorySafety statically checks the `scripts/` runner/support file inventory.
+- Full scope dispatch guard keeps every `quality-gate.ps1 -Scope` value except `Full` wired into exactly one `Full` dispatch block.
 - UnsafeFixtureCoverageSafety statically checks `testdata/*unsafe*.example.json` fixtures so every unsafe fixture keeps a negative coverage block with the fixture path and expected `Assert-FindingId` finding-id assertions.
 - The installed artifact is not release-clean by current policy: unsigned `rds-client.exe`/`Uninstall.exe`/`crashpad_handler.exe`, sourcemaps, source map references and a local path in `installer_info.txt` were reported.

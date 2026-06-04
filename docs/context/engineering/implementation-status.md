@@ -1,5 +1,40 @@
 # Implementation status
 
+## Post-M6 - ActiveRunSafety implementation-status Post-M6 parity guard
+
+Status: local static ActiveRunSafety status parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `ActiveRunSafety` now derives Post-M6 headings from implementation-status and requires those headings to be represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses;
+- implementation-status heading normalization keeps older human-readable safety gate names aligned with canonical status names while allowing current active/current lists to contain additional history entries;
+- `Full scope dispatch guard` is now represented in active-run and current-state status lists because it already existed in implementation-status, verification-memory and session-log history;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - StaticSurfaceSafety NonProdFoundation offline replay schema contract
 
 Status: local static NonProdFoundation schema contract guard implemented and verified locally.
@@ -1524,6 +1559,7 @@ Implemented checks:
 - active handoff and current-state must mention current static safety gates derived from `quality-gate.ps1`;
 - new `*Safety` scopes cannot silently drift out of active/current context checks;
 - current-state top statuses, current-state branch history and active-run planning-boundary statuses must stay aligned;
+- implementation-status Post-M6 headings must be represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses;
 - active handoff must keep the current milestone marker synced with the latest verification-memory codex branch entry;
 - active handoff must keep the current latest completed item marker synced with the latest verification-memory codex branch entry;
 - active handoff last-verification notes must include `ActiveRunSafety`;

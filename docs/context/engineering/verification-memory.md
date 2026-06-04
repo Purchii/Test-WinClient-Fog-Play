@@ -1,5 +1,42 @@
 # Verification memory
 
+## 2026-06-04 - Active Run Safety implementation-status Post-M6 parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`
+Status: passed
+Production impact: none; local static ActiveRunSafety status parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with only scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `ActiveRunSafety` implementation-status Post-M6 parity guard as a safe bounded task.
+- Builder/Worker added implementation-status Post-M6 heading representation checks to `ActiveRunSafety` and synced the missing `Full scope dispatch guard` status into active/current context.
+- Independent QA Reviewer found no runtime or production-safety blocker; its P1 final-sync finding was addressed before final verification.
+- ActiveRunSafety passed with implementation-status headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses.
+- PowerShellStructuredSyntaxSafety passed.
+- Context, SessionLogSafety, VerificationMemorySafety and ActiveVerificationCommandSafety passed after handoff sync.
+- Full quality gate passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static status parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Static Surface Safety NonProdFoundation offline replay schema contract
 
 Branch: `codex/nonprod-offline-replay-schema-contract`
