@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard
+
+Status: local static QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the `ActiveVerificationCommandSafety` summaries in `docs/context/engineering/quality-gates.md` and `scripts/README.md` to preserve the same core active verification command evidence fragments;
+- the guarded summary contract covers active/current verification command evidence, active-run Last verification, latest verification-memory Commands block, local/static quality-gate or git checks, command dedupe, installed-client and user runtime path bans, URL/localhost/debug/CDP bans, direct runner bans, auth/network/session/update/dependency bans, TestabilityGaps production-action/runtime-user-data allow flags and CI command bans;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard
 
 Status: local static QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard implemented and verified locally.

@@ -864,6 +864,28 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope             = 'ActiveVerificationCommandSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'active/current verification command evidence',
+                'docs/context/handoff/active-run.md',
+                'Last verification',
+                'most recent `docs/context/engineering/verification-memory.md` Commands block',
+                'local/static',
+                'quality-gate or git checks',
+                'do not repeat within one source block',
+                'installed-client paths',
+                'user runtime paths',
+                'URLs',
+                'localhost/debug/CDP references',
+                'direct runners',
+                'auth/network/session/update/dependency',
+                'TestabilityGaps production-action/runtime-user-data allow flags',
+                'CI commands'
+            )
+        },
+        @{
             Scope             = 'VerificationMemorySafety'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
