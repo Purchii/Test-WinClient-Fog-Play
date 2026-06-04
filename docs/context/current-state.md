@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: QualityGateStructureSafety Invoke-StubGate cleanup - implemented and verified locally.
 Post-M6: QualityGateStructureSafety implementation-status stub cleanup sync - implemented and verified locally.
@@ -293,6 +294,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard was completed on `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`.
 - Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync was completed on `codex/autonomous-next-task-discovery-after-active-verification-command-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-verification-memory-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-summary-parity-guard`.
@@ -507,6 +509,7 @@ Current artifact status:
 - ActiveRunSafety rejects implementation-status wording that regresses installed artifact observations into the current autonomous verification source.
 - SessionLogSafety statically checks guarded session-log branch entries for mode, branch, scope and core no-runtime/no-production safety notes, rejects codex branch entries that describe previous source/coordinator threads as still active, validates the latest codex branch entry for thread lifecycle wording, and keeps the latest session-log codex title and branch synced with verification-memory.
 - QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard keeps quality-gates docs and scripts README aligned on active verification command evidence, active-run Last verification, latest verification-memory Commands block, local/static command boundaries, command dedupe and forbidden runtime/network/auth/session/update/dependency/CI command tokens.
+- QualityGatesDocsScopeSafety README self-summary detail parity guard keeps scripts README aligned with quality-gates self-summary detail for unknown scope rejection, stable command syntax, missing `-DryRun`, dangerous allow-flag rejection, installed-artifact/report-only wording and active/current handoff/session-log/verification-memory/command-evidence summary parity coverage.
 - QualityGatesDocsScopeSafety active/current safety-summary self-summary sync keeps the QualityGatesDocsScopeSafety self-summary aligned on active/current history and verification safety summaries and adds an ActiveRunSafety summary contract for active handoff status, latest marker, installed-artifact boundary and verification-history command parity coverage.
 - QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard keeps quality-gates docs and scripts README aligned on verification-memory codex branch evidence, no-impact `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 - VerificationMemorySafety statically checks verification-memory branch entries for pending markers, missing evidence fields, no-impact static/local-static `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.

@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through ActiveVerificationCommandSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync.
+Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard.
 
 Planning boundary:
 
@@ -75,6 +75,7 @@ Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard is complete.
@@ -222,6 +223,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+QualityGatesDocsScopeSafety README self-summary detail parity guard keeps scripts README aligned with quality-gates self-summary detail for unknown scope rejection, stable command syntax, missing `-DryRun`, dangerous allow-flag rejection, installed-artifact/report-only wording and active/current handoff/session-log/verification-memory/command-evidence summary parity coverage.
+
 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync keeps the QualityGatesDocsScopeSafety self-summary aligned on active/current history and verification safety summaries, and adds an ActiveRunSafety summary contract for active handoff status, latest marker, installed-artifact boundary and verification-history command parity coverage.
 
 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard keeps the `ActiveVerificationCommandSafety` summaries in quality-gates docs and scripts README aligned on active verification command evidence, active-run Last verification, latest verification-memory Commands block, local/static command boundaries, command dedupe and forbidden runtime/network/auth/session/update/dependency/CI command tokens.

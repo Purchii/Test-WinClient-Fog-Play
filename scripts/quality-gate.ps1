@@ -839,8 +839,17 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             RequiredFragments = @(
                 'preferred `docs/context/engineering/quality-gates.md` command block',
                 'exact `quality-gate.ps1 -Scope` inventory',
+                'unknown scopes are rejected',
+                'command syntax stays stable',
                 'selected runner-scope and QA-doc safety summaries',
                 'active/current history and verification safety summaries',
+                'missing `-DryRun`',
+                'dangerous allow-flag rejection',
+                'installed-artifact/report-only wording coverage',
+                'active/current handoff',
+                'session-log',
+                'verification-memory',
+                'command-evidence summary parity',
                 'scripts/README.md'
             )
         },

@@ -1,5 +1,39 @@
 # Session log
 
+## 2026-06-04 - Quality Gates Docs Scope Safety README self-summary detail parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static documentation self-summary hardening after Planner/Explorer confirmed the README detail parity gap was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`
+
+Thread lifecycle:
+
+- Source thread `019e932a-9c44-7311-8bcb-95bebc1d5294` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker implemented the narrow QualityGatesDocsScopeSafety README self-summary detail parity diff; Orchestrator performed handoff sync and final verification.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Extend `QualityGatesDocsScopeSafety` self-summary fragments so scripts README preserves the detailed command-block and summary-parity tail from quality-gates docs.
+- Sync scripts README, implementation status, active/current context and verification evidence.
+- Preserve the existing quality-gate command inventory and summary parsing semantics beyond documentation self-summary detail parity.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety active/current safety-summary self-summary sync
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation self-summary hardening after Planner/Explorer confirmed the active/current summary sync was safe and bounded.

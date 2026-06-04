@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety README self-summary detail parity guard
+
+Status: local static QualityGatesDocsScopeSafety README self-summary detail parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the self-summary detail in `scripts/README.md` to preserve the same command-block and summary-parity tail already described in `docs/context/engineering/quality-gates.md`;
+- the guarded self-summary contract covers unknown scope rejection, stable command syntax, missing `-DryRun`, dangerous allow-flag rejection, installed-artifact/report-only wording, active/current handoff, session-log, verification-memory and command-evidence summary parity;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety active/current safety-summary self-summary sync
 
 Status: local static QualityGatesDocsScopeSafety active/current safety-summary self-summary sync implemented and verified locally.
