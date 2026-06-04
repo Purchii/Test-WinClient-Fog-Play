@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard.
 
 Planning boundary:
 
@@ -80,6 +80,7 @@ Post-M6 HandoffProtocolSafety full read-list required-source parity guard is com
 Post-M6 HandoffProtocolSafety source-of-truth read list parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard is complete.
@@ -350,6 +351,8 @@ QualityGatesDocsScopeSafety Release summary parity guard fails if Release qualit
 QualityGatesDocsScopeSafety Privacy summary parity guard fails if Privacy quality-gates and scripts README summaries drift on local privacy/logging fixtures, installed-client non-launch, fail-closed negative fixture, report-only or unsafe input-path coverage.
 
 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard fails if AppSmoke, BridgeContract or BackendSmoke quality-gates and scripts README summaries drift on missing `-DryRun` rejection coverage.
+
+QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard fails if GameSessionCanary quality-gates and scripts README summaries drift on explicit `-AllowClientLaunch`, `-AllowNetwork` or `-AllowAuth` rejection coverage.
 
 QualityGatesDocsScopeSafety AppSmoke summary parity guard fails if AppSmoke quality-gates and scripts README summaries drift on local App/WebView smoke scaffold, installed-client non-launch, static WebView bundle finding, missing `-DryRun`, unsafe input-path or dangerous launch/debug flag rejection coverage.
 
@@ -667,9 +670,7 @@ Last verification:
 - `git status --short --branch`;
 - `git diff --check`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope AppSmoke`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BackendSmoke`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope GameSessionCanary`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;

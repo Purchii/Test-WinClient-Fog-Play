@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard
+
+Status: local static QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the `GameSessionCanary` summaries in quality-gates docs and scripts README to preserve explicit `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection coverage;
+- the quality-gates docs `GameSessionCanary` summary now names those three dangerous allow flags instead of only using a generic dangerous-runtime-allow wording;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety missing DryRun runner summary parity guard
 
 Status: local static QualityGatesDocsScopeSafety missing DryRun runner summary parity guard implemented and verified locally.

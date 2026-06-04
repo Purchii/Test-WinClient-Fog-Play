@@ -27,6 +27,7 @@ Post-M6: HandoffProtocolSafety full read-list required-source parity guard - imp
 Post-M6: HandoffProtocolSafety source-of-truth read list parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety missing DryRun runner summary parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: QualityGateStructureSafety Invoke-StubGate cleanup - implemented and verified locally.
 Post-M6: QualityGateStructureSafety implementation-status stub cleanup sync - implemented and verified locally.
@@ -405,6 +406,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety QaDocsSafety README summary parity guard was completed on `codex/qadocs-readme-reportonly-summary-safety`.
 - Post-M6 QualityGatesDocsScopeSafety README self-summary parity guard was completed on `codex/quality-gates-scope-readme-summary-safety`.
 - Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard was completed on `codex/autonomous-next-task-discovery-after-handoff-qa-read-list-summary-parity`.
+- Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard was completed on `codex/autonomous-next-task-discovery-after-missing-dryrun-runner-summary-parity`.
 - Post-M6 ActiveRunSafety implementation-status QualityGatesDocsScopeSafety summary sync was completed on `codex/implementation-status-qualitygates-summary-sync`.
 - Post-M6 QualityGatesDocsScopeSafety RunnerSafety summary parity guard was completed on `codex/runner-safety-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety Release summary parity guard was completed on `codex/release-summary-parity-guard`.
@@ -472,6 +474,7 @@ Current artifact status:
 - QualityGatesDocsScopeSafety Release summary parity guard keeps Release summaries aligned for local release fixtures, installed-client non-launch, fail-closed negative fixture, report-only and unsafe input-path coverage.
 - QualityGatesDocsScopeSafety Privacy summary parity guard keeps Privacy summaries aligned for local privacy/logging fixtures, installed-client non-launch, fail-closed negative fixture, report-only and unsafe input-path coverage.
 - QualityGatesDocsScopeSafety missing DryRun runner summary parity guard keeps AppSmoke, BridgeContract and BackendSmoke summaries aligned on missing `-DryRun` rejection coverage.
+- QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard keeps GameSessionCanary summaries aligned on explicit `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` rejection coverage.
 - QualityGatesDocsScopeSafety AppSmoke summary parity guard keeps AppSmoke summaries aligned for local App/WebView smoke scaffold, installed-client non-launch, static WebView bundle finding, missing `-DryRun`, unsafe input-path and dangerous launch/debug flag rejection coverage.
 - QualityGatesDocsScopeSafety BridgeContract summary parity guard keeps BridgeContract summaries aligned for local WebView/native bridge contract scaffold, no WebView debug/CDP or client launch, structural bridge finding, missing `-DryRun`, unsafe input-path, unsafe logging policy and dangerous launch/debug flag rejection coverage.
 - QualityGatesDocsScopeSafety BackendSmoke summary parity guard keeps BackendSmoke summaries aligned for local backend smoke contract scaffold, network/auth/backend interaction bans, structural endpoint finding, missing `-DryRun`, unsafe input-path, unsafe endpoint, missing mock response and dangerous network/auth flag rejection coverage.

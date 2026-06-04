@@ -1058,7 +1058,10 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'allowlisted target region',
                 'cleanup/conditional budget flags',
                 'unsafe runtime input paths',
-                'unsafe conditional-flag budget drift'
+                'unsafe conditional-flag budget drift',
+                '`-AllowClientLaunch`',
+                '`-AllowNetwork`',
+                '`-AllowAuth`'
             )
         }
     )
