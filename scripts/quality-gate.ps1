@@ -1529,12 +1529,9 @@ function Invoke-SessionLogSafetyGate {
         throw 'session-log.md must contain dated session entries.'
     }
 
-    $branchEntries = @($entryMatches | Where-Object {
-            $_.Value -match 'Branch:\s+`codex/' -and
-            $_.Value -match 'after user allowed autonomous work and pushes to main'
-        })
+    $branchEntries = @($entryMatches | Where-Object { $_.Value -match 'Branch:\s+`codex/' })
     if ($branchEntries.Count -eq 0) {
-        throw 'session-log.md must contain guarded codex branch entries.'
+        throw 'session-log.md must contain codex branch entries.'
     }
 
     $latestVerificationBranchEntry = Get-LatestVerificationMemoryBranchEntryText -Text $verificationMemory

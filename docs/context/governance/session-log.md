@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Session Log Safety all codex branch metadata guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static session history metadata hardening after Planner/Explorer confirmed the all-codex-entry metadata gap was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard`
+
+Thread lifecycle:
+
+- Source thread `019e92dc-4f99-7510-9a16-6ed09ae71ab9` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker implemented the narrow SessionLogSafety all-entry metadata diff; Orchestrator performed handoff sync and final verification.
+- Discovery selected-task delivery stayed in the same continuation thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Extend `SessionLogSafety` so every session-log codex branch entry must keep `Mode:`, `Branch:`, `Scope:` and `Safety:` sections.
+- Require every session-log codex branch entry to preserve the core no-runtime/no-production safety phrases instead of only legacy autonomous-push entries and the latest entry.
+- Minimally sync older session-log codex entries with missing canonical safety phrases.
+- Preserve latest title/branch parity, discovery-thread lifecycle wording and inactive/history-only lifecycle checks.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Session Log Safety latest title parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static session/verification history hardening after Planner/Explorer confirmed the latest title parity gap was safe and bounded.
@@ -5292,7 +5327,11 @@ Safety:
 - No rollback execution.
 - No credentials used.
 - No installed client launch.
+- No WebView debug/CDP.
+- No authentication.
 - No production backend interaction.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
 
 Closeout:
 
@@ -5319,6 +5358,9 @@ Safety:
 - No installed client launch.
 - No WebView debug/CDP.
 - No authentication or game sessions.
+- No production backend.
+- No game session.
+- No user AppData, logs, cookies, DB or dumps read.
 
 Closeout:
 
@@ -5377,6 +5419,7 @@ Safety:
 - No installed client launch.
 - No WebView debug/CDP.
 - No authentication.
+- No production backend.
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.
 
@@ -5395,7 +5438,10 @@ Scope:
 Safety:
 
 - No real backend network calls.
+- No installed client launch.
+- No WebView debug/CDP.
 - No authentication, credentials, cookies, tokens or secrets.
+- No production backend.
 - No state-mutating backend requests.
 - No game session.
 - No user AppData, logs, cookies, DB or dumps read.

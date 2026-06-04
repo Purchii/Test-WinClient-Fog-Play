@@ -1,5 +1,41 @@
 # Implementation status
 
+## Post-M6 - SessionLogSafety all codex branch metadata guard
+
+Status: local static SessionLogSafety all-entry metadata guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `scripts/README.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `SessionLogSafety` now requires every session-log codex branch entry to keep `Mode:`, `Branch:`, `Scope:` and `Safety:` sections;
+- all session-log codex branch entries must preserve the core no-runtime/no-production safety phrases instead of only legacy autonomous-push entries and the latest entry;
+- older session-log codex branch entries were minimally synced with missing canonical safety phrases;
+- the latest title/branch parity, discovery-thread lifecycle wording and inactive/history-only lifecycle checks remain in place;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - SessionLogSafety latest title parity guard
 
 Status: local static SessionLogSafety title parity guard implemented and verified locally.
