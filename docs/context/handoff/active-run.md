@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety root/framework safety summary parity guard.
 
 Planning boundary:
 
@@ -83,6 +83,7 @@ Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard i
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety root/framework safety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
@@ -232,6 +233,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+QualityGatesDocsScopeSafety root/framework safety summary parity guard keeps the `RepositoryRootInventorySafety`, `RootPromptSafety` and `ProdSafetyFrameworkSafety` summaries in quality-gates docs and scripts README aligned on repository-root inventory wording, top-level Codex prompt/TZ source-of-truth and autonomy/production-stop prerequisites, and ProdSafety framework classification/kill-switch/synthetic-user/resource-budget/cleanup guard contracts.
+
 HandoffProtocolSafety QA read-first summary parity guard keeps the `HandoffProtocolSafety` summaries in quality-gates docs and scripts README aligned on the full mandatory read-first required-source list, including `docs/qa/prod-testing-policy.md` and `docs/qa/prod-safe-test-matrix.md`.
 
 HandoffProtocolSafety full read-list required-source parity guard keeps context-protocol's mandatory read-first source list protected through Codex workflow, autonomy, milestone planning and communication policy docs, so `docs/codex/milestone-planning-policy.md` and `docs/codex/communication-policy.md` cannot silently drift out of the guarded list.
@@ -681,8 +684,10 @@ Last verification:
 
 - `git status --short --branch`;
 - `git diff --check`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;

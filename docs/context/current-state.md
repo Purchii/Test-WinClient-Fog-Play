@@ -30,6 +30,7 @@ Post-M6: QualityGatesDocsScopeSafety missing DryRun runner summary parity guard 
 Post-M6: QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety root/framework safety summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
@@ -312,6 +313,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-metadata-guard`.
 - Post-M6 QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-required-contract-summary-parity`.
+- Post-M6 QualityGatesDocsScopeSafety root/framework safety summary parity guard was completed on `codex/root-framework-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-binary-fixture-summary-parity`.
 - Post-M6 QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-script-encoding-summary-parity`.
 - Post-M6 SessionLogSafety all codex branch metadata guard was completed on `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard`.
@@ -489,6 +491,7 @@ Current artifact status:
 - QualityGatesDocsScopeSafety GameSessionCanary summary parity guard keeps GameSessionCanary summaries aligned for local dry-run readiness-plan, no game-session start/stop, canary cardinality, readiness signal, suite metadata, intent metadata, runtime path, synthetic alias, duration, concurrency, run-frequency, target region and cleanup/conditional budget guard coverage.
 - QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard keeps the NonProdFoundation summary contract explicit about missing required contract properties instead of only generic structural component finding wording.
 - QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard keeps the ScriptEncodingSafety summaries in quality-gates docs and scripts README aligned on `scripts/*.ps1`, UTF-8 BOM rejection, ASCII-only byte requirements and Windows PowerShell parser-safety coverage.
+- QualityGatesDocsScopeSafety root/framework safety summary parity guard keeps RepositoryRootInventorySafety, RootPromptSafety and ProdSafetyFrameworkSafety summaries aligned on repository-root file/directory inventory, top-level Codex prompt/TZ source-of-truth wording, autonomy boundaries, production-impact stops, game-session/credential prerequisites, and ProdSafety README/module export/regression assertion contracts for classification, kill switch, synthetic user, resource budget and cleanup guards.
 - QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard keeps PowerShellStructuredSyntaxSafety summaries aligned on PowerShell syntax parsing for `scripts/*.ps1`, `src/TestFramework/**/*.ps1`, `src/TestFramework/**/*.psm1`, `[System.Management.Automation.Language.Parser]::ParseFile(...)` coverage and no-import/no-execute boundaries.
 - QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard keeps BinaryFixturePlaceholderSafety summaries aligned on binary-like files under `testdata/`, tiny placeholder requirements, real PE/header rejection and dump/database/debug extension bans.
 - QualityGatesDocsScopeSafety NonProdFoundation summary parity guard keeps NonProdFoundation summaries aligned for future fake/replay/network/hardware placeholder schemas, no system execution, structural component and missing required contract-property findings, unsafe input-path and dangerous execution/network/auth flag rejection coverage.

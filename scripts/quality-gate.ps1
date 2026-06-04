@@ -673,6 +673,42 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
 
     $summaryContracts = @(
         @{
+            Scope             = 'RepositoryRootInventorySafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'repository-root file',
+                'directory inventory'
+            )
+        },
+        @{
+            Scope             = 'RootPromptSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'top-level Codex prompt/TZ',
+                'source-of-truth wording',
+                'autonomy-mode boundaries',
+                'production-impact stop rules',
+                'game-session/credential guard prerequisites'
+            )
+        },
+        @{
+            Scope             = 'ProdSafetyFrameworkSafety'
+            QualityGatesLabel = 'scope'
+            ReadmeLabel       = 'quality gate'
+            RequiredFragments = @(
+                'ProdSafety README',
+                'module exports',
+                'regression assertion text',
+                'core classification',
+                'kill switch',
+                'synthetic user',
+                'resource budget',
+                'cleanup guard contract'
+            )
+        },
+        @{
             Scope                = 'ScriptEncodingSafety'
             QualityGatesLabel    = 'scope'
             ReadmeLabel          = 'quality gate'

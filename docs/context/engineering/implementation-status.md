@@ -1,5 +1,39 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety root/framework safety summary parity guard
+
+Status: local static QualityGatesDocsScopeSafety root/framework safety summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the `RepositoryRootInventorySafety`, `RootPromptSafety` and `ProdSafetyFrameworkSafety` summaries in quality-gates docs and scripts README to preserve root/framework safety wording;
+- the guarded summary contracts keep repository-root file/directory inventory wording, top-level Codex prompt/TZ source-of-truth, autonomy boundary, production-impact stop and game-session/credential prerequisite wording visible across both docs;
+- the guarded summary contract keeps ProdSafety README, module export and regression assertion text for classification, kill switch, synthetic user, resource budget and cleanup guard contracts visible across both docs;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency, fake/replay execution, hardware probing or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- installed client artifact read;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard
 
 Status: local static QualityGatesDocsScopeSafety PowerShellStructuredSyntaxSafety summary parity guard implemented and verified locally.

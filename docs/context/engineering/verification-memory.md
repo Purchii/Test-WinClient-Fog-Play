@@ -1,5 +1,43 @@
 # Verification memory
 
+## 2026-06-04 - Quality Gates Docs Scope Safety root/framework safety summary parity guard
+
+Branch: `codex/root-framework-summary-parity-guard`
+Status: passed
+Production impact: none; local static QualityGatesDocsScopeSafety root/framework safety summary parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RepositoryRootInventorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope RootPromptSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ProdSafetyFrameworkSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with scoped local static changes and no commit/push.
+- `git diff --check` passed with Git CRLF warnings only.
+- Builder/Worker added `RepositoryRootInventorySafety`, `RootPromptSafety` and `ProdSafetyFrameworkSafety` summary contracts to `QualityGatesDocsScopeSafety`.
+- Existing quality-gates docs and scripts README summaries already contained the required root/framework fragments, so no summary text changes were needed there.
+- QualityGatesDocsScopeSafety, RepositoryRootInventorySafety, RootPromptSafety and ProdSafetyFrameworkSafety passed.
+- Independent QA/Prod Safety Reviewer found only a verification-evidence wording ambiguity: the `Full` command is Orchestrator final verification, not the focused QA pass.
+- Orchestrator reran focused gates plus ActiveRunSafety, ActiveVerificationCommandSafety, VerificationMemorySafety, SessionLogSafety, Context and Full after branch/thread rename and handoff sync; all passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static root/framework summary parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency, fake/replay runtime, hardware probe or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety PowerShellStructuredSyntaxSafety summary parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-binary-fixture-summary-parity`
