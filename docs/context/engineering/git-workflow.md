@@ -11,6 +11,8 @@
 - Use `create_thread` first for new independent tasks.
 - If normal thread creation is unusable, mark it inactive/orphan, retry `create_thread` once, then use Codex worktree fallback after the second failure.
 - Use Codex worktrees earlier when follow-on tasks need isolated branch/workspace state.
+- In `BOUNDED_AUTONOMOUS`, after a verified, committed/pushed/integrated task, if the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+- Stop autonomous continuation instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
 - After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
 - The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 - If a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE` before doing more implementation.
@@ -48,6 +50,8 @@ Then update:
 - `docs/context/governance/session-log.md`
 - `docs/context/handoff/active-run.md`
 - `docs/context/engineering/implementation-status.md`
+
+In `BOUNDED_AUTONOMOUS`, if the active autonomous window remains open and no stop condition applies after verified commit/push/integration, create the next separate Codex task thread via `create_thread` and hand off continuation before final stop.
 
 ## Commit rules
 

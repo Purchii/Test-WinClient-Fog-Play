@@ -69,11 +69,11 @@ The `ActiveVerificationCommandSafety` quality gate fails if active/current verif
 
 The `ChecklistSafety` quality gate fails if executor or context integrity checklists lose required thread isolation, verification, stop-trigger, secrets or production-impact checklist items.
 
-The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted status or core production-safety, autonomy, thread isolation, push/merge authority and process-error rules.
+The `DecisionsLogSafety` quality gate fails if durable decisions lose accepted status or core production-safety, autonomy, thread isolation, bounded autonomous continuation handoff, push/merge authority and process-error rules.
 
-The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, production-impact, credential, CI/CD, main-merge or game-session boundaries.
+The `CodexPolicySafety` quality gate fails if Codex or executor policy docs lose autonomy, thread isolation, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge or game-session boundaries.
 
-The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, thread lifecycle, production classification, verification or stop-condition requirements.
+The `TaskRequestSafety` quality gate fails if task request template/log docs lose bounded-goal fields, thread lifecycle, bounded autonomous continuation handoff, production classification, verification or stop-condition requirements.
 
 The `CodexTemplateSafety` quality gate fails if Codex review/task/communication/agent-role docs lose reporting, role separation, verification, production classification, stop-trigger, secret or no-main-merge requirements.
 
@@ -83,7 +83,7 @@ The `CodexDocsInventorySafety` quality gate fails if the `docs/codex/*.md` polic
 
 The `QaStrategySafety` quality gate fails if QA strategy, testability contract or flakiness policy docs lose layered test order, no-broad-E2E guidance, WebView debug defaults, runtime gap tracking or retry/session-budget rules.
 
-The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification or main-merge approval rules.
+The `HandoffProtocolSafety` quality gate fails if `AGENTS.md`, context protocol or Git workflow docs lose source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification or main-merge approval rules.
 
 The `IncomingReferenceSafety` quality gate fails if `docs/_incoming_reference` inventory changes silently or if incoming reference docs are no longer marked reference-only rather than active scope.
 

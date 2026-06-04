@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QaDocsSafety.
-Current latest completed item: Post-M6 QaDocsSafety AppSmoke guard hardening wording guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through CodexPolicySafety.
+Current latest completed item: Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard.
 
 Planning boundary:
 
@@ -191,7 +191,10 @@ Post-M6 SessionLogSafety delegated discovery lifecycle guard is complete.
 Post-M6 TaskRequestSafety thread lifecycle field guard is complete.
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard is complete.
 Post-M6 HandoffProtocolSafety AGENTS source-of-truth guard is complete.
+Post-M6 CodexPolicySafety bounded autonomous continuation handoff policy guard is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
+In `BOUNDED_AUTONOMOUS`, a verified, committed/pushed/integrated task must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task while the autonomous window remains open and no stop condition applies.
+Autonomous continuation stops instead when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
 Each newly selected follow-up gate, hardening item, feature slice or backlog item requires a new Codex thread unless it only repairs verification for the current task.
 Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 ```
@@ -328,6 +331,8 @@ TaskRequestSafety thread lifecycle field guard fails if task request templates o
 QualityGatesDocsScopeSafety GameSessionCanary suite metadata summary parity guard fails if GameSessionCanary quality-gates or scripts README summaries stop saying that canary suite metadata must be exact and non-duplicated.
 
 HandoffProtocolSafety AGENTS source-of-truth guard fails if `AGENTS.md` loses source-of-truth, incoming-reference, separate-thread, `create_thread`, inactive/history-only previous-thread or process-error handoff rules.
+
+Bounded autonomous continuation handoff policy guard fails if source-of-truth policy docs lose the rule that a verified and integrated bounded autonomous task must create the next separate Codex task thread via `create_thread` and hand off while the autonomous window remains open and no stop condition applies.
 
 Privacy pattern finding coverage hardening asserts local negative fixtures cover access-token, refresh-token, bearer-token, generic-token, api-key, private-key, turn-credential and password finding ids in both `-ExpectFindings` and `-ReportOnly` paths.
 
@@ -529,11 +534,11 @@ ActiveRunSafety latest item marker guard adds `Full` coverage so the active-run 
 
 ChecklistSafety adds `Full` coverage for executor and context integrity checklist drift around thread isolation, verification records, stop triggers, secrets and production-impact checks.
 
-DecisionsLogSafety adds `Full` coverage for durable decision drift around production safety, autonomy, thread isolation, push/merge authority and process-error rules.
+DecisionsLogSafety adds `Full` coverage for durable decision drift around production safety, autonomy, thread isolation, bounded autonomous continuation handoff, push/merge authority and process-error rules.
 
-CodexPolicySafety adds `Full` coverage for Codex and executor policy drift around autonomy, thread isolation, production-impact, credential, CI/CD, main-merge and game-session boundaries.
+CodexPolicySafety adds `Full` coverage for Codex and executor policy drift around autonomy, thread isolation, bounded autonomous continuation handoff, production-impact, credential, CI/CD, main-merge and game-session boundaries.
 
-TaskRequestSafety adds `Full` coverage for task request template/log drift around bounded goals, thread lifecycle, forbidden actions, production classification, verification commands and stop conditions.
+TaskRequestSafety adds `Full` coverage for task request template/log drift around bounded goals, thread lifecycle, bounded autonomous continuation handoff, forbidden actions, production classification, verification commands and stop conditions.
 
 CodexTemplateSafety adds `Full` coverage for Codex review/task/communication/agent-role drift around Russian reporting, role separation, verification evidence, production classification, stop triggers, secrets and no-main-merge rules.
 
@@ -543,7 +548,7 @@ CodexDocsInventorySafety adds `Full` coverage for the `docs/codex/*.md` policy/t
 
 QaStrategySafety adds `Full` coverage for QA strategy/testability/flakiness drift around layered test order, no broad E2E, WebView debug defaults, runtime gap tracking and retry/session-budget rules.
 
-HandoffProtocolSafety adds `Full` coverage for `AGENTS.md`, context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, worktree fallback, local verification and main-merge approval rules.
+HandoffProtocolSafety adds `Full` coverage for `AGENTS.md`, context protocol and Git workflow drift around source-of-truth ordering, latest-commit handling, thread isolation, bounded autonomous continuation handoff, worktree fallback, local verification and main-merge approval rules.
 
 IncomingReferenceSafety adds `Full` coverage for incoming reference inventory and source-of-truth wording so historical reference docs do not silently become active scope.
 
@@ -604,6 +609,22 @@ Stop-and-ask triggers:
 
 Last verification:
 
+- `git status --short --branch`;
+- `git diff --check`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope DecisionsLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TaskRequestSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`.
+
+Previous verification:
+
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
@@ -611,17 +632,6 @@ Last verification:
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
-- `git diff --check`.
-
-Previous verification:
-
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
 - `git diff --check`.
@@ -649,6 +659,17 @@ Older verification:
 - `git diff --check`.
 
 Oldest verification:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QaDocsSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`;
+- `git diff --check`.
+
+Oldest retained verification:
 
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope BridgeContract`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;

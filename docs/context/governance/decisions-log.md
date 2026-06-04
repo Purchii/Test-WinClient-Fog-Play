@@ -74,3 +74,11 @@ Decision: each newly selected follow-up quality gate, hardening item, feature sl
 Decision: `create_thread` is the priority mechanism for new independent tasks. If a normal thread creation attempt is unusable, invisible or unmanageable, Codex records it as inactive/orphan and retries `create_thread` once. A Codex worktree is used after the second normal `create_thread` failure, or earlier when a follow-on task flows from prior work and needs isolated branch/workspace state.
 
 Decision: continuing implementation for a new independent task in the previous task thread is a process error named `PROCESS_ERROR_THREAD_REUSE`. Codex must record the error in context docs and stop implementation until the task is handed off to a correct thread.
+
+## D-011: Bounded autonomous continuation handoff
+
+Status: accepted.
+
+Decision: in `BOUNDED_AUTONOMOUS` mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+
+Decision: autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.

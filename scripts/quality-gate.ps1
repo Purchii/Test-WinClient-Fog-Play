@@ -1880,6 +1880,8 @@ function Invoke-DecisionsLogSafetyGate {
             'each newly selected follow-up quality gate, hardening item, feature slice, backlog item or milestone is a new independent task',
             '`create_thread` is the priority mechanism',
             'retries `create_thread` once',
+            'must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails',
             'the previous task thread becomes inactive/history-only after handoff',
             'must not be deleted and is not archived automatically unless the user explicitly asks',
             'PROCESS_ERROR_THREAD_REUSE'
@@ -1951,6 +1953,8 @@ function Invoke-CodexPolicySafetyGate {
             'each newly selected follow-up gate, hardening item, feature slice or backlog item starts a new independent task',
             'the previous task thread becomes inactive/history-only after handoff',
             'is not deleted and is not archived automatically unless the user explicitly asks',
+            'current task thread creates the next separate Codex task thread via `create_thread` and hands off continuation instead of stopping after the first task',
+            'autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available',
             'production-impacting tasks',
             'any change that can start a cloud-gaming session',
             'CI/CD changes that can run tests automatically',
@@ -1981,6 +1985,8 @@ function Invoke-CodexPolicySafetyGate {
             'For a new independent task or milestone, use `create_thread` first',
             'Treat a newly selected follow-up gate, hardening item, feature slice or backlog item as a new independent task',
             'Treat extended autonomous time, push permission and merge permission as execution permissions only',
+            'create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'Stop autonomous continuation instead of creating a follow-up task only when no safe bounded task is available',
             'Preserve the previous task thread for history: do not delete it, and do not archive it automatically unless the user explicitly asks',
             'Wait for approval if in NON_AUTONOMOUS discovery mode',
             'Confirm production classification',
@@ -1999,6 +2005,8 @@ function Invoke-CodexPolicySafetyGate {
             'Every new independent task or milestone in autonomous work must use a separate Codex thread',
             'User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread',
             'Each newly chosen follow-up hardening gate, milestone, feature slice, or backlog item is a new independent task',
+            'current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'Autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available',
             'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',
             'Do not expand scope without user approval',
             'Do not work directly on main',
@@ -2032,6 +2040,8 @@ function Invoke-TaskRequestSafetyGate {
             'Thread lifecycle:',
             'Every new independent task or milestone must use a separate Codex thread.',
             'After handoff, completion or takeover, the previous task thread becomes inactive/history-only, is preserved for history, is not deleted, and is not archived automatically unless explicitly requested.',
+            'In BOUNDED_AUTONOMOUS continuation, a verified and integrated task must create the next separate Codex task thread via `create_thread` and hand off instead of stopping when the autonomous window remains open and no stop condition applies.',
+            'In BOUNDED_AUTONOMOUS mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.',
             'Scope:',
             'Allowed paths:',
             'Forbidden:',
@@ -2039,7 +2049,8 @@ function Invoke-TaskRequestSafetyGate {
             'PROD_SAFE / PROD_CONDITIONAL / PROD_FORBIDDEN / NON_PROD_ONLY',
             'Acceptance criteria:',
             'Verification:',
-            'Stop when:'
+            'Stop when:',
+            'No safe bounded task is available; the autonomous time window expired; a production, scope, credential or runtime blocker appears; multi-agent tooling is unavailable; the user pauses or stops work; or `create_thread` plus worktree fallback fails.'
         )) {
         if ($template -notmatch [regex]::Escape($requiredPhrase)) {
             throw "task-request-template.md must preserve template phrase: $requiredPhrase"
@@ -2056,7 +2067,10 @@ function Invoke-TaskRequestSafetyGate {
             'verification-memory.md',
             'active-run.md',
             'New task requests must preserve context, objective, thread lifecycle, scope, forbidden actions, production classification, acceptance criteria, verification commands and stop conditions.',
-            'Thread lifecycle requirements must keep the separate Codex thread rule explicit and state that previous task threads become inactive/history-only after handoff, completion or takeover while remaining preserved for history.'
+            'Thread lifecycle requirements must keep the separate Codex thread rule explicit and state that previous task threads become inactive/history-only after handoff, completion or takeover while remaining preserved for history.',
+            'BOUNDED_AUTONOMOUS continuation requests must state that a verified and integrated task creates the next separate Codex task thread via `create_thread` and hands off instead of stopping when the autonomous window remains open and no stop condition applies.',
+            'BOUNDED_AUTONOMOUS continuation requests must preserve the full condition: after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread creates the next separate Codex task thread via `create_thread` and hands off continuation instead of stopping after the first task.',
+            'Stop conditions must include no safe bounded task, expired autonomous window, production/scope/credential/runtime blocker, unavailable multi-agent tooling, user pause/stop, and `create_thread` plus worktree fallback failure.'
         )) {
         if ($log -notmatch [regex]::Escape($requiredPhrase)) {
             throw "task-request-log.md must preserve log phrase: $requiredPhrase"
@@ -2294,6 +2308,8 @@ function Invoke-HandoffProtocolSafetyGate {
             'Use `create_thread` as the priority mechanism for starting each new independent task.',
             'If `create_thread` returns an unusable, invisible or unmanageable thread, mark that attempt inactive/orphan in handoff context and retry `create_thread` once.',
             'Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state.',
+            'current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'Autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available',
             'After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.',
             'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.',
             'Continuing implementation for a new independent task in the previous task thread is a process error.',
@@ -2339,6 +2355,8 @@ function Invoke-HandoffProtocolSafetyGate {
             '`create_thread` is the priority mechanism for starting a new independent task',
             'record that attempt as inactive/orphan and retry `create_thread` once',
             'After the second normal `create_thread` failure, create the task thread with a Codex worktree',
+            'current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'Autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available',
             'After a new task thread is created, the previous task thread becomes inactive/history-only after handoff',
             'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',
             'PROCESS_ERROR_THREAD_REUSE',
@@ -2362,6 +2380,8 @@ function Invoke-HandoffProtocolSafetyGate {
             'Use `create_thread` first for new independent tasks',
             'retry `create_thread` once',
             'Codex worktree fallback after the second failure',
+            'create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task',
+            'Stop autonomous continuation instead of creating a follow-up task only when no safe bounded task is available',
             'PROCESS_ERROR_THREAD_REUSE',
             'Fetch/pull before starting a task branch',
             'Do not let remote workflow replace local verification',

@@ -1,5 +1,36 @@
 # Session log
 
+## 2026-06-04 - Codex Policy Safety bounded autonomous continuation handoff policy guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static policy/documentation guard hardening after user requested durable documentation for repeated autonomous continuation stops after one completed task.
+
+Branch: `codex/autonomous-thread-continuation-policy-doc-fix`
+
+Thread lifecycle:
+
+- Source thread `019e91ff-d37f-7f61-a407-cb59c9cf23b0` was treated as inactive/history-only after handoff to this dedicated task thread.
+- This thread was renamed to `autonomous-thread-continuation-policy-doc-fix` and used only for this bounded documentation/process-safety correction.
+- Delegated discovery thread/Planner-Explorer subagent and Builder/Worker subagent were used for role separation and are preserved as inactive/history-only rather than reused for implementation; Orchestrator performed final verification and Git integration.
+
+Scope:
+
+- Document that in `BOUNDED_AUTONOMOUS`, after a task is verified, committed/pushed/integrated and the autonomous window remains active with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+- Document stop conditions: no safe bounded task available, expired autonomous window, production/scope/credential/runtime blocker, unavailable multi-agent tooling, user pause/stop, or `create_thread` plus worktree fallback failure.
+- Add static policy guard phrases to DecisionsLogSafety, CodexPolicySafety, TaskRequestSafety and HandoffProtocolSafety.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Qa Docs Safety AppSmoke guard hardening wording guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static QA docs wording guard hardening after Planner/Explorer confirmed `docs/qa/app-webview-smoke.md` already documents AppSmoke guard hardening while `QaDocsSafety` only guarded BackendSmoke/release/privacy runner hardening wording.

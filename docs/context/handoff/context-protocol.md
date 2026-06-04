@@ -36,6 +36,8 @@ Thread lifecycle:
 - If `create_thread` creates an unusable, invisible or unmanageable thread, record that attempt as inactive/orphan and retry `create_thread` once.
 - After the second normal `create_thread` failure, create the task thread with a Codex worktree.
 - Use a Codex worktree earlier when the new task flows from a previous task and needs isolated branch/workspace state.
+- In `BOUNDED_AUTONOMOUS` mode, after the current task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread must create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+- Autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
 - After a new task thread is created, the previous task thread becomes inactive/history-only after handoff.
 - The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks.
 - If a new task is continued in the previous thread, treat it as `PROCESS_ERROR_THREAD_REUSE`: record the error, do not implement further task changes, and create or hand off to the correct task thread.

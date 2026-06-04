@@ -1,5 +1,42 @@
 # Implementation status
 
+## Post-M6 - Codex Policy Safety bounded autonomous continuation handoff policy guard
+
+Status: local static policy guard implemented and verified locally.
+
+Implemented outputs:
+
+- `AGENTS.md`
+- `docs/codex/autonomy-modes.md`
+- `docs/codex/codex-workflow.md`
+- `docs/context/handoff/context-protocol.md`
+- `docs/context/handoff/executor-policy.md`
+- `docs/context/handoff/task-request-template.md`
+- `docs/context/handoff/task-request-log.md`
+- `docs/context/governance/decisions-log.md`
+- `docs/context/engineering/quality-gates.md`
+- `scripts/README.md`
+- `scripts/quality-gate.ps1`
+
+Implemented checks:
+
+- `DecisionsLogSafety` requires accepted durable decisions for bounded autonomous continuation handoff and its stop conditions;
+- `CodexPolicySafety` requires Codex autonomy/workflow and executor policy docs to preserve the continuation handoff rule;
+- `TaskRequestSafety` requires task request template/log docs to preserve continuation handoff and stop-condition wording;
+- `HandoffProtocolSafety` requires `AGENTS.md` and context protocol docs to preserve continuation handoff wording;
+- the policy remains documentation/static-only and does not change runtime, client, auth, network, WebView or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## M0 - ProdSafety + Git/Handoff/Verification governance
 
 Status: implemented and verified locally; guard hardened in M1.1 after multi-agent audit.

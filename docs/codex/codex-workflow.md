@@ -19,8 +19,10 @@
 17. Implement only allowed scope.
 18. Run verification.
 19. Update verification-memory/session-log/active-run.
-20. Final report including autonomy mode and stop-and-ask triggers.
-21. Do not merge main without explicit approval.
+20. In `BOUNDED_AUTONOMOUS`, after the task is verified, committed/pushed/integrated as allowed, and the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, create the next separate Codex task thread via `create_thread` and hand off continuation instead of stopping after the first task.
+21. Stop autonomous continuation instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails.
+22. Final report including autonomy mode, continuation handoff status and stop-and-ask triggers.
+23. Do not merge main without explicit approval.
 
 If implementation for a new independent task continues in the previous task thread, mark `PROCESS_ERROR_THREAD_REUSE`, update context docs, and stop task implementation until a correct task thread exists.
 

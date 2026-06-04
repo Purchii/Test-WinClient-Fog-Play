@@ -63,6 +63,8 @@ Bounded autonomous mode is allowed only when all conditions are true:
 - `create_thread` was used or attempted first for the new independent task;
 - unusable, invisible or unmanageable thread attempts are recorded inactive/orphan and retried once with normal `create_thread`;
 - a Codex worktree is used after the second normal `create_thread` failure or when the task flows from prior work and needs isolated branch/workspace state;
+- after a verified, committed/pushed/integrated task, if the active autonomous window remains open with no blocker, no user stop and no exhausted safe task queue, the current task thread creates the next separate Codex task thread via `create_thread` and hands off continuation instead of stopping after the first task;
+- autonomous continuation stops instead of creating a follow-up task only when no safe bounded task is available, the autonomous time window expired, a production/scope/credential/runtime blocker appears, multi-agent tooling is unavailable, the user pauses or stops work, or `create_thread` plus worktree fallback fails;
 - after a new task thread is created, the previous task thread becomes inactive/history-only after handoff;
 - the previous task thread is preserved for history: it is not deleted and is not archived automatically unless the user explicitly asks;
 - the task is not changing production behavior directly;
