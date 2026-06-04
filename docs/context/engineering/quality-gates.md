@@ -144,7 +144,7 @@ The `TestFrameworkInventorySafety` scope statically checks `src/TestFramework` f
 
 The `IncidentStopSafety` scope statically checks `docs/qa/incident-stop-policy.md`, `docs/context/handoff/active-run.md` and `testdata/testability-gaps.example.json` so stop triggers stay centralized and gap-specific triggers remain in the approved incident-stop vocabulary.
 
-The `QaDocsSafety` scope statically checks the `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/WebViewBridge finding coverage wording, release/privacy runner hardening notes and release/privacy/AppSmoke report-only coverage notes so QA policy docs cannot be added, removed or weakened silently. It also keeps installed artifact defaults in active QA docs bounded to manual/explicit-plan reads and the local-fixture autonomous verification boundary.
+The `QaDocsSafety` scope statically checks the `docs/qa/*.md` policy inventory, core safety phrases, release/privacy M1.1 hardening notes, Post-M6 finding coverage summaries including detailed AppSmoke/BackendSmoke/WebViewBridge finding coverage wording, BackendSmoke/release/privacy runner hardening notes and release/privacy/AppSmoke report-only coverage notes so QA policy docs cannot be added, removed or weakened silently. It also keeps installed artifact defaults in active QA docs bounded to manual/explicit-plan reads and the local-fixture autonomous verification boundary.
 
 The `ArtifactPolicySafety` scope statically checks release and privacy policy fixtures so required files, forbidden extensions, sanitized finding ids, privacy patterns and bounded scan limits cannot drift silently.
 

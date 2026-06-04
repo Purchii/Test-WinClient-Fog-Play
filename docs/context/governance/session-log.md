@@ -1,5 +1,35 @@
 # Session log
 
+## 2026-06-04 - QaDocsSafety BackendSmoke guard hardening wording guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static QA docs wording guard hardening after Planner/Explorer confirmed `docs/qa/backend-smoke.md` already documents unsafe endpoint path and missing mock response guard hardening while `QaDocsSafety` only guarded BackendSmoke finding coverage wording.
+
+Branch: `codex/autonomous-next-task-discovery-12h`
+
+Thread lifecycle:
+
+- Source thread `019e9172-2cd7-7652-a21c-7631286b0249` was treated as inactive/history-only after handoff to this dedicated task thread.
+- This thread was renamed to `autonomous-next-task-discovery-12h` and used only for this bounded discovery plus implementation task.
+- Delegated discovery thread/Planner-Explorer subagent and Builder/Worker subagent were used for role separation and are preserved as inactive/history-only rather than reused for implementation; implementation proceeded from direct local static repository evidence in this task branch.
+
+Scope:
+
+- Extend `QaDocsSafety` so BackendSmoke QA docs must preserve guard-hardening wording for unsafe runtime input paths, unsafe endpoint paths, missing mock responses, missing `-DryRun`, `-AllowNetwork` and `-AllowAuth`.
+- Sync quality-gates, scripts README, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-05-31 - HandoffProtocolSafety AGENTS source-of-truth guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static handoff protocol hardening after separate discovery/status sync confirmed `HandoffProtocolSafety` checked context protocol and Git workflow docs but did not directly guard `AGENTS.md` source-of-truth and thread lifecycle handoff rules.

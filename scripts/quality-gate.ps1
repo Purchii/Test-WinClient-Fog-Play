@@ -2675,6 +2675,7 @@ function Invoke-QaDocsSafetyGate {
         'webview-bridge-contract.md' = @('Post-M6 finding coverage hardening added direct dry-run contract assertions', 'invalid command direction', 'command/event production-safety metadata', 'invalid or duplicate event names', 'invalid fake native host case types', 'missing fake host expected results', 'malformed fake host cases')
     }
     $runnerHardeningPhrasesByDoc = @{
+        'backend-smoke.md' = @('Post-M6 guard hardening added', 'unsafe runtime input paths', 'unsafe endpoint paths', 'missing mock responses', 'missing `-DryRun`', '`-AllowNetwork`', '`-AllowAuth`')
         'release-gates.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PolicyPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
         'privacy-and-logging-checks.md' = @('Post-M6 dry-run hardening added', 'rejects calls without `-DryRun` before reading the artifact root', 'Post-M6 runner input path hardening added', 'rejects AppData/log/cookie/DB/dump-like `ArtifactRoot` and `PatternsPath` overrides before reading or probing them', '`-ExpectFindings` is used for a negative fixture', '`-ReportOnly` is used for explicit artifact discovery')
     }

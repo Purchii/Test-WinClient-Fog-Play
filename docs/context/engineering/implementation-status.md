@@ -1904,6 +1904,7 @@ Implemented checks:
 - required `docs/qa/*.md` policy inventory is explicit and checked;
 - adding a new QA markdown policy requires updating the gate inventory;
 - core safety phrases in production, synthetic users, resource budget, incident stop, flakiness, artifacts, canary and testability docs must remain present;
+- BackendSmoke guard hardening wording must keep unsafe runtime input path, unsafe endpoint path, missing mock response, missing `-DryRun`, `-AllowNetwork` and `-AllowAuth` rejection coverage visible in the QA doc;
 - release, privacy and App/WebView smoke docs must keep installed artifact defaults bounded to manual/explicit-plan reads while autonomous verification remains committed local fixtures only;
 - `QaDocsSafety` is included in `Full` and visible in active/current state docs.
 
