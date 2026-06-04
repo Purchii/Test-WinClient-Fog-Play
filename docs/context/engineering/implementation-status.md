@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard
+
+Status: local static QualityGatesDocsScopeSafety BinaryFixturePlaceholderSafety summary parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `scripts/quality-gate.ps1`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `QualityGatesDocsScopeSafety` now requires the `BinaryFixturePlaceholderSafety` summaries in quality-gates docs and scripts README to preserve binary-like fixture placeholder coverage;
+- the guarded summary contract keeps `testdata/` binary-like file coverage, tiny placeholder requirements, real PE/header rejection and dump/database/debug extension bans visible across both docs;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency, fake/replay execution, hardware probing or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- installed client artifact read;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard
 
 Status: local static QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard implemented and verified locally.

@@ -687,6 +687,19 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             )
         },
         @{
+            Scope                = 'BinaryFixturePlaceholderSafety'
+            QualityGatesLabel    = 'scope'
+            ReadmeLabel          = 'quality gate'
+            RequiredFragments    = @(
+                'binary-like files under `testdata/`',
+                'tiny placeholders',
+                'dump/database/debug extensions'
+            )
+            RequiredFragmentSets = @(
+                , @('real PE files are rejected', 'real PE header')
+            )
+        },
+        @{
             Scope             = 'NonProdFoundation'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
