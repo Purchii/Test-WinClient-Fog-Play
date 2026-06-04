@@ -2501,6 +2501,7 @@ function Invoke-HandoffProtocolSafetyGate {
             'docs/context/handoff/active-run.md',
             'docs/context/current-state.md',
             'docs/context/handoff/context-protocol.md',
+            'docs/codex/codex-workflow.md',
             'docs/context/handoff/executor-policy.md',
             'docs/context/handoff/executor-checklist.md',
             'docs/context/engineering/git-workflow.md',
@@ -2515,6 +2516,11 @@ function Invoke-HandoffProtocolSafetyGate {
         if ($contextProtocol -notmatch [regex]::Escape($requiredSource)) {
             throw "context-protocol.md must keep source-of-truth entry: $requiredSource"
         }
+    }
+
+    $requiredReadOrder = '(?s)1\. `AGENTS\.md`\s*2\. `docs/context/handoff/active-run\.md`\s*3\. `docs/context/current-state\.md`\s*4\. `docs/context/handoff/context-protocol\.md`\s*5\. `docs/codex/codex-workflow\.md`\s*6\. `docs/context/handoff/executor-policy\.md`'
+    if ($contextProtocol -notmatch $requiredReadOrder) {
+        throw 'context-protocol.md must keep docs/codex/codex-workflow.md in the required read order before executor-policy.md.'
     }
 
     foreach ($requiredPhrase in @(

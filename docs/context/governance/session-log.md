@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Handoff Protocol Safety source-of-truth read list parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static source-of-truth docs/gate consistency hardening after Planner/Explorer confirmed the context-protocol read-list parity gap was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`
+
+Thread lifecycle:
+
+- Source thread `019e933a-f2f1-7080-9c64-eeec75e2e127` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer selected the same-thread bounded task; Builder/Worker implemented the narrow HandoffProtocolSafety source-of-truth read list parity diff; Orchestrator performed handoff sync and final verification.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Add `docs/codex/codex-workflow.md` to the context-protocol mandatory source-of-truth read list before executor-policy.
+- Strengthen `HandoffProtocolSafety` so that source-of-truth entry and AGENTS-aligned read order cannot silently drift.
+- Sync implementation status, active/current context and verification evidence.
+- Preserve existing runtime, client, WebView, auth, network, CI/CD, dependency and game-session behavior.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety README self-summary detail parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static documentation self-summary hardening after Planner/Explorer confirmed the README detail parity gap was safe and bounded.

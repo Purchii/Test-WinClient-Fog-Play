@@ -1,5 +1,45 @@
 # Verification memory
 
+## 2026-06-04 - Handoff Protocol Safety source-of-truth read list parity guard
+
+Branch: `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`
+Status: passed
+Production impact: none; local static HandoffProtocolSafety source-of-truth read list parity guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch with scoped local static changes before commit.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer selected the `HandoffProtocolSafety` source-of-truth read list parity guard as a safe bounded task.
+- Builder/Worker added `docs/codex/codex-workflow.md` to `context-protocol.md` read-first ordering before executor-policy.
+- Builder/Worker strengthened `HandoffProtocolSafety` so context-protocol must keep that source-of-truth entry and AGENTS-aligned ordering.
+- HandoffProtocolSafety, CodexPolicySafety and QualityGatesDocsScopeSafety passed.
+- ActiveRunSafety, ActiveVerificationCommandSafety, VerificationMemorySafety and SessionLogSafety passed after handoff sync.
+- PowerShellStructuredSyntaxSafety and Context passed.
+- Full quality gate passed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static source-of-truth docs/gate parity guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Quality Gates Docs Scope Safety README self-summary detail parity guard
 
 Branch: `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`

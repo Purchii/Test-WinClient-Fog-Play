@@ -1,5 +1,38 @@
 # Implementation status
 
+## Post-M6 - HandoffProtocolSafety source-of-truth read list parity guard
+
+Status: local static HandoffProtocolSafety source-of-truth read list parity guard implemented and verified locally.
+
+Implemented outputs:
+
+- `docs/context/handoff/context-protocol.md`
+- `scripts/quality-gate.ps1`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/implementation-status.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `context-protocol.md` now includes `docs/codex/codex-workflow.md` in the mandatory source-of-truth read order before `docs/context/handoff/executor-policy.md`;
+- `HandoffProtocolSafety` now requires that source-of-truth entry and the AGENTS-aligned ordering for the first six read-first files;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - QualityGatesDocsScopeSafety README self-summary detail parity guard
 
 Status: local static QualityGatesDocsScopeSafety README self-summary detail parity guard implemented and verified locally.

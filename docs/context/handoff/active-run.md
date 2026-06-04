@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard.
+Current milestone: Post-M6 local/static safety gate hardening complete through HandoffProtocolSafety.
+Current latest completed item: Post-M6 HandoffProtocolSafety source-of-truth read list parity guard.
 
 Planning boundary:
 
@@ -75,6 +75,7 @@ Post-M6 ActiveRunSafety static gate is complete.
 Post-M6 ActiveRunSafety status-list consistency guard is complete.
 Post-M6 ActiveRunSafety implementation-status status-list sync is complete.
 Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard is complete.
+Post-M6 HandoffProtocolSafety source-of-truth read list parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard is complete.
@@ -223,6 +224,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+HandoffProtocolSafety source-of-truth read list parity guard keeps context-protocol aligned with AGENTS.md by requiring `docs/codex/codex-workflow.md` in the mandatory read-first list before executor-policy, and makes HandoffProtocolSafety fail closed if that source-of-truth entry or order drifts.
+
 QualityGatesDocsScopeSafety README self-summary detail parity guard keeps scripts README aligned with quality-gates self-summary detail for unknown scope rejection, stable command syntax, missing `-DryRun`, dangerous allow-flag rejection, installed-artifact/report-only wording and active/current handoff/session-log/verification-memory/command-evidence summary parity coverage.
 
 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync keeps the QualityGatesDocsScopeSafety self-summary aligned on active/current history and verification safety summaries, and adds an ActiveRunSafety summary contract for active handoff status, latest marker, installed-artifact boundary and verification-history command parity coverage.
@@ -654,6 +657,8 @@ Last verification:
 
 - `git status --short --branch`;
 - `git diff --check`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope HandoffProtocolSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope CodexPolicySafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;

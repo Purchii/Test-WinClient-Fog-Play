@@ -22,6 +22,7 @@ M3: WebView/native bridge contract + fake host - local/dry-run scaffold implemen
 M4: Safe backend smoke - local/dry-run scaffold implemented and merged to main.
 M5: Minimal game-session canary readiness gate - dry-run plan validator implemented and merged to main.
 M6: Future non-prod/fake/replay/network/hardware foundation - local/dry-run schema validator implemented and merged to main.
+Post-M6: HandoffProtocolSafety source-of-truth read list parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: QualityGateStructureSafety Invoke-StubGate cleanup - implemented and verified locally.
@@ -294,6 +295,7 @@ Repository bootstrap state:
 - Post-M6 ActiveRunSafety status-list consistency guard was completed on `codex/active-run-status-list-consistency-safety`.
 - Post-M6 ActiveRunSafety implementation-status status-list sync was completed on `codex/implementation-status-active-run-status-list-sync`.
 - Post-M6 ActiveRunSafety implementation-status Post-M6 parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-schema-contract`.
+- Post-M6 HandoffProtocolSafety source-of-truth read list parity guard was completed on `codex/autonomous-next-task-discovery-after-quality-gates-readme-summary-detail`.
 - Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard was completed on `codex/autonomous-next-task-discovery-after-active-current-summary-self-sync`.
 - Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync was completed on `codex/autonomous-next-task-discovery-after-active-verification-command-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-verification-memory-summary-parity-guard`.
@@ -437,6 +439,7 @@ Current artifact status:
 - SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.
 - SessionLogSafety latest title parity guard keeps the latest session-log codex entry title and branch synced with the latest verification-memory codex entry title and branch, while preserving the existing branch parity, lifecycle wording and no-runtime/no-production safety checks.
 - ActiveRunSafety implementation-status Post-M6 parity guard keeps implementation-status Post-M6 headings represented in current-state top statuses, current-state branch history and active-run planning-boundary statuses, including the previously missing Full scope dispatch guard status.
+- HandoffProtocolSafety source-of-truth read list parity guard keeps context-protocol aligned with AGENTS.md by requiring `docs/codex/codex-workflow.md` in the mandatory read-first list before executor-policy, and makes HandoffProtocolSafety fail closed if that source-of-truth entry or order drifts.
 - Release/privacy gate implementation exists.
 - Update manifest integrity gate exists as local fixture-based dry-run validation only with structural package finding coverage.
 - App/WebView smoke scaffold exists as static/dry-run only.
