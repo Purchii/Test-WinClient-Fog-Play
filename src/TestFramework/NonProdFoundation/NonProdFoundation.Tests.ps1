@@ -60,6 +60,12 @@ Assert-FindingId -Result $result -Id 'component-execution-enabled'
 Assert-FindingId -Result $result -Id 'missing-contract-schema'
 
 $broken = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+$broken.components[0].contractSchema.required += 'missingRequiredProperty'
+$result = Test-NonProdFoundationPlan -Plan $broken -DryRun
+Assert-True (-not $result.passed) 'Contract schema required fields without matching properties should fail.'
+Assert-FindingId -Result $result -Id 'required-contract-property-missing'
+
+$broken = $plan | ConvertTo-Json -Depth 12 | ConvertFrom-Json
 $broken.components[0].name = 'Invalid Component Name'
 $broken.components[1].type = 'live-production-proxy'
 $result = Test-NonProdFoundationPlan -Plan $broken -DryRun
@@ -88,5 +94,6 @@ Assert-FindingId -Result $result -Id 'component-requires-credentials'
 Assert-FindingId -Result $result -Id 'component-mutates-state'
 Assert-FindingId -Result $result -Id 'component-starts-game-session'
 Assert-FindingId -Result $result -Id 'unsafe-component-reference'
+Assert-FindingId -Result $result -Id 'required-contract-property-missing'
 
 Write-Host 'NonProdFoundation.Tests.ps1 passed.'

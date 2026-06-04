@@ -1,5 +1,49 @@
 # Verification memory
 
+## 2026-06-04 - Static Surface Safety NonProdFoundation offline replay schema contract
+
+Branch: `codex/nonprod-offline-replay-schema-contract`
+Status: passed
+Production impact: none; local static NonProdFoundation schema contract guard only
+
+Commands:
+- `git status --short --branch`
+- `git diff --check`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`
+
+Results:
+- `git status --short --branch` showed the expected task branch state.
+- `git diff --check` passed with Git CRLF warnings only.
+- Planner/Explorer confirmed the NonProdFoundation offline replay schema contract slice is `SOURCE_SAFE` and locally `PROD_SAFE`.
+- Builder/Worker added `required-contract-property-missing` validation for `contractSchema.required[]` entries missing from `contractSchema.properties`.
+- The unsafe fixture keeps separate coverage for missing schema and missing required contract properties.
+- NonProdFoundation unit tests and direct runner dry-run/report-only checks passed during Builder verification.
+- NonProdFoundation, StaticSurfaceSafety and UnsafeFixtureCoverageSafety gates passed with the new required-property contract coverage.
+- TestDataStructuredSyntaxSafety, TestDataSafety and PowerShellStructuredSyntaxSafety passed.
+- Context, SessionLogSafety, VerificationMemorySafety, ActiveRunSafety and ActiveVerificationCommandSafety passed after handoff sync.
+- Full quality gate passed.
+- Independent QA Reviewer reported no blocking code/fixture production-safety findings after the handoff sync blocker was addressed.
+
+Not run:
+- Client launch, WebView runtime/debug/CDP, authentication, backend calls, fake/replay runtime, network shaping, hardware probing, installed artifact reads, updater execution, rollback, credential use, CI/CD, dependency changes or game sessions because this task is a local static schema contract guard only.
+
+Safety notes:
+- No real credentials committed.
+- No production game session started.
+- No unsafe test enabled.
+- No client, WebView, auth, network, update, dependency or runtime-user-data behavior changed.
+
 ## 2026-06-04 - Codex Policy Safety executor-policy feature-slice wording sync
 
 Branch: `codex/autonomous-next-task-discovery-after-handoff-feature-slice-wording-sync`

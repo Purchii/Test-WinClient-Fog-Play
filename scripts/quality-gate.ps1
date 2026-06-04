@@ -3120,6 +3120,12 @@ function Invoke-StaticSurfaceSafetyGate {
         if ($null -eq $component.contractSchema -or $component.contractSchema.type -ne 'object' -or @($component.contractSchema.required).Count -eq 0) {
             throw "Non-prod component '$($component.name)' must define an object contractSchema with required fields."
         }
+        $contractPropertyNames = @($component.contractSchema.properties.PSObject.Properties | ForEach-Object { [string]$_.Name })
+        foreach ($requiredName in @($component.contractSchema.required)) {
+            if ($contractPropertyNames -notcontains [string]$requiredName) {
+                throw "Non-prod component '$($component.name)' contractSchema.required entry must exist in properties: $requiredName"
+            }
+        }
     }
 
     Write-Host 'StaticSurfaceSafety gate passed.'
@@ -3668,7 +3674,7 @@ function Invoke-UnsafeFixtureCoverageSafetyGate {
         @{
             Fixture = 'nonprod-foundation-unsafe.example.json'
             CoverageFiles = @('src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1', 'scripts/quality-gate.ps1')
-            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'network-not-disabled', 'client-launch-not-disabled', 'webview-debug-not-disabled', 'auth-not-disabled', 'runtime-data-read-not-disabled', 'cicd-not-disabled', 'unsafe-runtime-path', 'production-endpoint-defined', 'non-nonprod-classification', 'component-not-schema-only', 'component-execution-enabled', 'component-uses-production', 'component-requires-credentials', 'component-mutates-state', 'component-starts-game-session', 'missing-contract-schema', 'unsafe-component-reference')
+            FindingIds = @('policy-not-dry-run-only', 'execution-not-disabled', 'network-not-disabled', 'client-launch-not-disabled', 'webview-debug-not-disabled', 'auth-not-disabled', 'runtime-data-read-not-disabled', 'cicd-not-disabled', 'unsafe-runtime-path', 'production-endpoint-defined', 'non-nonprod-classification', 'component-not-schema-only', 'component-execution-enabled', 'component-uses-production', 'component-requires-credentials', 'component-mutates-state', 'component-starts-game-session', 'missing-contract-schema', 'required-contract-property-missing', 'unsafe-component-reference')
         },
         @{
             Fixture = 'testability-gaps-unsafe.example.json'
@@ -5287,6 +5293,7 @@ function Invoke-NonProdFoundationGate {
     Assert-FindingId -Result $negative -Id 'component-mutates-state'
     Assert-FindingId -Result $negative -Id 'component-starts-game-session'
     Assert-FindingId -Result $negative -Id 'missing-contract-schema'
+    Assert-FindingId -Result $negative -Id 'required-contract-property-missing'
     Assert-FindingId -Result $negative -Id 'unsafe-component-reference'
 
     Write-Host 'NonProdFoundation gate passed.'

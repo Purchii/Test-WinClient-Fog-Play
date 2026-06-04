@@ -4,8 +4,8 @@ Status: Post-M6 static safety gates implemented and verified locally.
 
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
-Current milestone: Post-M6 local/static safety gate hardening complete through CodexPolicySafety.
-Current latest completed item: Post-M6 CodexPolicySafety executor-policy feature-slice wording sync.
+Current milestone: Post-M6 local/static safety gate hardening complete through StaticSurfaceSafety.
+Current latest completed item: Post-M6 StaticSurfaceSafety NonProdFoundation offline replay schema contract.
 
 Planning boundary:
 
@@ -196,6 +196,7 @@ Post-M6 ArtifactPolicySafety privacy pattern severity hardening is complete.
 Post-M6 CodexPolicySafety discovery-thread task selection policy guard is complete.
 Post-M6 HandoffProtocolSafety continuation feature-slice wording sync is complete.
 Post-M6 CodexPolicySafety executor-policy feature-slice wording sync is complete.
+Post-M6 StaticSurfaceSafety NonProdFoundation offline replay schema contract is complete.
 Autonomous time extension, push permission or merge permission does not waive thread-per-task.
 In `BOUNDED_AUTONOMOUS`, a continuation thread may start with source-of-truth discovery, select one safe bounded follow-up task, and complete that selected task in the same thread.
 In `BOUNDED_AUTONOMOUS`, after the selected task in the current continuation thread is verified, committed/pushed/integrated, the current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle while the autonomous window remains open and no stop condition applies.
@@ -213,6 +214,8 @@ Use `git status --short --branch` as the authoritative current branch/worktree s
 Current result:
 
 ```text
+StaticSurfaceSafety NonProdFoundation offline replay schema contract makes future fake/replay/network/hardware placeholder schemas fail closed if `contractSchema.required[]` names are not present in `contractSchema.properties`, while keeping NonProdFoundation fixtures schema-only, non-runnable and offline-only.
+
 CodexPolicySafety executor-policy feature-slice wording sync keeps executor-policy aligned with AGENTS.md, context-protocol and git-workflow wording so continuation-thread discovery can select a follow-up gate, hardening item, feature slice or backlog item in the same task thread, and the static CodexPolicySafety gate now preserves that executor-policy wording.
 
 HandoffProtocolSafety continuation feature-slice wording sync keeps context-protocol aligned with AGENTS.md and git-workflow wording so continuation-thread discovery can select a follow-up gate, hardening item, feature slice or backlog item in the same task thread, and the static HandoffProtocolSafety gate now preserves that full wording.
@@ -621,6 +624,23 @@ Stop-and-ask triggers:
 - scope expansion beyond local dry-run/schema validation.
 
 Last verification:
+
+- `git status --short --branch`;
+- `git diff --check`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataStructuredSyntaxSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope TestDataSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope PowerShellStructuredSyntaxSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Context`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope SessionLogSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope Full`.
+
+Previous verification:
 
 - `git status --short --branch`;
 - `git diff --check`;

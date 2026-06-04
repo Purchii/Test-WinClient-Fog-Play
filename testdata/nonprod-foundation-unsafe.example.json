@@ -37,6 +37,30 @@
         "Authorization: Bearer test-token",
         "C:\\Users\\qa\\AppData\\Local\\MTC Fog Play\\Cookies"
       ],
+      "contractSchema": {
+        "type": "object",
+        "required": [
+          "unsafeRoute",
+          "missingRequiredProperty"
+        ],
+        "properties": {
+          "unsafeRoute": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "missing-schema-contract",
+      "type": "fake-signaling",
+      "classification": "NON_PROD_ONLY",
+      "schemaOnly": true,
+      "executionEnabled": false,
+      "usesProduction": false,
+      "requiresCredentials": false,
+      "mutatesState": false,
+      "startsGameSession": false,
+      "forbiddenReferences": [],
       "contractSchema": null
     }
   ]

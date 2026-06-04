@@ -1,5 +1,39 @@
 # Session log
 
+## 2026-06-04 - Static Surface Safety NonProdFoundation offline replay schema contract
+
+Mode: `BOUNDED_AUTONOMOUS` local static schema contract hardening after Planner/Explorer confirmed the M6/GAP-005 offline replay schema contract slice was safe and bounded.
+
+Branch: `codex/nonprod-offline-replay-schema-contract`
+
+Thread lifecycle:
+
+- Source thread `019e92a3-b8a3-7163-a780-094d45a48145` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/nonprod-offline-replay-schema-contract` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent confirmed the same-thread bounded task; Builder/Worker implemented the narrow schema-contract diff; QA Reviewer identified a handoff sync blocker that Orchestrator fixed before final verification.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Add `required-contract-property-missing` validation for NonProdFoundation `contractSchema.required[]` entries missing from `contractSchema.properties`.
+- Cover the contract in unit tests, unsafe fixture assertions, `NonProdFoundation`, `UnsafeFixtureCoverageSafety` and `StaticSurfaceSafety`.
+- Sync QA docs, quality-gate docs, active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Codex Policy Safety executor-policy feature-slice wording sync
 
 Mode: `BOUNDED_AUTONOMOUS` local static executor policy wording guard hardening after Planner/Explorer confirmed that executor-policy still used older continuation-thread selected-task wording.

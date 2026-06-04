@@ -99,7 +99,7 @@ The `ArtifactPolicySafety` quality gate fails if release/privacy policy fixtures
 
 The `ContractFixtureSafety` quality gate fails if backend, update manifest or WebView bridge fixtures lose dry-run flags, read-only/local-only constraints, package integrity metadata or bridge safety vocabulary.
 
-The `StaticSurfaceSafety` quality gate fails if App/WebView smoke or non-prod foundation fixtures lose static layout requirements, WebView bundle inventory, dry-run flags or schema-only non-runtime constraints.
+The `StaticSurfaceSafety` quality gate fails if App/WebView smoke or non-prod foundation fixtures lose static layout requirements, WebView bundle inventory, dry-run flags, schema-only non-runtime constraints or required contract properties.
 
 The `WebViewBundleLocalReferenceSafety` quality gate fails if fixture WebView bundle entrypoints or asset manifests include remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints or non-local manifest paths.
 
@@ -141,7 +141,7 @@ The `BackendSmoke` quality gate validates the local backend smoke contract scaff
 
 The `GameSessionCanary` quality gate validates the local dry-run canary readiness plan without starting or stopping a game session, requires exactly one canary, exact non-duplicated canary readiness signals, exact non-duplicated canary suite metadata, explicit game-session/state-mutation intent metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, single-session concurrency, bounded run-frequency budget, allowlisted target region and cleanup/conditional budget flags in the direct plan validator, and asserts that unsafe runtime input paths, unsafe conditional-flag budget drift, `-AllowClientLaunch`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
-The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts that unsafe runtime input paths, missing `-DryRun`, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `NonProdFoundation` quality gate validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids including missing required contract properties, and asserts that unsafe runtime input paths, missing `-DryRun`, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `TestabilityGaps` quality gate validates the local testability gap registry without closing runtime gaps, asserts local gap metadata finding ids, and asserts that unsafe runtime input paths, missing `-DryRun`, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 

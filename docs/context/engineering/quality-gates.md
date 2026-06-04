@@ -150,7 +150,7 @@ The `ArtifactPolicySafety` scope statically checks release and privacy policy fi
 
 The `ContractFixtureSafety` scope statically checks backend, update manifest and WebView bridge fixtures so dry-run flags, local paths, read-only endpoint contracts, package integrity metadata and bridge safety vocabulary cannot drift silently.
 
-The `StaticSurfaceSafety` scope statically checks App/WebView smoke and non-prod foundation fixtures so static artifact layout, WebView bundle inventory and future non-prod component placeholders remain local, dry-run and non-runtime.
+The `StaticSurfaceSafety` scope statically checks App/WebView smoke and non-prod foundation fixtures so static artifact layout, WebView bundle inventory and future non-prod component placeholders remain local, dry-run and non-runtime, with every `contractSchema.required[]` entry backed by `contractSchema.properties`.
 
 The `WebViewBundleLocalReferenceSafety` scope statically checks fixture WebView bundle entrypoints and manifests so remote URLs, localhost/debug/CDP references, user runtime paths, production endpoints and non-local manifest paths cannot drift into the local smoke bundle.
 
@@ -191,7 +191,7 @@ The `BackendSmoke` scope validates the local backend smoke contract scaffold wit
 
 The `GameSessionCanary` scope validates the local dry-run canary readiness plan without starting or stopping a game session, requires exactly one canary, exact non-duplicated canary readiness signals, exact non-duplicated canary suite metadata, explicit game-session/state-mutation intent metadata, empty runtime path requests, an allowlisted production canary synthetic alias, matching synthetic-user duration ceiling, single-session concurrency, bounded run-frequency budget, allowlisted target region and cleanup/conditional budget flags in direct plan validation, and asserts unsafe runtime input paths, unsafe conditional-flag budget drift plus dangerous runtime allow flags are rejected.
 
-The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids, and asserts unsafe runtime input paths, missing `-DryRun`, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
+The `NonProdFoundation` scope validates future fake/replay/network/hardware placeholder schemas without executing those systems, asserts structural component finding ids including missing required contract properties, and asserts unsafe runtime input paths, missing `-DryRun`, `-AllowExecution`, `-AllowNetwork` and `-AllowAuth` are rejected.
 
 The `TestabilityGaps` scope validates the local testability gap registry without closing runtime gaps, asserts local gap metadata finding ids, and asserts unsafe runtime input paths, missing `-DryRun`, unsafe next-safe-step text, `-AllowProductionAction`, `-AllowCredentials` and `-AllowRuntimeUserData` are rejected.
 

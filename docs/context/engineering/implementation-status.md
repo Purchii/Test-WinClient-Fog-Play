@@ -1,5 +1,42 @@
 # Implementation status
 
+## Post-M6 - StaticSurfaceSafety NonProdFoundation offline replay schema contract
+
+Status: local static NonProdFoundation schema contract guard implemented and verified locally.
+
+Implemented outputs:
+
+- `src/TestFramework/NonProdFoundation/NonProdFoundation.psm1`
+- `src/TestFramework/NonProdFoundation/NonProdFoundation.Tests.ps1`
+- `testdata/nonprod-foundation-unsafe.example.json`
+- `scripts/quality-gate.ps1`
+- `docs/qa/nonprod-foundation.md`
+- `docs/context/engineering/quality-gates.md`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- `Test-NonProdFoundationPlan` now emits `required-contract-property-missing` when a `contractSchema.required[]` name is absent from `contractSchema.properties`;
+- the positive NonProdFoundation fixture is statically guarded by `StaticSurfaceSafety` so required schema fields remain backed by declared properties;
+- the unsafe fixture, unit tests, `NonProdFoundation` gate and `UnsafeFixtureCoverageSafety` include direct coverage for `required-contract-property-missing`;
+- the task stayed local/static and did not add fake/replay server runtime, network calls, client launch, auth, WebView debug/CDP, hardware probing, update rollback, CI/CD or dependency changes.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- fake/replay server runtime execution;
+- network shaping or hardware probing;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - CodexPolicySafety executor-policy feature-slice wording sync
 
 Status: local static executor policy guard implemented and verified locally.

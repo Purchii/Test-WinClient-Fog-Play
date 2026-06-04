@@ -74,6 +74,35 @@ function Test-NonProdFoundationSchema {
     return $true
 }
 
+function Get-NonProdFoundationMissingRequiredProperties {
+    param([AllowNull()][object] $Schema)
+
+    if ($null -eq $Schema) {
+        return @()
+    }
+
+    $required = @(Get-NonProdFoundationArray -Object $Schema -Name 'required')
+    if ($required.Count -eq 0) {
+        return @()
+    }
+
+    $properties = Get-NonProdFoundationValue -Object $Schema -Name 'properties'
+    $propertyNames = @()
+    if ($null -ne $properties) {
+        $propertyNames = @($properties.PSObject.Properties | ForEach-Object { [string]$_.Name })
+    }
+
+    $missing = @()
+    foreach ($requiredName in $required) {
+        $name = [string]$requiredName
+        if ([string]::IsNullOrWhiteSpace($name) -or $propertyNames -notcontains $name) {
+            $missing += $name
+        }
+    }
+
+    return $missing
+}
+
 function Test-NonProdFoundationUnsafeText {
     param([AllowNull()][object] $Value)
 
@@ -138,7 +167,9 @@ function Test-NonProdFoundationPlan {
         $requiresCredentials = (Get-NonProdFoundationValue -Object $component -Name 'requiresCredentials' -Default $true) -eq $true
         $mutatesState = (Get-NonProdFoundationValue -Object $component -Name 'mutatesState' -Default $true) -eq $true
         $startsGameSession = (Get-NonProdFoundationValue -Object $component -Name 'startsGameSession' -Default $true) -eq $true
-        $validSchema = Test-NonProdFoundationSchema -Schema (Get-NonProdFoundationValue -Object $component -Name 'contractSchema')
+        $contractSchema = Get-NonProdFoundationValue -Object $component -Name 'contractSchema'
+        $validSchema = Test-NonProdFoundationSchema -Schema $contractSchema
+        $missingRequiredContractProperties = @(Get-NonProdFoundationMissingRequiredProperties -Schema $contractSchema)
 
         $checks += [pscustomobject]@{
             type = 'non-prod-foundation-component'
@@ -155,7 +186,8 @@ function Test-NonProdFoundationPlan {
                 -not $requiresCredentials -and
                 -not $mutatesState -and
                 -not $startsGameSession -and
-                $validSchema
+                $validSchema -and
+                $missingRequiredContractProperties.Count -eq 0
             )
         }
 
@@ -188,6 +220,10 @@ function Test-NonProdFoundationPlan {
         }
         if (-not $validSchema) {
             $findings += Add-NonProdFoundationFinding -Id 'missing-contract-schema' -Severity 'fail' -Path $path -Message 'M6 components must define a local contract schema.'
+        }
+        if ($missingRequiredContractProperties.Count -gt 0) {
+            $missingList = $missingRequiredContractProperties -join ', '
+            $findings += Add-NonProdFoundationFinding -Id 'required-contract-property-missing' -Severity 'fail' -Path $path -Message "M6 contractSchema.required entries must exist in contractSchema.properties: $missingList"
         }
         foreach ($value in @(Get-NonProdFoundationArray -Object $component -Name 'forbiddenReferences')) {
             if (Test-NonProdFoundationUnsafeText -Value $value) {
