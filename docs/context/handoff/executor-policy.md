@@ -6,7 +6,7 @@
 - Every new independent task or milestone in autonomous work must use a separate Codex thread.
 - The Codex thread title should match the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name.
 - User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread.
-- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may choose one safe bounded follow-up hardening gate, milestone, feature slice or backlog item and Builder/QA may complete that selected task in the same thread.
+- A bounded autonomous continuation thread may start with source-of-truth discovery. Planner may choose one safe bounded follow-up gate, hardening item, feature slice or backlog item and Builder/QA may complete that selected task in the same thread.
 - Start new independent tasks with `create_thread` first.
 - If a normal `create_thread` attempt is unusable, invisible or unmanageable, mark it inactive/orphan and retry `create_thread` once.
 - Use a Codex worktree after the second normal `create_thread` failure, or earlier when a follow-on task needs isolated branch/workspace state from the previous task.

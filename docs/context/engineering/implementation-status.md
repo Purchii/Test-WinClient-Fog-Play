@@ -1,5 +1,35 @@
 # Implementation status
 
+## Post-M6 - CodexPolicySafety executor-policy feature-slice wording sync
+
+Status: local static executor policy guard implemented and verified locally.
+
+Implemented outputs:
+
+- `docs/context/handoff/executor-policy.md`
+- `scripts/quality-gate.ps1`
+- `docs/context/handoff/active-run.md`
+- `docs/context/current-state.md`
+- `docs/context/engineering/verification-memory.md`
+- `docs/context/governance/session-log.md`
+
+Implemented checks:
+
+- executor-policy now matches AGENTS.md, context-protocol and git-workflow wording that a bounded autonomous continuation thread may select a follow-up gate, hardening item, feature slice or backlog item;
+- `CodexPolicySafety` now preserves the executor-policy continuation discovery phrase including `feature slice`;
+- the task stayed local/static and did not change runtime, client, auth, network, WebView, CI/CD, dependency or game-session behavior.
+
+Not implemented:
+
+- installed client launch;
+- WebView debug/CDP;
+- authentication or real synthetic login;
+- production backend or streaming network calls;
+- real game-session start/stop;
+- reading user AppData, logs, cookies, DBs or dumps;
+- CI/CD enablement;
+- dependency changes.
+
 ## Post-M6 - HandoffProtocolSafety continuation feature-slice wording sync
 
 Status: local static handoff protocol guard implemented and verified locally.

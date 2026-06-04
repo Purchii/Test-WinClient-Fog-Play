@@ -2011,7 +2011,7 @@ function Invoke-CodexPolicySafetyGate {
             'Every new independent task or milestone in autonomous work must use a separate Codex thread',
             'The Codex thread title should match the git task branch name, including the `codex/` prefix unless the user explicitly requests another branch name',
             'User approval for long-running autonomous work, extra autonomous hours, push permission, or merge permission does not combine independent tasks into one thread',
-            'Planner may choose one safe bounded follow-up hardening gate, milestone, feature slice or backlog item and Builder/QA may complete that selected task in the same thread',
+            'Planner may choose one safe bounded follow-up gate, hardening item, feature slice or backlog item and Builder/QA may complete that selected task in the same thread',
             'current task thread must create the next separate Codex continuation thread via `create_thread` and hand off the next discovery cycle instead of stopping after the first completed task',
             'Autonomous continuation must stop rather than create a follow-up task only when no safe bounded task is available',
             'The previous task thread is preserved for history: it must not be deleted and is not archived automatically unless the user explicitly asks',

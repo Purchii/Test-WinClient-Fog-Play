@@ -204,6 +204,7 @@ Post-M6: CodexPolicySafety bounded autonomous continuation handoff policy guard 
 Post-M6: ArtifactPolicySafety privacy pattern severity hardening - implemented and verified locally.
 Post-M6: CodexPolicySafety discovery-thread task selection policy guard - implemented and verified locally.
 Post-M6: HandoffProtocolSafety continuation feature-slice wording sync - implemented and verified locally.
+Post-M6: CodexPolicySafety executor-policy feature-slice wording sync - implemented and verified locally.
 ```
 
 Do not start real game-session automation. M5 is limited to local readiness-plan validation unless a separate production-conditional execution plan is approved.
@@ -402,6 +403,7 @@ Repository bootstrap state:
 - Post-M6 ArtifactPolicySafety privacy pattern severity hardening was completed on `codex/autonomous-next-task-discovery-after-policy-doc-fix`.
 - Post-M6 CodexPolicySafety discovery-thread task selection policy guard was completed on `codex/discovery-thread-policy-doc-fix`.
 - Post-M6 HandoffProtocolSafety continuation feature-slice wording sync was completed on `codex/autonomous-next-task-discovery-after-discovery-thread-policy-doc-fix`.
+- Post-M6 CodexPolicySafety executor-policy feature-slice wording sync was completed on `codex/autonomous-next-task-discovery-after-handoff-feature-slice-wording-sync`.
 - New independent autonomous tasks require a separate Codex thread. Continuing M3 implementation in the previous thread is recorded as `PROCESS_ERROR_THREAD_REUSE`.
 - Each dedicated task thread is active only for its own task and becomes inactive/history-only after handoff, completion or takeover. Old source, coordinator and delegated task threads are preserved for history, are not deleted, are not archived automatically unless the user explicitly asks, and must not be used to implement new independent tasks. Previous source thread `019e793c-4e53-7be0-90c7-10ff5a02c8b1` became inactive/history-only after handoff to `019e7aab-dbaf-70d0-b143-ed7e6eb0bde0`.
 - Extended autonomous time, push permission and merge permission do not waive thread-per-task.
@@ -454,6 +456,7 @@ Current artifact status:
 - CodexPolicySafety bounded autonomous continuation handoff policy guard keeps source-of-truth policy docs explicit that a continuation thread may discover, select and complete one bounded task, then create the next separate Codex continuation thread via `create_thread` after verification/integration while the autonomous window remains open and no stop condition applies.
 - CodexPolicySafety discovery-thread task selection policy guard keeps source-of-truth policy docs explicit that Planner may select one bounded task during continuation-thread discovery and Builder/QA may complete it in the same thread before the next discovery-cycle handoff, and that Codex thread titles should match git task branch names.
 - HandoffProtocolSafety continuation feature-slice wording sync keeps context-protocol aligned with AGENTS.md and git-workflow wording so continuation-thread discovery may select a follow-up gate, hardening item, feature slice or backlog item, and the static gate preserves that full phrase.
+- CodexPolicySafety executor-policy feature-slice wording sync keeps executor-policy aligned with AGENTS.md, context-protocol and git-workflow wording so continuation-thread discovery may select a follow-up gate, hardening item, feature slice or backlog item, and the static gate preserves that executor-policy phrase.
 - BinaryFixturePlaceholderSafety statically checks binary-like files under `testdata/` so executable/library/package fixtures stay tiny placeholders, real PE files are rejected and dump/database/debug extensions cannot be added silently.
 - ScriptEncodingSafety statically checks `scripts/*.ps1` byte encoding so local runners stay BOM-free and ASCII-only for Windows PowerShell parser safety.
 - PowerShellStructuredSyntaxSafety statically checks local PowerShell parser syntax across `scripts/*.ps1`, `src/TestFramework/**/*.ps1` and `src/TestFramework/**/*.psm1` without importing modules or executing scripts.

@@ -1,5 +1,37 @@
 # Session log
 
+## 2026-06-04 - Codex Policy Safety executor-policy feature-slice wording sync
+
+Mode: `BOUNDED_AUTONOMOUS` local static executor policy wording guard hardening after Planner/Explorer confirmed that executor-policy still used older continuation-thread selected-task wording.
+
+Branch: `codex/autonomous-next-task-discovery-after-handoff-feature-slice-wording-sync`
+
+Thread lifecycle:
+
+- Source thread `019e9294-d4f0-71b3-9138-dc1ee3f4c799` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-handoff-feature-slice-wording-sync` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer subagent selected the same-thread bounded task; Builder/Worker updated the narrow wording diff; QA Reviewer reported no findings; Orchestrator performed final verification and Git integration.
+- Discovery selected-task delivery stayed in the same continuation thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Replace executor-policy's older `hardening gate, milestone, feature slice` wording with `follow-up gate, hardening item, feature slice or backlog item`.
+- Update `CodexPolicySafety` so the static gate preserves the corrected executor-policy wording.
+- Sync active/current context and verification evidence.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Handoff Protocol Safety continuation feature-slice wording sync
 
 Mode: `BOUNDED_AUTONOMOUS` local static handoff protocol wording guard hardening after Planner/Explorer confirmed that context-protocol omitted `feature slice` from the continuation-thread selected-task wording.
