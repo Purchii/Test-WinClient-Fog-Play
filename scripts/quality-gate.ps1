@@ -673,6 +673,20 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
 
     $summaryContracts = @(
         @{
+            Scope                = 'ScriptEncodingSafety'
+            QualityGatesLabel    = 'scope'
+            ReadmeLabel          = 'quality gate'
+            RequiredFragments    = @(
+                'scripts/*.ps1',
+                'Windows PowerShell'
+            )
+            RequiredFragmentSets = @(
+                @('UTF-8 BOM', 'BOM-free'),
+                @('non-ASCII', 'ASCII-only'),
+                @('parser safety', 'parsing brittle')
+            )
+        },
+        @{
             Scope             = 'NonProdFoundation'
             QualityGatesLabel = 'scope'
             ReadmeLabel       = 'quality gate'
@@ -1084,6 +1098,28 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
             }
             if ($qualityGatesSummaryMatch.Value -notmatch [regex]::Escape($requiredFragment)) {
                 throw "quality-gates.md $($contract.Scope) summary must stay aligned with scripts/README.md and mention $requiredFragment."
+            }
+        }
+
+        if ($contract.ContainsKey('RequiredFragmentSets')) {
+            foreach ($requiredFragmentSet in $contract.RequiredFragmentSets) {
+                $readmeHasRequiredMeaning = $false
+                $qualityGatesHasRequiredMeaning = $false
+                foreach ($requiredFragment in $requiredFragmentSet) {
+                    if ($readmeSummaryMatch.Value -match [regex]::Escape($requiredFragment)) {
+                        $readmeHasRequiredMeaning = $true
+                    }
+                    if ($qualityGatesSummaryMatch.Value -match [regex]::Escape($requiredFragment)) {
+                        $qualityGatesHasRequiredMeaning = $true
+                    }
+                }
+
+                if (-not $readmeHasRequiredMeaning) {
+                    throw "scripts/README.md $($contract.Scope) summary must mention one of: $($requiredFragmentSet -join ', ')."
+                }
+                if (-not $qualityGatesHasRequiredMeaning) {
+                    throw "quality-gates.md $($contract.Scope) summary must stay aligned with scripts/README.md and mention one of: $($requiredFragmentSet -join ', ')."
+                }
             }
         }
     }

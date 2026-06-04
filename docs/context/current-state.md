@@ -29,6 +29,7 @@ Post-M6: QualityGatesDocsScopeSafety README self-summary detail parity guard - i
 Post-M6: QualityGatesDocsScopeSafety missing DryRun runner summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard - implemented and verified locally.
 Post-M6: QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard - implemented and verified locally.
+Post-M6: QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard - implemented and verified locally.
 Post-M6: QualityGateStructureSafety static gate - implemented and verified locally.
 Post-M6: QualityGateStructureSafety Invoke-StubGate cleanup - implemented and verified locally.
 Post-M6: QualityGateStructureSafety implementation-status stub cleanup sync - implemented and verified locally.
@@ -308,6 +309,7 @@ Repository bootstrap state:
 - Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-verification-memory-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-summary-parity-guard`.
 - Post-M6 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-session-log-metadata-guard`.
+- Post-M6 QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard was completed on `codex/autonomous-next-task-discovery-after-nonprod-required-contract-summary-parity`.
 - Post-M6 SessionLogSafety all codex branch metadata guard was completed on `codex/autonomous-next-task-discovery-after-session-log-title-parity-guard`.
 - Post-M6 SessionLogSafety latest title parity guard was completed on `codex/autonomous-next-task-discovery-after-active-run-parity-guard`.
 - Post-M6 IncidentStopSafety static gate was completed on `codex/incident-stop-safety-gate`.
@@ -482,6 +484,7 @@ Current artifact status:
 - QualityGatesDocsScopeSafety BackendSmoke summary parity guard keeps BackendSmoke summaries aligned for local backend smoke contract scaffold, network/auth/backend interaction bans, structural endpoint finding, missing `-DryRun`, unsafe input-path, unsafe endpoint, missing mock response and dangerous network/auth flag rejection coverage.
 - QualityGatesDocsScopeSafety GameSessionCanary summary parity guard keeps GameSessionCanary summaries aligned for local dry-run readiness-plan, no game-session start/stop, canary cardinality, readiness signal, suite metadata, intent metadata, runtime path, synthetic alias, duration, concurrency, run-frequency, target region and cleanup/conditional budget guard coverage.
 - QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard keeps the NonProdFoundation summary contract explicit about missing required contract properties instead of only generic structural component finding wording.
+- QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard keeps the ScriptEncodingSafety summaries in quality-gates docs and scripts README aligned on `scripts/*.ps1`, UTF-8 BOM rejection, ASCII-only byte requirements and Windows PowerShell parser-safety coverage.
 - QualityGatesDocsScopeSafety NonProdFoundation summary parity guard keeps NonProdFoundation summaries aligned for future fake/replay/network/hardware placeholder schemas, no system execution, structural component and missing required contract-property findings, unsafe input-path and dangerous execution/network/auth flag rejection coverage.
 - QualityGatesDocsScopeSafety TestabilityGaps summary parity guard keeps TestabilityGaps summaries aligned for the local testability gap registry, runtime gap non-closure, local metadata finding, unsafe input-path, unsafe next-step and dangerous production-action/credential/runtime-data flag rejection coverage.
 - QualityGatesDocsScopeSafety UpdateManifest summary parity guard keeps UpdateManifest summaries aligned for the local update manifest fixture, network/updater/rollback/credential bans, structural package finding, unsafe input-path and dangerous network/execution/rollback/credential flag rejection coverage.

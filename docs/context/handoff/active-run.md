@@ -5,7 +5,7 @@ Status: Post-M6 static safety gates implemented and verified locally.
 Execution mode: autonomous local-safe hardening after explicit user approval to work autonomously and push to `main`.
 
 Current milestone: Post-M6 local/static safety gate hardening complete through QualityGatesDocsScopeSafety.
-Current latest completed item: Post-M6 QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard.
+Current latest completed item: Post-M6 QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard.
 
 Planning boundary:
 
@@ -82,6 +82,7 @@ Post-M6 QualityGatesDocsScopeSafety README self-summary detail parity guard is c
 Post-M6 QualityGatesDocsScopeSafety missing DryRun runner summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety GameSessionCanary dangerous allow-flag summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety NonProdFoundation required-contract-property summary parity guard is complete.
+Post-M6 QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety active/current safety-summary self-summary sync is complete.
 Post-M6 QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard is complete.
 Post-M6 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard is complete.
@@ -244,6 +245,8 @@ QualityGatesDocsScopeSafety ActiveVerificationCommandSafety summary parity guard
 QualityGatesDocsScopeSafety VerificationMemorySafety summary parity guard keeps the `VerificationMemorySafety` summaries in quality-gates docs and scripts README aligned on verification-memory codex branch evidence, no-impact `Not run:` rationale, installed artifact historical command boundaries and latest-entry core safety notes.
 
 QualityGatesDocsScopeSafety SessionLogSafety summary parity guard keeps the `SessionLogSafety` summaries in quality-gates docs and scripts README aligned on session-log metadata, lifecycle and latest verification-memory title/branch parity coverage.
+
+QualityGatesDocsScopeSafety ScriptEncodingSafety summary parity guard keeps the `ScriptEncodingSafety` summaries in quality-gates docs and scripts README aligned on `scripts/*.ps1`, UTF-8 BOM rejection, ASCII-only byte requirements and Windows PowerShell parser-safety coverage.
 
 SessionLogSafety all codex branch metadata guard keeps every session-log codex branch entry covered by mode, branch, scope, safety-section and core no-runtime/no-production phrase checks, while preserving latest title/branch parity and lifecycle checks.
 
@@ -672,10 +675,8 @@ Last verification:
 
 - `git status --short --branch`;
 - `git diff --check`;
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ScriptEncodingSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope QualityGatesDocsScopeSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope NonProdFoundation`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope StaticSurfaceSafety`;
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope UnsafeFixtureCoverageSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveRunSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope ActiveVerificationCommandSafety`;
 - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\quality-gate.ps1 -Scope VerificationMemorySafety`;
