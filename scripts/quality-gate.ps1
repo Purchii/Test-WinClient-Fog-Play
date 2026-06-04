@@ -1000,6 +1000,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'local App/WebView smoke scaffold',
                 'without launching the installed client',
                 'static WebView bundle failure finding ids',
+                'missing `-DryRun`',
                 'unsafe runtime input paths',
                 '`-AllowClientLaunch`',
                 '`-AllowWebViewDebugPort`'
@@ -1013,6 +1014,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'local WebView/native bridge contract scaffold',
                 'without WebView debug/CDP or client launch',
                 'structural bridge command/event/fake-host finding ids',
+                'missing `-DryRun`',
                 'unsafe runtime input paths',
                 'unsafe bridge logging policies',
                 '`-AllowClientLaunch`',
@@ -1029,6 +1031,7 @@ function Invoke-QualityGatesDocsScopeSafetyGate {
                 'auth headers',
                 'production backend interaction',
                 'structural endpoint finding ids',
+                'missing `-DryRun`',
                 'unsafe runtime input paths',
                 'unsafe endpoint paths',
                 'missing mock responses',

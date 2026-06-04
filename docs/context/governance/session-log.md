@@ -1,5 +1,40 @@
 # Session log
 
+## 2026-06-04 - Quality Gates Docs Scope Safety missing DryRun runner summary parity guard
+
+Mode: `BOUNDED_AUTONOMOUS` local static runner-summary parity hardening after Planner/Explorer confirmed the missing DryRun summary gap was safe and bounded.
+
+Branch: `codex/autonomous-next-task-discovery-after-handoff-qa-read-list-summary-parity`
+
+Thread lifecycle:
+
+- Source thread `019e9369-3b94-73e0-86d6-56b45a797311` was treated as inactive/history-only after handoff to this dedicated continuation task thread.
+- This thread was renamed to `codex/autonomous-next-task-discovery-after-handoff-qa-read-list-summary-parity` to match the git task branch name and used only for bounded source-of-truth discovery plus this selected static hardening task.
+- Delegated discovery thread/Planner-Explorer selected the same-thread bounded task; Builder/Worker implemented the narrow QualityGatesDocsScopeSafety missing DryRun runner summary parity diff; Orchestrator performed handoff sync and final verification.
+- Discovery selected-task delivery stayed in the same thread; previous delegated discovery/task threads remain preserved as inactive/history-only rather than reused for new independent implementation.
+
+Scope:
+
+- Add missing `-DryRun` required fragments to the `QualityGatesDocsScopeSafety` contracts for `AppSmoke`, `BridgeContract` and `BackendSmoke`.
+- Sync AppSmoke, BridgeContract and BackendSmoke summaries in scripts README and quality-gates docs so missing `-DryRun` rejection coverage stays visible.
+- Sync implementation status, active/current context and verification evidence.
+- Preserve existing runtime, client, WebView, auth, network, CI/CD, dependency and game-session behavior.
+
+Safety:
+
+- No installed client launch.
+- No installed client artifact read.
+- No WebView debug/CDP.
+- No authentication or real synthetic login.
+- No production backend or streaming network calls.
+- No fake/replay server runtime execution.
+- No network shaping or hardware probing.
+- No game session.
+- No updater execution, rollback or credentials.
+- No user AppData, logs, cookies, DBs or dumps read.
+- No CI/CD enablement.
+- No dependency changes.
+
 ## 2026-06-04 - Handoff Protocol Safety QA read-first summary parity guard
 
 Mode: `BOUNDED_AUTONOMOUS` local static source-of-truth docs/gate summary hardening after Planner/Explorer confirmed the QA read-first summary parity gap was safe and bounded.
